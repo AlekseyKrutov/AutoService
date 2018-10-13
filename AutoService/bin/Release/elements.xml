@@ -1,0 +1,593 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<elements>
+  <repairs>
+    <repair>
+      <VIN>CTSTS273162DGD</VIN>
+      <RegCertific>MT020002</RegCertific>
+      <CarMark>Mazda</CarMark>
+      <CarModel>3</CarModel>
+      <NumberOfCar>A134BB33</NumberOfCar>
+      <Owner>
+        <OwnerName>Семенов Игорь Николаевич</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>29.09.2018 21:52:02</TimeOfStart>
+      <TimeOfEnd></TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Смирнов Дмитрий Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>true</RepairIsCurrent>
+      <TotalPrice>1800</TotalPrice>
+      <NumberOfAct>17</NumberOfAct>
+      <malfunction Price="800" DescriptionOfMulf="Токарные работы" Currancy="Рублей" />
+      <malfunction Price="1000" DescriptionOfMulf="Замена колодок" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA2138283887778</VIN>
+      <RegCertific>MT2231231</RegCertific>
+      <CarMark>Hunday</CarMark>
+      <CarModel>Solaris</CarModel>
+      <NumberOfCar>М762МЕ152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 1:07:28</TimeOfStart>
+      <TimeOfEnd>09.05.2018 1:07:33</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Крутов Алексей Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>29000</TotalPrice>
+      <NumberOfAct>4</NumberOfAct>
+      <malfunction Price="19000" DescriptionOfMulf="Снятие и установка коробки передач" Currancy="Рублей" />
+      <malfunction Price="1500" DescriptionOfMulf="Замена сальника коленвала" Currancy="Рублей" />
+      <malfunction Price="8500" DescriptionOfMulf="Ремонт тормозной системы" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA2343FDKISDF</VIN>
+      <RegCertific>MT2202393</RegCertific>
+      <CarMark>LADA</CarMark>
+      <CarModel>2110</CarModel>
+      <NumberOfCar>M762ME152</NumberOfCar>
+      <Owner>
+        <OwnerName>АО "ВМЗ"</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 1:11:45</TimeOfStart>
+      <TimeOfEnd>09.05.2018 1:11:53</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Иванов Иван Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>8500</TotalPrice>
+      <NumberOfAct>6</NumberOfAct>
+      <malfunction Price="8500" DescriptionOfMulf="Ремонт тормозной системы" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA9288283839</VIN>
+      <RegCertific>MT22 23123</RegCertific>
+      <CarMark>Opel</CarMark>
+      <CarModel>Insignia</CarModel>
+      <NumberOfCar>А150АА152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 1:12:03</TimeOfStart>
+      <TimeOfEnd>09.05.2018 1:13:11</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Крутов Алексей Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>1500</TotalPrice>
+      <NumberOfAct>7</NumberOfAct>
+      <malfunction Price="1500" DescriptionOfMulf="Замена сальника коленвала" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA2138283887778</VIN>
+      <RegCertific>MT2231231</RegCertific>
+      <CarMark>Hunday</CarMark>
+      <CarModel>Solaris</CarModel>
+      <NumberOfCar>М762МЕ152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 1:06:35</TimeOfStart>
+      <TimeOfEnd>09.05.2018 11:06:09</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Иванов Иван Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>8500</TotalPrice>
+      <NumberOfAct>1</NumberOfAct>
+      <malfunction Price="8500" DescriptionOfMulf="Ремонт тормозной системы" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA989898989666</VIN>
+      <RegCertific>MT99 6655</RegCertific>
+      <CarMark>ВАЗ</CarMark>
+      <CarModel>2109</CarModel>
+      <NumberOfCar>X120VB152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 11:00:32</TimeOfStart>
+      <TimeOfEnd>09.05.2018 11:14:08</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Иванов Иван Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>8500</TotalPrice>
+      <NumberOfAct>10</NumberOfAct>
+      <malfunction Price="8500" DescriptionOfMulf="Ремонт тормозной системы" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA2138283887778</VIN>
+      <RegCertific>MT2231231</RegCertific>
+      <CarMark>Hunday</CarMark>
+      <CarModel>Solaris</CarModel>
+      <NumberOfCar>М762МЕ152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 10:57:50</TimeOfStart>
+      <TimeOfEnd>09.05.2018 11:14:19</TimeOfEnd>
+      <Notes>Сделать до 10.05</Notes>
+      <Mechanic>
+        <Name>Иванов Иван Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>16700</TotalPrice>
+      <NumberOfAct>9</NumberOfAct>
+      <malfunction Price="8200" DescriptionOfMulf="Ремонт КПП" Currancy="Рублей" />
+      <malfunction Price="8500" DescriptionOfMulf="Ремонт тормозной системы" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA989898989666</VIN>
+      <RegCertific>MT99 6655</RegCertific>
+      <CarMark>ВАЗ</CarMark>
+      <CarModel>2109</CarModel>
+      <NumberOfCar>X120VB152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 1:07:09</TimeOfStart>
+      <TimeOfEnd>09.05.2018 1:07:15</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Крутов Алексей Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>8500</TotalPrice>
+      <NumberOfAct>3</NumberOfAct>
+      <malfunction Price="8500" DescriptionOfMulf="Ремонт тормозной системы" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA2138283887778</VIN>
+      <RegCertific>MT2231231</RegCertific>
+      <CarMark>Hunday</CarMark>
+      <CarModel>Solaris</CarModel>
+      <NumberOfCar>М762МЕ152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 1:06:49</TimeOfStart>
+      <TimeOfEnd>09.05.2018 11:14:26</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Иванов Иван Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>36500</TotalPrice>
+      <NumberOfAct>2</NumberOfAct>
+      <malfunction Price="8500" DescriptionOfMulf="Ремонт тормозной системы" Currancy="Рублей" />
+      <malfunction Price="8200" DescriptionOfMulf="Ремонт КПП" Currancy="Рублей" />
+      <malfunction Price="800" DescriptionOfMulf="Сварочные работы" Currancy="Рублей" />
+      <malfunction Price="19000" DescriptionOfMulf="Снятие и установка коробки передач" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA2138283887778</VIN>
+      <RegCertific>MT2231231</RegCertific>
+      <CarMark>Hunday</CarMark>
+      <CarModel>Solaris</CarModel>
+      <NumberOfCar>М762МЕ152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 1:21:42</TimeOfStart>
+      <TimeOfEnd>09.05.2018 11:14:57</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Крутов Алексей Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>1500</TotalPrice>
+      <NumberOfAct>8</NumberOfAct>
+      <malfunction Price="1500" DescriptionOfMulf="Замена сальника коленвала" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>CTSTS273162DGD</VIN>
+      <RegCertific>MT020002</RegCertific>
+      <CarMark>Mazda</CarMark>
+      <CarModel>3</CarModel>
+      <NumberOfCar>A134BB33</NumberOfCar>
+      <Owner>
+        <OwnerName>Семенов Игорь Николаевич</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 11:15:42</TimeOfStart>
+      <TimeOfEnd>11.05.2018 10:26:34</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Смирнов Дмитрий Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>1500</TotalPrice>
+      <NumberOfAct>13</NumberOfAct>
+      <malfunction Price="1500" DescriptionOfMulf="Замена сальника коленвала" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>CTSTS273162DGD</VIN>
+      <RegCertific>MT020002</RegCertific>
+      <CarMark>Mazda</CarMark>
+      <CarModel>3</CarModel>
+      <NumberOfCar>A134BB33</NumberOfCar>
+      <Owner>
+        <OwnerName>Семенов Игорь Николаевич</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 11:13:58</TimeOfStart>
+      <TimeOfEnd>26.05.2018 11:19:23</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Смирнов Дмитрий Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>19800</TotalPrice>
+      <NumberOfAct>11</NumberOfAct>
+      <malfunction Price="19000" DescriptionOfMulf="Снятие и установка коробки передач" Currancy="Рублей" />
+      <malfunction Price="800" DescriptionOfMulf="Сварочные работы" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA2138283887778</VIN>
+      <RegCertific>MT2231231</RegCertific>
+      <CarMark>Hunday</CarMark>
+      <CarModel>Solaris</CarModel>
+      <NumberOfCar>М762МЕ152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 11:15:27</TimeOfStart>
+      <TimeOfEnd>26.05.2018 11:19:54</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Иванов Иван Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>9000</TotalPrice>
+      <NumberOfAct>12</NumberOfAct>
+      <malfunction Price="800" DescriptionOfMulf="Сварочные работы" Currancy="Рублей" />
+      <malfunction Price="8200" DescriptionOfMulf="Ремонт КПП" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA2343FDKISDF</VIN>
+      <RegCertific>MT2202393</RegCertific>
+      <CarMark>LADA</CarMark>
+      <CarModel>2110</CarModel>
+      <NumberOfCar>M762ME152</NumberOfCar>
+      <Owner>
+        <OwnerName>АО "ВМЗ"</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>26.05.2018 11:19:48</TimeOfStart>
+      <TimeOfEnd>26.05.2018 11:20:46</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Викторов Иван Николаевич</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>5800</TotalPrice>
+      <NumberOfAct>15</NumberOfAct>
+      <malfunction Price="800" DescriptionOfMulf="Токарные работы" Currancy="Рублей" />
+      <malfunction Price="5000" DescriptionOfMulf="Замена диска сцепления" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>CTSTS273162DGD</VIN>
+      <RegCertific>MT020002</RegCertific>
+      <CarMark>Mazda</CarMark>
+      <CarModel>3</CarModel>
+      <NumberOfCar>A134BB33</NumberOfCar>
+      <Owner>
+        <OwnerName>Семенов Игорь Николаевич</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>19.07.2018 11:22:29</TimeOfStart>
+      <TimeOfEnd>19.07.2018 11:22:39</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Смирнов Дмитрий Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>8500</TotalPrice>
+      <NumberOfAct>16</NumberOfAct>
+      <malfunction Price="8500" DescriptionOfMulf="Ремонт тормозной системы" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>XTA2138283887778</VIN>
+      <RegCertific>MT2231231</RegCertific>
+      <CarMark>Hunday</CarMark>
+      <CarModel>Solaris</CarModel>
+      <NumberOfCar>М762МЕ152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>09.05.2018 1:11:38</TimeOfStart>
+      <TimeOfEnd>09.05.2018 11:14:39</TimeOfEnd>
+      <Notes></Notes>
+      <Mechanic>
+        <Name>Иванов Иван Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>1600</TotalPrice>
+      <NumberOfAct>5</NumberOfAct>
+      <malfunction Price="800" DescriptionOfMulf="Сварочные работы" Currancy="Рублей" />
+      <malfunction Price="800" DescriptionOfMulf="Токарные работы" Currancy="Рублей" />
+    </repair>
+    <repair>
+      <VIN>CTSTS273162DGD</VIN>
+      <RegCertific>MT020002</RegCertific>
+      <CarMark>Mazda</CarMark>
+      <CarModel>3</CarModel>
+      <NumberOfCar>A134BB33</NumberOfCar>
+      <Owner>
+        <OwnerName>Семенов Игорь Николаевич</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel></NumberOfTel>
+      </Owner>
+      <TimeOfStart>12.05.2018 11:17:04</TimeOfStart>
+      <TimeOfEnd>29.09.2018 21:51:52</TimeOfEnd>
+      <Notes>щыфгавшгвыф</Notes>
+      <Mechanic>
+        <Name>Крутов Алексей Иванович</Name>
+      </Mechanic>
+      <RepairIsCurrent>false</RepairIsCurrent>
+      <TotalPrice>17500</TotalPrice>
+      <NumberOfAct>14</NumberOfAct>
+      <malfunction Price="8500" DescriptionOfMulf="Ремонт тормозной системы" Currancy="Рублей" />
+      <malfunction Price="8200" DescriptionOfMulf="Ремонт КПП" Currancy="Рублей" />
+      <malfunction Price="800" DescriptionOfMulf="Сварочные работы" Currancy="Рублей" />
+    </repair>
+  </repairs>
+  <cars>
+    <car>
+      <VIN>XTA9288283839</VIN>
+      <RegCertific>MT22 23123</RegCertific>
+      <CarMark>Opel</CarMark>
+      <CarModel>Insignia</CarModel>
+      <NumberOfCar>А150АА152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN>76767868686876</INN>
+        <Address>Выкса</Address>
+        <NumberOfTel>89103861132</NumberOfTel>
+      </Owner>
+    </car>
+    <car>
+      <VIN>XTA989898989666</VIN>
+      <RegCertific>MT99 6655</RegCertific>
+      <CarMark>ВАЗ</CarMark>
+      <CarModel>2109</CarModel>
+      <NumberOfCar>X120VB152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN></INN>
+        <Address></Address>
+        <NumberOfTel>0</NumberOfTel>
+      </Owner>
+    </car>
+    <car>
+      <VIN>XTA2138283887778</VIN>
+      <RegCertific>MT2231231</RegCertific>
+      <CarMark>Hunday</CarMark>
+      <CarModel>Solaris</CarModel>
+      <NumberOfCar>М762МЕ152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN>76767868686876</INN>
+        <Address>Выкса</Address>
+        <NumberOfTel>89103861132</NumberOfTel>
+      </Owner>
+    </car>
+    <car>
+      <VIN>XTA2343FDKISDF</VIN>
+      <RegCertific>MT2202393</RegCertific>
+      <CarMark>LADA</CarMark>
+      <CarModel>2110</CarModel>
+      <NumberOfCar>M762ME152</NumberOfCar>
+      <Owner>
+        <OwnerName>АО "ВМЗ"</OwnerName>
+        <INN>7676767676788864</INN>
+        <Address>Выкса</Address>
+        <NumberOfTel>89106767667</NumberOfTel>
+      </Owner>
+    </car>
+    <car>
+      <VIN>XTA123331231231</VIN>
+      <RegCertific>MT2203911</RegCertific>
+      <CarMark>Opel</CarMark>
+      <CarModel>Vectra</CarModel>
+      <NumberOfCar>А152АА152</NumberOfCar>
+      <Owner>
+        <OwnerName>ИП Крутов</OwnerName>
+        <INN>76767868686876</INN>
+        <Address>Выкса</Address>
+        <NumberOfTel>89103861132</NumberOfTel>
+      </Owner>
+    </car>
+    <car>
+      <VIN>CTSTS273162DGD</VIN>
+      <RegCertific>MT020002</RegCertific>
+      <CarMark>Mazda</CarMark>
+      <CarModel>3</CarModel>
+      <NumberOfCar>A134BB33</NumberOfCar>
+      <Owner>
+        <OwnerName>Семенов Игорь Николаевич</OwnerName>
+        <INN>87217272772727</INN>
+        <Address>г. Муром</Address>
+        <NumberOfTel>(910) 222-3123</NumberOfTel>
+      </Owner>
+    </car>
+    <car>
+      <VIN>XTASS323553546</VIN>
+      <RegCertific>ME225233</RegCertific>
+      <CarMark>LADA</CarMark>
+      <CarModel>Largus</CarModel>
+      <NumberOfCar>A232AA234</NumberOfCar>
+      <Owner>
+        <OwnerName>АО "ВМЗ"</OwnerName>
+        <INN>7676767676788864</INN>
+        <Address>Выкса</Address>
+        <NumberOfTel>89106767667</NumberOfTel>
+      </Owner>
+    </car>
+  </cars>
+  <clients>
+    <client>
+      <Name>ИП Крутов</Name>
+      <INN>76767868686876</INN>
+      <Address>Выкса</Address>
+      <NumberOfTel>89103861132</NumberOfTel>
+    </client>
+    <client>
+      <Name>АО "ВМЗ"</Name>
+      <INN>7676767676788864</INN>
+      <Address>Выкса</Address>
+      <NumberOfTel>89106767667</NumberOfTel>
+    </client>
+    <client>
+      <Name>Семенов Игорь Николаевич</Name>
+      <INN>87217272772727</INN>
+      <Address>г. Муром</Address>
+      <NumberOfTel>(910) 222-3123</NumberOfTel>
+    </client>
+    <client>
+      <Name>ООО "ОМК-ИТ"</Name>
+      <INN>777373738773848</INN>
+      <Address>г. Выкса</Address>
+      <NumberOfTel>(010) 387-3737</NumberOfTel>
+    </client>
+  </clients>
+  <persons>
+    <personal>
+      <Name>Иванов Иван Иванович</Name>
+      <INN>324543345345</INN>
+      <Address>г. Выкса</Address>
+      <Function>Механик</Function>
+      <NumberOfTel>89200034343</NumberOfTel>
+    </personal>
+    <personal>
+      <Name>Смирнов Дмитрий Иванович</Name>
+      <INN>78675656788828121</INN>
+      <Address>г. Выкса, ул. Ленина, д.49</Address>
+      <Function>Слесарь-Механик</Function>
+      <NumberOfTel>(960) 111-2342</NumberOfTel>
+    </personal>
+    <personal>
+      <Name>Викторов Иван Николаевич</Name>
+      <INN>932849832498</INN>
+      <Address>г. Муром</Address>
+      <Function>Слесарь</Function>
+      <NumberOfTel>(910) 223-2323</NumberOfTel>
+    </personal>
+  </persons>
+  <malfunctions>
+    <malfunction>
+      <Price>19000</Price>
+      <DescriptionOfMulf>Снятие и установка коробки передач</DescriptionOfMulf>
+      <Currancy></Currancy>
+    </malfunction>
+    <malfunction>
+      <Price>1500</Price>
+      <DescriptionOfMulf>Замена сальника коленвала</DescriptionOfMulf>
+      <Currancy></Currancy>
+    </malfunction>
+    <malfunction>
+      <Price>800</Price>
+      <DescriptionOfMulf>Сварочные работы</DescriptionOfMulf>
+      <Currancy></Currancy>
+    </malfunction>
+    <malfunction>
+      <Price>8500</Price>
+      <DescriptionOfMulf>Ремонт тормозной системы</DescriptionOfMulf>
+      <Currancy></Currancy>
+    </malfunction>
+    <malfunction>
+      <Price>8200</Price>
+      <DescriptionOfMulf>Ремонт КПП</DescriptionOfMulf>
+      <Currancy></Currancy>
+    </malfunction>
+    <malfunction>
+      <Price>800</Price>
+      <DescriptionOfMulf>Токарные работы</DescriptionOfMulf>
+      <Currancy></Currancy>
+    </malfunction>
+    <malfunction>
+      <Price>5000</Price>
+      <DescriptionOfMulf>Замена диска сцепления</DescriptionOfMulf>
+      <Currancy></Currancy>
+    </malfunction>
+    <malfunction>
+      <Price>1000</Price>
+      <DescriptionOfMulf>Замена колодок</DescriptionOfMulf>
+      <Currancy></Currancy>
+    </malfunction>
+  </malfunctions>
+</elements>

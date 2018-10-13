@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cars>
+  <car>
+    <VIN>11</VIN>
+    <RegCertific>1</RegCertific>
+    <CarMark>1</CarMark>
+    <CarModel>1</CarModel>
+    <NumberOfCar>1</NumberOfCar>
+    <Owner>
+      <OwnerName>1</OwnerName>
+      <INN>1</INN>
+      <Address>1</Address>
+      <NumberOfTel>1</NumberOfTel>
+    </Owner>
+  </car>
+</cars>

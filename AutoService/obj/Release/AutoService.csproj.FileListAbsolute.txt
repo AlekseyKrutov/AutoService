@@ -1,0 +1,71 @@
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\bin\Release\AutoService.exe.config
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\bin\Release\AutoService.exe
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\bin\Release\AutoService.pdb
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\obj\Release\AutoService.Form1.resources
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormAddAuto.resources
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormAddClient.resources
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormAddPersonal.resources
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormAddPrice.resources
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormAddRepair.resources
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormForSelect.resources
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\obj\Release\AutoService.Properties.Resources.resources
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\obj\Release\AutoService.csproj.GenerateResource.Cache
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\obj\Release\AutoService.exe
+C:\Users\krutov_ai1\Desktop\education\курсач ООП\AutoService\AutoService\obj\Release\AutoService.pdb
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\bin\Release\AutoService.exe.config
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\bin\Release\AutoService.exe
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\bin\Release\AutoService.pdb
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.Form1.resources
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormAddAuto.resources
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormAddClient.resources
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormAddPersonal.resources
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormAddPrice.resources
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormAddRepair.resources
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.FormForSelect.resources
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.Properties.Resources.resources
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.csproj.GenerateResource.cache
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.csproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.exe
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.pdb
+C:\Users\admin\Desktop\Курсач ООП\курсач ООП\AutoService\AutoService\obj\Release\AutoService.csprojResolveAssemblyReference.cache
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.csprojResolveAssemblyReference.cache
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.Form1.resources
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormAddAuto.resources
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormAddClient.resources
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormAddPersonal.resources
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormAddPrice.resources
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormAddRepair.resources
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormForSelect.resources
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.Properties.Resources.resources
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.csproj.GenerateResource.cache
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.csproj.CoreCompileInputs.cache
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.exe
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.pdb
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\bin\Release\AutoService.exe.config
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\bin\Release\AutoService.exe
+D:\Desktop\учеба\2 курс 2 семестр\ООП\курсач ООП\AutoService\AutoService\AutoService\bin\Release\AutoService.pdb
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.csprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.Form1.resources
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormAddAuto.resources
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormAddClient.resources
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormAddPersonal.resources
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormAddPrice.resources
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormAddRepair.resources
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.FormForSelect.resources
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.Properties.Resources.resources
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.csproj.GenerateResource.cache
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.csproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.exe
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.pdb
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\AutoService.exe.config
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\AutoService.exe
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\AutoService.pdb
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\EntityFramework.dll
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\EntityFramework.Firebird.dll
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\FirebirdSql.Data.FirebirdClient.dll
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\EntityFramework.xml
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\EntityFramework.Firebird.pdb
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\FirebirdSql.Data.FirebirdClient.pdb
+C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.csproj.CopyComplete
