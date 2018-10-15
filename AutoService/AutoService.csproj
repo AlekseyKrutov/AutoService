@@ -120,6 +120,12 @@
     <Compile Include="FormAddRepair.Designer.cs">
       <DependentUpon>FormAddRepair.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAddSparePart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddSparePart.Designer.cs">
+      <DependentUpon>FormAddSparePart.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormForSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +154,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormAddRepair.resx">
       <DependentUpon>FormAddRepair.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAddSparePart.resx">
+      <DependentUpon>FormAddSparePart.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormForSelect.resx">
       <DependentUpon>FormForSelect.cs</DependentUpon>

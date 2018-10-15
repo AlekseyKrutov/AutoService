@@ -54,3 +54,29 @@ C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\b
 C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Debug\AutoService.csproj.CoreCompileInputs.cache
 C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Debug\AutoService.csproj.CopyComplete
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.csprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.Form1.resources
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAddAuto.resources
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAddClient.resources
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAddPersonal.resources
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAddPrice.resources
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAddRepair.resources
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormForSelect.resources
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.Properties.Resources.resources
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.csproj.GenerateResource.cache
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.csproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.exe
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.pdb
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.exe.config
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.exe
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.pdb
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.dll
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.Firebird.dll
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\FirebirdSql.Data.FirebirdClient.dll
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.xml
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.Firebird.pdb
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\FirebirdSql.Data.FirebirdClient.pdb
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.csproj.CopyComplete
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAddSparePart.resources

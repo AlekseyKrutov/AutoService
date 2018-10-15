@@ -12,7 +12,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Xml;
 using System.Xml.Linq;
 using FirebirdSql.Data.FirebirdClient;
-using FirebirdSql.Data.EntityFramework6;
+
 namespace AutoService
 {
     public partial class Form1 : Form
@@ -25,6 +25,8 @@ namespace AutoService
         FormAddClient formAddClient = new FormAddClient();
         FormAddPersonal formAddPersonal = new FormAddPersonal();
         FormAddPrice formAddPrice = new FormAddPrice();
+        FormAddSparePart formAddSparePart = new FormAddSparePart();
+
         //переменная изменения размера
         int resizeCount = 80;
         //переменная для верхнего положения сетки
@@ -634,6 +636,16 @@ namespace AutoService
             }
         }
 
+        private void AddInStock_Click(object sender, EventArgs e)
+        {
+            if (!formAddSparePart.Visible)
+            {
+                formAddSparePart = new FormAddSparePart(this);
+                formAddSparePart.ShowDialog();
+            }
+            else
+                return;
+        }
 
         //функции для добавления списка объектов в сетку
         public void AddListRepairsInGrid()
@@ -694,7 +706,6 @@ namespace AutoService
             ds.Tables[0].Columns[3].ColumnName = "Cтоимость(руб.)";
             ds.Tables[0].Columns[4].ColumnName = "Автомобиль";
             db.Close();
-
         }
         //функции для редактирования сетки 
         private void DataGridViewForAuto()
@@ -914,5 +925,7 @@ namespace AutoService
         {
             HideToolTip();
         }
+
+        
     }
 }
