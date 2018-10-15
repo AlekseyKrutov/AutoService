@@ -22,5 +22,16 @@ namespace AutoService.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("character set=UTF8;data source=127.0.0.1;initial catalog=\"C:\\Users\\admin\\Desktop\\" +
+            "курсач БД\\AUTOSERVICE_DB.FDB\";user id=SYSDBA;Password=masterkey")]
+        public string ConnectionString {
+            get {
+                return ((string)(this["ConnectionString"]));
+            }
+        }
     }
 }

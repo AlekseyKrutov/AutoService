@@ -80,3 +80,5 @@ C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFr
 C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\FirebirdSql.Data.FirebirdClient.pdb
 C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.csproj.CopyComplete
 C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAddSparePart.resources
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoServiceLibrary.dll
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoServiceLibrary.pdb
