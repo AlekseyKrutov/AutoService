@@ -13,12 +13,13 @@ using System.Xml;
 using System.Xml.Linq;
 using FirebirdSql.Data.FirebirdClient;
 using AutoServiceLibrary;
+
 namespace AutoService
 {
     public partial class Form1 : Form
     {
         FbConnectionStringBuilder csb = new FbConnectionStringBuilder();
-        FbConnection db;
+        static public FbConnection db;
         //формы окон
         FormAddRepair formAddRepair = new FormAddRepair();
         FormAddAuto formAddAuto = new FormAddAuto();
@@ -191,7 +192,7 @@ namespace AutoService
             }
             csb.DataSource = "localhost";
             csb.Port = 3050;
-            csb.Database = @"C:\Users\admin\Desktop\курсач БД\AUTOSERVICE_DB.FDB";
+            csb.Database = @"C:\Users\admin\Desktop\проекты\AUTOSERVICE_DB\AUTOSERVICE_DB.FDB";
             csb.UserID = "SYSDBA";
             csb.Password = "masterkey";
             csb.ServerType = FbServerType.Default;
@@ -691,7 +692,7 @@ namespace AutoService
                 dataGridView.Rows.Add(malf.DescriptionOfMalf, malf.Price);
             }
         }
-        public void AddSparePartInStock()
+        private void AddSparePartInStock()
         {
             string query = @"select * from stock_view";
             FbCommand command = new FbCommand(query, db);
