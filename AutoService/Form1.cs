@@ -40,6 +40,7 @@ namespace AutoService
         static public int WindowIndex = 0;
         //структура с названиями окон
         public enum WindowsStruct { Repairs = 1, Auto, ActOfEndsRepairs, Worker, MalfAdd, MalfView }
+        public enum AddEditOrDelete { Add, Edit, Delete };
         //список добавленных неисправностей
         public static List<Malfunctions> malfListForRepairAll = new List<Malfunctions>();
         public static List<Malfunctions> malfListForRepairAdded = new List<Malfunctions>();
@@ -203,7 +204,6 @@ namespace AutoService
         //событие при клике на законченные ремонты
         private void EndRepairsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
             SelectIndex = 0;
             WindowIndex = 0;
             DataGridViewForRepairs();
@@ -639,6 +639,7 @@ namespace AutoService
 
         private void AddInStock_Click(object sender, EventArgs e)
         {
+            FormAddSparePart.addOrEdit = (int)AddEditOrDelete.Add;
             if (!formAddSparePart.Visible)
             {
                 formAddSparePart = new FormAddSparePart(this);
@@ -647,7 +648,34 @@ namespace AutoService
             else
                 return;
         }
-
+        private void EditStock_Click(object sender, EventArgs e)
+        {
+            FormAddSparePart.addOrEdit = (int)AddEditOrDelete.Edit;
+            if (!formAddSparePart.Visible)
+            {
+                formAddSparePart = new FormAddSparePart(this);
+                string query = string.Format("select sp.uniq_code, sp.description, sp.cost, st.number " +
+                    "from sparepart as sp, stock as st where sp.uniq_code = '{0}'  and st.uniq_code = '{0}'",
+                dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+                using (FbCommand command = new FbCommand(query, db))
+                {
+                    FbDataReader dataReader;
+                    db.Open();
+                    dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        formAddSparePart.textBoxUniqNumb.Text = dataReader.GetString(0);
+                        formAddSparePart.textBoxDescr.Text = dataReader.GetString(1);
+                        formAddSparePart.textBoxCost.Text = dataReader.GetString(2);
+                        formAddSparePart.textBoxNumb.Text = dataReader.GetString(3);
+                    }
+                    db.Close();
+                }
+                formAddSparePart.ShowDialog();
+            }
+            else
+                return;
+        }
         //функции для добавления списка объектов в сетку
         public void AddListRepairsInGrid()
         {
@@ -695,18 +723,20 @@ namespace AutoService
         private void AddSparePartInStock()
         {
             string query = @"select * from stock_view";
-            FbCommand command = new FbCommand(query, db);
-            FbDataAdapter dataAdapter = new FbDataAdapter(command);
-            DataSet ds = new DataSet();
-            db.Open();
-            dataAdapter.Fill(ds);
-            dataGridView.DataSource = ds.Tables[0];
-            ds.Tables[0].Columns[0].ColumnName = "Артикул";
-            ds.Tables[0].Columns[1].ColumnName = "Наименование";
-            ds.Tables[0].Columns[2].ColumnName = "Количество";
-            ds.Tables[0].Columns[3].ColumnName = "Cтоимость(руб.)";
-            ds.Tables[0].Columns[4].ColumnName = "Автомобиль";
-            db.Close();
+            using (FbCommand command = new FbCommand(query, Form1.db))
+            {
+                FbDataAdapter dataAdapter = new FbDataAdapter(command);
+                DataSet ds = new DataSet();
+                db.Open();
+                dataAdapter.Fill(ds);
+                dataGridView.DataSource = ds.Tables[0];
+                ds.Tables[0].Columns[0].ColumnName = "Артикул";
+                ds.Tables[0].Columns[1].ColumnName = "Наименование";
+                ds.Tables[0].Columns[2].ColumnName = "Количество";
+                ds.Tables[0].Columns[3].ColumnName = "Cтоимость(руб.)";
+                ds.Tables[0].Columns[4].ColumnName = "Автомобиль";
+                db.Close();
+            }
         }
         //функции для редактирования сетки 
         private void DataGridViewForAuto()
@@ -926,7 +956,5 @@ namespace AutoService
         {
             HideToolTip();
         }
-
-        
     }
 }

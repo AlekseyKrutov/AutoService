@@ -42,6 +42,7 @@
             this.checkBoxShowAuto = new System.Windows.Forms.CheckBox();
             this.labelUniqCode = new System.Windows.Forms.Label();
             this.buttonAddSparePart = new System.Windows.Forms.Button();
+            this.checkBoxOnlyNumb = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,20 +65,20 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 6;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.8056F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.80559F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.80559F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.38881F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.38881F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.80559F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.76334F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.76333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.76333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.41572F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.41572F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.87855F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(337, 293);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // comboBoxAuto
             // 
+            this.comboBoxAuto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAuto.FormattingEnabled = true;
-            this.comboBoxAuto.Location = new System.Drawing.Point(171, 177);
+            this.comboBoxAuto.Location = new System.Drawing.Point(171, 192);
             this.comboBoxAuto.Name = "comboBoxAuto";
             this.comboBoxAuto.Size = new System.Drawing.Size(163, 21);
             this.comboBoxAuto.TabIndex = 2;
@@ -85,7 +86,7 @@
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
-            this.labelDescription.Location = new System.Drawing.Point(3, 58);
+            this.labelDescription.Location = new System.Drawing.Point(3, 63);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(83, 13);
             this.labelDescription.TabIndex = 1;
@@ -94,7 +95,7 @@
             // labelCost
             // 
             this.labelCost.AutoSize = true;
-            this.labelCost.Location = new System.Drawing.Point(3, 116);
+            this.labelCost.Location = new System.Drawing.Point(3, 126);
             this.labelCost.Name = "labelCost";
             this.labelCost.Size = new System.Drawing.Size(62, 13);
             this.labelCost.TabIndex = 2;
@@ -103,7 +104,7 @@
             // labelCar
             // 
             this.labelCar.AutoSize = true;
-            this.labelCar.Location = new System.Drawing.Point(3, 174);
+            this.labelCar.Location = new System.Drawing.Point(3, 189);
             this.labelCar.Name = "labelCar";
             this.labelCar.Size = new System.Drawing.Size(69, 13);
             this.labelCar.TabIndex = 3;
@@ -121,7 +122,7 @@
             // textBoxDescr
             // 
             this.textBoxDescr.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxDescr.Location = new System.Drawing.Point(171, 61);
+            this.textBoxDescr.Location = new System.Drawing.Point(171, 66);
             this.textBoxDescr.Multiline = true;
             this.textBoxDescr.Name = "textBoxDescr";
             this.textBoxDescr.Size = new System.Drawing.Size(163, 30);
@@ -132,16 +133,17 @@
             // textBoxCost
             // 
             this.textBoxCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxCost.Location = new System.Drawing.Point(171, 119);
+            this.textBoxCost.Location = new System.Drawing.Point(171, 129);
             this.textBoxCost.Multiline = true;
             this.textBoxCost.Name = "textBoxCost";
             this.textBoxCost.Size = new System.Drawing.Size(163, 30);
             this.textBoxCost.TabIndex = 7;
+            this.textBoxCost.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxCost_KeyPress);
             // 
             // labelNumb
             // 
             this.labelNumb.AutoSize = true;
-            this.labelNumb.Location = new System.Drawing.Point(3, 234);
+            this.labelNumb.Location = new System.Drawing.Point(3, 255);
             this.labelNumb.Name = "labelNumb";
             this.labelNumb.Size = new System.Drawing.Size(66, 13);
             this.labelNumb.TabIndex = 4;
@@ -150,7 +152,7 @@
             // textBoxNumb
             // 
             this.textBoxNumb.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxNumb.Location = new System.Drawing.Point(171, 237);
+            this.textBoxNumb.Location = new System.Drawing.Point(171, 258);
             this.textBoxNumb.Multiline = true;
             this.textBoxNumb.Name = "textBoxNumb";
             this.textBoxNumb.Size = new System.Drawing.Size(163, 29);
@@ -159,7 +161,7 @@
             // checkBoxShowAuto
             // 
             this.checkBoxShowAuto.AutoSize = true;
-            this.checkBoxShowAuto.Location = new System.Drawing.Point(171, 207);
+            this.checkBoxShowAuto.Location = new System.Drawing.Point(171, 225);
             this.checkBoxShowAuto.Name = "checkBoxShowAuto";
             this.checkBoxShowAuto.Size = new System.Drawing.Size(71, 17);
             this.checkBoxShowAuto.TabIndex = 11;
@@ -186,11 +188,23 @@
             this.buttonAddSparePart.UseVisualStyleBackColor = true;
             this.buttonAddSparePart.Click += new System.EventHandler(this.buttonAddSparePart_Click);
             // 
+            // checkBoxOnlyNumb
+            // 
+            this.checkBoxOnlyNumb.AutoSize = true;
+            this.checkBoxOnlyNumb.Location = new System.Drawing.Point(11, 298);
+            this.checkBoxOnlyNumb.Name = "checkBoxOnlyNumb";
+            this.checkBoxOnlyNumb.Size = new System.Drawing.Size(124, 17);
+            this.checkBoxOnlyNumb.TabIndex = 2;
+            this.checkBoxOnlyNumb.Text = "Только количество";
+            this.checkBoxOnlyNumb.UseVisualStyleBackColor = true;
+            this.checkBoxOnlyNumb.CheckedChanged += new System.EventHandler(this.checkBoxOnlyNumb_CheckedChanged);
+            // 
             // FormAddSparePart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(347, 344);
+            this.Controls.Add(this.checkBoxOnlyNumb);
             this.Controls.Add(this.buttonAddSparePart);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -201,6 +215,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -212,12 +227,13 @@
         private System.Windows.Forms.Label labelCost;
         private System.Windows.Forms.Label labelCar;
         private System.Windows.Forms.Label labelNumb;
-        private System.Windows.Forms.TextBox textBoxUniqNumb;
-        private System.Windows.Forms.TextBox textBoxCost;
-        private System.Windows.Forms.TextBox textBoxNumb;
-        private System.Windows.Forms.CheckBox checkBoxShowAuto;
-        private System.Windows.Forms.Button buttonAddSparePart;
-        private System.Windows.Forms.TextBox textBoxDescr;
-        private System.Windows.Forms.ComboBox comboBoxAuto;
+        public System.Windows.Forms.TextBox textBoxUniqNumb;
+        public System.Windows.Forms.TextBox textBoxCost;
+        public System.Windows.Forms.TextBox textBoxNumb;
+        public System.Windows.Forms.TextBox textBoxDescr;
+        public System.Windows.Forms.ComboBox comboBoxAuto;
+        public System.Windows.Forms.CheckBox checkBoxShowAuto;
+        public System.Windows.Forms.CheckBox checkBoxOnlyNumb;
+        public System.Windows.Forms.Button buttonAddSparePart;
     }
 }

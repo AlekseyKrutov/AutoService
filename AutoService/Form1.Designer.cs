@@ -498,6 +498,7 @@
             this.EditStock.Size = new System.Drawing.Size(70, 70);
             this.EditStock.TabIndex = 19;
             this.EditStock.UseVisualStyleBackColor = false;
+            this.EditStock.Click += new System.EventHandler(this.EditStock_Click);
             this.EditStock.MouseEnter += new System.EventHandler(this.EditStock_MouseEnter);
             this.EditStock.MouseLeave += new System.EventHandler(this.EditStock_MouseLeave);
             // 
@@ -524,7 +525,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1003, 585);
+            this.ClientSize = new System.Drawing.Size(1003, 606);
             this.Controls.Add(this.DeleteFromStock);
             this.Controls.Add(this.EditStock);
             this.Controls.Add(this.AddInStock);
