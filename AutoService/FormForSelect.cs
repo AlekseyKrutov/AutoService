@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using FirebirdSql.Data.FirebirdClient;
 using AutoServiceLibrary;
 
 namespace AutoService
@@ -33,7 +34,6 @@ namespace AutoService
         private void FormForSelect_Load(object sender, EventArgs e)
         {
             dataGridView.RowHeadersVisible = false;
-            dataGridView.ColumnHeadersVisible = false;
             dataGridView.RowTemplate.Height = 30;
             dataGridView.Rows.Clear();
             //оператор для определения в какой части приложения вызывается окно
@@ -47,10 +47,21 @@ namespace AutoService
                     }
                     break;
                 case (int)Form1.WindowsStruct.Auto:
-                    dataGridView.Rows.Clear();
-                    foreach (Client client in Client.ClientList)
+                    dataGridView.Columns.Clear();
+                    dataGridView.ClearSelection();
+                    string query = @"select * from client_view";
+                    using (FbCommand command = new FbCommand(query, Form1.db))
                     {
-                        dataGridView.Rows.Add(client.Name, client.Address, client.NumberOfTel);
+                        FbDataAdapter dataAdapter = new FbDataAdapter(command);
+                        DataSet ds = new DataSet();
+                        Form1.db.Open();
+                        dataAdapter.Fill(ds);
+                        dataGridView.DataSource = ds.Tables[0];
+                        ds.Tables[0].Columns[0].ColumnName = "ИНН";
+                        ds.Tables[0].Columns[1].ColumnName = "Компания";
+                        ds.Tables[0].Columns[2].ColumnName = "Директор";
+                        ds.Tables[0].Columns[3].ColumnName = "Номер тел.";
+                        Form1.db.Close();
                     }
                     break;
                 case (int)Form1.WindowsStruct.Worker:
@@ -95,7 +106,8 @@ namespace AutoService
                         FormAddRepair.textBoxOwner.Text = Car.CarList[Form1.SelectIndex].Owner.Name;
                         break;
                     case (int)Form1.WindowsStruct.Auto:
-                        FormAddAuto.labelContentOwner.Text = Client.ClientList[Form1.SelectIndex].Name;
+                        FormAddAuto.labelContentOwner.Text = dataGridView.Rows[Form1.SelectIndex].Cells[1].Value.ToString();
+                        FormAddAuto.OwnerSelected = true;
                         break;
                     case (int)Form1.WindowsStruct.Worker:
                         FormAddRepair.SelectedPersonLabel.Text = Personal.PersonalList[Form1.SelectIndex].Name;

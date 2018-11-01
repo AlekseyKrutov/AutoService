@@ -359,36 +359,4 @@
       <NumberOfTel>89200034343</NumberOfTel>
     </personal>
   </persons>
-  <malfunctions>
-    <malfunction>
-      <Price>19000</Price>
-      <DescriptionOfMulf>Снятие и установка коробки передач</DescriptionOfMulf>
-      <Currancy></Currancy>
-    </malfunction>
-    <malfunction>
-      <Price>1500</Price>
-      <DescriptionOfMulf>Замена сальника коленвала</DescriptionOfMulf>
-      <Currancy></Currancy>
-    </malfunction>
-    <malfunction>
-      <Price>800</Price>
-      <DescriptionOfMulf>Сварочные работы</DescriptionOfMulf>
-      <Currancy></Currancy>
-    </malfunction>
-    <malfunction>
-      <Price>8500</Price>
-      <DescriptionOfMulf>Ремонт тормозной системы</DescriptionOfMulf>
-      <Currancy></Currancy>
-    </malfunction>
-    <malfunction>
-      <Price>8200</Price>
-      <DescriptionOfMulf>Ремонт КПП</DescriptionOfMulf>
-      <Currancy></Currancy>
-    </malfunction>
-    <malfunction>
-      <Price>800</Price>
-      <DescriptionOfMulf>Токарные работы</DescriptionOfMulf>
-      <Currancy></Currancy>
-    </malfunction>
-  </malfunctions>
 </elements>

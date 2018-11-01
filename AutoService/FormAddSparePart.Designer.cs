@@ -77,36 +77,40 @@
             // comboBoxAuto
             // 
             this.comboBoxAuto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxAuto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxAuto.FormattingEnabled = true;
             this.comboBoxAuto.Location = new System.Drawing.Point(171, 192);
             this.comboBoxAuto.Name = "comboBoxAuto";
-            this.comboBoxAuto.Size = new System.Drawing.Size(163, 21);
+            this.comboBoxAuto.Size = new System.Drawing.Size(163, 24);
             this.comboBoxAuto.TabIndex = 2;
             // 
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
+            this.labelDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelDescription.Location = new System.Drawing.Point(3, 63);
             this.labelDescription.Name = "labelDescription";
-            this.labelDescription.Size = new System.Drawing.Size(83, 13);
+            this.labelDescription.Size = new System.Drawing.Size(107, 16);
             this.labelDescription.TabIndex = 1;
             this.labelDescription.Text = "Наименование";
             // 
             // labelCost
             // 
             this.labelCost.AutoSize = true;
+            this.labelCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelCost.Location = new System.Drawing.Point(3, 126);
             this.labelCost.Name = "labelCost";
-            this.labelCost.Size = new System.Drawing.Size(62, 13);
+            this.labelCost.Size = new System.Drawing.Size(78, 16);
             this.labelCost.TabIndex = 2;
             this.labelCost.Text = "Стоимость";
             // 
             // labelCar
             // 
             this.labelCar.AutoSize = true;
+            this.labelCar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelCar.Location = new System.Drawing.Point(3, 189);
             this.labelCar.Name = "labelCar";
-            this.labelCar.Size = new System.Drawing.Size(69, 13);
+            this.labelCar.Size = new System.Drawing.Size(88, 16);
             this.labelCar.TabIndex = 3;
             this.labelCar.Text = "Автомобиль";
             // 
@@ -143,9 +147,10 @@
             // labelNumb
             // 
             this.labelNumb.AutoSize = true;
+            this.labelNumb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelNumb.Location = new System.Drawing.Point(3, 255);
             this.labelNumb.Name = "labelNumb";
-            this.labelNumb.Size = new System.Drawing.Size(66, 13);
+            this.labelNumb.Size = new System.Drawing.Size(86, 16);
             this.labelNumb.TabIndex = 4;
             this.labelNumb.Text = "Количество";
             // 
@@ -161,9 +166,10 @@
             // checkBoxShowAuto
             // 
             this.checkBoxShowAuto.AutoSize = true;
+            this.checkBoxShowAuto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.checkBoxShowAuto.Location = new System.Drawing.Point(171, 225);
             this.checkBoxShowAuto.Name = "checkBoxShowAuto";
-            this.checkBoxShowAuto.Size = new System.Drawing.Size(71, 17);
+            this.checkBoxShowAuto.Size = new System.Drawing.Size(86, 20);
             this.checkBoxShowAuto.TabIndex = 11;
             this.checkBoxShowAuto.Text = "Без авто";
             this.checkBoxShowAuto.UseVisualStyleBackColor = true;
@@ -172,14 +178,16 @@
             // labelUniqCode
             // 
             this.labelUniqCode.AutoSize = true;
+            this.labelUniqCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelUniqCode.Location = new System.Drawing.Point(3, 0);
             this.labelUniqCode.Name = "labelUniqCode";
-            this.labelUniqCode.Size = new System.Drawing.Size(48, 13);
+            this.labelUniqCode.Size = new System.Drawing.Size(63, 16);
             this.labelUniqCode.TabIndex = 0;
             this.labelUniqCode.Text = "Артикул";
             // 
             // buttonAddSparePart
             // 
+            this.buttonAddSparePart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonAddSparePart.Location = new System.Drawing.Point(176, 311);
             this.buttonAddSparePart.Name = "buttonAddSparePart";
             this.buttonAddSparePart.Size = new System.Drawing.Size(120, 32);
@@ -191,9 +199,10 @@
             // checkBoxOnlyNumb
             // 
             this.checkBoxOnlyNumb.AutoSize = true;
+            this.checkBoxOnlyNumb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.checkBoxOnlyNumb.Location = new System.Drawing.Point(11, 298);
             this.checkBoxOnlyNumb.Name = "checkBoxOnlyNumb";
-            this.checkBoxOnlyNumb.Size = new System.Drawing.Size(124, 17);
+            this.checkBoxOnlyNumb.Size = new System.Drawing.Size(154, 20);
             this.checkBoxOnlyNumb.TabIndex = 2;
             this.checkBoxOnlyNumb.Text = "Только количество";
             this.checkBoxOnlyNumb.UseVisualStyleBackColor = true;

@@ -70,6 +70,9 @@
             this.DeleteFromStock = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.textBoxSearch = new System.Windows.Forms.TextBox();
+            this.labelSearch = new System.Windows.Forms.Label();
+            this.labelLogin = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -168,13 +171,13 @@
             this.dataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView.ColumnHeadersHeight = 25;
+            this.dataGridView.ColumnHeadersHeight = 30;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -185,14 +188,14 @@
             this.Column6});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Aqua;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView.EnableHeadersVisualStyles = false;
-            this.dataGridView.Location = new System.Drawing.Point(0, 137);
+            this.dataGridView.Location = new System.Drawing.Point(0, 141);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -254,7 +257,7 @@
             this.AddRepair.FlatAppearance.BorderSize = 0;
             this.AddRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddRepair.Image = ((System.Drawing.Image)(resources.GetObject("AddRepair.Image")));
-            this.AddRepair.Location = new System.Drawing.Point(5, 43);
+            this.AddRepair.Location = new System.Drawing.Point(6, 65);
             this.AddRepair.Name = "AddRepair";
             this.AddRepair.Size = new System.Drawing.Size(70, 70);
             this.AddRepair.TabIndex = 2;
@@ -266,7 +269,7 @@
             // 
             this.labelHeaderText.AutoSize = true;
             this.labelHeaderText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelHeaderText.Location = new System.Drawing.Point(6, 114);
+            this.labelHeaderText.Location = new System.Drawing.Point(6, 36);
             this.labelHeaderText.Name = "labelHeaderText";
             this.labelHeaderText.Size = new System.Drawing.Size(92, 20);
             this.labelHeaderText.TabIndex = 3;
@@ -279,7 +282,7 @@
             this.EndRepair.FlatAppearance.BorderSize = 0;
             this.EndRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EndRepair.Image = ((System.Drawing.Image)(resources.GetObject("EndRepair.Image")));
-            this.EndRepair.Location = new System.Drawing.Point(157, 43);
+            this.EndRepair.Location = new System.Drawing.Point(158, 65);
             this.EndRepair.Name = "EndRepair";
             this.EndRepair.Size = new System.Drawing.Size(70, 70);
             this.EndRepair.TabIndex = 4;
@@ -313,7 +316,6 @@
             this.DeleteAuto.Size = new System.Drawing.Size(70, 70);
             this.DeleteAuto.TabIndex = 6;
             this.DeleteAuto.UseVisualStyleBackColor = false;
-            this.DeleteAuto.Click += new System.EventHandler(this.DeleteAuto_Click);
             // 
             // AddClient
             // 
@@ -410,7 +412,7 @@
             this.EditRepair.FlatAppearance.BorderSize = 0;
             this.EditRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EditRepair.Image = ((System.Drawing.Image)(resources.GetObject("EditRepair.Image")));
-            this.EditRepair.Location = new System.Drawing.Point(81, 43);
+            this.EditRepair.Location = new System.Drawing.Point(82, 65);
             this.EditRepair.Name = "EditRepair";
             this.EditRepair.Size = new System.Drawing.Size(70, 70);
             this.EditRepair.TabIndex = 13;
@@ -454,6 +456,7 @@
             this.EditAuto.Size = new System.Drawing.Size(70, 70);
             this.EditAuto.TabIndex = 16;
             this.EditAuto.UseVisualStyleBackColor = false;
+            this.EditAuto.Click += new System.EventHandler(this.EditAuto_Click);
             // 
             // EditPosition
             // 
@@ -521,11 +524,43 @@
             // 
             this.timer1.Interval = 2000;
             // 
+            // textBoxSearch
+            // 
+            this.textBoxSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSearch.Location = new System.Drawing.Point(790, 63);
+            this.textBoxSearch.Multiline = true;
+            this.textBoxSearch.Name = "textBoxSearch";
+            this.textBoxSearch.Size = new System.Drawing.Size(201, 30);
+            this.textBoxSearch.TabIndex = 21;
+            this.textBoxSearch.TextChanged += new System.EventHandler(this.textBoxSearch_TextChanged);
+            // 
+            // labelSearch
+            // 
+            this.labelSearch.AutoSize = true;
+            this.labelSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSearch.Location = new System.Drawing.Point(725, 67);
+            this.labelSearch.Name = "labelSearch";
+            this.labelSearch.Size = new System.Drawing.Size(59, 20);
+            this.labelSearch.TabIndex = 22;
+            this.labelSearch.Text = "Поиск:";
+            // 
+            // labelLogin
+            // 
+            this.labelLogin.AutoSize = true;
+            this.labelLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelLogin.Location = new System.Drawing.Point(860, 9);
+            this.labelLogin.Name = "labelLogin";
+            this.labelLogin.Size = new System.Drawing.Size(0, 16);
+            this.labelLogin.TabIndex = 23;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1003, 606);
+            this.ClientSize = new System.Drawing.Size(1003, 614);
+            this.Controls.Add(this.labelLogin);
+            this.Controls.Add(this.labelSearch);
+            this.Controls.Add(this.textBoxSearch);
             this.Controls.Add(this.DeleteFromStock);
             this.Controls.Add(this.EditStock);
             this.Controls.Add(this.AddInStock);
@@ -605,6 +640,9 @@
         private System.Windows.Forms.Button DeleteFromStock;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.TextBox textBoxSearch;
+        private System.Windows.Forms.Label labelSearch;
+        public System.Windows.Forms.Label labelLogin;
     }
 }
 

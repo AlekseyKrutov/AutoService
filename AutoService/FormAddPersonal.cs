@@ -26,18 +26,17 @@ namespace AutoService
 
         private void buttonAddPersonal_Click(object sender, EventArgs e)
         {
-            if (textBoxAddress.Text.Length == 0 || textBoxINN.Text.Length == 0 || textBoxName.Text.Length == 0
-                || textBoxFunctions.Text.Length == 0 || textBoxNumbOfTel.Text.Length == 0)
+            if (textBoxAddress.Text.Length == 0 || textBoxINN.Text.Length == 0 || textBoxFirstName.Text.Length == 0
+                || textBoxNumbOfTel.Text.Length == 0)
             {
                 MessageBox.Show("Вы ввели не все данные!");
                 return;
             }
             Personal.PersonalList.Add(new Personal
             {
-                Name = textBoxName.Text,
+                Name = textBoxFirstName.Text,
                 INN = textBoxINN.Text,
                 Address = textBoxAddress.Text,
-                Function = textBoxFunctions.Text,
                 NumberOfTel = textBoxNumbOfTel.Text
             });
             AddListPersonalInGrid();
@@ -58,6 +57,11 @@ namespace AutoService
             {
                 e.Handled = true;
             }
+        }
+
+        private void FormAddPersonal_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

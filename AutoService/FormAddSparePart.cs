@@ -14,7 +14,7 @@ namespace AutoService
     public partial class FormAddSparePart : Form
     {
         Form1 mainForm;
-        public static int addOrEdit;
+
         public FormAddSparePart()
         {
             InitializeComponent();
@@ -40,7 +40,7 @@ namespace AutoService
                 comboBoxAuto.DisplayMember = "MARK_MODEL";
                 Form1.db.Close();
             }
-            if (addOrEdit == (int)Form1.AddEditOrDelete.Edit)
+            if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
             {
                 checkBoxOnlyNumb.Checked = true;
                 if (mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[4].Value.ToString().Length != 0)
@@ -53,7 +53,7 @@ namespace AutoService
                     comboBoxAuto.Enabled = false;
                 }
             }
-            if (addOrEdit == (int)Form1.AddEditOrDelete.Add)
+            if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
             {
                 checkBoxOnlyNumb.Visible = false;
             }
@@ -81,7 +81,7 @@ namespace AutoService
 
         private void buttonAddSparePart_Click(object sender, EventArgs e)
         {
-            if (addOrEdit == (int) Form1.AddEditOrDelete.Add)
+            if (Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Add)
             {
                 Form1.db.Open();
                 using (FbTransaction trn = Form1.db.BeginTransaction())
@@ -112,20 +112,27 @@ namespace AutoService
                         Form1.db.Close();
                         return;
                     }
+                    catch (FormatException)
+                    {
+                        MessageBox.Show("Возможно вы ввели не все данные!");
+                        Form1.db.Close();
+                        return;
+                    }
                     trn.Commit();
                     Form1.db.Close();
                 }
                 AddSparePartInStock();
                 this.Close();
             }
-            else if(addOrEdit == (int) Form1.AddEditOrDelete.Edit)
+            else if(Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Edit)
             {
                 Form1.db.Open();
                 using (FbTransaction trn = Form1.db.BeginTransaction())
                 {
                     FbCommand command = new FbCommand("UPDATE_STOCK_PROCEDURE", Form1.db, trn);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add("@UNIQ_CODE", FbDbType.Integer).Value = textBoxUniqNumb.Text;
+                    command.Parameters.Add("@OLD_UNIQ_CODE", FbDbType.Integer).Value = mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
+                    command.Parameters.Add("@NEW_UNIQ_CODE", FbDbType.Integer).Value = textBoxUniqNumb.Text;
                     command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = textBoxDescr.Text;
                     command.Parameters.Add("@COST", FbDbType.Float).Value = textBoxCost.Text;
                     command.Parameters.Add("@NUMBER", FbDbType.SmallInt).Value = textBoxNumb.Text;
@@ -139,7 +146,17 @@ namespace AutoService
                         command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value = null;
                         command.Parameters.Add("@CAR_MOD", FbDbType.VarChar).Value = null;
                     }
-                    command.ExecuteNonQuery();
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (FbException)
+                    {
+                        MessageBox.Show("Запчасть с таким артикулом уже есть на складе.");
+                        Form1.db.Close();
+                        return;
+                    }
+                    
                     trn.Commit();
                     Form1.db.Close();
                 }

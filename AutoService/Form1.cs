@@ -27,6 +27,7 @@ namespace AutoService
         FormAddPersonal formAddPersonal = new FormAddPersonal();
         FormAddPrice formAddPrice = new FormAddPrice();
         FormAddSparePart formAddSparePart = new FormAddSparePart();
+        FormAuthorization formAuthorization = new FormAuthorization();
 
         //переменная изменения размера
         int resizeCount = 80;
@@ -38,8 +39,10 @@ namespace AutoService
         static public int SelectIndex;
         //переменная для определения окна с которым мы работаем
         static public int WindowIndex = 0;
+
+        public static int AddOrEdit;
         //структура с названиями окон
-        public enum WindowsStruct { Repairs = 1, Auto, ActOfEndsRepairs, Worker, MalfAdd, MalfView }
+        public enum WindowsStruct { Repairs = 1, Auto, ActOfEndsRepairs, Worker, MalfAdd, MalfView, Stock  }
         public enum AddEditOrDelete { Add, Edit, Delete };
         //список добавленных неисправностей
         public static List<Malfunctions> malfListForRepairAll = new List<Malfunctions>();
@@ -64,6 +67,7 @@ namespace AutoService
             HidePersonalButtons();
             HidePriceButtons();
             HideStockButtons();
+            HideSearch();
             dataGridView.AllowUserToAddRows = false;
             dataGridView.ClearSelection();
             dataGridView.RowHeadersVisible = false;
@@ -173,17 +177,6 @@ namespace AutoService
                     Personal.PersonalList.Add((Personal) item);
                 }
                 //
-                var itemsMalfunctions = from xe in xdoc.Element("elements").Element("malfunctions").Elements("malfunction")
-                                    select new Malfunctions
-                                    {
-                                        Currancy = xe.Element("Currancy").Value,
-                                        DescriptionOfMalf = xe.Element("DescriptionOfMulf").Value,
-                                        Price = double.Parse(xe.Element("Price").Value)
-                                    };
-                foreach (var item in itemsMalfunctions)
-                {
-                    Malfunctions.MalfList.Add((Malfunctions) item);
-                }
                 if (CardOfRepair.repairsList.Count > 0)
                 {
                     AddListRepairsInGrid();
@@ -198,6 +191,7 @@ namespace AutoService
             csb.Password = "masterkey";
             csb.ServerType = FbServerType.Default;
             db = new FbConnection(csb.ToString());
+            formAuthorization = new FormAuthorization(this);
         }
         //логическая переменная
         bool logicParamForRepair = true;
@@ -214,6 +208,7 @@ namespace AutoService
             HideClientButtons();
             HidePersonalButtons();
             HidePriceButtons();
+            HideSearch();
             if (logicParamForRepair)
             {
                 labelHeaderText.Top -= resizeCount;
@@ -228,31 +223,6 @@ namespace AutoService
                     dataGridView.Rows.Add(card.NumberOfAct, card.TimeOfStart, card.MalfunctionsToString(), card.CarInRepairToString(), card.Mechanic.Name, card.Notes);
                 }
             }
-            DeleteSelectFirstRow();
-        }
-        //событие при клике на автомобили
-        private void AutoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
-            SelectIndex = 0;
-            WindowIndex = 0;
-            DataGridViewForAuto();
-            dataGridView.Visible = true;
-            logicParamForRepair = true;
-            ShowAutoButtons();
-            AddAuto.Location = AddRepair.Location;
-            EditAuto.Location = EditRepair.Location;
-            DeleteAuto.Location = EndRepair.Location;
-            HideRepairButtons();
-            HideClientButtons();
-            HidePersonalButtons();
-            HidePriceButtons();
-            HideStockButtons();
-            dataGridView.Top = topForGridIdeal;
-            labelHeaderText.Text = "Автомобили";
-            labelHeaderText.Top = topForLabelOfHead;
-            dataGridView.Rows.Clear();
-            AddListAutoInGrid();
             DeleteSelectFirstRow();
         }
         //событие при клике на текущие ремонты
@@ -270,6 +240,7 @@ namespace AutoService
             HidePriceButtons();
             HidePersonalButtons();
             HideStockButtons();
+            HideSearch();
             AddListRepairsInGrid();
             if (!logicParamForRepair)
             {
@@ -291,6 +262,7 @@ namespace AutoService
             HidePriceButtons();
             ShowClientButtons();
             HideStockButtons();
+            HideSearch();
             AddClient.Location = AddRepair.Location;
             EditClient.Location = EditRepair.Location;
             DeleteClient.Location = EndRepair.Location;
@@ -313,6 +285,7 @@ namespace AutoService
             HideClientButtons();
             HidePriceButtons();
             HideStockButtons();
+            HideSearch();
             ShowPersonalButtons();
             AddPersonal.Location = AddRepair.Location;
             EditPersonal.Location = EditRepair.Location;
@@ -323,18 +296,41 @@ namespace AutoService
             DataGridViewForPersonal();
             DeleteSelectFirstRow();
         }
+        //событие при клике на автомобили
+        private void AutoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            SelectIndex = 0;
+            WindowIndex = (int)WindowsStruct.Auto;
+            logicParamForRepair = true;
+            ShowAutoButtons();
+            AddAuto.Location = AddRepair.Location;
+            EditAuto.Location = EditRepair.Location;
+            DeleteAuto.Location = EndRepair.Location;
+            HideRepairButtons();
+            HideClientButtons();
+            HidePersonalButtons();
+            HidePriceButtons();
+            HideStockButtons();
+            HideSearch();
+            dataGridView.Top = topForGridIdeal;
+            labelHeaderText.Text = "Автомобили";
+            labelHeaderText.Top = topForLabelOfHead;
+            DataGridViewForAuto();
+            DeleteSelectFirstRow();
+        }
         //событие при клике на прайс
         private void PriceStripMenuItem1_Click(object sender, EventArgs e)
         {
             logicParamForRepair = true;
             SelectIndex = 0;
             WindowIndex = 0;
-            dataGridView.Rows.Clear();
             HideAutoButtons();
             HideRepairButtons();
             HideClientButtons();
             HidePersonalButtons();
             HideStockButtons();
+            HideSearch();
             ShowPriceButtons();
             AddPosition.Location = AddRepair.Location;
             EditPosition.Location = EditRepair.Location;
@@ -348,15 +344,16 @@ namespace AutoService
 
         private void StockToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            WindowIndex = (int) WindowsStruct.Stock;
             logicParamForRepair = true;
             SelectIndex = 0;
-            WindowIndex = 0;
             HideAutoButtons();
             HideRepairButtons();
             HideClientButtons();
             HidePersonalButtons();
             HidePriceButtons();
             ShowStockButtons();
+            ShowSearch();
             AddInStock.Location = AddRepair.Location;
             EditStock.Location = EditRepair.Location;
             DeleteFromStock.Location = EndRepair.Location;
@@ -477,6 +474,16 @@ namespace AutoService
             EditStock.Visible = true;
             DeleteFromStock.Visible = true;
         }
+        private void ShowSearch()
+        {
+            labelSearch.Visible = true;
+            textBoxSearch.Visible = true;
+        }
+        private void HideSearch()
+        {
+            labelSearch.Visible = false;
+            textBoxSearch.Visible = false;
+        }
         //событие при клике по кнопке добавить ремонт
         private void AddRepair_Click(object sender, EventArgs e)
         {
@@ -515,6 +522,7 @@ namespace AutoService
         //событие при клике по кнопке добавить автомобиль
         private void AddAuto_Click(object sender, EventArgs e)
         {
+            AddOrEdit = (int)AddEditOrDelete.Add;
             //проверка на наличие открытой формы
             if (!formAddAuto.Visible)
             {
@@ -528,26 +536,34 @@ namespace AutoService
             else
                 return;
         }
-        //событие при клике по кнопке удалить автомобиль
-        private void DeleteAuto_Click(object sender, EventArgs e)
+        private void EditAuto_Click(object sender, EventArgs e)
         {
-            //при клике по заголовку сетки ловится исключение и событие игнорируется
-            try
+            AddOrEdit = (int)AddEditOrDelete.Edit;
+            if (!formAddAuto.Visible)
             {
-                //при попытке удалить объект появляется окно с подтверждением удаления
-                if ((MessageBox.Show(string.Format("Вы действительно хотите удалить эту машину?{0}", Car.CarList[SelectIndex].ToString()), "Предупреждение",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK) && Car.CarList.Count > 0)
+                formAddAuto = new FormAddAuto(this);
+                formAddAuto.OwnerSelected = true;
+                string query = string.Format("select * from cars_view where VIN like '{0}'", 
+                    dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+                using (FbCommand command = new FbCommand(query, db))
                 {
-                    Car.CarList.RemoveAt(SelectIndex);
-                    AddListAutoInGrid();
+                    FbDataReader dataReader;
+                    db.Open();
+                    dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        formAddAuto.textBoxVIN.Text = dataReader.GetString(0);
+                        formAddAuto.textBoxGosNumb.Text = dataReader.GetString(2);
+                        formAddAuto.textBoxReg.Text = dataReader.GetString(3);
+                        formAddAuto.labelContentOwner.Text = dataReader.GetString(4);
+                    }
+                    db.Close();
                 }
+                formAddAuto.ShowDialog();
             }
-            catch (ArgumentOutOfRangeException)
-            {
+            else
                 return;
-            }
         }
-        
         //событие при клике по кнопке добавить клиента
         private void AddClient_Click(object sender, EventArgs e)
         {
@@ -609,6 +625,7 @@ namespace AutoService
         //событие при клике по кнопке добавить позицию
         private void AddPosition_Click(object sender, EventArgs e)
         {
+            AddOrEdit = (int)AddEditOrDelete.Add;
             if (!formAddPrice.Visible)
             {
                 formAddPrice = new FormAddPrice(this);
@@ -639,7 +656,7 @@ namespace AutoService
 
         private void AddInStock_Click(object sender, EventArgs e)
         {
-            FormAddSparePart.addOrEdit = (int)AddEditOrDelete.Add;
+            AddOrEdit = (int)AddEditOrDelete.Add;
             if (!formAddSparePart.Visible)
             {
                 formAddSparePart = new FormAddSparePart(this);
@@ -650,7 +667,7 @@ namespace AutoService
         }
         private void EditStock_Click(object sender, EventArgs e)
         {
-            FormAddSparePart.addOrEdit = (int)AddEditOrDelete.Edit;
+            AddOrEdit = (int)AddEditOrDelete.Edit;
             if (!formAddSparePart.Visible)
             {
                 formAddSparePart = new FormAddSparePart(this);
@@ -690,10 +707,20 @@ namespace AutoService
         }
         public void AddListAutoInGrid()
         {
-            dataGridView.Rows.Clear();
-            foreach (Car car in Car.CarList)
+            string query = @"select * from cars_view";
+            using (FbCommand command = new FbCommand(query, Form1.db))
             {
-                dataGridView.Rows.Add(car.CarMark, car.CarModel, car.CarVIN, car.RegCertific, car.NumberOfCar, car.Owner.Name);
+                FbDataAdapter dataAdapter = new FbDataAdapter(command);
+                DataSet ds = new DataSet();
+                db.Open();
+                dataAdapter.Fill(ds);
+                dataGridView.DataSource = ds.Tables[0];
+                ds.Tables[0].Columns[0].ColumnName = "VIN";
+                ds.Tables[0].Columns[1].ColumnName = "Марка";
+                ds.Tables[0].Columns[2].ColumnName = "Гос.номер";
+                ds.Tables[0].Columns[3].ColumnName = "Свидетельство о рег.";
+                ds.Tables[0].Columns[4].ColumnName = "Владелец";
+                db.Close();
             }
         }
         public void AddListClientInGrid()
@@ -714,10 +741,27 @@ namespace AutoService
         }
         public void AddListMalfunctionsInGrid()
         {
-            dataGridView.Rows.Clear();
-            foreach (Malfunctions malf in Malfunctions.MalfList)
+            string query = @"select * from type_of_work_view";
+            using (FbCommand command = new FbCommand(query, Form1.db))
             {
-                dataGridView.Rows.Add(malf.DescriptionOfMalf, malf.Price);
+                FbDataAdapter dataAdapter = new FbDataAdapter(command);
+                DataSet ds = new DataSet();
+                db.Open();
+                dataAdapter.Fill(ds);
+                dataGridView.DataSource = ds.Tables[0];
+                ds.Tables[0].Columns[0].ColumnName = "Наименование";
+                ds.Tables[0].Columns[1].ColumnName = "Единица измерения";
+                ds.Tables[0].Columns[2].ColumnName = "Стоимость(руб.)";
+                for (int i = 0; i < dataGridView.RowCount; i++)
+                {
+                    if (dataGridView.Rows[i].Cells[1].Value.ToString() == "0")
+                    {
+                        dataGridView.Rows[i].Cells[1].Value = "шт";
+                    }
+                    else
+                        dataGridView.Rows[i].Cells[1].Value = "нч";
+                }
+                    db.Close();
             }
         }
         private void AddSparePartInStock()
@@ -739,18 +783,6 @@ namespace AutoService
             }
         }
         //функции для редактирования сетки 
-        private void DataGridViewForAuto()
-        {
-            dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[0].HeaderText = "Марка";
-            dataGridView.Columns[1].HeaderText = "Модель";
-            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[2].HeaderText = "VIN";
-            dataGridView.Columns[3].HeaderText = "Свиделельство о регистрации";
-            dataGridView.Columns[4].HeaderText = "Гос. номер";
-            dataGridView.Columns[5].HeaderText = "Владелец";
-            VisibleColumns();
-        }
         private void DataGridViewForRepairs()
         {
             dataGridView.Columns[0].HeaderText = "№";
@@ -796,18 +828,15 @@ namespace AutoService
             dataGridView.Columns[4].HeaderText = "Номер телефона";
             dataGridView.Columns[5].Visible = false;
         }
+        private void DataGridViewForAuto()
+        {
+            dataGridView.Columns.Clear();
+            AddListAutoInGrid();
+        }
         private void DataGridViewForPrice()
         {
-            dataGridView.Rows.Clear();
+            dataGridView.Columns.Clear();
             AddListMalfunctionsInGrid();
-            dataGridView.Columns[0].HeaderText = "Описание                                                                                                                                ";
-            dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView.Columns[1].HeaderText = "Стоимость";
-            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView.Columns[2].Visible = false;
-            dataGridView.Columns[3].Visible = false;
-            dataGridView.Columns[4].Visible = false;
-            dataGridView.Columns[5].Visible = false;
         }
         private void DataGridViewForStock()
         {
@@ -880,18 +909,8 @@ namespace AutoService
                     new XElement("Address", person.Address), new XElement("Function", person.Function), new XElement("NumberOfTel", person.NumberOfTel)));
                 }
             }
-            //добавление позиций в xml
-            XElement malfunctions = new XElement("malfunctions");
-            if (Malfunctions.MalfList.Count != 0)
-            {
-                foreach (Malfunctions malf in Malfunctions.MalfList) 
-                {
-                    malfunctions.Add(new XElement("malfunction", new XElement("Price", malf.Price), new XElement("DescriptionOfMulf", malf.DescriptionOfMalf),
-                    new XElement("Currancy", malf.Currancy)));
-                }
-            }
             XElement elements = new XElement("elements");
-            elements.Add(repairs, cars, clients, persons, malfunctions);
+            elements.Add(repairs, cars, clients, persons);
             xdoc.Add(elements);
             xdoc.Save("elements.xml");
         }
@@ -956,5 +975,31 @@ namespace AutoService
         {
             HideToolTip();
         }
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            switch (WindowIndex)
+            {
+                case ((int)WindowsStruct.Stock):
+                    string query;
+                    query = $"select * from stock_view where uniq_code LIKE '%{textBoxSearch.Text}%'";
+                    using (FbCommand command = new FbCommand(query, Form1.db))
+                    {
+                        FbDataAdapter dataAdapter = new FbDataAdapter(command);
+                        DataSet ds = new DataSet();
+                        db.Open();
+                        dataAdapter.Fill(ds);
+                        dataGridView.DataSource = ds.Tables[0];
+                        ds.Tables[0].Columns[0].ColumnName = "Артикул";
+                        ds.Tables[0].Columns[1].ColumnName = "Наименование";
+                        ds.Tables[0].Columns[2].ColumnName = "Количество";
+                        ds.Tables[0].Columns[3].ColumnName = "Cтоимость(руб.)";
+                        ds.Tables[0].Columns[4].ColumnName = "Автомобиль";
+                        db.Close();
+                    }
+                    break;
+            }
+        }
+
+
     }
 }
