@@ -38,7 +38,9 @@ namespace AutoService
         private void FormAddAuto_Load(object sender, EventArgs e)
         {
             selectedIndex = Form1.SelectIndex;
-            string query = @"select CAR_ID, MARK || ' ' ||MODEL AS MARK_MODEL from CAR_MODEL";
+            string query = @"select CAR_ID, MARK || ' ' || coalesce(model, '') AS MARK_MODEL 
+                             from CAR_MODEL
+                             order by MARK_MODEL";
             using (FbCommand command = new FbCommand(query, Form1.db))
             {
                 FbDataAdapter dataAdapter = new FbDataAdapter(command);
@@ -163,15 +165,18 @@ namespace AutoService
                 command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = textBoxGosNumb.Text;
                 command.Parameters.Add("@REG_CERTIFICATE", FbDbType.VarChar).Value = textBoxReg.Text;
                 command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[0];
-                command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[1];
+                if (comboBoxAuto.Text.Split(' ').ToArray()[1].Length > 0)
+                    command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[1];
+                else
+                    command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = null;
                 command.Parameters.Add("@NAME_ORG", FbDbType.VarChar).Value = labelContentOwner.Text;
                 try
                 {
                     command.ExecuteNonQuery();
                 }
-                catch (FbException)
+                catch (FbException e)
                 {
-                    MessageBox.Show("Введенные данные некорректны!");
+                    MessageBox.Show(e.Message);
                     Form1.db.Close();
                     return;
                 }

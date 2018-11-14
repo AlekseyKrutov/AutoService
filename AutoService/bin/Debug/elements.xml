@@ -343,20 +343,5 @@
       <NumberOfTel>89106767667</NumberOfTel>
     </client>
   </clients>
-  <persons>
-    <personal>
-      <Name>Крутов Алексей Иванович</Name>
-      <INN>12398912389812</INN>
-      <Address>Выкса</Address>
-      <Function>Слесарь</Function>
-      <NumberOfTel>891012302032</NumberOfTel>
-    </personal>
-    <personal>
-      <Name>Иванов Иван Иванович</Name>
-      <INN>324543345345</INN>
-      <Address>г. Выкса</Address>
-      <Function>Механик</Function>
-      <NumberOfTel>89200034343</NumberOfTel>
-    </personal>
-  </persons>
+  <persons />
 </elements>

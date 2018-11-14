@@ -42,7 +42,7 @@ namespace AutoService
 
         public static int AddOrEdit;
         //структура с названиями окон
-        public enum WindowsStruct { Repairs = 1, Auto, ActOfEndsRepairs, Worker, MalfAdd, MalfView, Stock  }
+        public enum WindowsStruct { Repairs = 1, Auto, ActOfEndsRepairs, Worker, MalfAdd, MalfView, Stock , Client }
         public enum AddEditOrDelete { Add, Edit, Delete };
         //список добавленных неисправностей
         public static List<Malfunctions> malfListForRepairAll = new List<Malfunctions>();
@@ -162,20 +162,6 @@ namespace AutoService
                 {
                     Client.ClientList.Add((Client)item);
                 }
-                //добавление персонала в список
-                var itemsPersonal = from xe in xdoc.Element("elements").Element("persons").Elements("personal")
-                                   select new Personal
-                                   {
-                                       Address = xe.Element("Address").Value,
-                                       INN = xe.Element("INN").Value,
-                                       Name = xe.Element("Name").Value,
-                                       Function = xe.Element("Function").Value,
-                                       NumberOfTel = xe.Element("NumberOfTel").Value
-                                   };
-                foreach (var item in itemsPersonal)
-                {
-                    Personal.PersonalList.Add((Personal) item);
-                }
                 //
                 if (CardOfRepair.repairsList.Count > 0)
                 {
@@ -255,7 +241,7 @@ namespace AutoService
         {
             logicParamForRepair = true;
             SelectIndex = 0;
-            WindowIndex = 0;  
+            WindowIndex = (int)WindowsStruct.Client;
             HideAutoButtons();
             HideRepairButtons();
             HidePersonalButtons();
@@ -266,7 +252,6 @@ namespace AutoService
             AddClient.Location = AddRepair.Location;
             EditClient.Location = EditRepair.Location;
             DeleteClient.Location = EndRepair.Location;
-            dataGridView.Rows.Clear();
             labelHeaderText.Text = "Клиенты";
             dataGridView.Top = topForGridIdeal;
             labelHeaderText.Top = topForLabelOfHead;
@@ -278,8 +263,7 @@ namespace AutoService
         {
             logicParamForRepair = true;
             SelectIndex = 0;
-            WindowIndex = 0;
-            dataGridView.Rows.Clear();
+            WindowIndex = (int)WindowsStruct.Worker;
             HideAutoButtons();
             HideRepairButtons();
             HideClientButtons();
@@ -595,6 +579,7 @@ namespace AutoService
         //событие при клике по кнопке добавить персонал
         private void AddPersonal_Click(object sender, EventArgs e)
         {
+            AddOrEdit = (int)AddEditOrDelete.Add;
             if (!formAddPersonal.Visible)
             {
                 formAddPersonal = new FormAddPersonal(this);
@@ -603,24 +588,37 @@ namespace AutoService
             else
                 return;
         }
-        //событие при клике по кнопке удалить клиента
-        private void DeletePersonal_Click(object sender, EventArgs e)
+        private void EditPersonal_Click(object sender, EventArgs e)
         {
-            //при клике по заголовку сетки ловится исключение и событие игнорируется
-            try
+            AddOrEdit = (int)AddEditOrDelete.Edit;
+            formAddPersonal = new FormAddPersonal(this);
+            string query = string.Format("select first_name, second_name, last_name," +
+                                        "inn, passport, phone_numb, profession, gender, address, date_born " +
+                                        "from staff " +
+                                        "where tub_numb = {0};",
+                dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+            using (FbCommand command = new FbCommand(query, db))
             {
-                //при попытке удалить объект появляется окно с подтверждением удаления
-                if ((MessageBox.Show(string.Format("Вы действительно хотите удалить эту этого клиента?{0}", Personal.PersonalList[SelectIndex].ToString()), "Предупреждение",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK) && Personal.PersonalList.Count > 0)
+                FbDataReader dataReader;
+                db.Open();
+                dataReader = command.ExecuteReader();
+                while (dataReader.Read())
                 {
-                    Personal.PersonalList.RemoveAt(SelectIndex);
-                    AddListPersonalInGrid();
+                    formAddPersonal.textBoxLastName.Text = dataReader.GetString(0);
+                    formAddPersonal.textBoxFirstName.Text = dataReader.GetString(1);
+                    formAddPersonal.textBoxSecondName.Text = dataReader.GetString(2);
+                    formAddPersonal.textBoxINN.Text = dataReader.GetString(3);
+                    formAddPersonal.textBoxPassport.Text = dataReader.GetString(4);
+                    formAddPersonal.textBoxNumbOfTel.Text = dataReader.GetString(5);
+                    formAddPersonal.textBoxAddress.Text = dataReader.GetString(8);
+                    string[] date = dataReader.GetString(9).Split(' ').ToArray()[0].Split('.').Reverse().ToArray();
+                    DateTime dateTime = new DateTime(int.Parse(date[0]), int.Parse(date[1]), int.Parse(date[2]));
+                    formAddPersonal.monthCalendarDayBirth.SelectionEnd = dateTime;
+                    formAddPersonal.date = dateTime.ToString("dd/MM/yyyy");
                 }
+                db.Close();
             }
-            catch (ArgumentOutOfRangeException)
-            {
-                return;
-            }
+            formAddPersonal.ShowDialog();
         }
         //событие при клике по кнопке добавить позицию
         private void AddPosition_Click(object sender, EventArgs e)
@@ -708,79 +706,42 @@ namespace AutoService
         public void AddListAutoInGrid()
         {
             string query = @"select * from cars_view";
-            using (FbCommand command = new FbCommand(query, Form1.db))
-            {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataSet ds = new DataSet();
-                db.Open();
-                dataAdapter.Fill(ds);
-                dataGridView.DataSource = ds.Tables[0];
-                ds.Tables[0].Columns[0].ColumnName = "VIN";
-                ds.Tables[0].Columns[1].ColumnName = "Марка";
-                ds.Tables[0].Columns[2].ColumnName = "Гос.номер";
-                ds.Tables[0].Columns[3].ColumnName = "Свидетельство о рег.";
-                ds.Tables[0].Columns[4].ColumnName = "Владелец";
-                db.Close();
-            }
+            string[] columnNames = { "VIN", "Марка", "Гос.номер", "Свидетельство о рег.", "Владелец" };
+            CreateViewForDataGrid(query, columnNames);
         }
         public void AddListClientInGrid()
         {
-            dataGridView.Rows.Clear();
-            foreach (Client client in Client.ClientList)
-            {
-                dataGridView.Rows.Add(client.Name, client.INN, client.Address, client.NumberOfTel);
-            }
+            string query = @"select * from client_view";
+            string[] columnNames = { "ИНН", "Наименование", "Директор", "Номер телефона" };
+            CreateViewForDataGrid(query, columnNames);
         }
         public void AddListPersonalInGrid()
         {
-            dataGridView.Rows.Clear();
-            foreach (Personal person in Personal.PersonalList)
-            {
-                dataGridView.Rows.Add(person.Name, person.INN, person.Address, person.Function, person.NumberOfTel);
-            }
+            string query = @"select * from staff_view";
+            string[] columnNames = { "Табельный номер", "ФИО", "Адрес", "Должность", "Номер телефона" };
+            CreateViewForDataGrid(query, columnNames);
         }
         public void AddListMalfunctionsInGrid()
         {
             string query = @"select * from type_of_work_view";
-            using (FbCommand command = new FbCommand(query, Form1.db))
+            string[] columnNames = { "Наименование", "Единица измерения", "Стоимость(руб.)" };
+            CreateViewForDataGrid(query, columnNames);
+            for (int i = 0; i < dataGridView.RowCount; i++)
             {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataSet ds = new DataSet();
-                db.Open();
-                dataAdapter.Fill(ds);
-                dataGridView.DataSource = ds.Tables[0];
-                ds.Tables[0].Columns[0].ColumnName = "Наименование";
-                ds.Tables[0].Columns[1].ColumnName = "Единица измерения";
-                ds.Tables[0].Columns[2].ColumnName = "Стоимость(руб.)";
-                for (int i = 0; i < dataGridView.RowCount; i++)
+                if (dataGridView.Rows[i].Cells[1].Value.ToString() == "0")
                 {
-                    if (dataGridView.Rows[i].Cells[1].Value.ToString() == "0")
-                    {
-                        dataGridView.Rows[i].Cells[1].Value = "шт";
-                    }
-                    else
-                        dataGridView.Rows[i].Cells[1].Value = "нч";
+                    dataGridView.Rows[i].Cells[1].Value = "шт";
                 }
-                    db.Close();
+                else
+                    dataGridView.Rows[i].Cells[1].Value = "нч";
             }
+
         }
         private void AddSparePartInStock()
         {
             string query = @"select * from stock_view";
-            using (FbCommand command = new FbCommand(query, Form1.db))
-            {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataSet ds = new DataSet();
-                db.Open();
-                dataAdapter.Fill(ds);
-                dataGridView.DataSource = ds.Tables[0];
-                ds.Tables[0].Columns[0].ColumnName = "Артикул";
-                ds.Tables[0].Columns[1].ColumnName = "Наименование";
-                ds.Tables[0].Columns[2].ColumnName = "Количество";
-                ds.Tables[0].Columns[3].ColumnName = "Cтоимость(руб.)";
-                ds.Tables[0].Columns[4].ColumnName = "Автомобиль";
-                db.Close();
-            }
+            string[] columnNames = { "Артикул", "Наименование", "Количество", "Cтоимость(руб.)", "Автомобиль" };
+            CreateViewForDataGrid(query, columnNames);
         }
         //функции для редактирования сетки 
         private void DataGridViewForRepairs()
@@ -801,32 +762,13 @@ namespace AutoService
         }
         private void DataGridViewForClient()
         {
-            dataGridView.Rows.Clear();
+            dataGridView.Columns.Clear();
             AddListClientInGrid();
-            dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[0].HeaderText = "Наименование";
-            dataGridView.Columns[1].HeaderText = "ИНН";
-            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[2].HeaderText = "Адрес";
-            dataGridView.Columns[3].HeaderText = "Номер телефона";
-            dataGridView.Columns[2].Visible = true;
-            dataGridView.Columns[3].Visible = true;
-            dataGridView.Columns[4].Visible = false;
-            dataGridView.Columns[5].Visible = false;
         }
         private void DataGridViewForPersonal()
         {
-            dataGridView.Rows.Clear();
+            dataGridView.Columns.Clear();
             AddListPersonalInGrid();
-            dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[0].HeaderText = "ФИО";
-            dataGridView.Columns[1].HeaderText = "ИНН";
-            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[2].HeaderText = "Адрес";
-            dataGridView.Columns[3].HeaderText = "Должность";
-            dataGridView.Columns[4].Visible = true;
-            dataGridView.Columns[4].HeaderText = "Номер телефона";
-            dataGridView.Columns[5].Visible = false;
         }
         private void DataGridViewForAuto()
         {
@@ -999,7 +941,21 @@ namespace AutoService
                     break;
             }
         }
-
-
+        private void CreateViewForDataGrid(string query, string[] columnNames)
+        {
+            using (FbCommand command = new FbCommand(query, Form1.db))
+            {
+                FbDataAdapter dataAdapter = new FbDataAdapter(command);
+                DataSet ds = new DataSet();
+                db.Open();
+                dataAdapter.Fill(ds);
+                dataGridView.DataSource = ds.Tables[0];
+                for (int i = 0; i < columnNames.Length; i++)
+                {
+                    ds.Tables[0].Columns[i].ColumnName = columnNames[i];
+                }
+                db.Close();
+            }
+        }
     }
 }

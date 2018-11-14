@@ -29,7 +29,9 @@ namespace AutoService
 
         private void FormAddSparePart_Load(object sender, EventArgs e)
         {
-            string query = @"select CAR_ID, MARK || ' ' ||MODEL AS MARK_MODEL from CAR_MODEL";
+            string query = @"select CAR_ID, MARK || ' ' || coalesce(model, '') AS MARK_MODEL 
+                             from CAR_MODEL
+                             order by MARK_MODEL";
             using (FbCommand command = new FbCommand(query, Form1.db))
             {
                 FbDataAdapter dataAdapter = new FbDataAdapter(command);

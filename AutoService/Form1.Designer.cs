@@ -373,7 +373,6 @@
             this.DeletePersonal.TabIndex = 10;
             this.DeletePersonal.UseVisualStyleBackColor = false;
             this.DeletePersonal.Visible = false;
-            this.DeletePersonal.Click += new System.EventHandler(this.DeletePersonal_Click);
             // 
             // DeletePosition
             // 
@@ -430,6 +429,7 @@
             this.EditPersonal.Size = new System.Drawing.Size(70, 70);
             this.EditPersonal.TabIndex = 14;
             this.EditPersonal.UseVisualStyleBackColor = false;
+            this.EditPersonal.Click += new System.EventHandler(this.EditPersonal_Click);
             // 
             // EditClient
             // 
