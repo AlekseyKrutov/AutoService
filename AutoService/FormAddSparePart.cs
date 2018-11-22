@@ -97,7 +97,10 @@ namespace AutoService
                     if (comboBoxAuto.Enabled)
                     {
                         command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[0];
-                        command.Parameters.Add("@CAR_MOD", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[1];
+                        if (comboBoxAuto.Text.Split(' ').ToArray()[1].Length > 0)
+                            command.Parameters.Add("@CAR_MOD", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[1];
+                        else
+                            command.Parameters.Add("@CAR_MOD", FbDbType.VarChar).Value = null;
                     }
                     else
                     {
@@ -141,7 +144,10 @@ namespace AutoService
                     if (comboBoxAuto.Enabled || (mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[4].Value.ToString().Length != 0 && !checkBoxShowAuto.Checked))
                     {
                         command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[0];
-                        command.Parameters.Add("@CAR_MOD", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[1];
+                        if (comboBoxAuto.Text.Split(' ').ToArray()[1].Length > 0)
+                            command.Parameters.Add("@CAR_MOD", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[1];
+                        else
+                            command.Parameters.Add("@CAR_MOD", FbDbType.VarChar).Value = null;
                     }
                     else if(!comboBoxAuto.Enabled || (mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[4].Value.ToString().Length == 0))
                     {

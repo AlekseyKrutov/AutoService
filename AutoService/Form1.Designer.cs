@@ -343,7 +343,6 @@
             this.DeleteClient.Size = new System.Drawing.Size(70, 70);
             this.DeleteClient.TabIndex = 8;
             this.DeleteClient.UseVisualStyleBackColor = false;
-            this.DeleteClient.Click += new System.EventHandler(this.DeleteClient_Click);
             // 
             // AddPersonal
             // 
@@ -443,6 +442,7 @@
             this.EditClient.Size = new System.Drawing.Size(70, 70);
             this.EditClient.TabIndex = 15;
             this.EditClient.UseVisualStyleBackColor = false;
+            this.EditClient.Click += new System.EventHandler(this.EditClient_Click);
             // 
             // EditAuto
             // 

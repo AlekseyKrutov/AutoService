@@ -15,6 +15,7 @@ namespace AutoService
     public partial class FormAddPersonal : Form
     {
         Form1 mainForm;
+        bool dateSelected = false;
 
         public string date;
         public FormAddPersonal()
@@ -63,7 +64,8 @@ namespace AutoService
         private void buttonAddPersonal_Click(object sender, EventArgs e)
         {
             if (textBoxLastName.Text.Length == 0 || textBoxFirstName.Text.Length == 0
-                || comboBoxGender.Text.Length == 0)
+                || comboBoxGender.Text.Length == 0 || 
+                (dateSelected == false && Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Add))
             {
                 MessageBox.Show("Вы ввели не все данные!");
                 return;
@@ -148,6 +150,7 @@ namespace AutoService
 
         private void monthCalendarDayBirth_DateSelected(object sender, DateRangeEventArgs e)
         {
+            dateSelected = true;
             date = e.End.ToString("dd/MM/yyyy");
         }
     }

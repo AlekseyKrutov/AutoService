@@ -57,9 +57,9 @@ namespace AutoService
                         Form1.db.Open();
                         dataAdapter.Fill(ds);
                         dataGridView.DataSource = ds.Tables[0];
-                        ds.Tables[0].Columns[0].ColumnName = "ИНН";
-                        ds.Tables[0].Columns[1].ColumnName = "Компания";
-                        ds.Tables[0].Columns[2].ColumnName = "Директор";
+                        ds.Tables[0].Columns[0].ColumnName = "Компания";
+                        ds.Tables[0].Columns[1].ColumnName = "Директор";
+                        ds.Tables[0].Columns[2].ColumnName = "ИНН";
                         ds.Tables[0].Columns[3].ColumnName = "Номер тел.";
                         Form1.db.Close();
                     }
@@ -106,7 +106,7 @@ namespace AutoService
                         FormAddRepair.textBoxOwner.Text = Car.CarList[Form1.SelectIndex].Owner.Name;
                         break;
                     case (int)Form1.WindowsStruct.Auto:
-                        FormAddAuto.labelContentOwner.Text = dataGridView.Rows[Form1.SelectIndex].Cells[1].Value.ToString();
+                        FormAddAuto.labelContentOwner.Text = dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
                         FormAddAuto.OwnerSelected = true;
                         break;
                     case (int)Form1.WindowsStruct.Worker:

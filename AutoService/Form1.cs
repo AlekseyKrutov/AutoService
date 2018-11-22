@@ -172,6 +172,7 @@ namespace AutoService
             }
             csb.DataSource = "localhost";
             csb.Port = 3050;
+            csb.Charset = "UTF8";
             csb.Database = @"C:\Users\admin\Desktop\проекты\AUTOSERVICE_DB\AUTOSERVICE_DB.FDB";
             csb.UserID = "SYSDBA";
             csb.Password = "masterkey";
@@ -548,33 +549,77 @@ namespace AutoService
             else
                 return;
         }
+        private void AddBankInComBoxClient()
+        {
+            string query = @"select kor_bill 
+                             from bank";
+            using (FbCommand command = new FbCommand(query, Form1.db))
+            {
+                FbDataAdapter dataAdapter = new FbDataAdapter(command);
+                DataTable dt = new DataTable();
+                dataAdapter.Fill(dt);
+                Form1.db.Open();
+                formAddClient.comboBoxBank.DataSource = dt;
+                formAddClient.comboBoxBank.DisplayMember = "kor_bill";
+                formAddClient.comboBoxBank.Text = "";
+                if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
+                    formAddClient.comboBoxBank.SelectedIndex = -1;
+                Form1.db.Close();
+            }
+        }
         //событие при клике по кнопке добавить клиента
         private void AddClient_Click(object sender, EventArgs e)
         {
+            AddOrEdit = (int)AddEditOrDelete.Add;
             if (!formAddClient.Visible)
             {
                 formAddClient = new FormAddClient(this);
+                AddBankInComBoxClient();
                 formAddClient.ShowDialog();
             }
         }
+        
         //событие при клике по кнопке удалить клиента
-        private void DeleteClient_Click(object sender, EventArgs e)
+        private void EditClient_Click(object sender, EventArgs e)
         {
-            //при клике по заголовку сетки ловится исключение и событие игнорируется
-            try
+            AddOrEdit = (int)AddEditOrDelete.Edit;
+            if (!formAddClient.Visible)
             {
-                //при попытке удалить объект появляется окно с подтверждением удаления
-                if ((MessageBox.Show(string.Format("Вы действительно хотите удалить эту этого клиента?{0}", Client.ClientList[SelectIndex].ToString()), "Предупреждение",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK) && Client.ClientList.Count > 0)
+                formAddClient = new FormAddClient(this);
+                AddBankInComBoxClient();
+                string query = string.Format("select inn, name_org, director, bank_bill," +
+                    "phone_numb, bill, kpp, oktmo, okato, bik, ogrn, address " +
+                    "from client where name_org = '{0}'",
+                dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+                using (FbCommand command = new FbCommand(query, db))
                 {
-                    Client.ClientList.RemoveAt(SelectIndex);
-                    AddListClientInGrid();
+                    FbDataReader dataReader;
+                    db.Open();
+                    dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        formAddClient.textBoxINN.Text = dataReader.GetString(0);
+                        formAddClient.textBoxName.Text = dataReader.GetString(1);
+                        formAddClient.textBoxDirector.Text = dataReader.GetString(2);
+                        if (dataReader.GetString(3).Length != 0)
+                            formAddClient.comboBoxBank.Text = dataReader.GetString(3);
+                        else
+                            formAddClient.comboBoxBank.SelectedIndex = -1;
+                        formAddClient.textBoxNumbOfTel.Text = dataReader.GetString(4);
+                        formAddClient.textBoxBill.Text = dataReader.GetString(5);
+                        formAddClient.textBoxKPP.Text = dataReader.GetString(6);
+                        formAddClient.textBoxOKTMO.Text = dataReader.GetString(7);
+                        formAddClient.textBoxOKATO.Text = dataReader.GetString(8);
+                        formAddClient.textBoxBIK.Text = dataReader.GetString(9);
+                        formAddClient.textBoxOGRN.Text = dataReader.GetString(10);
+                        formAddClient.textBoxAddress.Text = dataReader.GetString(11);
+                    }
+                    db.Close();
                 }
+                formAddClient.ShowDialog();
             }
-            catch (ArgumentOutOfRangeException)
-            {
+            else
                 return;
-            }
         }
         //событие при клике по кнопке добавить персонал
         private void AddPersonal_Click(object sender, EventArgs e)
@@ -707,25 +752,25 @@ namespace AutoService
         {
             string query = @"select * from cars_view";
             string[] columnNames = { "VIN", "Марка", "Гос.номер", "Свидетельство о рег.", "Владелец" };
-            CreateViewForDataGrid(query, columnNames);
+            CreateViewForDataGrid(query, columnNames,dataGridView);
         }
         public void AddListClientInGrid()
         {
             string query = @"select * from client_view";
-            string[] columnNames = { "ИНН", "Наименование", "Директор", "Номер телефона" };
-            CreateViewForDataGrid(query, columnNames);
+            string[] columnNames = { "Наименование", "Директор", "ИНН", "Номер телефона" };
+            CreateViewForDataGrid(query, columnNames, dataGridView);
         }
         public void AddListPersonalInGrid()
         {
             string query = @"select * from staff_view";
             string[] columnNames = { "Табельный номер", "ФИО", "Адрес", "Должность", "Номер телефона" };
-            CreateViewForDataGrid(query, columnNames);
+            CreateViewForDataGrid(query, columnNames, dataGridView);
         }
         public void AddListMalfunctionsInGrid()
         {
             string query = @"select * from type_of_work_view";
             string[] columnNames = { "Наименование", "Единица измерения", "Стоимость(руб.)" };
-            CreateViewForDataGrid(query, columnNames);
+            CreateViewForDataGrid(query, columnNames, dataGridView);
             for (int i = 0; i < dataGridView.RowCount; i++)
             {
                 if (dataGridView.Rows[i].Cells[1].Value.ToString() == "0")
@@ -741,7 +786,7 @@ namespace AutoService
         {
             string query = @"select * from stock_view";
             string[] columnNames = { "Артикул", "Наименование", "Количество", "Cтоимость(руб.)", "Автомобиль" };
-            CreateViewForDataGrid(query, columnNames);
+            CreateViewForDataGrid(query, columnNames, dataGridView);
         }
         //функции для редактирования сетки 
         private void DataGridViewForRepairs()
@@ -941,7 +986,7 @@ namespace AutoService
                     break;
             }
         }
-        private void CreateViewForDataGrid(string query, string[] columnNames)
+        public static void CreateViewForDataGrid(string query, string[] columnNames, DataGridView dg)
         {
             using (FbCommand command = new FbCommand(query, Form1.db))
             {
@@ -949,7 +994,7 @@ namespace AutoService
                 DataSet ds = new DataSet();
                 db.Open();
                 dataAdapter.Fill(ds);
-                dataGridView.DataSource = ds.Tables[0];
+                dg.DataSource = ds.Tables[0];
                 for (int i = 0; i < columnNames.Length; i++)
                 {
                     ds.Tables[0].Columns[i].ColumnName = columnNames[i];
