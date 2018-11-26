@@ -39,6 +39,8 @@ namespace AutoService
         static public int SelectIndex;
         //переменная для определения окна с которым мы работаем
         static public int WindowIndex = 0;
+        //логическая переменная
+        public static bool logicParamForRepair = true;
 
         public static int AddOrEdit;
         //структура с названиями окон
@@ -72,103 +74,10 @@ namespace AutoService
             dataGridView.ClearSelection();
             dataGridView.RowHeadersVisible = false;
             labelHeaderText.Text = "Текущие ремонты";
-            DataGridViewForRepairs();
             dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             foreach (DataGridViewColumn column in dataGridView.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
-            //вывод данных в XML
-            if (GetXmlInventory() != null)
-            {
-                XDocument xdoc = GetXmlInventory();
-                //добавление ремонтов в список
-                var itemsRepair = from xe in xdoc.Element("elements").Element("repairs").Elements("repair")
-                                  select new CardOfRepair
-                                  {
-                                      CarMark = xe.Element("CarMark").Value,
-                                      CarModel = xe.Element("CarModel").Value,
-                                      CarVIN = xe.Element("VIN").Value,
-                                      NumberOfCar = xe.Element("NumberOfCar").Value,
-                                      RegCertific = xe.Element("RegCertific").Value,
-                                      Owner = new Client
-                                      {
-                                          Address = xe.Element("Owner").Element("Address").Value,
-                                          INN = xe.Element("Owner").Element("INN").Value,
-                                          Name = xe.Element("Owner").Element("OwnerName").Value,
-                                          NumberOfTel = xe.Element("Owner").Element("NumberOfTel").Value
-                                      },
-                                      Mechanic = new Personal(xe.Element("Mechanic").Element("Name").Value),
-                                      Notes = xe.Element("Notes").Value,
-                                      TotalPrice = double.Parse(xe.Element("TotalPrice").Value),
-                                      RepairIsCurrent = bool.Parse(xe.Element("RepairIsCurrent").Value),
-                                      TimeOfStart = xe.Element("TimeOfStart").Value,
-                                      TimeOfEnd = xe.Element("TimeOfEnd").Value,
-                                      NumberOfAct = int.Parse(xe.Element("NumberOfAct").Value),
-                                      ListOfMalf = (from xx in xe.Elements("malfunction")
-                                                   select new Malfunctions { Price = (double.Parse(xx.Attribute("Price").Value)), 
-                                                          DescriptionOfMalf = xx.Attribute("DescriptionOfMulf").Value, Currancy = "Рублей" }).ToList()
-                                  };
-                foreach (var item in itemsRepair)
-                {
-                    CardOfRepair.repairsList.Add((CardOfRepair)item);
-                }
-                int i = 0;
-                int biggestNumb = 0;
-                if (CardOfRepair.repairsList.Count == 0)
-                    biggestNumb = 0;
-                else
-                {
-                    biggestNumb = CardOfRepair.repairsList[0].NumberOfAct;
-                    while (i < CardOfRepair.repairsList.Count - 1)
-                    {
-                        if (biggestNumb < CardOfRepair.repairsList[i + 1].NumberOfAct)
-                            biggestNumb = CardOfRepair.repairsList[i + 1].NumberOfAct;
-                        i++;
-                    }
-                }
-                CardOfRepair.Number = biggestNumb;
-                //добавление автомобилей в список
-                var itemsCar = from xe in xdoc.Element("elements").Element("cars").Elements("car")
-                            select new Car
-                            {
-                                CarMark = xe.Element("CarMark").Value,
-                                CarModel = xe.Element("CarModel").Value,
-                                CarVIN = xe.Element("VIN").Value,
-                                NumberOfCar = xe.Element("NumberOfCar").Value,
-                                RegCertific = xe.Element("RegCertific").Value,
-                                Owner = new Client
-                                {
-                                    Address = xe.Element("Owner").Element("Address").Value,
-                                    INN = xe.Element("Owner").Element("INN").Value,
-                                    Name = xe.Element("Owner").Element("OwnerName").Value,
-                                    NumberOfTel = xe.Element("Owner").Element("NumberOfTel").Value
-                                }
-                            };
-                foreach (var item in itemsCar)
-                {
-                    Car.CarList.Add((Car)item);
-                }
-                //добавление клиентов в список
-                var itemsClients = from xe in xdoc.Element("elements").Element("clients").Elements("client")
-                            select new Client
-                            {
-                                Address = xe.Element("Address").Value,
-                                INN = xe.Element("INN").Value,
-                                Name = xe.Element("Name").Value,
-                                NumberOfTel = xe.Element("NumberOfTel").Value
-                            };
-                foreach (var item in itemsClients)
-                {
-                    Client.ClientList.Add((Client)item);
-                }
-                //
-                if (CardOfRepair.repairsList.Count > 0)
-                {
-                    AddListRepairsInGrid();
-                    DeleteSelectFirstRow();
-                }
-
             }
             csb.DataSource = "localhost";
             csb.Port = 3050;
@@ -179,46 +88,35 @@ namespace AutoService
             csb.ServerType = FbServerType.Default;
             db = new FbConnection(csb.ToString());
             formAuthorization = new FormAuthorization(this);
+            DataGridViewForRepairs();
         }
-        //логическая переменная
-        bool logicParamForRepair = true;
         //событие при клике на законченные ремонты
         private void EndRepairsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SelectIndex = 0;
             WindowIndex = 0;
-            DataGridViewForRepairs();
-            dataGridView.Rows.Clear();
             labelHeaderText.Text = "Завершенные ремонты";
-            HideAutoButtons();
             HideRepairButtons();
+            HideAutoButtons();
             HideClientButtons();
             HidePersonalButtons();
             HidePriceButtons();
+            HidePersonalButtons();
+            HideStockButtons();
             HideSearch();
-            if (logicParamForRepair)
+            if (logicParamForRepair == true)
             {
-                labelHeaderText.Top -= resizeCount;
                 dataGridView.Top -= resizeCount;
                 dataGridView.Height += resizeCount;
             }
             logicParamForRepair = false;
-            foreach (CardOfRepair card in CardOfRepair.repairsList)
-            {
-                if (!card.RepairIsCurrent)
-                {
-                    dataGridView.Rows.Add(card.NumberOfAct, card.TimeOfStart, card.MalfunctionsToString(), card.CarInRepairToString(), card.Mechanic.Name, card.Notes);
-                }
-            }
-            DeleteSelectFirstRow();
+            DataGridViewForRepairs();
         }
         //событие при клике на текущие ремонты
         private void CurrentRepairsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
             SelectIndex = 0;
             WindowIndex = 0;
-            DataGridViewForRepairs();
             labelHeaderText.Text = "Текущие ремонты";
             ShowRepairButtons();
             HideAutoButtons();
@@ -228,13 +126,14 @@ namespace AutoService
             HidePersonalButtons();
             HideStockButtons();
             HideSearch();
-            AddListRepairsInGrid();
+            AddListRepairsInGrid(dataGridView);
             if (!logicParamForRepair)
             {
                 labelHeaderText.Top = topForLabelOfHead;
                 dataGridView.Top = topForGridIdeal;
             }
             logicParamForRepair = true;
+            DataGridViewForRepairs();
             DeleteSelectFirstRow();
         }
         //событие при клике на клиенты
@@ -501,7 +400,7 @@ namespace AutoService
                     else
                         return 0;
                 });
-                AddListRepairsInGrid();
+                AddListRepairsInGrid(dataGridView);
             }
         }
         //событие при клике по кнопке добавить автомобиль
@@ -649,9 +548,9 @@ namespace AutoService
                 dataReader = command.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    formAddPersonal.textBoxLastName.Text = dataReader.GetString(0);
-                    formAddPersonal.textBoxFirstName.Text = dataReader.GetString(1);
-                    formAddPersonal.textBoxSecondName.Text = dataReader.GetString(2);
+                    formAddPersonal.textBoxFirstName.Text = dataReader.GetString(0);
+                    formAddPersonal.textBoxSecondName.Text = dataReader.GetString(1);
+                    formAddPersonal.textBoxLastName.Text = dataReader.GetString(2);
                     formAddPersonal.textBoxINN.Text = dataReader.GetString(3);
                     formAddPersonal.textBoxPassport.Text = dataReader.GetString(4);
                     formAddPersonal.textBoxNumbOfTel.Text = dataReader.GetString(5);
@@ -688,7 +587,7 @@ namespace AutoService
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK) && Malfunctions.MalfList.Count > 0)
                 {
                     Malfunctions.MalfList.RemoveAt(SelectIndex);
-                    AddListMalfunctionsInGrid();
+                    AddListMalfunctionsInGrid(dataGridView);
                 }
             }
             catch (ArgumentOutOfRangeException)
@@ -737,36 +636,40 @@ namespace AutoService
                 return;
         }
         //функции для добавления списка объектов в сетку
-        public void AddListRepairsInGrid()
+        public static void AddListRepairsInGrid(DataGridView dataGridView)
         {
-            dataGridView.Rows.Clear();
-            foreach (CardOfRepair repair in CardOfRepair.repairsList)
+            if (logicParamForRepair == true)
             {
-                if (repair.RepairIsCurrent)
-                {
-                    dataGridView.Rows.Add(repair.NumberOfAct, repair.TimeOfStart, repair.MalfunctionsToString(), repair.CarInRepairToString(), repair.Mechanic.Name, repair.Notes);
-                }
+                string query = @"select * from active_repairs";
+                string[] columnNames = { "№", "Дата начала", "Итоговая стоимость", "Автомобиль", "Заметки" };
+                CreateViewForDataGrid(query, columnNames, dataGridView);
+            }
+            else
+            {
+                string query = @"select * from finished_repairs";
+                string[] columnNames = { "№", "Дата начала", "Дата окончания", "Итоговая стоимость", "Автомобиль", "Заметки" };
+                CreateViewForDataGrid(query, columnNames, dataGridView);
             }
         }
-        public void AddListAutoInGrid()
+        public static void AddListAutoInGrid(DataGridView dataGridView)
         {
             string query = @"select * from cars_view";
             string[] columnNames = { "VIN", "Марка", "Гос.номер", "Свидетельство о рег.", "Владелец" };
             CreateViewForDataGrid(query, columnNames,dataGridView);
         }
-        public void AddListClientInGrid()
+        public static void AddListClientInGrid(DataGridView dataGridView)
         {
             string query = @"select * from client_view";
             string[] columnNames = { "Наименование", "Директор", "ИНН", "Номер телефона" };
             CreateViewForDataGrid(query, columnNames, dataGridView);
         }
-        public void AddListPersonalInGrid()
+        public static void AddListPersonalInGrid(DataGridView dataGridView)
         {
             string query = @"select * from staff_view";
             string[] columnNames = { "Табельный номер", "ФИО", "Адрес", "Должность", "Номер телефона" };
             CreateViewForDataGrid(query, columnNames, dataGridView);
         }
-        public void AddListMalfunctionsInGrid()
+        public static void AddListMalfunctionsInGrid(DataGridView dataGridView)
         {
             string query = @"select * from type_of_work_view";
             string[] columnNames = { "Наименование", "Единица измерения", "Стоимость(руб.)" };
@@ -782,7 +685,7 @@ namespace AutoService
             }
 
         }
-        private void AddSparePartInStock()
+        public static void AddSparePartInStock(DataGridView dataGridView)
         {
             string query = @"select * from stock_view";
             string[] columnNames = { "Артикул", "Наименование", "Количество", "Cтоимость(руб.)", "Автомобиль" };
@@ -791,44 +694,34 @@ namespace AutoService
         //функции для редактирования сетки 
         private void DataGridViewForRepairs()
         {
-            dataGridView.Columns[0].HeaderText = "№";
-            dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView.Columns[1].HeaderText = "Время начала ремонта";
-            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView.Columns[2].HeaderText = "Неисправности";
-            dataGridView.Columns[3].HeaderText = "Автомобиль";
-            dataGridView.Columns[4].HeaderText = "Слесарь";
-            dataGridView.Columns[5].HeaderText = "Заметки";
-            VisibleColumns();
-            /*
-            dataGridView.Columns[6].HeaderText = "Гос. номер";
-            dataGridView.Columns[7].HeaderText = "Неисправности";
-            */
+            dataGridView.Columns.Clear();
+            AddListRepairsInGrid(dataGridView);
+
         }
         private void DataGridViewForClient()
         {
             dataGridView.Columns.Clear();
-            AddListClientInGrid();
+            AddListClientInGrid(dataGridView);
         }
         private void DataGridViewForPersonal()
         {
             dataGridView.Columns.Clear();
-            AddListPersonalInGrid();
+            AddListPersonalInGrid(dataGridView);
         }
         private void DataGridViewForAuto()
         {
             dataGridView.Columns.Clear();
-            AddListAutoInGrid();
+            AddListAutoInGrid(dataGridView);
         }
         private void DataGridViewForPrice()
         {
             dataGridView.Columns.Clear();
-            AddListMalfunctionsInGrid();
+            AddListMalfunctionsInGrid(dataGridView);
         }
         private void DataGridViewForStock()
         {
             dataGridView.Columns.Clear();
-            AddSparePartInStock();
+            AddSparePartInStock(dataGridView);
         }
 
         void VisibleColumns()
@@ -842,78 +735,7 @@ namespace AutoService
         //событие при закрытии формы
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            XDocument xdoc = new XDocument();
-            XElement repairs = new XElement("repairs");
-            if (CardOfRepair.repairsList.Count != 0)
-            {
-                foreach (CardOfRepair repair in CardOfRepair.repairsList)
-                {
-                    XElement repairToRepairs = new XElement("repair");
-                    repairToRepairs.Add(new XElement("VIN", repair.CarVIN), new XElement("RegCertific", repair.RegCertific),
-                        new XElement("CarMark", repair.CarMark), new XElement("CarModel", repair.CarModel), new XElement("NumberOfCar", repair.NumberOfCar),
-                        new XElement("Owner", new XElement("OwnerName", repair.Owner.Name), new XElement("INN", repair.Owner.INN), new XElement("Address", repair.Owner.Address),
-                        new XElement("NumberOfTel", repair.Owner.NumberOfTel)), new XElement("TimeOfStart", repair.TimeOfStart), new XElement("TimeOfEnd", repair.TimeOfEnd),
-                        new XElement("Notes", repair.Notes), new XElement("Mechanic", new XElement("Name", repair.Mechanic.Name)), new XElement("RepairIsCurrent", repair.RepairIsCurrent),
-                        new XElement("TotalPrice", repair.TotalPrice), new XElement("NumberOfAct", repair.NumberOfAct));
-                    foreach (Malfunctions malf in repair.ListOfMalf)
-                    {
-                        repairToRepairs.Add(new XElement("malfunction", new XAttribute("Price", malf.Price), new XAttribute("DescriptionOfMulf", malf.DescriptionOfMalf),
-                        new XAttribute("Currancy", malf.Currancy)));
-                    }
-                    repairs.Add(repairToRepairs);
-                }
-            }
-           
-            //добавление автомобилей в xml
-            XElement cars = new XElement("cars");
-            if (Car.CarList.Count != 0)
-            {
-                foreach (Car car in Car.CarList)
-                {
-                    cars.Add(new XElement("car", new XElement("VIN", car.CarVIN), new XElement("RegCertific", car.RegCertific),
-                        new XElement("CarMark", car.CarMark), new XElement("CarModel", car.CarModel), new XElement("NumberOfCar", car.NumberOfCar),
-                        new XElement("Owner", new XElement("OwnerName", car.Owner.Name), new XElement("INN", car.Owner.INN), new XElement("Address", car.Owner.Address),
-                        new XElement("NumberOfTel", car.Owner.NumberOfTel))));
-                }
-            }
-            //добавление клиентов в xml
-            XElement clients = new XElement("clients");
-            if (Client.ClientList.Count != 0)
-            {
-                foreach (Client client in Client.ClientList)
-                {
-                    clients.Add(new XElement("client", new XElement("Name", client.Name), new XElement("INN", client.INN),
-                    new XElement("Address", client.Address), new XElement("NumberOfTel", client.NumberOfTel)));
-                }
-            }
-            //добавление сотрудников в xml
-            XElement persons = new XElement("persons");
-            if (Personal.PersonalList.Count != 0)
-            {
-                foreach (Personal person in Personal.PersonalList)
-                {
-                    persons.Add(new XElement("personal", new XElement("Name", person.Name), new XElement("INN", person.INN),
-                    new XElement("Address", person.Address), new XElement("Function", person.Function), new XElement("NumberOfTel", person.NumberOfTel)));
-                }
-            }
-            XElement elements = new XElement("elements");
-            elements.Add(repairs, cars, clients, persons);
-            xdoc.Add(elements);
-            xdoc.Save("elements.xml");
-        }
-        //функция для загрузки xml документа
-        public XDocument GetXmlInventory()
-        {
-            try
-            {
-                XDocument xDox = XDocument.Load("elements.xml");
-                return xDox;
-            }
-            catch (System.IO.FileNotFoundException ex)
-            {
-                MessageBox.Show(ex.Message);
-                return null;
-            }
+
         }
         //убирает выделение первой строки
         public void DeleteSelectFirstRow()
@@ -1001,6 +823,7 @@ namespace AutoService
                 }
                 db.Close();
             }
+            dg.ClearSelection();
         }
     }
 }

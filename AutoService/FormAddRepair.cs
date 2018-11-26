@@ -63,14 +63,14 @@ namespace AutoService
         {
             Form1.SelectIndex = 0;
             Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;
-            formSelectAuto = new FormForSelect(this);
+            formSelectAuto = new FormForSelect(this, mainForm);
             formSelectAuto.ShowDialog();
         }
 
         private void btnSelectPersonal_Click(object sender, EventArgs e)
         {
             Form1.WindowIndex = (int) Form1.WindowsStruct.Worker;
-            formSelectWorker = new FormForSelect(this);
+            formSelectWorker = new FormForSelect(this, mainForm);
             formSelectWorker.ShowDialog();
         }
 
@@ -78,14 +78,14 @@ namespace AutoService
         {
             Form1.SelectIndex = 0;
             Form1.WindowIndex = (int)Form1.WindowsStruct.MalfAdd;
-            formSelectMalf = new FormForSelect(this);
+            formSelectMalf = new FormForSelect(this, mainForm);
             formSelectMalf.ShowDialog();
         }
 
         private void btnShowMalf_Click(object sender, EventArgs e)
         {
             Form1.WindowIndex = (int)Form1.WindowsStruct.MalfView;
-            formViewMalf = new FormForSelect(this);
+            formViewMalf = new FormForSelect(this, mainForm);
             formViewMalf.ShowDialog();
         }
         //событие при нажатии на кнопку добавить ремонт
@@ -107,8 +107,6 @@ namespace AutoService
                 return;
             }
             CardOfRepair.Number++;
-            CardOfRepair.repairsList.Add(new CardOfRepair(textBoxNotes.Text, (DateTime.Now).ToString(), Form1.malfListForRepairAdded, textBoxVIN.Text, textBoxReg.Text, 
-                                    textBoxMark.Text, textBoxModel.Text, textBoxGosNom.Text, new Client(textBoxOwner.Text), new Personal(SelectedPersonLabel.Text)));
             CardOfRepair.repairsList.Sort(
                 delegate(CardOfRepair card1, CardOfRepair card2)
                 {

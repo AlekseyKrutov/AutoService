@@ -57,33 +57,8 @@ namespace AutoService
                     Form1.db.Close();
                 }
                 this.Close();
-                AddListMalfunctionsInGrid();
+                Form1.AddListMalfunctionsInGrid(mainForm.dataGridView);
                 mainForm.dataGridView.ClearSelection();
-            }
-        }
-        public void AddListMalfunctionsInGrid()
-        {
-            string query = @"select * from type_of_work_view";
-            using (FbCommand command = new FbCommand(query, Form1.db))
-            {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataSet ds = new DataSet();
-                Form1.db.Open();
-                dataAdapter.Fill(ds);
-                mainForm.dataGridView.DataSource = ds.Tables[0];
-                ds.Tables[0].Columns[0].ColumnName = "Наименование";
-                ds.Tables[0].Columns[1].ColumnName = "Единица измерения";
-                ds.Tables[0].Columns[2].ColumnName = "Стоимость(руб.)";
-                for (int i = 0; i < mainForm.dataGridView.RowCount; i++)
-                {
-                    if (mainForm.dataGridView.Rows[i].Cells[1].Value.ToString() == "0")
-                    {
-                        mainForm.dataGridView.Rows[i].Cells[1].Value = "шт";
-                    }
-                    else
-                        mainForm.dataGridView.Rows[i].Cells[1].Value = "нч";
-                }
-                Form1.db.Close();
             }
         }
         private void textBoxPrice_KeyPress(object sender, KeyPressEventArgs e)

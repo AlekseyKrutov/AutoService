@@ -126,7 +126,7 @@ namespace AutoService
                     trn.Commit();
                     Form1.db.Close();
                 }
-                AddSparePartInStock();
+                Form1.AddSparePartInStock(mainForm.dataGridView);
                 this.Close();
             }
             else if(Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Edit)
@@ -168,31 +168,12 @@ namespace AutoService
                     trn.Commit();
                     Form1.db.Close();
                 }
-                AddSparePartInStock();
+                Form1.AddSparePartInStock(mainForm.dataGridView);
                 this.Close();
                 mainForm.dataGridView.ClearSelection();
                 mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;
             }
         }
-        private void AddSparePartInStock()
-        {
-            string query = @"select * from stock_view";
-            using (FbCommand command = new FbCommand(query, Form1.db))
-            {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataSet ds = new DataSet();
-                Form1.db.Open();
-                dataAdapter.Fill(ds);
-                mainForm.dataGridView.DataSource = ds.Tables[0];
-                ds.Tables[0].Columns[0].ColumnName = "Артикул";
-                ds.Tables[0].Columns[1].ColumnName = "Наименование";
-                ds.Tables[0].Columns[2].ColumnName = "Количество";
-                ds.Tables[0].Columns[3].ColumnName = "Cтоимость(руб.)";
-                ds.Tables[0].Columns[4].ColumnName = "Автомобиль";
-                Form1.db.Close();
-            }
-        }
-
         private void checkBoxOnlyNumb_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxOnlyNumb.Checked)

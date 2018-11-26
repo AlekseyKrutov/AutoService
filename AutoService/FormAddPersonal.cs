@@ -73,34 +73,15 @@ namespace AutoService
             if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
             {
                 ExecutePersonalProcedure("NEW_STAFF_PROCEDURE");
-                mainForm.dataGridView.ClearSelection();
             }
             else if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
             {
                 ExecutePersonalProcedure("UPDATE_STAFF_PROCEDURE");
-                mainForm.dataGridView.ClearSelection();
-                mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;
             }
-            AddListPersonalInGrid();
+            Form1.AddListPersonalInGrid(mainForm.dataGridView);
             this.Close();
-        }
-        public void AddListPersonalInGrid()
-        {
-            string query = @"select * from staff_view";
-            using (FbCommand command = new FbCommand(query, Form1.db))
-            {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataSet ds = new DataSet();
-                Form1.db.Open();
-                dataAdapter.Fill(ds);
-                mainForm.dataGridView.DataSource = ds.Tables[0];
-                ds.Tables[0].Columns[0].ColumnName = "Табельный номер";
-                ds.Tables[0].Columns[1].ColumnName = "ФИО";
-                ds.Tables[0].Columns[2].ColumnName = "Адрес";
-                ds.Tables[0].Columns[3].ColumnName = "Должность";
-                ds.Tables[0].Columns[4].ColumnName = "Номер телефона";
-                Form1.db.Close();
-            }
+            mainForm.dataGridView.ClearSelection();
+            mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;
         }
         private void ExecutePersonalProcedure(string nameProc)
         {

@@ -18,7 +18,7 @@ namespace AutoService
     public partial class FormAddAuto : Form
     {
         FormForSelect formSelectAuto;
-        FormAddRepair FormAddRepairInCar;
+        FormAddRepair formAddCarInRepair;
         int selectedIndex;
         public bool OwnerSelected = false;
         Form1 mainForm;
@@ -32,7 +32,7 @@ namespace AutoService
         }
         public FormAddAuto(FormAddRepair addRepair, Form1 mainForm) : this ()
         {
-            FormAddRepairInCar = addRepair;
+            formAddCarInRepair = addRepair;
             this.mainForm = mainForm; 
         }
         private void FormAddAuto_Load(object sender, EventArgs e)
@@ -74,7 +74,13 @@ namespace AutoService
                 ExecuteAutoProcedure("UPDATE_CAR_PROCEDURE");
                 mainForm.dataGridView.Rows[selectedIndex].Selected = true;
             }
-            AddListAutoInGrid();
+            if (formAddCarInRepair.Visible)
+            {
+
+                this.Close();
+                return;
+            }
+            Form1.AddListAutoInGrid(mainForm.dataGridView);
             mainForm.dataGridView.ClearSelection();
             mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;
             this.Close();
@@ -84,7 +90,7 @@ namespace AutoService
         {
             Form1.SelectIndex = 0;
             Form1.WindowIndex = (int)Form1.WindowsStruct.Auto;
-            formSelectAuto = new FormForSelect(this);
+            formSelectAuto = new FormForSelect(this, mainForm);
             formSelectAuto.ShowDialog();
         }
 
@@ -132,25 +138,6 @@ namespace AutoService
             if (!Char.IsNumber(e.KeyChar) && !Char.IsLetter(e.KeyChar) && e.KeyChar != 8)
             {
                 e.Handled = true;
-            }
-        }
-
-        public void AddListAutoInGrid()
-        {
-            string query = @"select * from cars_view";
-            using (FbCommand command = new FbCommand(query, Form1.db))
-            {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataSet ds = new DataSet();
-                Form1.db.Open();
-                dataAdapter.Fill(ds);
-                mainForm.dataGridView.DataSource = ds.Tables[0];
-                ds.Tables[0].Columns[0].ColumnName = "VIN";
-                ds.Tables[0].Columns[1].ColumnName = "Марка";
-                ds.Tables[0].Columns[2].ColumnName = "Гос.номер";
-                ds.Tables[0].Columns[3].ColumnName = "Свидетельство о рег.";
-                ds.Tables[0].Columns[4].ColumnName = "Владелец";
-                Form1.db.Close();
             }
         }
 

@@ -17,66 +17,40 @@ namespace AutoService
     {
         FormAddRepair FormAddRepair;
         FormAddAuto FormAddAuto;
+        Form1 mainForm;
         public FormForSelect()
         {
             InitializeComponent();
         }
-        public FormForSelect(FormAddRepair FormAddRepair)
+        public FormForSelect(FormAddRepair FormAddRepair, Form1 mainForm) : this ()
         {
+            this.mainForm = mainForm;
             this.FormAddRepair = FormAddRepair;
-            InitializeComponent();
         }
-        public FormForSelect(FormAddAuto FormAddAuto)
+        public FormForSelect(FormAddAuto FormAddAuto, Form1 mainForm) : this ()
         {
+            this.mainForm = mainForm;
             this.FormAddAuto = FormAddAuto;
-            InitializeComponent();
         }
         private void FormForSelect_Load(object sender, EventArgs e)
         {
             dataGridView.RowHeadersVisible = false;
             dataGridView.RowTemplate.Height = 30;
-            dataGridView.Rows.Clear();
+            dataGridView.ClearSelection();
             //оператор для определения в какой части приложения вызывается окно
             switch (Form1.WindowIndex)
             {
                 case (int)Form1.WindowsStruct.Repairs:
-                    dataGridView.Rows.Clear();
-                    foreach (Car car in Car.CarList)
-                    {
-                        dataGridView.Rows.Add(car.CarMark, car.NumberOfCar, car.Owner.Name);
-                    }
+                    Form1.AddListAutoInGrid(dataGridView);
                     break;
                 case (int)Form1.WindowsStruct.Auto:
-                    dataGridView.Columns.Clear();
-                    dataGridView.ClearSelection();
-                    string query = @"select * from client_view";
-                    using (FbCommand command = new FbCommand(query, Form1.db))
-                    {
-                        FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                        DataSet ds = new DataSet();
-                        Form1.db.Open();
-                        dataAdapter.Fill(ds);
-                        dataGridView.DataSource = ds.Tables[0];
-                        ds.Tables[0].Columns[0].ColumnName = "Компания";
-                        ds.Tables[0].Columns[1].ColumnName = "Директор";
-                        ds.Tables[0].Columns[2].ColumnName = "ИНН";
-                        ds.Tables[0].Columns[3].ColumnName = "Номер тел.";
-                        Form1.db.Close();
-                    }
+                    Form1.AddListClientInGrid(dataGridView);
                     break;
                 case (int)Form1.WindowsStruct.Worker:
-                    dataGridView.Rows.Clear();
-                    foreach (Personal person in Personal.PersonalList)
-                    {
-                        dataGridView.Rows.Add(person.Name, person.Function, person.NumberOfTel);
-                    }
+                    Form1.AddListPersonalInGrid(dataGridView);
                     break;
                 case (int)Form1.WindowsStruct.MalfAdd:
-                    dataGridView.Rows.Clear();
-                    foreach (Malfunctions malf in Form1.malfListForRepairAll)
-                    {
-                        dataGridView.Rows.Add(malf.DescriptionOfMalf, malf.Price);
-                    }
+                    Form1.AddListMalfunctionsInGrid(dataGridView);
                     break;
                 case (int)Form1.WindowsStruct.MalfView:
                     dataGridView.Rows.Clear();
@@ -99,7 +73,6 @@ namespace AutoService
                 {
                     case (int)Form1.WindowsStruct.Repairs:
                         FormAddRepair.textBoxMark.Text = Car.CarList[Form1.SelectIndex].CarMark;
-                        FormAddRepair.textBoxModel.Text = Car.CarList[Form1.SelectIndex].CarModel;
                         FormAddRepair.textBoxVIN.Text = Car.CarList[Form1.SelectIndex].CarVIN;
                         FormAddRepair.textBoxReg.Text = Car.CarList[Form1.SelectIndex].RegCertific;
                         FormAddRepair.textBoxGosNom.Text = Car.CarList[Form1.SelectIndex].NumberOfCar;

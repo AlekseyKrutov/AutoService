@@ -207,6 +207,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView.ShowCellToolTips = false;
             this.dataGridView.Size = new System.Drawing.Size(1003, 464);
             this.dataGridView.TabIndex = 1;
@@ -269,7 +270,7 @@
             // 
             this.labelHeaderText.AutoSize = true;
             this.labelHeaderText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelHeaderText.Location = new System.Drawing.Point(6, 36);
+            this.labelHeaderText.Location = new System.Drawing.Point(6, 39);
             this.labelHeaderText.Name = "labelHeaderText";
             this.labelHeaderText.Size = new System.Drawing.Size(92, 20);
             this.labelHeaderText.TabIndex = 3;

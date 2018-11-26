@@ -52,7 +52,7 @@ namespace AutoService
             {
                 ExecuteClientProcedure("UPDATE_CLIENT_PROCEDURE");
             }
-            AddListClientInGrid();
+            Form1.AddListClientInGrid(mainForm.dataGridView);
             this.Close();
             mainForm.dataGridView.ClearSelection();
             mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;
@@ -105,12 +105,6 @@ namespace AutoService
                 trn.Commit();
                 Form1.db.Close();
             }
-        }
-        private void AddListClientInGrid()
-        {
-            string query = @"select * from client_view";
-            string[] columnNames = { "Наименование", "Директор", "ИНН", "Номер телефона" };
-            Form1.CreateViewForDataGrid(query, columnNames, mainForm.dataGridView);
         }
     }
 }
