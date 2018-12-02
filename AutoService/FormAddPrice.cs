@@ -57,7 +57,7 @@ namespace AutoService
                     Form1.db.Close();
                 }
                 this.Close();
-                Form1.AddListMalfunctionsInGrid(mainForm.dataGridView);
+                Form1.AddListMalfunctionsInGrid(mainForm.dataGridView, Form1.queryForMalfunctions);
                 mainForm.dataGridView.ClearSelection();
             }
         }

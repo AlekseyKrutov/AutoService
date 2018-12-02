@@ -50,14 +50,16 @@ namespace AutoService
                     Form1.AddListPersonalInGrid(dataGridView);
                     break;
                 case (int)Form1.WindowsStruct.MalfAdd:
-                    Form1.AddListMalfunctionsInGrid(dataGridView);
+                    Form1.AddListMalfunctionsInGrid(dataGridView, Form1.queryForMalfunctions);
                     break;
                 case (int)Form1.WindowsStruct.MalfView:
-                    dataGridView.Rows.Clear();
-                    foreach (Malfunctions malf in Form1.malfListForRepairAdded)
-                    {
-                        dataGridView.Rows.Add(malf.DescriptionOfMalf, malf.Price);
-                    }
+                    string query = string.Format("select tw.description, tw.unit, tw.cost, cr.number" +
+                        " from type_of_work as tw, card_of_rep_and_works as cr" +
+                        " where cr.id_card_of_repair = {0} and tw.id_work = cr.id_work;", FormAddRepair.id_repair);
+                    Form1.AddListMalfunctionsInGrid(dataGridView, query);
+                    break;
+                case (int)Form1.WindowsStruct.SpareAdd:
+                    Form1.AddSparePartInStock(dataGridView);
                     break;
             }
             Form1.SelectIndex = 0;
@@ -72,11 +74,10 @@ namespace AutoService
                 switch (Form1.WindowIndex)
                 {
                     case (int)Form1.WindowsStruct.Repairs:
-                        FormAddRepair.textBoxMark.Text = Car.CarList[Form1.SelectIndex].CarMark;
-                        FormAddRepair.textBoxVIN.Text = Car.CarList[Form1.SelectIndex].CarVIN;
-                        FormAddRepair.textBoxReg.Text = Car.CarList[Form1.SelectIndex].RegCertific;
-                        FormAddRepair.textBoxGosNom.Text = Car.CarList[Form1.SelectIndex].NumberOfCar;
-                        FormAddRepair.textBoxOwner.Text = Car.CarList[Form1.SelectIndex].Owner.Name;
+                        string car_vin = dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
+                        FormAddAuto.ReadAutoFromViewForRepair(car_vin, FormAddRepair);
+                        FormAddRepair.id_repair = FormAddRepair.GetIdRepair(car_vin);
+                        this.Close();
                         break;
                     case (int)Form1.WindowsStruct.Auto:
                         FormAddAuto.labelContentOwner.Text = dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
@@ -86,8 +87,8 @@ namespace AutoService
                         FormAddRepair.SelectedPersonLabel.Text = Personal.PersonalList[Form1.SelectIndex].Name;
                         break;
                     case (int)Form1.WindowsStruct.MalfAdd:
-                        Form1.malfListForRepairAdded.Add(Form1.malfListForRepairAll[Form1.SelectIndex]);
-                        Form1.malfListForRepairAll.RemoveAt(Form1.SelectIndex);
+                        FormAddNumber formAddNumber = new FormAddNumber(this, FormAddRepair);
+                        formAddNumber.ShowDialog();
                         break;
                     case (int)Form1.WindowsStruct.MalfView:
                         if ((MessageBox.Show(string.Format("Вы действительно хотите удалить этот ремонт из списка?{0}", Form1.malfListForRepairAdded[Form1.SelectIndex].ToString()), "Предупреждение",
@@ -97,14 +98,21 @@ namespace AutoService
                             Form1.malfListForRepairAdded.RemoveAt(Form1.SelectIndex);
                         }
                         break;
+                    case (int)Form1.WindowsStruct.SpareAdd:
+                        formAddNumber = new FormAddNumber(this, FormAddRepair);
+                        formAddNumber.ShowDialog();
+                        break;
                 }
-                Form1.WindowIndex = 0;
-                this.Visible = false;
             }
             catch (ArgumentOutOfRangeException)
             {
                 return;
             }
+        }
+
+        private void FormForSelect_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;
         }
     }
 }

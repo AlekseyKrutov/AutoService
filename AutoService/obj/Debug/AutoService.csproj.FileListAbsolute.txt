@@ -83,3 +83,4 @@ C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoServ
 C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoServiceLibrary.dll
 C:\Users\admin\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoServiceLibrary.pdb
 C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAuthorization.resources
+C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAddNumber.resources

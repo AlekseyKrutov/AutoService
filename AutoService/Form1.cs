@@ -44,7 +44,8 @@ namespace AutoService
 
         public static int AddOrEdit;
         //структура с названиями окон
-        public enum WindowsStruct { Repairs = 1, Auto, ActOfEndsRepairs, Worker, MalfAdd, MalfView, Stock , Client }
+        public enum WindowsStruct { Repairs = 1, Auto, ActOfEndsRepairs, Worker, MalfAdd, MalfView,
+                                    SpareAdd, SpareView, Stock , Client }
         public enum AddEditOrDelete { Add, Edit, Delete };
         //список добавленных неисправностей
         public static List<Malfunctions> malfListForRepairAll = new List<Malfunctions>();
@@ -386,21 +387,11 @@ namespace AutoService
         }
         private void EndRepair_Click(object sender, EventArgs e)
         {
-            if ((MessageBox.Show(string.Format("Вы действительно завершить ремонт №{0}?", CardOfRepair.repairsList[SelectIndex].NumberOfAct), "Предупреждение",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK) && CardOfRepair.repairsList.Count > 0)
+            if ((MessageBox.Show(string.Format("Вы действительно завершить ремонт №{0}?",
+                dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK))
             {
-                CardOfRepair.repairsList[SelectIndex].RepairIsCurrent = false;
-                CardOfRepair.repairsList[SelectIndex].TimeOfEnd = DateTime.Now.ToString();
-                CardOfRepair.repairsList.Sort(delegate(CardOfRepair card1, CardOfRepair card2)
-                {
-                    if (!card1.RepairIsCurrent)
-                        return 1;
-                    if (card1.RepairIsCurrent)
-                        return -1;
-                    else
-                        return 0;
-                });
-                AddListRepairsInGrid(dataGridView);
+               
             }
         }
         //событие при клике по кнопке добавить автомобиль
@@ -587,7 +578,7 @@ namespace AutoService
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK) && Malfunctions.MalfList.Count > 0)
                 {
                     Malfunctions.MalfList.RemoveAt(SelectIndex);
-                    AddListMalfunctionsInGrid(dataGridView);
+                    AddListMalfunctionsInGrid(dataGridView, Form1.queryForMalfunctions);
                 }
             }
             catch (ArgumentOutOfRangeException)
@@ -669,10 +660,10 @@ namespace AutoService
             string[] columnNames = { "Табельный номер", "ФИО", "Адрес", "Должность", "Номер телефона" };
             CreateViewForDataGrid(query, columnNames, dataGridView);
         }
-        public static void AddListMalfunctionsInGrid(DataGridView dataGridView)
+        public static string queryForMalfunctions = @"select * from type_of_work_view";
+        public static void AddListMalfunctionsInGrid(DataGridView dataGridView, string query)
         {
-            string query = @"select * from type_of_work_view";
-            string[] columnNames = { "Наименование", "Единица измерения", "Стоимость(руб.)" };
+            string[] columnNames = { "Наименование", "Единица измерения", "Стоимость(руб.)", "Количество" };
             CreateViewForDataGrid(query, columnNames, dataGridView);
             for (int i = 0; i < dataGridView.RowCount; i++)
             {
@@ -716,7 +707,7 @@ namespace AutoService
         private void DataGridViewForPrice()
         {
             dataGridView.Columns.Clear();
-            AddListMalfunctionsInGrid(dataGridView);
+            AddListMalfunctionsInGrid(dataGridView, queryForMalfunctions);
         }
         private void DataGridViewForStock()
         {
@@ -817,7 +808,7 @@ namespace AutoService
                 db.Open();
                 dataAdapter.Fill(ds);
                 dg.DataSource = ds.Tables[0];
-                for (int i = 0; i < columnNames.Length; i++)
+                for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
                 {
                     ds.Tables[0].Columns[i].ColumnName = columnNames[i];
                 }

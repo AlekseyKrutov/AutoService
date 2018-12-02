@@ -68,18 +68,20 @@ namespace AutoService
             {
                 ExecuteAutoProcedure("NEW_CAR_PROCEDURE");
                 mainForm.dataGridView.ClearSelection();
+                if (formAddCarInRepair.Visible)
+                {
+                    ReadAutoFromViewForRepair(textBoxVIN.Text, formAddCarInRepair);
+                    formAddCarInRepair.id_repair = formAddCarInRepair.GetIdRepair(textBoxVIN.Text);
+                    this.Close();
+                    return;
+                }
             }
             else if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
             {
                 ExecuteAutoProcedure("UPDATE_CAR_PROCEDURE");
                 mainForm.dataGridView.Rows[selectedIndex].Selected = true;
             }
-            if (formAddCarInRepair.Visible)
-            {
-
-                this.Close();
-                return;
-            }
+            
             Form1.AddListAutoInGrid(mainForm.dataGridView);
             mainForm.dataGridView.ClearSelection();
             mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;
@@ -168,6 +170,25 @@ namespace AutoService
                     return;
                 }
                 trn.Commit();
+                Form1.db.Close();
+            }
+        }
+        public static void ReadAutoFromViewForRepair(string VIN, FormAddRepair addRepair)
+        {
+            string query = string.Format("select * from cars_view where VIN like '{0}'", VIN);
+            using (FbCommand command = new FbCommand(query, Form1.db))
+            {
+                FbDataReader dataReader;
+                Form1.db.Open();
+                dataReader = command.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    addRepair.textBoxVIN.Text = dataReader.GetString(0);
+                    addRepair.textBoxMark.Text = dataReader.GetString(1);
+                    addRepair.textBoxGosNom.Text = dataReader.GetString(2);
+                    addRepair.textBoxReg.Text = dataReader.GetString(3);
+                    addRepair.textBoxOwner.Text = dataReader.GetString(4);
+                }
                 Form1.db.Close();
             }
         }

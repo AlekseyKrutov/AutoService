@@ -29,17 +29,16 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddRepair));
-            this.CreateRepair = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBoxGosNom = new System.Windows.Forms.TextBox();
-            this.textBoxReg = new System.Windows.Forms.TextBox();
-            this.textBoxVIN = new System.Windows.Forms.TextBox();
-            this.OwnerLabel = new System.Windows.Forms.Label();
-            this.GosNomLabel = new System.Windows.Forms.Label();
-            this.RegLabel = new System.Windows.Forms.Label();
-            this.VINLabel = new System.Windows.Forms.Label();
             this.textBoxMark = new System.Windows.Forms.TextBox();
             this.MarkLabel = new System.Windows.Forms.Label();
+            this.VINLabel = new System.Windows.Forms.Label();
+            this.textBoxVIN = new System.Windows.Forms.TextBox();
+            this.RegLabel = new System.Windows.Forms.Label();
+            this.textBoxReg = new System.Windows.Forms.TextBox();
+            this.GosNomLabel = new System.Windows.Forms.Label();
+            this.textBoxGosNom = new System.Windows.Forms.TextBox();
+            this.OwnerLabel = new System.Windows.Forms.Label();
             this.textBoxOwner = new System.Windows.Forms.TextBox();
             this.btnAddNewAutoRepair = new System.Windows.Forms.Button();
             this.btnSelExistAutoRepair = new System.Windows.Forms.Button();
@@ -52,19 +51,12 @@
             this.labelNotes = new System.Windows.Forms.Label();
             this.textBoxNotes = new System.Windows.Forms.TextBox();
             this.btnShowWorker = new System.Windows.Forms.Button();
+            this.SparePartLabel = new System.Windows.Forms.Label();
+            this.btnSelSparePart = new System.Windows.Forms.Button();
+            this.btnShowSparePart = new System.Windows.Forms.Button();
+            this.btnAddRepair = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // CreateRepair
-            // 
-            this.CreateRepair.Location = new System.Drawing.Point(423, 786);
-            this.CreateRepair.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.CreateRepair.Name = "CreateRepair";
-            this.CreateRepair.Size = new System.Drawing.Size(190, 55);
-            this.CreateRepair.TabIndex = 5;
-            this.CreateRepair.Text = "Добавить";
-            this.CreateRepair.UseVisualStyleBackColor = true;
-            this.CreateRepair.Click += new System.EventHandler(this.CreateRepair_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -95,76 +87,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(515, 280);
             this.tableLayoutPanel1.TabIndex = 9;
             // 
-            // textBoxGosNom
-            // 
-            this.textBoxGosNom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxGosNom.Location = new System.Drawing.Point(204, 173);
-            this.textBoxGosNom.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBoxGosNom.Name = "textBoxGosNom";
-            this.textBoxGosNom.ReadOnly = true;
-            this.textBoxGosNom.Size = new System.Drawing.Size(301, 26);
-            this.textBoxGosNom.TabIndex = 20;
-            // 
-            // textBoxReg
-            // 
-            this.textBoxReg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxReg.Location = new System.Drawing.Point(204, 117);
-            this.textBoxReg.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBoxReg.Name = "textBoxReg";
-            this.textBoxReg.ReadOnly = true;
-            this.textBoxReg.Size = new System.Drawing.Size(301, 26);
-            this.textBoxReg.TabIndex = 19;
-            // 
-            // textBoxVIN
-            // 
-            this.textBoxVIN.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxVIN.Location = new System.Drawing.Point(204, 61);
-            this.textBoxVIN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBoxVIN.Name = "textBoxVIN";
-            this.textBoxVIN.ReadOnly = true;
-            this.textBoxVIN.Size = new System.Drawing.Size(301, 26);
-            this.textBoxVIN.TabIndex = 18;
-            // 
-            // OwnerLabel
-            // 
-            this.OwnerLabel.AutoSize = true;
-            this.OwnerLabel.Location = new System.Drawing.Point(4, 224);
-            this.OwnerLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.OwnerLabel.Name = "OwnerLabel";
-            this.OwnerLabel.Size = new System.Drawing.Size(87, 20);
-            this.OwnerLabel.TabIndex = 10;
-            this.OwnerLabel.Text = "Владелец";
-            // 
-            // GosNomLabel
-            // 
-            this.GosNomLabel.AutoSize = true;
-            this.GosNomLabel.Location = new System.Drawing.Point(4, 168);
-            this.GosNomLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.GosNomLabel.Name = "GosNomLabel";
-            this.GosNomLabel.Size = new System.Drawing.Size(90, 20);
-            this.GosNomLabel.TabIndex = 9;
-            this.GosNomLabel.Text = "Гос. номер";
-            // 
-            // RegLabel
-            // 
-            this.RegLabel.AutoSize = true;
-            this.RegLabel.Location = new System.Drawing.Point(4, 112);
-            this.RegLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.RegLabel.Name = "RegLabel";
-            this.RegLabel.Size = new System.Drawing.Size(147, 40);
-            this.RegLabel.TabIndex = 7;
-            this.RegLabel.Text = "Свидетельство о регистрации";
-            // 
-            // VINLabel
-            // 
-            this.VINLabel.AutoSize = true;
-            this.VINLabel.Location = new System.Drawing.Point(4, 56);
-            this.VINLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.VINLabel.Name = "VINLabel";
-            this.VINLabel.Size = new System.Drawing.Size(184, 20);
-            this.VINLabel.TabIndex = 5;
-            this.VINLabel.Text = "VIN номер автомобиля";
-            // 
             // textBoxMark
             // 
             this.textBoxMark.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -184,6 +106,76 @@
             this.MarkLabel.Size = new System.Drawing.Size(57, 20);
             this.MarkLabel.TabIndex = 0;
             this.MarkLabel.Text = "Марка";
+            // 
+            // VINLabel
+            // 
+            this.VINLabel.AutoSize = true;
+            this.VINLabel.Location = new System.Drawing.Point(4, 56);
+            this.VINLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.VINLabel.Name = "VINLabel";
+            this.VINLabel.Size = new System.Drawing.Size(184, 20);
+            this.VINLabel.TabIndex = 5;
+            this.VINLabel.Text = "VIN номер автомобиля";
+            // 
+            // textBoxVIN
+            // 
+            this.textBoxVIN.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxVIN.Location = new System.Drawing.Point(204, 61);
+            this.textBoxVIN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxVIN.Name = "textBoxVIN";
+            this.textBoxVIN.ReadOnly = true;
+            this.textBoxVIN.Size = new System.Drawing.Size(301, 26);
+            this.textBoxVIN.TabIndex = 18;
+            // 
+            // RegLabel
+            // 
+            this.RegLabel.AutoSize = true;
+            this.RegLabel.Location = new System.Drawing.Point(4, 112);
+            this.RegLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.RegLabel.Name = "RegLabel";
+            this.RegLabel.Size = new System.Drawing.Size(147, 40);
+            this.RegLabel.TabIndex = 7;
+            this.RegLabel.Text = "Свидетельство о регистрации";
+            // 
+            // textBoxReg
+            // 
+            this.textBoxReg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxReg.Location = new System.Drawing.Point(204, 117);
+            this.textBoxReg.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxReg.Name = "textBoxReg";
+            this.textBoxReg.ReadOnly = true;
+            this.textBoxReg.Size = new System.Drawing.Size(301, 26);
+            this.textBoxReg.TabIndex = 19;
+            // 
+            // GosNomLabel
+            // 
+            this.GosNomLabel.AutoSize = true;
+            this.GosNomLabel.Location = new System.Drawing.Point(4, 168);
+            this.GosNomLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.GosNomLabel.Name = "GosNomLabel";
+            this.GosNomLabel.Size = new System.Drawing.Size(90, 20);
+            this.GosNomLabel.TabIndex = 9;
+            this.GosNomLabel.Text = "Гос. номер";
+            // 
+            // textBoxGosNom
+            // 
+            this.textBoxGosNom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxGosNom.Location = new System.Drawing.Point(204, 173);
+            this.textBoxGosNom.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxGosNom.Name = "textBoxGosNom";
+            this.textBoxGosNom.ReadOnly = true;
+            this.textBoxGosNom.Size = new System.Drawing.Size(301, 26);
+            this.textBoxGosNom.TabIndex = 20;
+            // 
+            // OwnerLabel
+            // 
+            this.OwnerLabel.AutoSize = true;
+            this.OwnerLabel.Location = new System.Drawing.Point(4, 224);
+            this.OwnerLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.OwnerLabel.Name = "OwnerLabel";
+            this.OwnerLabel.Size = new System.Drawing.Size(87, 20);
+            this.OwnerLabel.TabIndex = 10;
+            this.OwnerLabel.Text = "Владелец";
             // 
             // textBoxOwner
             // 
@@ -220,7 +212,7 @@
             // MalfLabel
             // 
             this.MalfLabel.AutoSize = true;
-            this.MalfLabel.Location = new System.Drawing.Point(12, 379);
+            this.MalfLabel.Location = new System.Drawing.Point(13, 369);
             this.MalfLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.MalfLabel.Name = "MalfLabel";
             this.MalfLabel.Size = new System.Drawing.Size(127, 20);
@@ -230,7 +222,7 @@
             // PersonalLabel
             // 
             this.PersonalLabel.AutoSize = true;
-            this.PersonalLabel.Location = new System.Drawing.Point(12, 417);
+            this.PersonalLabel.Location = new System.Drawing.Point(13, 452);
             this.PersonalLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.PersonalLabel.Name = "PersonalLabel";
             this.PersonalLabel.Size = new System.Drawing.Size(81, 20);
@@ -239,7 +231,7 @@
             // 
             // btnAddMalf
             // 
-            this.btnAddMalf.Location = new System.Drawing.Point(212, 372);
+            this.btnAddMalf.Location = new System.Drawing.Point(213, 362);
             this.btnAddMalf.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAddMalf.Name = "btnAddMalf";
             this.btnAddMalf.Size = new System.Drawing.Size(112, 35);
@@ -250,7 +242,7 @@
             // 
             // btnShowMalf
             // 
-            this.btnShowMalf.Location = new System.Drawing.Point(332, 372);
+            this.btnShowMalf.Location = new System.Drawing.Point(333, 362);
             this.btnShowMalf.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnShowMalf.Name = "btnShowMalf";
             this.btnShowMalf.Size = new System.Drawing.Size(112, 35);
@@ -261,7 +253,7 @@
             // 
             // btnSelectPersonal
             // 
-            this.btnSelectPersonal.Location = new System.Drawing.Point(212, 417);
+            this.btnSelectPersonal.Location = new System.Drawing.Point(213, 452);
             this.btnSelectPersonal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSelectPersonal.Name = "btnSelectPersonal";
             this.btnSelectPersonal.Size = new System.Drawing.Size(112, 35);
@@ -282,7 +274,7 @@
             // labelNotes
             // 
             this.labelNotes.AutoSize = true;
-            this.labelNotes.Location = new System.Drawing.Point(13, 455);
+            this.labelNotes.Location = new System.Drawing.Point(13, 499);
             this.labelNotes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelNotes.Name = "labelNotes";
             this.labelNotes.Size = new System.Drawing.Size(75, 20);
@@ -291,16 +283,16 @@
             // 
             // textBoxNotes
             // 
-            this.textBoxNotes.Location = new System.Drawing.Point(212, 462);
+            this.textBoxNotes.Location = new System.Drawing.Point(213, 499);
             this.textBoxNotes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
-            this.textBoxNotes.Size = new System.Drawing.Size(311, 101);
+            this.textBoxNotes.Size = new System.Drawing.Size(311, 90);
             this.textBoxNotes.TabIndex = 19;
             // 
             // btnShowWorker
             // 
-            this.btnShowWorker.Location = new System.Drawing.Point(332, 417);
+            this.btnShowWorker.Location = new System.Drawing.Point(333, 452);
             this.btnShowWorker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnShowWorker.Name = "btnShowWorker";
             this.btnShowWorker.Size = new System.Drawing.Size(112, 35);
@@ -308,11 +300,57 @@
             this.btnShowWorker.Text = "Просмотр...";
             this.btnShowWorker.UseVisualStyleBackColor = true;
             // 
+            // SparePartLabel
+            // 
+            this.SparePartLabel.AutoSize = true;
+            this.SparePartLabel.Location = new System.Drawing.Point(13, 407);
+            this.SparePartLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.SparePartLabel.Name = "SparePartLabel";
+            this.SparePartLabel.Size = new System.Drawing.Size(82, 20);
+            this.SparePartLabel.TabIndex = 21;
+            this.SparePartLabel.Text = "Запчасти";
+            // 
+            // btnSelSparePart
+            // 
+            this.btnSelSparePart.Location = new System.Drawing.Point(213, 407);
+            this.btnSelSparePart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSelSparePart.Name = "btnSelSparePart";
+            this.btnSelSparePart.Size = new System.Drawing.Size(112, 35);
+            this.btnSelSparePart.TabIndex = 22;
+            this.btnSelSparePart.Text = "Добавить";
+            this.btnSelSparePart.UseVisualStyleBackColor = true;
+            this.btnSelSparePart.Click += new System.EventHandler(this.btnSelSparePart_Click);
+            // 
+            // btnShowSparePart
+            // 
+            this.btnShowSparePart.Location = new System.Drawing.Point(333, 407);
+            this.btnShowSparePart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnShowSparePart.Name = "btnShowSparePart";
+            this.btnShowSparePart.Size = new System.Drawing.Size(112, 35);
+            this.btnShowSparePart.TabIndex = 23;
+            this.btnShowSparePart.Text = "Просмотр...";
+            this.btnShowSparePart.UseVisualStyleBackColor = true;
+            // 
+            // btnAddRepair
+            // 
+            this.btnAddRepair.Location = new System.Drawing.Point(412, 594);
+            this.btnAddRepair.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddRepair.Name = "btnAddRepair";
+            this.btnAddRepair.Size = new System.Drawing.Size(112, 35);
+            this.btnAddRepair.TabIndex = 24;
+            this.btnAddRepair.Text = "Добавить";
+            this.btnAddRepair.UseVisualStyleBackColor = true;
+            this.btnAddRepair.Click += new System.EventHandler(this.btnAddRepair_Click);
+            // 
             // FormAddRepair
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 574);
+            this.ClientSize = new System.Drawing.Size(532, 635);
+            this.Controls.Add(this.btnAddRepair);
+            this.Controls.Add(this.btnShowSparePart);
+            this.Controls.Add(this.btnSelSparePart);
+            this.Controls.Add(this.SparePartLabel);
             this.Controls.Add(this.btnShowWorker);
             this.Controls.Add(this.textBoxNotes);
             this.Controls.Add(this.labelNotes);
@@ -325,7 +363,6 @@
             this.Controls.Add(this.btnSelExistAutoRepair);
             this.Controls.Add(this.btnAddNewAutoRepair);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.CreateRepair);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -342,8 +379,6 @@
         }
 
         #endregion
-
-        public System.Windows.Forms.Button CreateRepair;
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         public System.Windows.Forms.Label OwnerLabel;
         public System.Windows.Forms.Label GosNomLabel;
@@ -366,5 +401,9 @@
         private System.Windows.Forms.Label labelNotes;
         private System.Windows.Forms.TextBox textBoxNotes;
         public System.Windows.Forms.Button btnShowWorker;
+        private System.Windows.Forms.Label SparePartLabel;
+        public System.Windows.Forms.Button btnSelSparePart;
+        public System.Windows.Forms.Button btnShowSparePart;
+        public System.Windows.Forms.Button btnAddRepair;
     }
 }
