@@ -18,6 +18,7 @@ namespace AutoService
         FormAddRepair FormAddRepair;
         FormAddAuto FormAddAuto;
         Form1 mainForm;
+        string query;
         public FormForSelect()
         {
             InitializeComponent();
@@ -53,13 +54,19 @@ namespace AutoService
                     Form1.AddListMalfunctionsInGrid(dataGridView, Form1.queryForMalfunctions);
                     break;
                 case (int)Form1.WindowsStruct.MalfView:
-                    string query = string.Format("select tw.description, tw.unit, tw.cost, cr.number" +
+                    query = string.Format("select tw.description, tw.unit, tw.cost, cr.number" +
                         " from type_of_work as tw, card_of_rep_and_works as cr" +
                         " where cr.id_card_of_repair = {0} and tw.id_work = cr.id_work;", FormAddRepair.id_repair);
                     Form1.AddListMalfunctionsInGrid(dataGridView, query);
                     break;
                 case (int)Form1.WindowsStruct.SpareAdd:
-                    Form1.AddSparePartInStock(dataGridView);
+                    Form1.AddSparePartInStock(dataGridView, Form1.queryForSparePart);
+                    break;
+                case (int)Form1.WindowsStruct.SpareView:
+                    query = string.Format("select sr.uniq_code, s.description, sr.number, s.cost" +
+                        " from stock_view as s, sparepart_and_card_of_rep as sr" +
+                        " where sr.id_card_of_repair = {0} and s.uniq_code = sr.uniq_code;", FormAddRepair.id_repair);
+                    Form1.AddSparePartInStock(dataGridView, query);
                     break;
             }
             Form1.SelectIndex = 0;
@@ -91,12 +98,8 @@ namespace AutoService
                         formAddNumber.ShowDialog();
                         break;
                     case (int)Form1.WindowsStruct.MalfView:
-                        if ((MessageBox.Show(string.Format("Вы действительно хотите удалить этот ремонт из списка?{0}", Form1.malfListForRepairAdded[Form1.SelectIndex].ToString()), "Предупреждение",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK) && Form1.malfListForRepairAdded.Count > 0)
-                        {
-                            Form1.malfListForRepairAll.Add(Form1.malfListForRepairAdded[Form1.SelectIndex]);
-                            Form1.malfListForRepairAdded.RemoveAt(Form1.SelectIndex);
-                        }
+                        formAddNumber = new FormAddNumber(this, FormAddRepair);
+                        formAddNumber.ShowDialog();
                         break;
                     case (int)Form1.WindowsStruct.SpareAdd:
                         formAddNumber = new FormAddNumber(this, FormAddRepair);

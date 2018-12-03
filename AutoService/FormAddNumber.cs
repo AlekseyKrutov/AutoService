@@ -29,18 +29,32 @@ namespace AutoService
             switch (Form1.WindowIndex)
             {
                 case (int) Form1.WindowsStruct.MalfAdd:
-                    Malfunctions malf = new Malfunctions(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString(),
+                    Malfunctions malfAdd = new Malfunctions(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString(),
                     int.Parse(numberUpDown.Value.ToString()));
-                    formAddRepair.ExecuteProcedureForAddMalf(formAddRepair.id_repair, malf.DescriptionOfMalf, malf.Number);
+                    formAddRepair.ExecuteProcedureForAddMalf(formAddRepair.id_repair, malfAdd.DescriptionOfMalf, malfAdd.Number);
+                    this.Close();
+                    break;
+                case (int)Form1.WindowsStruct.MalfView:
+                    Malfunctions malfView = new Malfunctions(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString(),
+                    int.Parse(numberUpDown.Value.ToString()));
+                    formAddRepair.ExecuteProcedureForAddMalf(formAddRepair.id_repair, malfView.DescriptionOfMalf, malfView.Number);
                     this.Close();
                     break;
                 case (int)Form1.WindowsStruct.SpareAdd:
-                    formAddRepair.spareList.Add(
-                    new SparePart(int.Parse(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()),
-                    int.Parse(numberUpDown.Value.ToString())));
+                    SparePart sparePartAdd = new SparePart(int.Parse(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()),
+                    int.Parse(numberUpDown.Value.ToString()));
                     this.Close();
-                    formForSelect.Close();
+                    formAddRepair.ExecuteProcedureForAddSparepart(formAddRepair.id_repair, sparePartAdd.Articul, sparePartAdd.Number);
+                    this.Close();
                     break;
+                case (int)Form1.WindowsStruct.SpareView:
+                    SparePart sparePartView = new SparePart(int.Parse(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()),
+                    int.Parse(numberUpDown.Value.ToString()));
+                    this.Close();
+                    formAddRepair.ExecuteProcedureForAddSparepart(formAddRepair.id_repair, sparePartView.Articul, sparePartView.Number);
+                    this.Close();
+                    break;
+
             }
         }
     }

@@ -126,7 +126,7 @@ namespace AutoService
                     trn.Commit();
                     Form1.db.Close();
                 }
-                Form1.AddSparePartInStock(mainForm.dataGridView);
+                Form1.AddSparePartInStock(mainForm.dataGridView, Form1.queryForSparePart);
                 this.Close();
             }
             else if(Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Edit)
@@ -168,7 +168,7 @@ namespace AutoService
                     trn.Commit();
                     Form1.db.Close();
                 }
-                Form1.AddSparePartInStock(mainForm.dataGridView);
+                Form1.AddSparePartInStock(mainForm.dataGridView, Form1.queryForSparePart);
                 this.Close();
                 mainForm.dataGridView.ClearSelection();
                 mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;

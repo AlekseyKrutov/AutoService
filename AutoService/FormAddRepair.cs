@@ -80,10 +80,9 @@ namespace AutoService
 
         private void btnSelectPersonal_Click(object sender, EventArgs e)
         {
-            if (id_repair != 0)
-                DeleteSimpleRepair();
             if (AutoNotSelected())
                 return;
+            Form1.SelectIndex = 0;
             Form1.WindowIndex = (int) Form1.WindowsStruct.Worker;
             formSelectWorker = new FormForSelect(this, mainForm);
             formSelectWorker.ShowDialog();
@@ -113,6 +112,15 @@ namespace AutoService
                 return;
             Form1.SelectIndex = 0;
             Form1.WindowIndex = (int)Form1.WindowsStruct.SpareAdd;
+            formSelectSparePart = new FormForSelect(this, mainForm);
+            formSelectSparePart.ShowDialog();
+        }
+        private void btnShowSparePart_Click(object sender, EventArgs e)
+        {
+            if (AutoNotSelected())
+                return;
+            Form1.SelectIndex = 0;
+            Form1.WindowIndex = (int)Form1.WindowsStruct.SpareView;
             formSelectSparePart = new FormForSelect(this, mainForm);
             formSelectSparePart.ShowDialog();
         }
@@ -199,5 +207,29 @@ namespace AutoService
                 Form1.db.Close();
             }
         }
+        public void ExecuteProcedureForAddSparepart(int id_repair, int uniq_code, int number)
+        {
+            Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand("INS_OR_UP_SPARE_REPAIR", Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                command.Parameters.Add("@DUNIQ_CODE", FbDbType.Integer).Value = uniq_code;
+                command.Parameters.Add("@NUMBER", FbDbType.SmallInt).Value = number;
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (FbException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                trn.Commit();
+                Form1.db.Close();
+            }
+        }
+
+        
     }
 }

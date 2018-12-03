@@ -330,6 +330,7 @@
             this.btnShowSparePart.TabIndex = 23;
             this.btnShowSparePart.Text = "Просмотр...";
             this.btnShowSparePart.UseVisualStyleBackColor = true;
+            this.btnShowSparePart.Click += new System.EventHandler(this.btnShowSparePart_Click);
             // 
             // btnAddRepair
             // 

@@ -676,9 +676,9 @@ namespace AutoService
             }
 
         }
-        public static void AddSparePartInStock(DataGridView dataGridView)
+        public static string queryForSparePart = @"select * from stock_view";
+        public static void AddSparePartInStock(DataGridView dataGridView, string query)
         {
-            string query = @"select * from stock_view";
             string[] columnNames = { "Артикул", "Наименование", "Количество", "Cтоимость(руб.)", "Автомобиль" };
             CreateViewForDataGrid(query, columnNames, dataGridView);
         }
@@ -712,7 +712,7 @@ namespace AutoService
         private void DataGridViewForStock()
         {
             dataGridView.Columns.Clear();
-            AddSparePartInStock(dataGridView);
+            AddSparePartInStock(dataGridView, queryForMalfunctions);
         }
 
         void VisibleColumns()
