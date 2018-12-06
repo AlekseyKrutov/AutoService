@@ -32,12 +32,14 @@ namespace AutoService
                     Malfunctions malfAdd = new Malfunctions(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString(),
                     int.Parse(numberUpDown.Value.ToString()));
                     formAddRepair.ExecuteProcedureForAddMalf(formAddRepair.id_repair, malfAdd.DescriptionOfMalf, malfAdd.Number);
+                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Form1.queryForMalfunctions);
                     this.Close();
                     break;
                 case (int)Form1.WindowsStruct.MalfView:
                     Malfunctions malfView = new Malfunctions(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString(),
                     int.Parse(numberUpDown.Value.ToString()));
                     formAddRepair.ExecuteProcedureForAddMalf(formAddRepair.id_repair, malfView.DescriptionOfMalf, malfView.Number);
+                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, formForSelect.queryForMalfView(formAddRepair.id_repair));
                     this.Close();
                     break;
                 case (int)Form1.WindowsStruct.SpareAdd:
@@ -45,6 +47,7 @@ namespace AutoService
                     int.Parse(numberUpDown.Value.ToString()));
                     this.Close();
                     formAddRepair.ExecuteProcedureForAddSparepart(formAddRepair.id_repair, sparePartAdd.Articul, sparePartAdd.Number);
+                    Form1.AddSparePartInStock(formForSelect.dataGridView, Form1.queryForSparePart);
                     this.Close();
                     break;
                 case (int)Form1.WindowsStruct.SpareView:
@@ -52,6 +55,7 @@ namespace AutoService
                     int.Parse(numberUpDown.Value.ToString()));
                     this.Close();
                     formAddRepair.ExecuteProcedureForAddSparepart(formAddRepair.id_repair, sparePartView.Articul, sparePartView.Number);
+                    Form1.AddSparePartInStock(formForSelect.dataGridView, formForSelect.queryForSpareView(formAddRepair.id_repair));
                     this.Close();
                     break;
 

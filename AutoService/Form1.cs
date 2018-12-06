@@ -41,15 +41,12 @@ namespace AutoService
         static public int WindowIndex = 0;
         //логическая переменная
         public static bool logicParamForRepair = true;
-
+        //перменна для определения добавления или редактирования
         public static int AddOrEdit;
         //структура с названиями окон
         public enum WindowsStruct { Repairs = 1, Auto, ActOfEndsRepairs, Worker, MalfAdd, MalfView,
-                                    SpareAdd, SpareView, Stock , Client }
+                                    SpareAdd, SpareView, Stock , Client, WorkerAdd, WorkerView }
         public enum AddEditOrDelete { Add, Edit, Delete };
-        //список добавленных неисправностей
-        public static List<Malfunctions> malfListForRepairAll = new List<Malfunctions>();
-        public static List<Malfunctions> malfListForRepairAdded = new List<Malfunctions>();
 
         //конструктор формы
         public Form1()
@@ -62,6 +59,7 @@ namespace AutoService
         private void Form1_Load(object sender, EventArgs e)
         {
             Padding padding = new Padding(0, 8, 0, 8);
+            PaymenInvoiceToolStripMenuItem.Visible = false;
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             dataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dataGridView.RowTemplate.DefaultCellStyle.Padding = padding;
@@ -89,6 +87,7 @@ namespace AutoService
             csb.ServerType = FbServerType.Default;
             db = new FbConnection(csb.ToString());
             formAuthorization = new FormAuthorization(this);
+            formAuthorization.ShowDialog();
             DataGridViewForRepairs();
         }
         //событие при клике на законченные ремонты
@@ -96,6 +95,7 @@ namespace AutoService
         {
             SelectIndex = 0;
             WindowIndex = 0;
+            PaymenInvoiceToolStripMenuItem.Visible = true;
             labelHeaderText.Text = "Завершенные ремонты";
             HideRepairButtons();
             HideAutoButtons();
@@ -118,6 +118,7 @@ namespace AutoService
         {
             SelectIndex = 0;
             WindowIndex = 0;
+            PaymenInvoiceToolStripMenuItem.Visible = false;
             labelHeaderText.Text = "Текущие ремонты";
             ShowRepairButtons();
             HideAutoButtons();
@@ -142,6 +143,7 @@ namespace AutoService
         {
             logicParamForRepair = true;
             SelectIndex = 0;
+            PaymenInvoiceToolStripMenuItem.Visible = false;
             WindowIndex = (int)WindowsStruct.Client;
             HideAutoButtons();
             HideRepairButtons();
@@ -152,7 +154,6 @@ namespace AutoService
             HideSearch();
             AddClient.Location = AddRepair.Location;
             EditClient.Location = EditRepair.Location;
-            DeleteClient.Location = EndRepair.Location;
             labelHeaderText.Text = "Клиенты";
             dataGridView.Top = topForGridIdeal;
             labelHeaderText.Top = topForLabelOfHead;
@@ -164,6 +165,7 @@ namespace AutoService
         {
             logicParamForRepair = true;
             SelectIndex = 0;
+            PaymenInvoiceToolStripMenuItem.Visible = false;
             WindowIndex = (int)WindowsStruct.Worker;
             HideAutoButtons();
             HideRepairButtons();
@@ -174,7 +176,6 @@ namespace AutoService
             ShowPersonalButtons();
             AddPersonal.Location = AddRepair.Location;
             EditPersonal.Location = EditRepair.Location;
-            DeletePersonal.Location = EndRepair.Location;
             labelHeaderText.Text = "Сотрудники";
             dataGridView.Top = topForGridIdeal;
             labelHeaderText.Top = topForLabelOfHead;
@@ -186,12 +187,12 @@ namespace AutoService
         {
 
             SelectIndex = 0;
+            PaymenInvoiceToolStripMenuItem.Visible = false;
             WindowIndex = (int)WindowsStruct.Auto;
             logicParamForRepair = true;
             ShowAutoButtons();
             AddAuto.Location = AddRepair.Location;
             EditAuto.Location = EditRepair.Location;
-            DeleteAuto.Location = EndRepair.Location;
             HideRepairButtons();
             HideClientButtons();
             HidePersonalButtons();
@@ -210,6 +211,7 @@ namespace AutoService
             logicParamForRepair = true;
             SelectIndex = 0;
             WindowIndex = 0;
+            PaymenInvoiceToolStripMenuItem.Visible = false;
             HideAutoButtons();
             HideRepairButtons();
             HideClientButtons();
@@ -219,7 +221,6 @@ namespace AutoService
             ShowPriceButtons();
             AddPosition.Location = AddRepair.Location;
             EditPosition.Location = EditRepair.Location;
-            DeletePosition.Location = EndRepair.Location;
             labelHeaderText.Text = "Прайс";
             dataGridView.Top = topForGridIdeal;
             labelHeaderText.Top = topForLabelOfHead;
@@ -232,6 +233,7 @@ namespace AutoService
             WindowIndex = (int) WindowsStruct.Stock;
             logicParamForRepair = true;
             SelectIndex = 0;
+            PaymenInvoiceToolStripMenuItem.Visible = false;
             HideAutoButtons();
             HideRepairButtons();
             HideClientButtons();
@@ -241,7 +243,6 @@ namespace AutoService
             ShowSearch();
             AddInStock.Location = AddRepair.Location;
             EditStock.Location = EditRepair.Location;
-            DeleteFromStock.Location = EndRepair.Location;
             labelHeaderText.Text = "Склад";
             dataGridView.Top = topForGridIdeal;
             labelHeaderText.Top = topForLabelOfHead;
@@ -291,13 +292,11 @@ namespace AutoService
         {
             AddAuto.Hide();
             EditAuto.Hide();
-            DeleteAuto.Hide();
         }
         private void ShowAutoButtons()
         {
             AddAuto.Visible = true;
             EditAuto.Visible = true;
-            DeleteAuto.Visible = true;
         }
         private void HideRepairButtons()
         {
@@ -315,49 +314,41 @@ namespace AutoService
         {
             AddClient.Hide();
             EditClient.Hide();
-            DeleteClient.Hide();
         }
         private void ShowClientButtons()
         {
             AddClient.Visible = true;
             EditClient.Visible = true;
-            DeleteClient.Visible = true;
         }
         private void HidePersonalButtons()
         {
             AddPersonal.Hide();
             EditPersonal.Hide();
-            DeletePersonal.Hide();
         }
         private void ShowPersonalButtons()
         {
             AddPersonal.Visible = true;
             EditPersonal.Visible = true;
-            DeletePersonal.Visible = true;
         }
         private void HidePriceButtons()
         {
             AddPosition.Hide();
             EditPosition.Hide();
-            DeletePosition.Hide();
         }
         private void ShowPriceButtons()
         {
             AddPosition.Visible = true;
             EditPosition.Visible = true;
-            DeletePosition.Visible = true;
         }
         private void HideStockButtons()
         {
             AddInStock.Hide();
             EditStock.Hide();
-            DeleteFromStock.Hide();
         }
         private void ShowStockButtons()
         {
             AddInStock.Visible = true;
             EditStock.Visible = true;
-            DeleteFromStock.Visible = true;
         }
         private void ShowSearch()
         {
@@ -372,6 +363,7 @@ namespace AutoService
         //событие при клике по кнопке добавить ремонт
         private void AddRepair_Click(object sender, EventArgs e)
         {
+            AddOrEdit = (int)AddEditOrDelete.Add;
             WindowIndex = (int) WindowsStruct.Repairs;
             //проверка на наличие открытой формы
             if (!formAddRepair.Visible)
@@ -383,7 +375,37 @@ namespace AutoService
                 //если окно добавления автомобиля будет открыто выведется окно с предупреждением
                 MessageBox.Show("Вы уже создаете новый ремонт, для создания нового ремонта завершите старый.", "", MessageBoxButtons.OK);
             return;
-
+        }
+        private void EditRepair_Click(object sender, EventArgs e)
+        {
+            AddOrEdit = (int)AddEditOrDelete.Edit;
+            WindowIndex = (int)WindowsStruct.Repairs;
+            //проверка на наличие открытой формы
+            if (!formAddRepair.Visible)
+            {
+                string vin = "";
+                formAddRepair = new FormAddRepair(formAddAuto, this);
+                formAddRepair.id_repair = int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+                Form1.db.Open();
+                using (FbCommand command = new FbCommand("TAKE_ID_CAR_FROM_REPAIR", Form1.db))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = formAddRepair.id_repair;
+                    FbDataReader dr = command.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        vin = dr.GetString(0);
+                        formAddRepair.textBoxNotes.Text = dr.GetString(1);
+                    }
+                    Form1.db.Close();
+                }
+                FormAddAuto.ReadAutoFromViewForRepair(vin, formAddRepair);
+                formAddRepair.ShowDialog();
+            }
+            else
+                //если окно добавления автомобиля будет открыто выведется окно с предупреждением
+                MessageBox.Show("Вы уже создаете новый ремонт, для создания нового ремонта завершите старый.", "", MessageBoxButtons.OK);
+            return;
         }
         private void EndRepair_Click(object sender, EventArgs e)
         {
@@ -391,7 +413,8 @@ namespace AutoService
                 dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK))
             {
-               
+                FinishRepair(int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString()));
+                AddListRepairsInGrid(dataGridView);
             }
         }
         //событие при клике по кнопке добавить автомобиль
@@ -654,9 +677,9 @@ namespace AutoService
             string[] columnNames = { "Наименование", "Директор", "ИНН", "Номер телефона" };
             CreateViewForDataGrid(query, columnNames, dataGridView);
         }
-        public static void AddListPersonalInGrid(DataGridView dataGridView)
+        public static string queryForStaff = @"select * from staff_view";
+        public static void AddListPersonalInGrid(DataGridView dataGridView, string query)
         {
-            string query = @"select * from staff_view";
             string[] columnNames = { "Табельный номер", "ФИО", "Адрес", "Должность", "Номер телефона" };
             CreateViewForDataGrid(query, columnNames, dataGridView);
         }
@@ -697,7 +720,7 @@ namespace AutoService
         private void DataGridViewForPersonal()
         {
             dataGridView.Columns.Clear();
-            AddListPersonalInGrid(dataGridView);
+            AddListPersonalInGrid(dataGridView, Form1.queryForStaff);
         }
         private void DataGridViewForAuto()
         {
@@ -712,7 +735,7 @@ namespace AutoService
         private void DataGridViewForStock()
         {
             dataGridView.Columns.Clear();
-            AddSparePartInStock(dataGridView, queryForMalfunctions);
+            AddSparePartInStock(dataGridView, queryForSparePart);
         }
 
         void VisibleColumns()
@@ -754,11 +777,6 @@ namespace AutoService
         private void EditStock_MouseEnter(object sender, EventArgs e)
         {
             SetToolTip(AddInStock, "Изменить данные по запчастям");
-        }
-
-        private void DeleteFromStock_MouseEnter(object sender, EventArgs e)
-        {
-            SetToolTip(AddInStock, "Удалить запчасть");
         }
 
         private void AddInStock_MouseLeave(object sender, EventArgs e)
@@ -815,6 +833,27 @@ namespace AutoService
                 db.Close();
             }
             dg.ClearSelection();
+        }
+        public void FinishRepair(int id_card)
+        {
+            Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand("FINISH_REPAIR", Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_card;
+                command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (FbException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                trn.Commit();
+                Form1.db.Close();
+            }
         }
     }
 }

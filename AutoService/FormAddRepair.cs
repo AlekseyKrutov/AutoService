@@ -19,14 +19,8 @@ namespace AutoService
         public static bool logicForAddRepair;
 
         FormAddAuto formAddAutoInRepairs;
-        FormForSelect formSelectAuto;
-        FormForSelect formSelectWorker;
-        FormForSelect formSelectMalf;
-        FormForSelect formViewMalf;
-        FormForSelect formSelectSparePart;
+        FormForSelect formForSelect;
         Form1 mainForm;
-        public List<Malfunctions> malfList = new List<Malfunctions>();
-        public List<SparePart> spareList = new List<SparePart>();
         public int id_repair; 
         public FormAddRepair()
         {
@@ -34,48 +28,29 @@ namespace AutoService
         }
         public FormAddRepair(FormAddAuto addAuto, Form1 mainForm)
         {
-            foreach (Malfunctions malf in Malfunctions.MalfList) 
-            {
-                Form1.malfListForRepairAll.Add(malf);
-            }
             formAddAutoInRepairs = addAuto;
             this.mainForm = mainForm;
+            formForSelect = new FormForSelect(this, mainForm);
             InitializeComponent();
         }
         private void FormAddRepair_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (id_repair != 0)
-            {
+            if (e.CloseReason == CloseReason.UserClosing && Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Add)
                 DeleteSimpleRepair();
-            }
             Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;
-            Form1.malfListForRepairAll.Clear();
-            Form1.malfListForRepairAdded.Clear();
         }
         private void btnAddNewAutoRepair_Click(object sender, EventArgs e)
         {
-            Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;
-            if (!formAddAutoInRepairs.Visible)
-            {   
-                logicForAddRepair = true;
-                formAddAutoInRepairs = new FormAddAuto(this, mainForm);
-                formAddAutoInRepairs.StartPosition = FormStartPosition.CenterScreen;
-                formAddAutoInRepairs.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-                formAddAutoInRepairs.MaximizeBox = false;
-                formAddAutoInRepairs.ShowDialog();
-            }
-            else
-                return;
+            Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;  
+            logicForAddRepair = true;
+            formAddAutoInRepairs.ShowDialog();
         }
 
         private void btnSelExistAutoRepair_Click(object sender, EventArgs e)
         {
-            if (id_repair != 0)
-                DeleteSimpleRepair();
             Form1.SelectIndex = 0;
             Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;
-            formSelectAuto = new FormForSelect(this, mainForm);
-            formSelectAuto.ShowDialog();
+            formForSelect.ShowDialog();
         }
 
         private void btnSelectPersonal_Click(object sender, EventArgs e)
@@ -83,19 +58,24 @@ namespace AutoService
             if (AutoNotSelected())
                 return;
             Form1.SelectIndex = 0;
-            Form1.WindowIndex = (int) Form1.WindowsStruct.Worker;
-            formSelectWorker = new FormForSelect(this, mainForm);
-            formSelectWorker.ShowDialog();
+            Form1.WindowIndex = (int) Form1.WindowsStruct.WorkerAdd;
+            formForSelect.ShowDialog();
         }
-
+        private void btnShowWorker_Click(object sender, EventArgs e)
+        {
+            if (AutoNotSelected())
+                return;
+            Form1.SelectIndex = 0;
+            Form1.WindowIndex = (int)Form1.WindowsStruct.WorkerView;
+            formForSelect.ShowDialog();
+        }
         private void btnAddMalf_Click(object sender, EventArgs e)
         {
             if (AutoNotSelected())
                 return;
             Form1.SelectIndex = 0;
             Form1.WindowIndex = (int)Form1.WindowsStruct.MalfAdd;
-            formSelectMalf = new FormForSelect(this, mainForm);
-            formSelectMalf.ShowDialog();
+            formForSelect.ShowDialog();
         }
 
         private void btnShowMalf_Click(object sender, EventArgs e)
@@ -103,8 +83,7 @@ namespace AutoService
             if (AutoNotSelected())
                 return;
             Form1.WindowIndex = (int)Form1.WindowsStruct.MalfView;
-            formViewMalf = new FormForSelect(this, mainForm);
-            formViewMalf.ShowDialog();
+            formForSelect.ShowDialog();
         }
         private void btnSelSparePart_Click(object sender, EventArgs e)
         {
@@ -112,8 +91,7 @@ namespace AutoService
                 return;
             Form1.SelectIndex = 0;
             Form1.WindowIndex = (int)Form1.WindowsStruct.SpareAdd;
-            formSelectSparePart = new FormForSelect(this, mainForm);
-            formSelectSparePart.ShowDialog();
+            formForSelect.ShowDialog();
         }
         private void btnShowSparePart_Click(object sender, EventArgs e)
         {
@@ -121,8 +99,7 @@ namespace AutoService
                 return;
             Form1.SelectIndex = 0;
             Form1.WindowIndex = (int)Form1.WindowsStruct.SpareView;
-            formSelectSparePart = new FormForSelect(this, mainForm);
-            formSelectSparePart.ShowDialog();
+            formForSelect.ShowDialog();
         }
         private bool AutoNotSelected()
         {
@@ -137,24 +114,14 @@ namespace AutoService
         //событие при нажатии на кнопку добавить ремонт
         private void btnAddRepair_Click(object sender, EventArgs e)
         {
-
             if (textBoxMark.Text.Length == 0)
             {
                 MessageBox.Show("Пожалуйста выберете автомобиль!");
                 return;
             }
-            else if (Form1.malfListForRepairAdded.Count == 0)
-            {
-                MessageBox.Show("Пожалуйста выберете неисправности!");
-                return;
-            }
-            else if (SelectedPersonLabel.Text.Length == 0)
-            {
-                MessageBox.Show("Пожалуйста выберете работника!");
-                return;
-            }
-            Form1.malfListForRepairAll.Clear();
-            Form1.malfListForRepairAdded.Clear();
+            AddRepairProcedure(id_repair, textBoxVIN.Text, textBoxNotes.Text);
+            Form1.AddListRepairsInGrid(mainForm.dataGridView);
+            this.FormClosing -= FormAddRepair_FormClosing;
             this.Close();
         }
         public int GetIdRepair(string car_vin)
@@ -215,7 +182,7 @@ namespace AutoService
                 FbCommand command = new FbCommand("INS_OR_UP_SPARE_REPAIR", Form1.db, trn);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                command.Parameters.Add("@DUNIQ_CODE", FbDbType.Integer).Value = uniq_code;
+                command.Parameters.Add("@UNIQ_CODE", FbDbType.Integer).Value = uniq_code;
                 command.Parameters.Add("@NUMBER", FbDbType.SmallInt).Value = number;
                 try
                 {
@@ -229,7 +196,110 @@ namespace AutoService
                 Form1.db.Close();
             }
         }
-
+        public void ExecuteProcedureForAddWorker(int id_repair, int tub_numb)
+        {
+            Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand("INS_STAFF_REPAIR", Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                command.Parameters.Add("@TUB_NUMB", FbDbType.SmallInt).Value = tub_numb;
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (FbException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                trn.Commit();
+                Form1.db.Close();
+            }
+        }
+        public void ExecuteProcedureDelete(int id_repair, int uniqCodeOrTubNumb, string description, string nameProc)
+        {
+            Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand(nameProc, Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                if (Form1.WindowIndex == (int)Form1.WindowsStruct.MalfView)
+                {
+                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                    command.Parameters.Add("@DESCRIPTION", FbDbType.Integer).Value = description;
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (FbException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    trn.Commit();
+                    Form1.db.Close();
+                    return;
+                }
+                else if (Form1.WindowIndex == (int)Form1.WindowsStruct.SpareView)
+                {
+                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                    command.Parameters.Add("@UNIQ_CODE", FbDbType.Integer).Value = uniqCodeOrTubNumb;
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (FbException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    trn.Commit();
+                    Form1.db.Close();
+                    return;
+                }
+                else if(Form1.WindowIndex == (int)Form1.WindowsStruct.WorkerView)
+                {
+                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                    command.Parameters.Add("@TUB_NUMB", FbDbType.Integer).Value = uniqCodeOrTubNumb;
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (FbException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    trn.Commit();
+                    Form1.db.Close();
+                    return;
+                }
+            } 
+        }
+        public void AddRepairProcedure(int id_card, string vin, string notes)
+        {
+            Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand("UPDATE_CARD_OF_REPAIR", Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                command.Parameters.Add("@VIN", FbDbType.VarChar).Value = vin;
+                command.Parameters.Add("@NOTES", FbDbType.VarChar).Value = notes;
+                if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
+                    command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                else
+                    command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = null;
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (FbException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                trn.Commit();
+                Form1.db.Close();
+            }
+        }
         
     }
 }

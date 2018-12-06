@@ -299,6 +299,7 @@
             this.btnShowWorker.TabIndex = 20;
             this.btnShowWorker.Text = "Просмотр...";
             this.btnShowWorker.UseVisualStyleBackColor = true;
+            this.btnShowWorker.Click += new System.EventHandler(this.btnShowWorker_Click);
             // 
             // SparePartLabel
             // 
@@ -400,11 +401,11 @@
         public System.Windows.Forms.Button btnSelectPersonal;
         public System.Windows.Forms.Label SelectedPersonLabel;
         private System.Windows.Forms.Label labelNotes;
-        private System.Windows.Forms.TextBox textBoxNotes;
         public System.Windows.Forms.Button btnShowWorker;
         private System.Windows.Forms.Label SparePartLabel;
         public System.Windows.Forms.Button btnSelSparePart;
         public System.Windows.Forms.Button btnShowSparePart;
         public System.Windows.Forms.Button btnAddRepair;
+        public System.Windows.Forms.TextBox textBoxNotes;
     }
 }

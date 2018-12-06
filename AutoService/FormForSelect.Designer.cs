@@ -84,7 +84,7 @@
             this.dataGridView.ShowCellToolTips = false;
             this.dataGridView.Size = new System.Drawing.Size(984, 557);
             this.dataGridView.TabIndex = 2;
-            this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
+            this.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseClick);
             // 
             // textBox1
             // 

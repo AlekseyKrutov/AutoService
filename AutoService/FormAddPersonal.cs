@@ -78,7 +78,7 @@ namespace AutoService
             {
                 ExecutePersonalProcedure("UPDATE_STAFF_PROCEDURE");
             }
-            Form1.AddListPersonalInGrid(mainForm.dataGridView);
+            Form1.AddListPersonalInGrid(mainForm.dataGridView, Form1.queryForStaff);
             this.Close();
             mainForm.dataGridView.ClearSelection();
             mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;

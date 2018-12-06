@@ -37,6 +37,7 @@
             this.RepairsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CurrentRepairsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.EndRepairsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PaymenInvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PersonalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,12 +54,8 @@
             this.labelHeaderText = new System.Windows.Forms.Label();
             this.EndRepair = new System.Windows.Forms.Button();
             this.AddAuto = new System.Windows.Forms.Button();
-            this.DeleteAuto = new System.Windows.Forms.Button();
             this.AddClient = new System.Windows.Forms.Button();
-            this.DeleteClient = new System.Windows.Forms.Button();
             this.AddPersonal = new System.Windows.Forms.Button();
-            this.DeletePersonal = new System.Windows.Forms.Button();
-            this.DeletePosition = new System.Windows.Forms.Button();
             this.AddPosition = new System.Windows.Forms.Button();
             this.EditRepair = new System.Windows.Forms.Button();
             this.EditPersonal = new System.Windows.Forms.Button();
@@ -67,7 +64,6 @@
             this.EditPosition = new System.Windows.Forms.Button();
             this.AddInStock = new System.Windows.Forms.Button();
             this.EditStock = new System.Windows.Forms.Button();
-            this.DeleteFromStock = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.textBoxSearch = new System.Windows.Forms.TextBox();
@@ -98,67 +94,76 @@
             this.RepairsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CurrentRepairsToolStripMenuItem1,
             this.EndRepairsToolStripMenuItem});
-            this.RepairsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.RepairsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RepairsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("RepairsToolStripMenuItem.Image")));
             this.RepairsToolStripMenuItem.Name = "RepairsToolStripMenuItem";
-            this.RepairsToolStripMenuItem.Size = new System.Drawing.Size(88, 36);
+            this.RepairsToolStripMenuItem.Size = new System.Drawing.Size(102, 36);
             this.RepairsToolStripMenuItem.Text = "Ремонты";
             // 
             // CurrentRepairsToolStripMenuItem1
             // 
             this.CurrentRepairsToolStripMenuItem1.Name = "CurrentRepairsToolStripMenuItem1";
-            this.CurrentRepairsToolStripMenuItem1.Size = new System.Drawing.Size(217, 22);
+            this.CurrentRepairsToolStripMenuItem1.Size = new System.Drawing.Size(248, 26);
             this.CurrentRepairsToolStripMenuItem1.Text = "Текущие ремонты";
             this.CurrentRepairsToolStripMenuItem1.Click += new System.EventHandler(this.CurrentRepairsToolStripMenuItem1_Click);
             // 
             // EndRepairsToolStripMenuItem
             // 
+            this.EndRepairsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PaymenInvoiceToolStripMenuItem});
             this.EndRepairsToolStripMenuItem.Name = "EndRepairsToolStripMenuItem";
-            this.EndRepairsToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.EndRepairsToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
             this.EndRepairsToolStripMenuItem.Text = "Завершенные ремонты";
             this.EndRepairsToolStripMenuItem.Click += new System.EventHandler(this.EndRepairsToolStripMenuItem_Click);
             // 
+            // PaymenInvoiceToolStripMenuItem
+            // 
+            this.PaymenInvoiceToolStripMenuItem.Name = "PaymenInvoiceToolStripMenuItem";
+            this.PaymenInvoiceToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
+            this.PaymenInvoiceToolStripMenuItem.Text = "Счет на оплату";
+            // 
             // ClientsToolStripMenuItem
             // 
-            this.ClientsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ClientsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ClientsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ClientsToolStripMenuItem.Image")));
             this.ClientsToolStripMenuItem.Name = "ClientsToolStripMenuItem";
-            this.ClientsToolStripMenuItem.Size = new System.Drawing.Size(86, 36);
+            this.ClientsToolStripMenuItem.Size = new System.Drawing.Size(99, 36);
             this.ClientsToolStripMenuItem.Text = "Клиенты";
             this.ClientsToolStripMenuItem.Click += new System.EventHandler(this.ClientsToolStripMenuItem_Click);
             // 
             // PersonalToolStripMenuItem
             // 
-            this.PersonalToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PersonalToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.PersonalToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PersonalToolStripMenuItem.Image")));
             this.PersonalToolStripMenuItem.Name = "PersonalToolStripMenuItem";
-            this.PersonalToolStripMenuItem.Size = new System.Drawing.Size(105, 36);
+            this.PersonalToolStripMenuItem.Size = new System.Drawing.Size(125, 36);
             this.PersonalToolStripMenuItem.Text = "Сотрудники";
             this.PersonalToolStripMenuItem.Click += new System.EventHandler(this.PersonalToolStripMenuItem_Click);
             // 
             // autoToolStripMenuItem
             // 
-            this.autoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.autoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.autoToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("autoToolStripMenuItem.Image")));
             this.autoToolStripMenuItem.Name = "autoToolStripMenuItem";
-            this.autoToolStripMenuItem.Size = new System.Drawing.Size(110, 36);
+            this.autoToolStripMenuItem.Size = new System.Drawing.Size(127, 36);
             this.autoToolStripMenuItem.Text = "Автомобили";
             this.autoToolStripMenuItem.Click += new System.EventHandler(this.AutoToolStripMenuItem_Click);
             // 
             // PriceStripMenuItem1
             // 
-            this.PriceStripMenuItem1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PriceStripMenuItem1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.PriceStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("PriceStripMenuItem1.Image")));
             this.PriceStripMenuItem1.Name = "PriceStripMenuItem1";
-            this.PriceStripMenuItem1.Size = new System.Drawing.Size(73, 36);
+            this.PriceStripMenuItem1.Size = new System.Drawing.Size(82, 36);
             this.PriceStripMenuItem1.Text = "Прайс";
             this.PriceStripMenuItem1.Click += new System.EventHandler(this.PriceStripMenuItem1_Click);
             // 
             // StockToolStripMenuItem
             // 
+            this.StockToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.StockToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("StockToolStripMenuItem.Image")));
             this.StockToolStripMenuItem.Name = "StockToolStripMenuItem";
-            this.StockToolStripMenuItem.Size = new System.Drawing.Size(68, 36);
+            this.StockToolStripMenuItem.Size = new System.Drawing.Size(81, 36);
             this.StockToolStripMenuItem.Text = "Склад";
             this.StockToolStripMenuItem.Click += new System.EventHandler(this.StockToolStripMenuItem_Click);
             // 
@@ -305,19 +310,6 @@
             this.AddAuto.UseVisualStyleBackColor = false;
             this.AddAuto.Click += new System.EventHandler(this.AddAuto_Click);
             // 
-            // DeleteAuto
-            // 
-            this.DeleteAuto.BackColor = System.Drawing.Color.Transparent;
-            this.DeleteAuto.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.DeleteAuto.FlatAppearance.BorderSize = 0;
-            this.DeleteAuto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DeleteAuto.Image = ((System.Drawing.Image)(resources.GetObject("DeleteAuto.Image")));
-            this.DeleteAuto.Location = new System.Drawing.Point(358, 193);
-            this.DeleteAuto.Name = "DeleteAuto";
-            this.DeleteAuto.Size = new System.Drawing.Size(70, 70);
-            this.DeleteAuto.TabIndex = 6;
-            this.DeleteAuto.UseVisualStyleBackColor = false;
-            // 
             // AddClient
             // 
             this.AddClient.BackColor = System.Drawing.Color.Transparent;
@@ -331,19 +323,6 @@
             this.AddClient.TabIndex = 7;
             this.AddClient.UseVisualStyleBackColor = false;
             this.AddClient.Click += new System.EventHandler(this.AddClient_Click);
-            // 
-            // DeleteClient
-            // 
-            this.DeleteClient.BackColor = System.Drawing.Color.Transparent;
-            this.DeleteClient.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.DeleteClient.FlatAppearance.BorderSize = 0;
-            this.DeleteClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DeleteClient.Image = ((System.Drawing.Image)(resources.GetObject("DeleteClient.Image")));
-            this.DeleteClient.Location = new System.Drawing.Point(358, 269);
-            this.DeleteClient.Name = "DeleteClient";
-            this.DeleteClient.Size = new System.Drawing.Size(70, 70);
-            this.DeleteClient.TabIndex = 8;
-            this.DeleteClient.UseVisualStyleBackColor = false;
             // 
             // AddPersonal
             // 
@@ -359,35 +338,6 @@
             this.AddPersonal.UseVisualStyleBackColor = false;
             this.AddPersonal.Visible = false;
             this.AddPersonal.Click += new System.EventHandler(this.AddPersonal_Click);
-            // 
-            // DeletePersonal
-            // 
-            this.DeletePersonal.BackColor = System.Drawing.Color.Transparent;
-            this.DeletePersonal.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.DeletePersonal.FlatAppearance.BorderSize = 0;
-            this.DeletePersonal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DeletePersonal.Image = ((System.Drawing.Image)(resources.GetObject("DeletePersonal.Image")));
-            this.DeletePersonal.Location = new System.Drawing.Point(358, 431);
-            this.DeletePersonal.Name = "DeletePersonal";
-            this.DeletePersonal.Size = new System.Drawing.Size(70, 70);
-            this.DeletePersonal.TabIndex = 10;
-            this.DeletePersonal.UseVisualStyleBackColor = false;
-            this.DeletePersonal.Visible = false;
-            // 
-            // DeletePosition
-            // 
-            this.DeletePosition.BackColor = System.Drawing.Color.Transparent;
-            this.DeletePosition.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.DeletePosition.FlatAppearance.BorderSize = 0;
-            this.DeletePosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DeletePosition.Image = ((System.Drawing.Image)(resources.GetObject("DeletePosition.Image")));
-            this.DeletePosition.Location = new System.Drawing.Point(358, 355);
-            this.DeletePosition.Name = "DeletePosition";
-            this.DeletePosition.Size = new System.Drawing.Size(70, 70);
-            this.DeletePosition.TabIndex = 12;
-            this.DeletePosition.UseVisualStyleBackColor = false;
-            this.DeletePosition.Visible = false;
-            this.DeletePosition.Click += new System.EventHandler(this.DeletePosition_Click);
             // 
             // AddPosition
             // 
@@ -416,6 +366,7 @@
             this.EditRepair.Size = new System.Drawing.Size(70, 70);
             this.EditRepair.TabIndex = 13;
             this.EditRepair.UseVisualStyleBackColor = false;
+            this.EditRepair.Click += new System.EventHandler(this.EditRepair_Click);
             // 
             // EditPersonal
             // 
@@ -506,21 +457,6 @@
             this.EditStock.MouseEnter += new System.EventHandler(this.EditStock_MouseEnter);
             this.EditStock.MouseLeave += new System.EventHandler(this.EditStock_MouseLeave);
             // 
-            // DeleteFromStock
-            // 
-            this.DeleteFromStock.BackColor = System.Drawing.Color.Transparent;
-            this.DeleteFromStock.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.DeleteFromStock.FlatAppearance.BorderSize = 0;
-            this.DeleteFromStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DeleteFromStock.Image = ((System.Drawing.Image)(resources.GetObject("DeleteFromStock.Image")));
-            this.DeleteFromStock.Location = new System.Drawing.Point(358, 507);
-            this.DeleteFromStock.Name = "DeleteFromStock";
-            this.DeleteFromStock.Size = new System.Drawing.Size(70, 70);
-            this.DeleteFromStock.TabIndex = 20;
-            this.DeleteFromStock.UseVisualStyleBackColor = false;
-            this.DeleteFromStock.MouseEnter += new System.EventHandler(this.DeleteFromStock_MouseEnter);
-            this.DeleteFromStock.MouseLeave += new System.EventHandler(this.DeleteFromStock_MouseLeave);
-            // 
             // timer1
             // 
             this.timer1.Interval = 2000;
@@ -562,7 +498,6 @@
             this.Controls.Add(this.labelLogin);
             this.Controls.Add(this.labelSearch);
             this.Controls.Add(this.textBoxSearch);
-            this.Controls.Add(this.DeleteFromStock);
             this.Controls.Add(this.EditStock);
             this.Controls.Add(this.AddInStock);
             this.Controls.Add(this.EditPosition);
@@ -570,13 +505,9 @@
             this.Controls.Add(this.EditClient);
             this.Controls.Add(this.EditPersonal);
             this.Controls.Add(this.EditRepair);
-            this.Controls.Add(this.DeletePosition);
             this.Controls.Add(this.AddPosition);
-            this.Controls.Add(this.DeletePersonal);
             this.Controls.Add(this.AddPersonal);
-            this.Controls.Add(this.DeleteClient);
             this.Controls.Add(this.AddClient);
-            this.Controls.Add(this.DeleteAuto);
             this.Controls.Add(this.AddAuto);
             this.Controls.Add(this.EndRepair);
             this.Controls.Add(this.labelHeaderText);
@@ -621,14 +552,10 @@
         private System.Windows.Forms.Label labelHeaderText;
         private System.Windows.Forms.Button EndRepair;
         private System.Windows.Forms.Button AddAuto;
-        private System.Windows.Forms.Button DeleteAuto;
         public System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.ToolStripMenuItem PriceStripMenuItem1;
         private System.Windows.Forms.Button AddClient;
-        private System.Windows.Forms.Button DeleteClient;
         private System.Windows.Forms.Button AddPersonal;
-        private System.Windows.Forms.Button DeletePersonal;
-        private System.Windows.Forms.Button DeletePosition;
         private System.Windows.Forms.Button AddPosition;
         private System.Windows.Forms.ToolStripMenuItem StockToolStripMenuItem;
         private System.Windows.Forms.Button EditRepair;
@@ -638,12 +565,12 @@
         private System.Windows.Forms.Button EditPosition;
         private System.Windows.Forms.Button AddInStock;
         private System.Windows.Forms.Button EditStock;
-        private System.Windows.Forms.Button DeleteFromStock;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.TextBox textBoxSearch;
         private System.Windows.Forms.Label labelSearch;
         public System.Windows.Forms.Label labelLogin;
+        private System.Windows.Forms.ToolStripMenuItem PaymenInvoiceToolStripMenuItem;
     }
 }
 

@@ -70,8 +70,9 @@ namespace AutoService
                 mainForm.dataGridView.ClearSelection();
                 if (formAddCarInRepair.Visible)
                 {
+                    if (formAddCarInRepair.id_repair == 0 && Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Add)
+                        formAddCarInRepair.id_repair = formAddCarInRepair.GetIdRepair(textBoxVIN.Text);
                     ReadAutoFromViewForRepair(textBoxVIN.Text, formAddCarInRepair);
-                    formAddCarInRepair.id_repair = formAddCarInRepair.GetIdRepair(textBoxVIN.Text);
                     this.Close();
                     return;
                 }
