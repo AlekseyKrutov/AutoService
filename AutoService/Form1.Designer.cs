@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.RepairsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CurrentRepairsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -174,14 +174,14 @@
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle37.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle37.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle37;
             this.dataGridView.ColumnHeadersHeight = 30;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -191,27 +191,27 @@
             this.Column4,
             this.Column5,
             this.Column6});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Aqua;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle38.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle38.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle38.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle38.SelectionBackColor = System.Drawing.Color.Aqua;
+            dataGridViewCellStyle38.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle38.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle38;
             this.dataGridView.EnableHeadersVisualStyles = false;
             this.dataGridView.Location = new System.Drawing.Point(0, 141);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle39.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle39.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle39.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle39.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle39.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle39.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle39;
             this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView.ShowCellToolTips = false;
             this.dataGridView.Size = new System.Drawing.Size(1003, 464);
@@ -270,6 +270,8 @@
             this.AddRepair.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.AddRepair.UseVisualStyleBackColor = false;
             this.AddRepair.Click += new System.EventHandler(this.AddRepair_Click);
+            this.AddRepair.MouseEnter += new System.EventHandler(this.AddRepair_MouseEnter);
+            this.AddRepair.MouseLeave += new System.EventHandler(this.AddRepair_MouseLeave);
             // 
             // labelHeaderText
             // 
@@ -294,6 +296,8 @@
             this.EndRepair.TabIndex = 4;
             this.EndRepair.UseVisualStyleBackColor = false;
             this.EndRepair.Click += new System.EventHandler(this.EndRepair_Click);
+            this.EndRepair.MouseEnter += new System.EventHandler(this.EndRepair_MouseEnter);
+            this.EndRepair.MouseLeave += new System.EventHandler(this.EndRepair_MouseLeave);
             // 
             // AddAuto
             // 
@@ -309,6 +313,8 @@
             this.AddAuto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.AddAuto.UseVisualStyleBackColor = false;
             this.AddAuto.Click += new System.EventHandler(this.AddAuto_Click);
+            this.AddAuto.MouseEnter += new System.EventHandler(this.AddAuto_MouseEnter);
+            this.AddAuto.MouseLeave += new System.EventHandler(this.AddAuto_MouseLeave);
             // 
             // AddClient
             // 
@@ -323,6 +329,8 @@
             this.AddClient.TabIndex = 7;
             this.AddClient.UseVisualStyleBackColor = false;
             this.AddClient.Click += new System.EventHandler(this.AddClient_Click);
+            this.AddClient.MouseEnter += new System.EventHandler(this.AddClient_MouseEnter);
+            this.AddClient.MouseLeave += new System.EventHandler(this.AddClient_MouseLeave);
             // 
             // AddPersonal
             // 
@@ -338,6 +346,8 @@
             this.AddPersonal.UseVisualStyleBackColor = false;
             this.AddPersonal.Visible = false;
             this.AddPersonal.Click += new System.EventHandler(this.AddPersonal_Click);
+            this.AddPersonal.MouseEnter += new System.EventHandler(this.AddPersonal_MouseEnter);
+            this.AddPersonal.MouseLeave += new System.EventHandler(this.AddPersonal_MouseLeave);
             // 
             // AddPosition
             // 
@@ -353,6 +363,8 @@
             this.AddPosition.UseVisualStyleBackColor = false;
             this.AddPosition.Visible = false;
             this.AddPosition.Click += new System.EventHandler(this.AddPosition_Click);
+            this.AddPosition.MouseEnter += new System.EventHandler(this.AddPosition_MouseEnter);
+            this.AddPosition.MouseLeave += new System.EventHandler(this.AddPosition_MouseLeave);
             // 
             // EditRepair
             // 
@@ -367,6 +379,8 @@
             this.EditRepair.TabIndex = 13;
             this.EditRepair.UseVisualStyleBackColor = false;
             this.EditRepair.Click += new System.EventHandler(this.EditRepair_Click);
+            this.EditRepair.MouseEnter += new System.EventHandler(this.EditRepair_MouseEnter);
+            this.EditRepair.MouseLeave += new System.EventHandler(this.EditRepair_MouseLeave);
             // 
             // EditPersonal
             // 
@@ -381,6 +395,8 @@
             this.EditPersonal.TabIndex = 14;
             this.EditPersonal.UseVisualStyleBackColor = false;
             this.EditPersonal.Click += new System.EventHandler(this.EditPersonal_Click);
+            this.EditPersonal.MouseEnter += new System.EventHandler(this.EditPersonal_MouseEnter);
+            this.EditPersonal.MouseLeave += new System.EventHandler(this.EditPersonal_MouseLeave);
             // 
             // EditClient
             // 
@@ -395,6 +411,8 @@
             this.EditClient.TabIndex = 15;
             this.EditClient.UseVisualStyleBackColor = false;
             this.EditClient.Click += new System.EventHandler(this.EditClient_Click);
+            this.EditClient.MouseEnter += new System.EventHandler(this.EditClient_MouseEnter);
+            this.EditClient.MouseLeave += new System.EventHandler(this.EditClient_MouseLeave);
             // 
             // EditAuto
             // 
@@ -409,6 +427,8 @@
             this.EditAuto.TabIndex = 16;
             this.EditAuto.UseVisualStyleBackColor = false;
             this.EditAuto.Click += new System.EventHandler(this.EditAuto_Click);
+            this.EditAuto.MouseEnter += new System.EventHandler(this.EditAuto_MouseEnter);
+            this.EditAuto.MouseLeave += new System.EventHandler(this.EditAuto_MouseLeave);
             // 
             // EditPosition
             // 
@@ -423,6 +443,8 @@
             this.EditPosition.TabIndex = 17;
             this.EditPosition.UseVisualStyleBackColor = false;
             this.EditPosition.Visible = false;
+            this.EditPosition.MouseEnter += new System.EventHandler(this.EditPosition_MouseEnter);
+            this.EditPosition.MouseLeave += new System.EventHandler(this.EditPosition_MouseLeave);
             // 
             // AddInStock
             // 

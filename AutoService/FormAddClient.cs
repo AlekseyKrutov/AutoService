@@ -75,7 +75,8 @@ namespace AutoService
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@INN", FbDbType.VarChar).Value = textBoxINN.Text;
                 command.Parameters.Add("@NAME_ORG", FbDbType.VarChar).Value = textBoxName.Text;
-                command.Parameters.Add("@OLD_NAME_ORG", FbDbType.VarChar).Value = oldNameOrg;
+                if (Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Edit)
+                    command.Parameters.Add("@OLD_NAME_ORG", FbDbType.VarChar).Value = oldNameOrg;
                 command.Parameters.Add("@DIRECTOR", FbDbType.VarChar).Value = textBoxDirector.Text;
                 if (comboBoxBank.Text.Length == 0)
                     command.Parameters.Add("@BANK_BILL", FbDbType.VarChar).Value = null;

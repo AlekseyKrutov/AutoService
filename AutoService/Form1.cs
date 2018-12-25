@@ -855,5 +855,114 @@ namespace AutoService
                 Form1.db.Close();
             }
         }
+
+        private void AddRepair_MouseEnter(object sender, EventArgs e)
+        {
+            SetToolTip(AddRepair, "Добавить ремонт");
+        }
+
+        private void AddRepair_MouseLeave(object sender, EventArgs e)
+        {
+            HideToolTip();
+        }
+
+        private void EditRepair_MouseEnter(object sender, EventArgs e)
+        {
+            SetToolTip(AddRepair, "Изменить данные по ремонту");
+        }
+
+        private void EditRepair_MouseLeave(object sender, EventArgs e)
+        {
+            HideToolTip();
+        }
+
+        private void AddAuto_MouseEnter(object sender, EventArgs e)
+        {
+            SetToolTip(AddAuto, "Добавить автомобиль");
+        }
+
+        private void AddAuto_MouseLeave(object sender, EventArgs e)
+        {
+            HideToolTip();
+        }
+
+        private void AddClient_MouseEnter(object sender, EventArgs e)
+        {
+            SetToolTip(AddClient, "Добавить клиента");
+        }
+
+        private void EditClient_MouseLeave(object sender, EventArgs e)
+        {
+            HideToolTip();
+        }
+
+        private void AddPosition_MouseEnter(object sender, EventArgs e)
+        {
+            SetToolTip(AddPosition, "Добавить позицию");
+        }
+
+        private void AddPosition_MouseLeave(object sender, EventArgs e)
+        {
+            HideToolTip();
+        }
+        private void EditPosition_MouseEnter(object sender, EventArgs e)
+        {
+            SetToolTip(AddPosition, "Изменить данные по позиции");
+        }
+
+        private void EditPosition_MouseLeave(object sender, EventArgs e)
+        {
+            HideToolTip();
+        }
+
+        private void EditAuto_MouseEnter(object sender, EventArgs e)
+        {
+            SetToolTip(EditAuto, "Изменить данные по автомобилю");
+        }
+
+        private void EditAuto_MouseLeave(object sender, EventArgs e)
+        {
+            HideToolTip();
+        }
+
+        private void AddClient_MouseLeave(object sender, EventArgs e)
+        {
+            SetToolTip(AddClient, "Добавить клиента");
+        }
+
+        private void EditClient_MouseEnter(object sender, EventArgs e)
+        {
+            SetToolTip(EditClient, "Изменить данные по клиенту");
+        }
+
+        private void AddPersonal_MouseEnter(object sender, EventArgs e)
+        {
+            SetToolTip(AddPersonal, "Добавить персонал");
+        }
+
+        private void AddPersonal_MouseLeave(object sender, EventArgs e)
+        {
+            HideToolTip();
+        }
+
+        private void EditPersonal_MouseEnter(object sender, EventArgs e)
+        {
+            SetToolTip(EditPersonal, "Изменить данные по работнику");
+        }
+
+        private void EditPersonal_MouseLeave(object sender, EventArgs e)
+        {
+            HideToolTip();
+        }
+
+        private void EndRepair_MouseEnter(object sender, EventArgs e)
+        {
+            SetToolTip(EndRepair, "Завершить ремонт");
+        }
+
+        private void EndRepair_MouseLeave(object sender, EventArgs e)
+        {
+            HideToolTip();
+        }
     }
 }
