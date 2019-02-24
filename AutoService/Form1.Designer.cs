@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.RepairsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CurrentRepairsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,6 +69,7 @@
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.labelSearch = new System.Windows.Forms.Label();
             this.labelLogin = new System.Windows.Forms.Label();
+            this.FinishActToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -76,6 +77,7 @@
             // menuStrip1
             // 
             this.menuStrip1.AutoSize = false;
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RepairsToolStripMenuItem,
             this.ClientsToolStripMenuItem,
@@ -94,95 +96,100 @@
             this.RepairsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CurrentRepairsToolStripMenuItem1,
             this.EndRepairsToolStripMenuItem});
-            this.RepairsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.RepairsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RepairsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("RepairsToolStripMenuItem.Image")));
             this.RepairsToolStripMenuItem.Name = "RepairsToolStripMenuItem";
-            this.RepairsToolStripMenuItem.Size = new System.Drawing.Size(102, 36);
+            this.RepairsToolStripMenuItem.Size = new System.Drawing.Size(127, 36);
             this.RepairsToolStripMenuItem.Text = "Ремонты";
             // 
             // CurrentRepairsToolStripMenuItem1
             // 
             this.CurrentRepairsToolStripMenuItem1.Name = "CurrentRepairsToolStripMenuItem1";
-            this.CurrentRepairsToolStripMenuItem1.Size = new System.Drawing.Size(248, 26);
+            this.CurrentRepairsToolStripMenuItem1.Size = new System.Drawing.Size(312, 34);
             this.CurrentRepairsToolStripMenuItem1.Text = "Текущие ремонты";
             this.CurrentRepairsToolStripMenuItem1.Click += new System.EventHandler(this.CurrentRepairsToolStripMenuItem1_Click);
             // 
             // EndRepairsToolStripMenuItem
             // 
             this.EndRepairsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PaymenInvoiceToolStripMenuItem});
+            this.PaymenInvoiceToolStripMenuItem,
+            this.FinishActToolStripMenu});
             this.EndRepairsToolStripMenuItem.Name = "EndRepairsToolStripMenuItem";
-            this.EndRepairsToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.EndRepairsToolStripMenuItem.Size = new System.Drawing.Size(312, 34);
             this.EndRepairsToolStripMenuItem.Text = "Завершенные ремонты";
             this.EndRepairsToolStripMenuItem.Click += new System.EventHandler(this.EndRepairsToolStripMenuItem_Click);
             // 
             // PaymenInvoiceToolStripMenuItem
             // 
             this.PaymenInvoiceToolStripMenuItem.Name = "PaymenInvoiceToolStripMenuItem";
-            this.PaymenInvoiceToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
+            this.PaymenInvoiceToolStripMenuItem.Size = new System.Drawing.Size(320, 34);
             this.PaymenInvoiceToolStripMenuItem.Text = "Счет на оплату";
+            this.PaymenInvoiceToolStripMenuItem.Click += new System.EventHandler(this.PaymenInvoiceToolStripMenuItem_Click);
             // 
             // ClientsToolStripMenuItem
             // 
-            this.ClientsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ClientsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ClientsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ClientsToolStripMenuItem.Image")));
             this.ClientsToolStripMenuItem.Name = "ClientsToolStripMenuItem";
-            this.ClientsToolStripMenuItem.Size = new System.Drawing.Size(99, 36);
+            this.ClientsToolStripMenuItem.Size = new System.Drawing.Size(123, 36);
             this.ClientsToolStripMenuItem.Text = "Клиенты";
             this.ClientsToolStripMenuItem.Click += new System.EventHandler(this.ClientsToolStripMenuItem_Click);
             // 
             // PersonalToolStripMenuItem
             // 
-            this.PersonalToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PersonalToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.PersonalToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PersonalToolStripMenuItem.Image")));
             this.PersonalToolStripMenuItem.Name = "PersonalToolStripMenuItem";
-            this.PersonalToolStripMenuItem.Size = new System.Drawing.Size(125, 36);
+            this.PersonalToolStripMenuItem.Size = new System.Drawing.Size(154, 36);
             this.PersonalToolStripMenuItem.Text = "Сотрудники";
             this.PersonalToolStripMenuItem.Click += new System.EventHandler(this.PersonalToolStripMenuItem_Click);
             // 
             // autoToolStripMenuItem
             // 
-            this.autoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.autoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.autoToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("autoToolStripMenuItem.Image")));
             this.autoToolStripMenuItem.Name = "autoToolStripMenuItem";
-            this.autoToolStripMenuItem.Size = new System.Drawing.Size(127, 36);
+            this.autoToolStripMenuItem.Size = new System.Drawing.Size(161, 36);
             this.autoToolStripMenuItem.Text = "Автомобили";
             this.autoToolStripMenuItem.Click += new System.EventHandler(this.AutoToolStripMenuItem_Click);
             // 
             // PriceStripMenuItem1
             // 
-            this.PriceStripMenuItem1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PriceStripMenuItem1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.PriceStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("PriceStripMenuItem1.Image")));
             this.PriceStripMenuItem1.Name = "PriceStripMenuItem1";
-            this.PriceStripMenuItem1.Size = new System.Drawing.Size(82, 36);
+            this.PriceStripMenuItem1.Size = new System.Drawing.Size(101, 36);
             this.PriceStripMenuItem1.Text = "Прайс";
             this.PriceStripMenuItem1.Click += new System.EventHandler(this.PriceStripMenuItem1_Click);
             // 
             // StockToolStripMenuItem
             // 
-            this.StockToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StockToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.StockToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("StockToolStripMenuItem.Image")));
             this.StockToolStripMenuItem.Name = "StockToolStripMenuItem";
-            this.StockToolStripMenuItem.Size = new System.Drawing.Size(81, 36);
+            this.StockToolStripMenuItem.Size = new System.Drawing.Size(97, 36);
             this.StockToolStripMenuItem.Text = "Склад";
             this.StockToolStripMenuItem.Click += new System.EventHandler(this.StockToolStripMenuItem_Click);
             // 
             // dataGridView
             // 
             this.dataGridView.AllowUserToResizeRows = false;
+            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle37.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle37.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle37;
-            this.dataGridView.ColumnHeadersHeight = 30;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView.ColumnHeadersHeight = 50;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -191,30 +198,30 @@
             this.Column4,
             this.Column5,
             this.Column6});
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle38.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle38.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle38.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle38.SelectionBackColor = System.Drawing.Color.Aqua;
-            dataGridViewCellStyle38.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle38.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Aqua;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView.EnableHeadersVisualStyles = false;
-            this.dataGridView.Location = new System.Drawing.Point(0, 141);
+            this.dataGridView.Location = new System.Drawing.Point(0, 158);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle39.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle39.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle39.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle39.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle39.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle39.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView.ShowCellToolTips = false;
-            this.dataGridView.Size = new System.Drawing.Size(1003, 464);
+            this.dataGridView.Size = new System.Drawing.Size(1003, 539);
             this.dataGridView.TabIndex = 1;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
@@ -263,7 +270,7 @@
             this.AddRepair.FlatAppearance.BorderSize = 0;
             this.AddRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddRepair.Image = ((System.Drawing.Image)(resources.GetObject("AddRepair.Image")));
-            this.AddRepair.Location = new System.Drawing.Point(6, 65);
+            this.AddRepair.Location = new System.Drawing.Point(6, 79);
             this.AddRepair.Name = "AddRepair";
             this.AddRepair.Size = new System.Drawing.Size(70, 70);
             this.AddRepair.TabIndex = 2;
@@ -276,10 +283,10 @@
             // labelHeaderText
             // 
             this.labelHeaderText.AutoSize = true;
-            this.labelHeaderText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelHeaderText.Location = new System.Drawing.Point(6, 39);
+            this.labelHeaderText.Font = new System.Drawing.Font("Segoe UI", 17.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelHeaderText.Location = new System.Drawing.Point(0, 40);
             this.labelHeaderText.Name = "labelHeaderText";
-            this.labelHeaderText.Size = new System.Drawing.Size(92, 20);
+            this.labelHeaderText.Size = new System.Drawing.Size(131, 31);
             this.labelHeaderText.TabIndex = 3;
             this.labelHeaderText.Text = "HeaderText";
             // 
@@ -290,7 +297,7 @@
             this.EndRepair.FlatAppearance.BorderSize = 0;
             this.EndRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EndRepair.Image = ((System.Drawing.Image)(resources.GetObject("EndRepair.Image")));
-            this.EndRepair.Location = new System.Drawing.Point(158, 65);
+            this.EndRepair.Location = new System.Drawing.Point(158, 79);
             this.EndRepair.Name = "EndRepair";
             this.EndRepair.Size = new System.Drawing.Size(70, 70);
             this.EndRepair.TabIndex = 4;
@@ -373,7 +380,7 @@
             this.EditRepair.FlatAppearance.BorderSize = 0;
             this.EditRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EditRepair.Image = ((System.Drawing.Image)(resources.GetObject("EditRepair.Image")));
-            this.EditRepair.Location = new System.Drawing.Point(82, 65);
+            this.EditRepair.Location = new System.Drawing.Point(82, 79);
             this.EditRepair.Name = "EditRepair";
             this.EditRepair.Size = new System.Drawing.Size(70, 70);
             this.EditRepair.TabIndex = 13;
@@ -485,6 +492,7 @@
             // 
             // textBoxSearch
             // 
+            this.textBoxSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxSearch.Location = new System.Drawing.Point(790, 63);
             this.textBoxSearch.Multiline = true;
@@ -495,6 +503,7 @@
             // 
             // labelSearch
             // 
+            this.labelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSearch.AutoSize = true;
             this.labelSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelSearch.Location = new System.Drawing.Point(725, 67);
@@ -512,11 +521,18 @@
             this.labelLogin.Size = new System.Drawing.Size(0, 16);
             this.labelLogin.TabIndex = 23;
             // 
+            // FinishActToolStripMenu
+            // 
+            this.FinishActToolStripMenu.Name = "FinishActToolStripMenu";
+            this.FinishActToolStripMenu.Size = new System.Drawing.Size(320, 34);
+            this.FinishActToolStripMenu.Text = "Акт выполненных работ";
+            this.FinishActToolStripMenu.Click += new System.EventHandler(this.FinishActToolStripMenu_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1003, 614);
+            this.ClientSize = new System.Drawing.Size(1003, 700);
             this.Controls.Add(this.labelLogin);
             this.Controls.Add(this.labelSearch);
             this.Controls.Add(this.textBoxSearch);
@@ -540,11 +556,11 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximizeBox = false;
             this.Name = "Form1";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Автосервис";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -593,6 +609,7 @@
         private System.Windows.Forms.Label labelSearch;
         public System.Windows.Forms.Label labelLogin;
         private System.Windows.Forms.ToolStripMenuItem PaymenInvoiceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FinishActToolStripMenu;
     }
 }
 

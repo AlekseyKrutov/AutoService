@@ -37,7 +37,7 @@ namespace AutoService
         }
         private void FormAddAuto_Load(object sender, EventArgs e)
         {
-            selectedIndex = Form1.SelectIndex;
+            
             string query = @"select CAR_ID, MARK || ' ' || coalesce(model, '') AS MARK_MODEL 
                              from CAR_MODEL
                              order by MARK_MODEL";
@@ -51,32 +51,35 @@ namespace AutoService
                 comboBoxAuto.DisplayMember = "MARK_MODEL";
                 Form1.db.Close();
             }
+            if (formAddCarInRepair.Visible)
+                return;
             if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
             {
                 comboBoxAuto.Text = mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[1].Value.ToString();
             }
+            selectedIndex = Form1.SelectIndex;
         }
         private void buttonAddAuto_Click(object sender, EventArgs e)
         {
             if (textBoxGosNumb.Text.Length == 0 || textBoxReg.Text.Length == 0
-                || textBoxVIN.Text.Length == 0 || OwnerSelected == false)
+                || OwnerSelected == false)
             {
                 MessageBox.Show("Вы ввели не все данные!");
+                return;
+            }
+            if (formAddCarInRepair != null && formAddCarInRepair.Visible)
+            {
+                ExecuteAutoProcedure("NEW_CAR_PROCEDURE");
+                ReadAutoFromViewForRepair(textBoxGosNumb.Text, formAddCarInRepair);
+                formAddCarInRepair.GetIdRepair(textBoxGosNumb.Text);
+                this.Close();
                 return;
             }
             if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
             {
                 ExecuteAutoProcedure("NEW_CAR_PROCEDURE");
-                mainForm.dataGridView.ClearSelection();
-                if (formAddCarInRepair.Visible)
-                {
-                    if (formAddCarInRepair.id_repair == 0 && Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Add)
-                        formAddCarInRepair.id_repair = formAddCarInRepair.GetIdRepair(textBoxVIN.Text);
-                    ReadAutoFromViewForRepair(textBoxVIN.Text, formAddCarInRepair);
-                    this.Close();
-                    return;
-                }
             }
+
             else if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
             {
                 ExecuteAutoProcedure("UPDATE_CAR_PROCEDURE");
@@ -85,7 +88,8 @@ namespace AutoService
             
             Form1.AddListAutoInGrid(mainForm.dataGridView);
             mainForm.dataGridView.ClearSelection();
-            mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;
+            if (Form1.SelectIndex != 0)
+                mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;
             this.Close();
         }
         
@@ -151,7 +155,10 @@ namespace AutoService
             {
                 FbCommand command = new FbCommand(nameProc, Form1.db, trn);
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@VIN", FbDbType.VarChar).Value = textBoxVIN.Text;
+                if (textBoxVIN.Text.Length != 0)
+                    command.Parameters.Add("@VIN", FbDbType.VarChar).Value = textBoxVIN.Text;
+                else
+                    command.Parameters.Add("@VIN", FbDbType.VarChar).Value = null;
                 command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = textBoxGosNumb.Text;
                 command.Parameters.Add("@REG_CERTIFICATE", FbDbType.VarChar).Value = textBoxReg.Text;
                 command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[0];
@@ -174,9 +181,9 @@ namespace AutoService
                 Form1.db.Close();
             }
         }
-        public static void ReadAutoFromViewForRepair(string VIN, FormAddRepair addRepair)
+        public static void ReadAutoFromViewForRepair(string state_number, FormAddRepair addRepair)
         {
-            string query = string.Format("select * from cars_view where VIN like '{0}'", VIN);
+            string query = string.Format("select * from cars_view where state_number like '{0}'", state_number);
             using (FbCommand command = new FbCommand(query, Form1.db))
             {
                 FbDataReader dataReader;

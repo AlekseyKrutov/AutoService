@@ -83,10 +83,10 @@ namespace AutoService
                 switch (Form1.WindowIndex)
                 {
                     case (int)Form1.WindowsStruct.Repairs:
-                        string car_vin = selectedRowOneCellValue;
-                        FormAddAuto.ReadAutoFromViewForRepair(car_vin, FormAddRepair);
+                        string state_number = dataGridView.Rows[Form1.SelectIndex].Cells[2].Value.ToString();
+                        FormAddAuto.ReadAutoFromViewForRepair(state_number, FormAddRepair);
                         if (FormAddRepair.id_repair == 0 && Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Add)
-                            FormAddRepair.id_repair = FormAddRepair.GetIdRepair(car_vin);
+                            FormAddRepair.id_repair = FormAddRepair.GetIdRepair(state_number);
                         this.Close();
                         break;
                     case (int)Form1.WindowsStruct.Auto:

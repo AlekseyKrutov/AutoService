@@ -43,18 +43,17 @@ namespace AutoService
                     this.Close();
                     break;
                 case (int)Form1.WindowsStruct.SpareAdd:
-                    SparePart sparePartAdd = new SparePart(int.Parse(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()),
-                    int.Parse(numberUpDown.Value.ToString()));
+                    SparePart sparePartAdd = new SparePart(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString(), int.Parse(numberUpDown.Value.ToString()));
                     this.Close();
-                    formAddRepair.ExecuteProcedureForAddSparepart(formAddRepair.id_repair, sparePartAdd.Articul, sparePartAdd.Number);
+                    formAddRepair.ExecuteProcedureForAddSparepart(formAddRepair.id_repair, int.Parse(sparePartAdd.Articul), sparePartAdd.Number);
                     Form1.AddSparePartInStock(formForSelect.dataGridView, Form1.queryForSparePart);
                     this.Close();
                     break;
                 case (int)Form1.WindowsStruct.SpareView:
-                    SparePart sparePartView = new SparePart(int.Parse(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()),
+                    SparePart sparePartView = new SparePart(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString(),
                     int.Parse(numberUpDown.Value.ToString()));
                     this.Close();
-                    formAddRepair.ExecuteProcedureForAddSparepart(formAddRepair.id_repair, sparePartView.Articul, sparePartView.Number);
+                    formAddRepair.ExecuteProcedureForAddSparepart(formAddRepair.id_repair, int.Parse(sparePartView.Articul), sparePartView.Number);
                     Form1.AddSparePartInStock(formForSelect.dataGridView, formForSelect.queryForSpareView(formAddRepair.id_repair));
                     this.Close();
                     break;

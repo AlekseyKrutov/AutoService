@@ -43,6 +43,7 @@ namespace AutoService
         {
             Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;  
             logicForAddRepair = true;
+            formAddAutoInRepairs = new FormAddAuto(this, mainForm);
             formAddAutoInRepairs.ShowDialog();
         }
 
@@ -119,12 +120,12 @@ namespace AutoService
                 MessageBox.Show("Пожалуйста выберете автомобиль!");
                 return;
             }
-            AddRepairProcedure(id_repair, textBoxVIN.Text, textBoxNotes.Text);
+            AddRepairProcedure(id_repair, textBoxGosNom.Text, textBoxNotes.Text);
             Form1.AddListRepairsInGrid(mainForm.dataGridView);
             this.FormClosing -= FormAddRepair_FormClosing;
             this.Close();
         }
-        public int GetIdRepair(string car_vin)
+        public int GetIdRepair(string state_number)
         {
             int id_repair = 0;
             Form1.db.Open();
@@ -133,7 +134,7 @@ namespace AutoService
                 command.CommandType = CommandType.StoredProcedure;
                 FbTransaction trn = Form1.db.BeginTransaction();
                 command.Transaction = trn;
-                command.Parameters.Add("@CAR_VIN", FbDbType.VarChar).Value = car_vin;
+                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = state_number;
                 FbDataReader dr = command.ExecuteReader();
                 while (dr.Read())
                 {
@@ -274,7 +275,7 @@ namespace AutoService
                 }
             } 
         }
-        public void AddRepairProcedure(int id_card, string vin, string notes)
+        public void AddRepairProcedure(int id_card, string state_number, string notes)
         {
             Form1.db.Open();
             using (FbTransaction trn = Form1.db.BeginTransaction())
@@ -282,7 +283,7 @@ namespace AutoService
                 FbCommand command = new FbCommand("UPDATE_CARD_OF_REPAIR", Form1.db, trn);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                command.Parameters.Add("@VIN", FbDbType.VarChar).Value = vin;
+                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = state_number;
                 command.Parameters.Add("@NOTES", FbDbType.VarChar).Value = notes;
                 if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
                     command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm");

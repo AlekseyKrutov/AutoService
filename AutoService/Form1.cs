@@ -37,6 +37,8 @@ namespace AutoService
         int topForLabelOfHead = 0;
         //переменная выбранного индекса в сетке
         static public int SelectIndex;
+
+        public int selectedIndexrepairs;
         //переменная для определения окна с которым мы работаем
         static public int WindowIndex = 0;
         //логическая переменная
@@ -59,7 +61,7 @@ namespace AutoService
         private void Form1_Load(object sender, EventArgs e)
         {
             Padding padding = new Padding(0, 8, 0, 8);
-            PaymenInvoiceToolStripMenuItem.Visible = false;
+            HideToolStripForRepair();
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             dataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dataGridView.RowTemplate.DefaultCellStyle.Padding = padding;
@@ -81,21 +83,23 @@ namespace AutoService
             csb.DataSource = "localhost";
             csb.Port = 3050;
             csb.Charset = "UTF8";
-            csb.Database = @"C:\Users\admin\Desktop\проекты\AUTOSERVICE_DB\AUTOSERVICE_DB.FDB";
+            csb.Database = @"D:\Desktop\проекты\AUTOSERVICE_DB\AUTOSERVICE_DB.FDB";
             csb.UserID = "SYSDBA";
             csb.Password = "masterkey";
             csb.ServerType = FbServerType.Default;
             db = new FbConnection(csb.ToString());
-            formAuthorization = new FormAuthorization(this);
-            formAuthorization.ShowDialog();
+            //formAuthorization = new FormAuthorization(this);
+            //formAuthorization.ShowDialog();
             DataGridViewForRepairs();
         }
         //событие при клике на законченные ремонты
         private void EndRepairsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (WindowIndex == (int)WindowsStruct.ActOfEndsRepairs)
+                return;
             SelectIndex = 0;
-            WindowIndex = 0;
-            PaymenInvoiceToolStripMenuItem.Visible = true;
+            WindowIndex = (int)WindowsStruct.ActOfEndsRepairs;
+            ShowToolStripForRepair();
             labelHeaderText.Text = "Завершенные ремонты";
             HideRepairButtons();
             HideAutoButtons();
@@ -116,9 +120,10 @@ namespace AutoService
         //событие при клике на текущие ремонты
         private void CurrentRepairsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            SelectIndex = 0;
-            WindowIndex = 0;
-            PaymenInvoiceToolStripMenuItem.Visible = false;
+            if (WindowIndex != (int)WindowsStruct.ActOfEndsRepairs)
+                SelectIndex = 0;
+            WindowIndex = (int)WindowsStruct.Repairs;
+            HideToolStripForRepair();
             labelHeaderText.Text = "Текущие ремонты";
             ShowRepairButtons();
             HideAutoButtons();
@@ -143,7 +148,7 @@ namespace AutoService
         {
             logicParamForRepair = true;
             SelectIndex = 0;
-            PaymenInvoiceToolStripMenuItem.Visible = false;
+            HideToolStripForRepair();
             WindowIndex = (int)WindowsStruct.Client;
             HideAutoButtons();
             HideRepairButtons();
@@ -165,7 +170,7 @@ namespace AutoService
         {
             logicParamForRepair = true;
             SelectIndex = 0;
-            PaymenInvoiceToolStripMenuItem.Visible = false;
+            HideToolStripForRepair();
             WindowIndex = (int)WindowsStruct.Worker;
             HideAutoButtons();
             HideRepairButtons();
@@ -187,7 +192,7 @@ namespace AutoService
         {
 
             SelectIndex = 0;
-            PaymenInvoiceToolStripMenuItem.Visible = false;
+            HideToolStripForRepair();
             WindowIndex = (int)WindowsStruct.Auto;
             logicParamForRepair = true;
             ShowAutoButtons();
@@ -211,7 +216,7 @@ namespace AutoService
             logicParamForRepair = true;
             SelectIndex = 0;
             WindowIndex = 0;
-            PaymenInvoiceToolStripMenuItem.Visible = false;
+            HideToolStripForRepair();
             HideAutoButtons();
             HideRepairButtons();
             HideClientButtons();
@@ -233,7 +238,7 @@ namespace AutoService
             WindowIndex = (int) WindowsStruct.Stock;
             logicParamForRepair = true;
             SelectIndex = 0;
-            PaymenInvoiceToolStripMenuItem.Visible = false;
+            HideToolStripForRepair();
             HideAutoButtons();
             HideRepairButtons();
             HideClientButtons();
@@ -253,8 +258,11 @@ namespace AutoService
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
-            {
-                SelectIndex = e.RowIndex;
+            { 
+                if (WindowIndex == (int)WindowsStruct.ActOfEndsRepairs)
+                    SelectIndex = int.Parse(dataGridView.Rows[e.RowIndex].Cells[0].Value.ToString());
+                else
+                    SelectIndex = e.RowIndex;
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -360,6 +368,16 @@ namespace AutoService
             labelSearch.Visible = false;
             textBoxSearch.Visible = false;
         }
+        private void ShowToolStripForRepair()
+        {
+            PaymenInvoiceToolStripMenuItem.Visible = true;
+            FinishActToolStripMenu.Visible = true;
+        }
+        private void HideToolStripForRepair()
+        {
+            PaymenInvoiceToolStripMenuItem.Visible = false;
+            FinishActToolStripMenu.Visible = false;
+        }
         //событие при клике по кнопке добавить ремонт
         private void AddRepair_Click(object sender, EventArgs e)
         {
@@ -441,8 +459,8 @@ namespace AutoService
             {
                 formAddAuto = new FormAddAuto(this);
                 formAddAuto.OwnerSelected = true;
-                string query = string.Format("select * from cars_view where VIN like '{0}'", 
-                    dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+                string query = string.Format("select * from cars_view where state_number like '{0}'", 
+                    dataGridView.Rows[SelectIndex].Cells[2].Value.ToString());
                 using (FbCommand command = new FbCommand(query, db))
                 {
                     FbDataReader dataReader;
@@ -749,7 +767,6 @@ namespace AutoService
         //событие при закрытии формы
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-
         }
         //убирает выделение первой строки
         public void DeleteSelectFirstRow()
@@ -963,6 +980,17 @@ namespace AutoService
         private void EndRepair_MouseLeave(object sender, EventArgs e)
         {
             HideToolTip();
+        }
+        
+
+        private void PaymenInvoiceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WorkWithExcel.MakeBillInExcel(SelectIndex, db);
+        }
+
+        private void FinishActToolStripMenu_Click(object sender, EventArgs e)
+        {
+            WorkWithExcel.MakeActOfWorkInExcel(SelectIndex, db);
         }
     }
 }
