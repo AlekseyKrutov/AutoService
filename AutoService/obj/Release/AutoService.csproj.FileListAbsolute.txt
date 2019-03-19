@@ -69,3 +69,26 @@ C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\b
 C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\EntityFramework.SqlServer.xml
 C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\bin\Release\FirebirdSql.Data.FirebirdClient.pdb
 C:\Users\admin\Desktop\курсач ООП\AutoService\AutoService\AutoService\obj\Release\AutoService.csproj.CopyComplete
+D:\Desktop\проекты\AutoService\AutoService\bin\Release\AutoService.exe.config
+D:\Desktop\проекты\AutoService\AutoService\bin\Release\AutoService.exe
+D:\Desktop\проекты\AutoService\AutoService\bin\Release\AutoService.pdb
+D:\Desktop\проекты\AutoService\AutoService\bin\Release\FirebirdSql.Data.FirebirdClient.dll
+D:\Desktop\проекты\AutoService\AutoService\bin\Release\FirebirdSql.Data.FirebirdClient.pdb
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.csprojResolveAssemblyReference.cache
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.csproj.ResolveComReference.cache
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.Form1.resources
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormAddAuto.resources
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormAddClient.resources
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormAddNumber.resources
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormAddPersonal.resources
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormAddPrice.resources
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormAddRepair.resources
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormAddSparePart.resources
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormAuthorization.resources
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormForSelect.resources
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.Properties.Resources.resources
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.csproj.GenerateResource.cache
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.csproj.CoreCompileInputs.cache
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.csproj.CopyComplete
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.exe
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.pdb

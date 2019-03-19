@@ -17,25 +17,24 @@ namespace AutoService
     public partial class FormAddRepair : Form
     {
         public static bool logicForAddRepair;
-
         FormAddAuto formAddAutoInRepairs;
         FormForSelect formForSelect;
         Form1 mainForm;
+        static public int addOrEditInRepair;
         public int id_repair; 
         public FormAddRepair()
         {
             InitializeComponent();
         }
-        public FormAddRepair(FormAddAuto addAuto, Form1 mainForm)
+        public FormAddRepair(FormAddAuto addAuto, Form1 mainForm) : this()
         {
             formAddAutoInRepairs = addAuto;
             this.mainForm = mainForm;
             formForSelect = new FormForSelect(this, mainForm);
-            InitializeComponent();
         }
         private void FormAddRepair_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing && Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Add)
+            if (e.CloseReason == CloseReason.UserClosing && addOrEditInRepair == (int) Form1.AddEditOrDelete.Add)
                 DeleteSimpleRepair();
             Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;
         }
@@ -104,7 +103,7 @@ namespace AutoService
         }
         private bool AutoNotSelected()
         {
-            if (textBoxVIN.Text.Length == 0)
+            if (textBoxGosNom.Text.Length == 0)
             {
                 MessageBox.Show("Сначала необходимо выбрать автомобиль");
                 return true;
@@ -120,6 +119,11 @@ namespace AutoService
                 MessageBox.Show("Пожалуйста выберете автомобиль!");
                 return;
             }
+            if (checkBoxTurnTime.Checked && (dateTimeStart.Value.Date > dateTimeFinish.Value.Date))
+            {
+                MessageBox.Show("Дата начала ремонта меньше даты завершения!");
+                return;
+            }
             AddRepairProcedure(id_repair, textBoxGosNom.Text, textBoxNotes.Text);
             Form1.AddListRepairsInGrid(mainForm.dataGridView);
             this.FormClosing -= FormAddRepair_FormClosing;
@@ -127,7 +131,6 @@ namespace AutoService
         }
         public int GetIdRepair(string state_number)
         {
-            int id_repair = 0;
             Form1.db.Open();
             using (FbCommand command = new FbCommand("CREATE_SIMPLE_REPAIR_PROCEDURE", Form1.db))
             {
@@ -244,6 +247,20 @@ namespace AutoService
                 else if (Form1.WindowIndex == (int)Form1.WindowsStruct.SpareView)
                 {
                     command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                    command.Parameters.Add("@DESCRIPTION", FbDbType.Integer).Value = description;
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (FbException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    trn.Commit();
+                    Form1.db.Close();
+                    return;
+                    /*
+                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
                     command.Parameters.Add("@UNIQ_CODE", FbDbType.Integer).Value = uniqCodeOrTubNumb;
                     try
                     {
@@ -256,6 +273,7 @@ namespace AutoService
                     trn.Commit();
                     Form1.db.Close();
                     return;
+                    */
                 }
                 else if(Form1.WindowIndex == (int)Form1.WindowsStruct.WorkerView)
                 {
@@ -285,10 +303,22 @@ namespace AutoService
                 command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
                 command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = state_number;
                 command.Parameters.Add("@NOTES", FbDbType.VarChar).Value = notes;
-                if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
+                if (!checkBoxTurnTime.Checked)
+                {
                     command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                    command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = null;
+                }
+                else if (checkBoxTurnTime.Checked)
+                {
+                    command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = dateTimeStart.Value.ToString("dd/MM/yyyy HH:mm");
+                    command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = dateTimeFinish.Value.ToString("dd/MM/yyyy HH:mm");
+                }
                 else
+                {
                     command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = null;
+                    command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = null;
+                }
+                
                 try
                 {
                     command.ExecuteNonQuery();
@@ -301,6 +331,19 @@ namespace AutoService
                 Form1.db.Close();
             }
         }
-        
+
+        private void checkBoxTurnTime_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxTurnTime.Checked)
+            {
+                dateTimeStart.Enabled = true;
+                dateTimeFinish.Enabled = true;
+            }
+            else
+            {
+                dateTimeStart.Enabled = false;
+                dateTimeFinish.Enabled = false;
+            }
+        }
     }
 }

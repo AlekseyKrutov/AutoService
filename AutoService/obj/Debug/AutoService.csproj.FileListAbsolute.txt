@@ -87,13 +87,7 @@ C:\Users\admin\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoServ
 D:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.exe.config
 D:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.exe
 D:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.pdb
-D:\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.dll
-D:\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.Firebird.dll
-D:\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.SqlServer.dll
 D:\Desktop\проекты\AutoService\AutoService\bin\Debug\FirebirdSql.Data.FirebirdClient.dll
-D:\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.xml
-D:\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.Firebird.pdb
-D:\Desktop\проекты\AutoService\AutoService\bin\Debug\EntityFramework.SqlServer.xml
 D:\Desktop\проекты\AutoService\AutoService\bin\Debug\FirebirdSql.Data.FirebirdClient.pdb
 D:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.Form1.resources
 D:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAddAuto.resources

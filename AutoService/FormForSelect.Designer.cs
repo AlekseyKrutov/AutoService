@@ -33,8 +33,10 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormForSelect));
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.labelSearch = new System.Windows.Forms.Label();
+            this.btnAddNewPosition = new System.Windows.Forms.Button();
+            this.btnEditPosition = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,7 +68,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView.EnableHeadersVisualStyles = false;
-            this.dataGridView.Location = new System.Drawing.Point(0, 41);
+            this.dataGridView.Location = new System.Drawing.Point(0, 84);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
@@ -82,35 +84,63 @@
             this.dataGridView.RowTemplate.ReadOnly = true;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.ShowCellToolTips = false;
-            this.dataGridView.Size = new System.Drawing.Size(984, 557);
+            this.dataGridView.Size = new System.Drawing.Size(984, 586);
             this.dataGridView.TabIndex = 2;
             this.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseClick);
+            this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
             // 
-            // textBox1
+            // textBoxSearch
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(751, 8);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(223, 26);
-            this.textBox1.TabIndex = 4;
+            this.textBoxSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSearch.Location = new System.Drawing.Point(751, 26);
+            this.textBoxSearch.Name = "textBoxSearch";
+            this.textBoxSearch.Size = new System.Drawing.Size(223, 26);
+            this.textBoxSearch.TabIndex = 4;
+            this.textBoxSearch.TextChanged += new System.EventHandler(this.textBoxSearch_TextChanged);
             // 
             // labelSearch
             // 
             this.labelSearch.AutoSize = true;
             this.labelSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelSearch.Location = new System.Drawing.Point(686, 11);
+            this.labelSearch.Location = new System.Drawing.Point(686, 29);
             this.labelSearch.Name = "labelSearch";
             this.labelSearch.Size = new System.Drawing.Size(59, 20);
             this.labelSearch.TabIndex = 5;
             this.labelSearch.Text = "Поиск:";
             // 
+            // btnAddNewPosition
+            // 
+            this.btnAddNewPosition.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAddNewPosition.BackgroundImage")));
+            this.btnAddNewPosition.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnAddNewPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnAddNewPosition.Location = new System.Drawing.Point(4, 8);
+            this.btnAddNewPosition.Name = "btnAddNewPosition";
+            this.btnAddNewPosition.Size = new System.Drawing.Size(70, 70);
+            this.btnAddNewPosition.TabIndex = 6;
+            this.btnAddNewPosition.UseVisualStyleBackColor = true;
+            this.btnAddNewPosition.Click += new System.EventHandler(this.btnAddNewPosition_Click);
+            // 
+            // btnEditPosition
+            // 
+            this.btnEditPosition.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnEditPosition.BackgroundImage")));
+            this.btnEditPosition.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnEditPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnEditPosition.Location = new System.Drawing.Point(82, 8);
+            this.btnEditPosition.Name = "btnEditPosition";
+            this.btnEditPosition.Size = new System.Drawing.Size(70, 70);
+            this.btnEditPosition.TabIndex = 7;
+            this.btnEditPosition.UseVisualStyleBackColor = true;
+            this.btnEditPosition.Click += new System.EventHandler(this.btnEditPosition_Click);
+            // 
             // FormForSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 598);
+            this.ClientSize = new System.Drawing.Size(984, 672);
+            this.Controls.Add(this.btnEditPosition);
+            this.Controls.Add(this.btnAddNewPosition);
             this.Controls.Add(this.labelSearch);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxSearch);
             this.Controls.Add(this.dataGridView);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -130,7 +160,9 @@
         #endregion
 
         public System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label labelSearch;
+        public System.Windows.Forms.TextBox textBoxSearch;
+        public System.Windows.Forms.Button btnAddNewPosition;
+        public System.Windows.Forms.Button btnEditPosition;
     }
 }

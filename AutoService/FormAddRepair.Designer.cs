@@ -55,6 +55,11 @@
             this.btnSelSparePart = new System.Windows.Forms.Button();
             this.btnShowSparePart = new System.Windows.Forms.Button();
             this.btnAddRepair = new System.Windows.Forms.Button();
+            this.dateTimeStart = new System.Windows.Forms.DateTimePicker();
+            this.dateTimeFinish = new System.Windows.Forms.DateTimePicker();
+            this.labelStartTime = new System.Windows.Forms.Label();
+            this.labelFinishTime = new System.Windows.Forms.Label();
+            this.checkBoxTurnTime = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -274,7 +279,7 @@
             // labelNotes
             // 
             this.labelNotes.AutoSize = true;
-            this.labelNotes.Location = new System.Drawing.Point(13, 499);
+            this.labelNotes.Location = new System.Drawing.Point(13, 572);
             this.labelNotes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelNotes.Name = "labelNotes";
             this.labelNotes.Size = new System.Drawing.Size(75, 20);
@@ -283,7 +288,7 @@
             // 
             // textBoxNotes
             // 
-            this.textBoxNotes.Location = new System.Drawing.Point(213, 499);
+            this.textBoxNotes.Location = new System.Drawing.Point(213, 572);
             this.textBoxNotes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
@@ -335,7 +340,7 @@
             // 
             // btnAddRepair
             // 
-            this.btnAddRepair.Location = new System.Drawing.Point(412, 594);
+            this.btnAddRepair.Location = new System.Drawing.Point(412, 667);
             this.btnAddRepair.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAddRepair.Name = "btnAddRepair";
             this.btnAddRepair.Size = new System.Drawing.Size(112, 35);
@@ -344,11 +349,65 @@
             this.btnAddRepair.UseVisualStyleBackColor = true;
             this.btnAddRepair.Click += new System.EventHandler(this.btnAddRepair_Click);
             // 
+            // dateTimeStart
+            // 
+            this.dateTimeStart.Enabled = false;
+            this.dateTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimeStart.Location = new System.Drawing.Point(219, 531);
+            this.dateTimeStart.Name = "dateTimeStart";
+            this.dateTimeStart.Size = new System.Drawing.Size(123, 26);
+            this.dateTimeStart.TabIndex = 26;
+            // 
+            // dateTimeFinish
+            // 
+            this.dateTimeFinish.Enabled = false;
+            this.dateTimeFinish.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimeFinish.Location = new System.Drawing.Point(377, 531);
+            this.dateTimeFinish.Name = "dateTimeFinish";
+            this.dateTimeFinish.Size = new System.Drawing.Size(124, 26);
+            this.dateTimeFinish.TabIndex = 27;
+            // 
+            // labelStartTime
+            // 
+            this.labelStartTime.AutoSize = true;
+            this.labelStartTime.Location = new System.Drawing.Point(214, 499);
+            this.labelStartTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelStartTime.Name = "labelStartTime";
+            this.labelStartTime.Size = new System.Drawing.Size(140, 20);
+            this.labelStartTime.TabIndex = 28;
+            this.labelStartTime.Text = "Начало ремонта:";
+            // 
+            // labelFinishTime
+            // 
+            this.labelFinishTime.AutoSize = true;
+            this.labelFinishTime.Location = new System.Drawing.Point(373, 498);
+            this.labelFinishTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelFinishTime.Name = "labelFinishTime";
+            this.labelFinishTime.Size = new System.Drawing.Size(128, 20);
+            this.labelFinishTime.TabIndex = 29;
+            this.labelFinishTime.Text = "Конец ремонта:";
+            // 
+            // checkBoxTurnTime
+            // 
+            this.checkBoxTurnTime.AutoSize = true;
+            this.checkBoxTurnTime.Location = new System.Drawing.Point(16, 499);
+            this.checkBoxTurnTime.Name = "checkBoxTurnTime";
+            this.checkBoxTurnTime.Size = new System.Drawing.Size(141, 24);
+            this.checkBoxTurnTime.TabIndex = 30;
+            this.checkBoxTurnTime.Text = "Указать время";
+            this.checkBoxTurnTime.UseVisualStyleBackColor = true;
+            this.checkBoxTurnTime.CheckedChanged += new System.EventHandler(this.checkBoxTurnTime_CheckedChanged);
+            // 
             // FormAddRepair
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 635);
+            this.ClientSize = new System.Drawing.Size(532, 707);
+            this.Controls.Add(this.checkBoxTurnTime);
+            this.Controls.Add(this.labelFinishTime);
+            this.Controls.Add(this.labelStartTime);
+            this.Controls.Add(this.dateTimeFinish);
+            this.Controls.Add(this.dateTimeStart);
             this.Controls.Add(this.btnAddRepair);
             this.Controls.Add(this.btnShowSparePart);
             this.Controls.Add(this.btnSelSparePart);
@@ -407,5 +466,10 @@
         public System.Windows.Forms.Button btnShowSparePart;
         public System.Windows.Forms.Button btnAddRepair;
         public System.Windows.Forms.TextBox textBoxNotes;
+        private System.Windows.Forms.Label labelStartTime;
+        private System.Windows.Forms.Label labelFinishTime;
+        public System.Windows.Forms.DateTimePicker dateTimeStart;
+        public System.Windows.Forms.DateTimePicker dateTimeFinish;
+        public System.Windows.Forms.CheckBox checkBoxTurnTime;
     }
 }

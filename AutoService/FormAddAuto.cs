@@ -61,8 +61,7 @@ namespace AutoService
         }
         private void buttonAddAuto_Click(object sender, EventArgs e)
         {
-            if (textBoxGosNumb.Text.Length == 0 || textBoxReg.Text.Length == 0
-                || OwnerSelected == false)
+            if (textBoxGosNumb.Text.Length == 0 || OwnerSelected == false)
             {
                 MessageBox.Show("Вы ввели не все данные!");
                 return;
@@ -160,7 +159,10 @@ namespace AutoService
                 else
                     command.Parameters.Add("@VIN", FbDbType.VarChar).Value = null;
                 command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = textBoxGosNumb.Text;
-                command.Parameters.Add("@REG_CERTIFICATE", FbDbType.VarChar).Value = textBoxReg.Text;
+                if (textBoxReg.Text.Length != 0)
+                    command.Parameters.Add("@REG_CERTIFICATE", FbDbType.VarChar).Value = textBoxReg.Text;
+                else
+                    command.Parameters.Add("@REG_CERTIFICATE", FbDbType.VarChar).Value = null;
                 command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[0];
                 if (comboBoxAuto.Text.Split(' ').ToArray()[1].Length > 0)
                     command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[1];

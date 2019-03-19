@@ -38,6 +38,8 @@
             this.CurrentRepairsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.EndRepairsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PaymenInvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FinishActToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.OrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PersonalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +71,6 @@
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.labelSearch = new System.Windows.Forms.Label();
             this.labelLogin = new System.Windows.Forms.Label();
-            this.FinishActToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -113,7 +114,8 @@
             // 
             this.EndRepairsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.PaymenInvoiceToolStripMenuItem,
-            this.FinishActToolStripMenu});
+            this.FinishActToolStripMenu,
+            this.OrderToolStripMenuItem});
             this.EndRepairsToolStripMenuItem.Name = "EndRepairsToolStripMenuItem";
             this.EndRepairsToolStripMenuItem.Size = new System.Drawing.Size(312, 34);
             this.EndRepairsToolStripMenuItem.Text = "Завершенные ремонты";
@@ -125,6 +127,20 @@
             this.PaymenInvoiceToolStripMenuItem.Size = new System.Drawing.Size(320, 34);
             this.PaymenInvoiceToolStripMenuItem.Text = "Счет на оплату";
             this.PaymenInvoiceToolStripMenuItem.Click += new System.EventHandler(this.PaymenInvoiceToolStripMenuItem_Click);
+            // 
+            // FinishActToolStripMenu
+            // 
+            this.FinishActToolStripMenu.Name = "FinishActToolStripMenu";
+            this.FinishActToolStripMenu.Size = new System.Drawing.Size(320, 34);
+            this.FinishActToolStripMenu.Text = "Акт выполненных работ";
+            this.FinishActToolStripMenu.Click += new System.EventHandler(this.FinishActToolStripMenu_Click);
+            // 
+            // OrderToolStripMenuItem
+            // 
+            this.OrderToolStripMenuItem.Name = "OrderToolStripMenuItem";
+            this.OrderToolStripMenuItem.Size = new System.Drawing.Size(320, 34);
+            this.OrderToolStripMenuItem.Text = "Заказ наряд";
+            this.OrderToolStripMenuItem.Click += new System.EventHandler(this.OrderToolStripMenuItem_Click);
             // 
             // ClientsToolStripMenuItem
             // 
@@ -450,6 +466,7 @@
             this.EditPosition.TabIndex = 17;
             this.EditPosition.UseVisualStyleBackColor = false;
             this.EditPosition.Visible = false;
+            this.EditPosition.Click += new System.EventHandler(this.EditPosition_Click);
             this.EditPosition.MouseEnter += new System.EventHandler(this.EditPosition_MouseEnter);
             this.EditPosition.MouseLeave += new System.EventHandler(this.EditPosition_MouseLeave);
             // 
@@ -520,13 +537,6 @@
             this.labelLogin.Name = "labelLogin";
             this.labelLogin.Size = new System.Drawing.Size(0, 16);
             this.labelLogin.TabIndex = 23;
-            // 
-            // FinishActToolStripMenu
-            // 
-            this.FinishActToolStripMenu.Name = "FinishActToolStripMenu";
-            this.FinishActToolStripMenu.Size = new System.Drawing.Size(320, 34);
-            this.FinishActToolStripMenu.Text = "Акт выполненных работ";
-            this.FinishActToolStripMenu.Click += new System.EventHandler(this.FinishActToolStripMenu_Click);
             // 
             // Form1
             // 
@@ -610,6 +620,7 @@
         public System.Windows.Forms.Label labelLogin;
         private System.Windows.Forms.ToolStripMenuItem PaymenInvoiceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem FinishActToolStripMenu;
+        private System.Windows.Forms.ToolStripMenuItem OrderToolStripMenuItem;
     }
 }
 

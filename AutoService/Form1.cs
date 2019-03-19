@@ -13,6 +13,7 @@ using System.Xml;
 using System.Xml.Linq;
 using FirebirdSql.Data.FirebirdClient;
 using AutoServiceLibrary;
+using System.Configuration;
 
 namespace AutoService
 {
@@ -28,7 +29,6 @@ namespace AutoService
         FormAddPrice formAddPrice = new FormAddPrice();
         FormAddSparePart formAddSparePart = new FormAddSparePart();
         FormAuthorization formAuthorization = new FormAuthorization();
-
         //переменная изменения размера
         int resizeCount = 80;
         //переменная для верхнего положения сетки
@@ -47,7 +47,7 @@ namespace AutoService
         public static int AddOrEdit;
         //структура с названиями окон
         public enum WindowsStruct { Repairs = 1, Auto, ActOfEndsRepairs, Worker, MalfAdd, MalfView,
-                                    SpareAdd, SpareView, Stock , Client, WorkerAdd, WorkerView }
+                                    SpareAdd, SpareView, Stock , Client, WorkerAdd, WorkerView, Price }
         public enum AddEditOrDelete { Add, Edit, Delete };
 
         //конструктор формы
@@ -80,14 +80,7 @@ namespace AutoService
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
-            csb.DataSource = "localhost";
-            csb.Port = 3050;
-            csb.Charset = "UTF8";
-            csb.Database = @"D:\Desktop\проекты\AUTOSERVICE_DB\AUTOSERVICE_DB.FDB";
-            csb.UserID = "SYSDBA";
-            csb.Password = "masterkey";
-            csb.ServerType = FbServerType.Default;
-            db = new FbConnection(csb.ToString());
+            db = new FbConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
             //formAuthorization = new FormAuthorization(this);
             //formAuthorization.ShowDialog();
             DataGridViewForRepairs();
@@ -104,7 +97,6 @@ namespace AutoService
             HideRepairButtons();
             HideAutoButtons();
             HideClientButtons();
-            HidePersonalButtons();
             HidePriceButtons();
             HidePersonalButtons();
             HideStockButtons();
@@ -120,9 +112,9 @@ namespace AutoService
         //событие при клике на текущие ремонты
         private void CurrentRepairsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            WindowIndex = (int)WindowsStruct.Repairs;
             if (WindowIndex != (int)WindowsStruct.ActOfEndsRepairs)
                 SelectIndex = 0;
-            WindowIndex = (int)WindowsStruct.Repairs;
             HideToolStripForRepair();
             labelHeaderText.Text = "Текущие ремонты";
             ShowRepairButtons();
@@ -215,14 +207,14 @@ namespace AutoService
         {
             logicParamForRepair = true;
             SelectIndex = 0;
-            WindowIndex = 0;
+            WindowIndex = (int)WindowsStruct.Price;
             HideToolStripForRepair();
             HideAutoButtons();
             HideRepairButtons();
             HideClientButtons();
             HidePersonalButtons();
             HideStockButtons();
-            HideSearch();
+            ShowSearch();
             ShowPriceButtons();
             AddPosition.Location = AddRepair.Location;
             EditPosition.Location = EditRepair.Location;
@@ -258,9 +250,11 @@ namespace AutoService
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
-            { 
+            {
                 if (WindowIndex == (int)WindowsStruct.ActOfEndsRepairs)
                     SelectIndex = int.Parse(dataGridView.Rows[e.RowIndex].Cells[0].Value.ToString());
+                else if (e.RowIndex == -1)
+                    SelectIndex = 0;
                 else
                     SelectIndex = e.RowIndex;
             }
@@ -372,15 +366,18 @@ namespace AutoService
         {
             PaymenInvoiceToolStripMenuItem.Visible = true;
             FinishActToolStripMenu.Visible = true;
+            OrderToolStripMenuItem.Visible = true;
         }
         private void HideToolStripForRepair()
         {
             PaymenInvoiceToolStripMenuItem.Visible = false;
             FinishActToolStripMenu.Visible = false;
+            OrderToolStripMenuItem.Visible = false;
         }
         //событие при клике по кнопке добавить ремонт
         private void AddRepair_Click(object sender, EventArgs e)
         {
+            FormAddRepair.addOrEditInRepair = (int)AddEditOrDelete.Add;
             AddOrEdit = (int)AddEditOrDelete.Add;
             WindowIndex = (int) WindowsStruct.Repairs;
             //проверка на наличие открытой формы
@@ -396,12 +393,15 @@ namespace AutoService
         }
         private void EditRepair_Click(object sender, EventArgs e)
         {
+            if (GridRowsColumnIsNull())
+                return;
+            FormAddRepair.addOrEditInRepair = (int)AddEditOrDelete.Edit;
             AddOrEdit = (int)AddEditOrDelete.Edit;
             WindowIndex = (int)WindowsStruct.Repairs;
             //проверка на наличие открытой формы
             if (!formAddRepair.Visible)
             {
-                string vin = "";
+                string state_numb = "";
                 formAddRepair = new FormAddRepair(formAddAuto, this);
                 formAddRepair.id_repair = int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
                 Form1.db.Open();
@@ -412,12 +412,21 @@ namespace AutoService
                     FbDataReader dr = command.ExecuteReader();
                     while (dr.Read())
                     {
-                        vin = dr.GetString(0);
-                        formAddRepair.textBoxNotes.Text = dr.GetString(1);
+                        state_numb = dr.GetString(dr.GetOrdinal("STATE_NUMBER"));
+                        formAddRepair.textBoxNotes.Text = dr.GetString(dr.GetOrdinal("NOTES"));
+                        formAddRepair.dateTimeStart.Value = dr.GetDateTime(dr.GetOrdinal("START_DATE"));
+                        string str = dr.GetString(dr.GetOrdinal("FINISH_DATE"));
+                        DateTime finishDate;
+                        if (DateTime.TryParse(str, out finishDate))
+                        {
+                            formAddRepair.dateTimeFinish.Value = finishDate;
+                            formAddRepair.checkBoxTurnTime.Checked = true;
+                        }
+
                     }
                     Form1.db.Close();
                 }
-                FormAddAuto.ReadAutoFromViewForRepair(vin, formAddRepair);
+                FormAddAuto.ReadAutoFromViewForRepair(state_numb, formAddRepair);
                 formAddRepair.ShowDialog();
             }
             else
@@ -427,6 +436,8 @@ namespace AutoService
         }
         private void EndRepair_Click(object sender, EventArgs e)
         {
+            if (GridRowsColumnIsNull())
+                return;
             if ((MessageBox.Show(string.Format("Вы действительно завершить ремонт №{0}?",
                 dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK))
@@ -454,6 +465,8 @@ namespace AutoService
         }
         private void EditAuto_Click(object sender, EventArgs e)
         {
+            if (GridRowsColumnIsNull())
+                return;
             AddOrEdit = (int)AddEditOrDelete.Edit;
             if (!formAddAuto.Visible)
             {
@@ -513,6 +526,8 @@ namespace AutoService
         //событие при клике по кнопке удалить клиента
         private void EditClient_Click(object sender, EventArgs e)
         {
+            if (GridRowsColumnIsNull())
+                return;
             AddOrEdit = (int)AddEditOrDelete.Edit;
             if (!formAddClient.Visible)
             {
@@ -566,6 +581,8 @@ namespace AutoService
         }
         private void EditPersonal_Click(object sender, EventArgs e)
         {
+            if (GridRowsColumnIsNull())
+                return;
             AddOrEdit = (int)AddEditOrDelete.Edit;
             formAddPersonal = new FormAddPersonal(this);
             string query = string.Format("select first_name, second_name, last_name," +
@@ -608,6 +625,33 @@ namespace AutoService
             else
                 return;
         }
+        private void EditPosition_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull())
+                return;
+            AddOrEdit = (int)AddEditOrDelete.Edit;
+            formAddPrice = new FormAddPrice(this);
+            FillFormPrice(dataGridView, db, formAddPrice);
+        }
+        public void FillFormPrice(DataGridView dataGridView, FbConnection db, FormAddPrice formAddPrice)
+        {
+            string query = $" select description, unit, cost from type_of_work where description LIKE " +
+                $"'{dataGridView.Rows[SelectIndex].Cells[0].Value.ToString()}'";
+            using (FbCommand command = new FbCommand(query, db))
+            {
+                FbDataReader dr;
+                db.Open();
+                dr = command.ExecuteReader();
+                while (dr.Read())
+                {
+                    formAddPrice.textBoxDescription.Text = dr.GetString(dr.GetOrdinal("DESCRIPTION"));
+                    formAddPrice.comboBoxUnit.SelectedItem = dr.GetString(dr.GetOrdinal("UNIT"));
+                    formAddPrice.textBoxPrice.Text = dr.GetDouble(dr.GetOrdinal("COST")).ToString();
+                }
+                db.Close();
+            }
+            formAddPrice.ShowDialog();
+        }
         //событие при клике по кнопке удалить позицию
         private void DeletePosition_Click(object sender, EventArgs e)
         {
@@ -641,6 +685,8 @@ namespace AutoService
         }
         private void EditStock_Click(object sender, EventArgs e)
         {
+            if (GridRowsColumnIsNull())
+                return;
             AddOrEdit = (int)AddEditOrDelete.Edit;
             if (!formAddSparePart.Visible)
             {
@@ -702,20 +748,11 @@ namespace AutoService
             CreateViewForDataGrid(query, columnNames, dataGridView);
         }
         public static string queryForMalfunctions = @"select * from type_of_work_view";
+        public static string queryForSpares = @"select * from simple_spares_view";
         public static void AddListMalfunctionsInGrid(DataGridView dataGridView, string query)
         {
             string[] columnNames = { "Наименование", "Единица измерения", "Стоимость(руб.)", "Количество" };
             CreateViewForDataGrid(query, columnNames, dataGridView);
-            for (int i = 0; i < dataGridView.RowCount; i++)
-            {
-                if (dataGridView.Rows[i].Cells[1].Value.ToString() == "0")
-                {
-                    dataGridView.Rows[i].Cells[1].Value = "шт";
-                }
-                else
-                    dataGridView.Rows[i].Cells[1].Value = "нч";
-            }
-
         }
         public static string queryForSparePart = @"select * from stock_view";
         public static void AddSparePartInStock(DataGridView dataGridView, string query)
@@ -812,11 +849,12 @@ namespace AutoService
         }
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
         {
+            string query;
             switch (WindowIndex)
             {
                 case ((int)WindowsStruct.Stock):
-                    string query;
-                    query = $"select * from stock_view where uniq_code LIKE '%{textBoxSearch.Text}%'";
+                    query = $"select * from stock_view where uniq_code LIKE " +
+                        $"'%{((int.TryParse(textBoxSearch.Text, out int j)) ? int.Parse(textBoxSearch.Text) : 0)}%'";
                     using (FbCommand command = new FbCommand(query, Form1.db))
                     {
                         FbDataAdapter dataAdapter = new FbDataAdapter(command);
@@ -831,6 +869,11 @@ namespace AutoService
                         ds.Tables[0].Columns[4].ColumnName = "Автомобиль";
                         db.Close();
                     }
+                    break;
+                case ((int) WindowsStruct.Price):
+                    query = $"select * from type_of_work_view where upper(description) " +
+                        $"LIKE '%{textBoxSearch.Text.ToUpper()}%'";
+                    AddListMalfunctionsInGrid(dataGridView, query);
                     break;
             }
         }
@@ -991,6 +1034,18 @@ namespace AutoService
         private void FinishActToolStripMenu_Click(object sender, EventArgs e)
         {
             WorkWithExcel.MakeActOfWorkInExcel(SelectIndex, db);
+        }
+
+        private void OrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WorkWithExcel.MakeOrderInExcel(SelectIndex, db);
+        }
+        public bool GridRowsColumnIsNull()
+        {
+            if (dataGridView.Rows.Count == 0)
+                return true;
+            else
+                return false;
         }
     }
 }

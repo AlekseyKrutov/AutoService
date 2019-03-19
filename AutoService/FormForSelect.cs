@@ -17,6 +17,7 @@ namespace AutoService
     {
         FormAddRepair FormAddRepair;
         FormAddAuto FormAddAuto;
+        FormAddPrice FormAddPrice;
         Form1 mainForm;
 
         public FormForSelect()
@@ -33,10 +34,15 @@ namespace AutoService
             this.mainForm = mainForm;
             this.FormAddAuto = FormAddAuto;
         }
+        public FormForSelect(FormAddPrice FormAddPrice) : this()
+        {
+            this.FormAddPrice = FormAddPrice;
+        }
         private void FormForSelect_Load(object sender, EventArgs e)
         {
             dataGridView.RowHeadersVisible = false;
             dataGridView.RowTemplate.Height = 30;
+            HideAddAndEditBtns();
             //оператор для определения в какой части приложения вызывается окно
             switch (Form1.WindowIndex)
             {
@@ -50,16 +56,18 @@ namespace AutoService
                     Form1.AddListPersonalInGrid(dataGridView, Form1.queryForStaff);
                     break;
                 case (int)Form1.WindowsStruct.MalfAdd:
+                    ShowAddAndEditBtns();
                     Form1.AddListMalfunctionsInGrid(dataGridView, Form1.queryForMalfunctions);
                     break;
                 case (int)Form1.WindowsStruct.MalfView:
                     Form1.AddListMalfunctionsInGrid(dataGridView, queryForMalfView(FormAddRepair.id_repair));
                     break;
                 case (int)Form1.WindowsStruct.SpareAdd:
-                    Form1.AddSparePartInStock(dataGridView, Form1.queryForSparePart);
+                    ShowAddAndEditBtns();
+                    Form1.AddListMalfunctionsInGrid(dataGridView, Form1.queryForSpares);
                     break;
                 case (int)Form1.WindowsStruct.SpareView:
-                    Form1.AddSparePartInStock(dataGridView, queryForSpareView(FormAddRepair.id_repair));
+                    Form1.AddListMalfunctionsInGrid(dataGridView, queryForSpareView(FormAddRepair.id_repair));
                     break;
                 case (int)Form1.WindowsStruct.WorkerAdd:
                     Form1.AddListPersonalInGrid(dataGridView, Form1.queryForStaff);
@@ -70,7 +78,7 @@ namespace AutoService
             }
             Form1.SelectIndex = 0;
         }
-        private void dataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
             {
@@ -85,7 +93,7 @@ namespace AutoService
                     case (int)Form1.WindowsStruct.Repairs:
                         string state_number = dataGridView.Rows[Form1.SelectIndex].Cells[2].Value.ToString();
                         FormAddAuto.ReadAutoFromViewForRepair(state_number, FormAddRepair);
-                        if (FormAddRepair.id_repair == 0 && Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Add)
+                        if (FormAddRepair.id_repair == 0 && Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
                             FormAddRepair.id_repair = FormAddRepair.GetIdRepair(state_number);
                         this.Close();
                         break;
@@ -124,7 +132,7 @@ namespace AutoService
                         {
                             if (AnswerAboutDeleting)
                             {
-                                FormAddRepair.ExecuteProcedureDelete(FormAddRepair.id_repair, int.Parse(selectedRowOneCellValue), "", "DELETE_SPARE_WORKS");
+                                FormAddRepair.ExecuteProcedureDelete(FormAddRepair.id_repair, 0, selectedRowOneCellValue, "DELETE_REPAIRS_WORKS");
                                 Form1.AddSparePartInStock(dataGridView, queryForSpareView(FormAddRepair.id_repair));
                             }
                         }
@@ -145,21 +153,91 @@ namespace AutoService
         }
         private void FormForSelect_FormClosing(object sender, FormClosingEventArgs e)
         {
-
             Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;
+            Form1.AddOrEdit = (int) Form1.AddEditOrDelete.Add;
+            textBoxSearch.Clear();
         }
         public bool AnswerAboutDeleting => (MessageBox.Show($"Вы действительно хотите удалить\n" +
                     $" {dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()}\n" +
                     $" {dataGridView.Rows[Form1.SelectIndex].Cells[1].Value.ToString()}", "Предупреждение",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK);
-        public string queryForMalfView(int id_repair) => string.Format("select tw.description, tw.unit, tw.cost, cr.number" +
+        public string queryForMalfView(int id_repair) => string.Format(
+                        "select tw.description, case when tw.unit = 0 then 'шт'" +
+                        " when tw.unit = 1 then 'нч' end as unit, tw.cost, cr.number" +
                         " from type_of_work as tw, card_of_rep_and_works as cr" +
-                        " where cr.id_card_of_repair = {0} and tw.id_work = cr.id_work;", id_repair);
-        public string queryForSpareView(int id_repair) => string.Format("select sr.uniq_code, s.description, sr.number, s.cost" +
-                        " from stock_view as s, sparepart_and_card_of_rep as sr" +
-                        " where sr.id_card_of_repair = {0} and s.uniq_code = sr.uniq_code;", id_repair);
+                        " where cr.id_card_of_repair = {0} and tw.id_work = cr.id_work and tw.malf_or_spare = '0';", id_repair);
+        public string queryForSpareView(int id_repair) => string.Format(
+                        "select tw.description, case when tw.unit = 0 then 'шт'" +
+                        " when tw.unit = 1 then 'нч' end as unit, tw.cost, cr.number" +
+                        " from type_of_work as tw, card_of_rep_and_works as cr" +
+                        " where cr.id_card_of_repair = {0} and tw.id_work = cr.id_work and tw.malf_or_spare = '1';", id_repair);
         public string queryForStaffView(int id_repair) => string.Format("select tub_numb, name, address, prof, phone" +
                          " from staff_view as s, cards_and_staff as cs" +
                          " where cs.cardofrepair_id_card = {0} and s.tub_numb = cs.staff_tub_numb", id_repair);
+
+        private void btnAddNewPosition_Click(object sender, EventArgs e)
+        {
+            Form1.AddOrEdit = (int) Form1.AddEditOrDelete.Add;
+            switch (Form1.WindowIndex)
+            {
+                case (int)Form1.WindowsStruct.MalfAdd:
+                    FormAddPrice = new FormAddPrice(mainForm, this);
+                    FormAddPrice.ShowDialog();
+                    break;
+                case (int)Form1.WindowsStruct.SpareAdd:
+                    FormAddPrice = new FormAddPrice(mainForm, this);
+                    FormAddPrice.ShowDialog();
+                    break;
+            }
+        }
+        private void btnEditPosition_Click(object sender, EventArgs e)
+        {
+            Form1.AddOrEdit = (int)Form1.AddEditOrDelete.Edit;
+            switch (Form1.WindowIndex)
+            {
+                case (int)Form1.WindowsStruct.MalfAdd:
+                    FormAddPrice = new FormAddPrice(mainForm, this);
+                    mainForm.FillFormPrice(dataGridView, Form1.db, FormAddPrice);
+                break;
+                case (int)Form1.WindowsStruct.SpareAdd:
+                    FormAddPrice = new FormAddPrice(mainForm, this);
+                    mainForm.FillFormPrice(dataGridView, Form1.db, FormAddPrice);
+                break;
+            }
+        }
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            string query;
+            switch (Form1.WindowIndex)
+            {
+                case ((int) Form1. WindowsStruct.MalfAdd):
+                    query = $"select * from type_of_work_view where upper(description) " +
+                        $"LIKE '%{textBoxSearch.Text.ToUpper()}%'";
+                    Form1.AddListMalfunctionsInGrid(dataGridView, query);
+                    break;
+                case ((int)Form1.WindowsStruct.SpareAdd):
+                    query = $"select * from simple_spares_view where upper(description) " +
+                        $"LIKE '%{textBoxSearch.Text.ToUpper()}%'";
+                    Form1.AddListMalfunctionsInGrid(dataGridView, query);
+                    break;
+            }
+        }
+        private void ShowAddAndEditBtns()
+        {
+            btnAddNewPosition.Visible = true;
+            btnEditPosition.Visible = true;
+        }
+        private void HideAddAndEditBtns()
+        {
+            btnAddNewPosition.Visible = false;
+            btnEditPosition.Visible = false;
+        }
+
+        private void dataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (Form1.SelectIndex < 0)
+                return;
+            Form1.SelectIndex = e.RowIndex;
+        }
     }
 }

@@ -75,9 +75,9 @@
             this.labelDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelDescription.Location = new System.Drawing.Point(3, 0);
             this.labelDescription.Name = "labelDescription";
-            this.labelDescription.Size = new System.Drawing.Size(109, 32);
+            this.labelDescription.Size = new System.Drawing.Size(73, 16);
             this.labelDescription.TabIndex = 0;
-            this.labelDescription.Text = "Описание неисправности";
+            this.labelDescription.Text = "Описание";
             // 
             // labelPrice
             // 
@@ -137,7 +137,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(379, 236);
+            this.ClientSize = new System.Drawing.Size(379, 228);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.buttonAddPosition);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -145,6 +145,7 @@
             this.Name = "FormAddPrice";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление позиции";
+            this.Shown += new System.EventHandler(this.FormAddPrice_Shown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -154,12 +155,12 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TextBox textBoxPrice;
         private System.Windows.Forms.Label labelPrice;
-        private System.Windows.Forms.TextBox textBoxDescription;
         private System.Windows.Forms.Label labelDescription;
         private System.Windows.Forms.Button buttonAddPosition;
         private System.Windows.Forms.Label labelUnit;
-        private System.Windows.Forms.ComboBox comboBoxUnit;
+        public System.Windows.Forms.TextBox textBoxPrice;
+        public System.Windows.Forms.TextBox textBoxDescription;
+        public System.Windows.Forms.ComboBox comboBoxUnit;
     }
 }
