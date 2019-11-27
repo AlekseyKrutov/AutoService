@@ -5,15 +5,16 @@ VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoService", "AutoService\AutoService.csproj", "{BD5919A1-E9ED-44A7-BBEF-652915B273A1}"
 	ProjectSection(ProjectDependencies) = postProject
+		{9DE2B409-90ED-4EEA-B256-8D162CB4906C} = {9DE2B409-90ED-4EEA-B256-8D162CB4906C}
 		{7981125D-D2CA-4402-A56F-6D072CA5BC84} = {7981125D-D2CA-4402-A56F-6D072CA5BC84}
 		{1B78EEDC-0C4D-4367-8113-8FC46D692DC4} = {1B78EEDC-0C4D-4367-8113-8FC46D692DC4}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoServiceLibrary", "..\AutoServiceLibrary\AutoServiceLibrary\AutoServiceLibrary.csproj", "{9DE2B409-90ED-4EEA-B256-8D162CB4906C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkWithExcelLibrary", "WorkWithExcelLibrary\WorkWithExcelLibrary.csproj", "{1B78EEDC-0C4D-4367-8113-8FC46D692DC4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{C9187A23-48CF-49DD-957C-BDC577E17F9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoServiceLibrary", "AutoServiceLibrary\AutoServiceLibrary\AutoServiceLibrary.csproj", "{9DE2B409-90ED-4EEA-B256-8D162CB4906C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbProxy", "DbProxy\DbProxy.csproj", "{7981125D-D2CA-4402-A56F-6D072CA5BC84}"
 EndProject
@@ -27,10 +28,6 @@ Global
 		{BD5919A1-E9ED-44A7-BBEF-652915B273A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD5919A1-E9ED-44A7-BBEF-652915B273A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD5919A1-E9ED-44A7-BBEF-652915B273A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9DE2B409-90ED-4EEA-B256-8D162CB4906C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9DE2B409-90ED-4EEA-B256-8D162CB4906C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DE2B409-90ED-4EEA-B256-8D162CB4906C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DE2B409-90ED-4EEA-B256-8D162CB4906C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1B78EEDC-0C4D-4367-8113-8FC46D692DC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B78EEDC-0C4D-4367-8113-8FC46D692DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B78EEDC-0C4D-4367-8113-8FC46D692DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +36,10 @@ Global
 		{C9187A23-48CF-49DD-957C-BDC577E17F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9187A23-48CF-49DD-957C-BDC577E17F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9187A23-48CF-49DD-957C-BDC577E17F9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DE2B409-90ED-4EEA-B256-8D162CB4906C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE2B409-90ED-4EEA-B256-8D162CB4906C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE2B409-90ED-4EEA-B256-8D162CB4906C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE2B409-90ED-4EEA-B256-8D162CB4906C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7981125D-D2CA-4402-A56F-6D072CA5BC84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7981125D-D2CA-4402-A56F-6D072CA5BC84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7981125D-D2CA-4402-A56F-6D072CA5BC84}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,6 +49,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {33D748B7-CB53-4588-AF1F-3E0086209869}
+		SolutionGuid = {217B6DD8-7C0A-48E5-95BF-AC9C5DE68754}
 	EndGlobalSection
 EndGlobal

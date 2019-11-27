@@ -797,10 +797,10 @@ namespace AutoService
             string[] columnNames = { "№", "Дата начала", "Дата окончания", "Итоговая стоимость", "Заказчик", "Автомобиль", "Заметки" };
             DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
         }
-        public static void AddListAutoInGrid(DataGridView dataGridView)
+        public static void AddListAutoInGrid(DataGridView dataGridView, string content = "")
         {
             string[] columnNames = { "VIN", "Марка", "Гос.номер", "Свидетельство о рег.", "Владелец" };
-            DbProxy.DataSets.CreateDSForDataGrid(columnNames,dataGridView);
+            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
         }
         public static void AddListClientInGrid(DataGridView dataGridView)
         {

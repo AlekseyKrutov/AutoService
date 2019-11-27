@@ -54,8 +54,9 @@
       <HintPath>..\..\AutoServiceLibrary\AutoServiceLibrary\bin\Debug\AutoServiceLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DbProxy">
-      <HintPath>\\krutov-nb\Users\Админ\Desktop\проекты\AutoService\DbProxy\bin\Debug\DbProxy.dll</HintPath>
+    <Reference Include="DbProxy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DbProxy.dll</HintPath>
     </Reference>
     <Reference Include="FirebirdSql.Data.FirebirdClient, Version=6.3.0.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
       <HintPath>..\packages\FirebirdSql.Data.FirebirdClient.6.3.0\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>

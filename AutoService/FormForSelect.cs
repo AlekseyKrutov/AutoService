@@ -221,6 +221,9 @@ namespace AutoService
                 case (Form1.WindowsStruct.SpareAdd):
                     Form1.AddListMalfunctionsInGrid(dataGridView, content);
                     break;
+                case (Form1.WindowsStruct.ViewAutoInRep):
+                    Form1.AddListAutoInGrid(dataGridView, content);
+                    break;
             }
         }
         private void ShowAddAndEditBtns()

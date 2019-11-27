@@ -98,6 +98,8 @@ namespace DbProxy
                         ActiveRepairsView + $" where client like '%{content}%' or car like '%{content}%'";
         public static string SearchInFinishedRepairs(string content) =>
                         FinishedRepairsView + $" where client like '%{content}%' or car like '%{content}%'";
+        public static string SerachInAuto(string content) =>
+                        CarView + $" where org like '%{content}%' or state_number like '%{content}%'";
     }
     public static class DataSets
     {
@@ -120,7 +122,7 @@ namespace DbProxy
                     query = Queries.ClientView;
                     break;
                 case Form1.WindowsStruct.ViewAutoInRep:
-                    query = Queries.CarView;
+                    query = content.Length == 0 ? Queries.CarView : Queries.SerachInAuto(content);
                     break;
                 case Form1.WindowsStruct.Client:
                     query = Queries.ClientView;

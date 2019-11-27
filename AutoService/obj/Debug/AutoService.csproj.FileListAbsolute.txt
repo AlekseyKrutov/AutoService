@@ -149,7 +149,6 @@ C:\Users\Админ\Desktop\проекты\AutoService\AutoService\bin\Debug\DbP
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.exe.config
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.exe
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.pdb
-G:\Desktop\проекты\AutoService\AutoService\bin\Debug\DbProxy.dll
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\FirebirdSql.Data.FirebirdClient.dll
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\WorkWithExcelLibrary.dll
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\DbProxy.pdb
