@@ -61,8 +61,8 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.00227F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.99773F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.718F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.282F));
             this.tableLayoutPanel1.Controls.Add(this.labelNumberOfTel, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.textBoxAddress, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.textBoxINN, 1, 1);
@@ -102,7 +102,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(371, 472);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(461, 472);
             this.tableLayoutPanel1.TabIndex = 23;
             // 
             // labelNumberOfTel
@@ -118,17 +118,17 @@
             // textBoxAddress
             // 
             this.textBoxAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxAddress.Location = new System.Drawing.Point(147, 81);
+            this.textBoxAddress.Location = new System.Drawing.Point(139, 81);
             this.textBoxAddress.Name = "textBoxAddress";
-            this.textBoxAddress.Size = new System.Drawing.Size(221, 26);
+            this.textBoxAddress.Size = new System.Drawing.Size(319, 26);
             this.textBoxAddress.TabIndex = 18;
             // 
             // textBoxINN
             // 
             this.textBoxINN.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxINN.Location = new System.Drawing.Point(147, 42);
+            this.textBoxINN.Location = new System.Drawing.Point(139, 42);
             this.textBoxINN.Name = "textBoxINN";
-            this.textBoxINN.Size = new System.Drawing.Size(221, 26);
+            this.textBoxINN.Size = new System.Drawing.Size(319, 26);
             this.textBoxINN.TabIndex = 17;
             this.textBoxINN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxINN_KeyPress);
             // 
@@ -155,9 +155,9 @@
             // textBoxName
             // 
             this.textBoxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxName.Location = new System.Drawing.Point(147, 3);
+            this.textBoxName.Location = new System.Drawing.Point(139, 3);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(221, 26);
+            this.textBoxName.Size = new System.Drawing.Size(319, 26);
             this.textBoxName.TabIndex = 16;
             // 
             // labelNameOrg
@@ -173,7 +173,7 @@
             // textBoxNumbOfTel
             // 
             this.textBoxNumbOfTel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxNumbOfTel.Location = new System.Drawing.Point(147, 120);
+            this.textBoxNumbOfTel.Location = new System.Drawing.Point(139, 120);
             this.textBoxNumbOfTel.Mask = "0(000)000-0000";
             this.textBoxNumbOfTel.Name = "textBoxNumbOfTel";
             this.textBoxNumbOfTel.ResetOnSpace = false;
@@ -194,9 +194,9 @@
             // textBoxDirector
             // 
             this.textBoxDirector.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxDirector.Location = new System.Drawing.Point(147, 159);
+            this.textBoxDirector.Location = new System.Drawing.Point(139, 159);
             this.textBoxDirector.Name = "textBoxDirector";
-            this.textBoxDirector.Size = new System.Drawing.Size(221, 26);
+            this.textBoxDirector.Size = new System.Drawing.Size(319, 26);
             this.textBoxDirector.TabIndex = 22;
             // 
             // labelBill
@@ -212,55 +212,55 @@
             // textBoxBill
             // 
             this.textBoxBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxBill.Location = new System.Drawing.Point(147, 198);
+            this.textBoxBill.Location = new System.Drawing.Point(139, 198);
             this.textBoxBill.MaxLength = 20;
             this.textBoxBill.Name = "textBoxBill";
-            this.textBoxBill.Size = new System.Drawing.Size(221, 26);
+            this.textBoxBill.Size = new System.Drawing.Size(319, 26);
             this.textBoxBill.TabIndex = 24;
             // 
             // textBoxKPP
             // 
             this.textBoxKPP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxKPP.Location = new System.Drawing.Point(147, 237);
+            this.textBoxKPP.Location = new System.Drawing.Point(139, 237);
             this.textBoxKPP.MaxLength = 20;
             this.textBoxKPP.Name = "textBoxKPP";
-            this.textBoxKPP.Size = new System.Drawing.Size(221, 26);
+            this.textBoxKPP.Size = new System.Drawing.Size(319, 26);
             this.textBoxKPP.TabIndex = 25;
             // 
             // textBoxOKTMO
             // 
             this.textBoxOKTMO.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxOKTMO.Location = new System.Drawing.Point(147, 276);
+            this.textBoxOKTMO.Location = new System.Drawing.Point(139, 276);
             this.textBoxOKTMO.MaxLength = 20;
             this.textBoxOKTMO.Name = "textBoxOKTMO";
-            this.textBoxOKTMO.Size = new System.Drawing.Size(221, 26);
+            this.textBoxOKTMO.Size = new System.Drawing.Size(319, 26);
             this.textBoxOKTMO.TabIndex = 26;
             // 
             // textBoxOKATO
             // 
             this.textBoxOKATO.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxOKATO.Location = new System.Drawing.Point(147, 315);
+            this.textBoxOKATO.Location = new System.Drawing.Point(139, 315);
             this.textBoxOKATO.MaxLength = 20;
             this.textBoxOKATO.Name = "textBoxOKATO";
-            this.textBoxOKATO.Size = new System.Drawing.Size(221, 26);
+            this.textBoxOKATO.Size = new System.Drawing.Size(319, 26);
             this.textBoxOKATO.TabIndex = 27;
             // 
             // textBoxBIK
             // 
             this.textBoxBIK.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxBIK.Location = new System.Drawing.Point(147, 354);
+            this.textBoxBIK.Location = new System.Drawing.Point(139, 354);
             this.textBoxBIK.MaxLength = 20;
             this.textBoxBIK.Name = "textBoxBIK";
-            this.textBoxBIK.Size = new System.Drawing.Size(221, 26);
+            this.textBoxBIK.Size = new System.Drawing.Size(319, 26);
             this.textBoxBIK.TabIndex = 28;
             // 
             // textBoxOGRN
             // 
             this.textBoxOGRN.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxOGRN.Location = new System.Drawing.Point(147, 393);
+            this.textBoxOGRN.Location = new System.Drawing.Point(139, 393);
             this.textBoxOGRN.MaxLength = 20;
             this.textBoxOGRN.Name = "textBoxOGRN";
-            this.textBoxOGRN.Size = new System.Drawing.Size(221, 26);
+            this.textBoxOGRN.Size = new System.Drawing.Size(319, 26);
             this.textBoxOGRN.TabIndex = 29;
             // 
             // labelKPP
@@ -328,7 +328,7 @@
             this.comboBoxBank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxBank.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxBank.FormattingEnabled = true;
-            this.comboBoxBank.Location = new System.Drawing.Point(147, 432);
+            this.comboBoxBank.Location = new System.Drawing.Point(139, 432);
             this.comboBoxBank.Name = "comboBoxBank";
             this.comboBoxBank.Size = new System.Drawing.Size(221, 28);
             this.comboBoxBank.TabIndex = 37;
@@ -348,7 +348,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(377, 532);
+            this.ClientSize = new System.Drawing.Size(465, 532);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.buttonAddClient);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

@@ -1,19 +1,14 @@
-﻿using AutoService;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Excel = Microsoft.Office.Interop.Excel;
-using System.Xml;
-using System.Xml.Linq;
 using FirebirdSql.Data.FirebirdClient;
 using AutoServiceLibrary;
 using System.Configuration;
+using WorkWithExcelLibrary;
+using DbProxy;
 
 namespace AutoService
 {
@@ -37,17 +32,17 @@ namespace AutoService
         int topForLabelOfHead = 0;
         //переменная выбранного индекса в сетке
         static public int SelectIndex;
-
-        public int selectedIndexrepairs;
+        //переменная в которую записывается номер ремонта в зав. ремонтах
+        public int SelectedIndEndRep;
         //переменная для определения окна с которым мы работаем
-        static public int WindowIndex = 0;
+        static public WindowsStruct WindowIndex = 0;
         //логическая переменная
         public static bool logicParamForRepair = true;
         //перменна для определения добавления или редактирования
-        public static int AddOrEdit;
+        public static AddEditOrDelete AddOrEdit;
         //структура с названиями окон
-        public enum WindowsStruct { Repairs = 1, Auto, ActOfEndsRepairs, Worker, MalfAdd, MalfView,
-                                    SpareAdd, SpareView, Stock , Client, WorkerAdd, WorkerView, Price }
+        public enum WindowsStruct { Nothing, Repairs, Auto, AddAutoInRep, ViewAutoInRep, ActOfEndsRepairs, Worker, MalfAdd, MalfView,
+                                    SpareAdd, SpareView, Stock , Client, WorkerAdd, WorkerView, Price, WayBill }
         public enum AddEditOrDelete { Add, Edit, Delete };
 
         //конструктор формы
@@ -56,21 +51,29 @@ namespace AutoService
             InitializeComponent();
             topForGridIdeal = dataGridView.Top;
             topForLabelOfHead = labelHeaderText.Top;
+            dataGridView.MultiSelect = false;
+            SeeFinishedRepair.Click += new EventHandler(EditRepair_Click);
+            UnloadAllToolStripMenuItem.Click += new EventHandler(UploadAllToolStripMenuItem_Click);
+            UnldBillToolStripMenuItem.Click += new EventHandler(PaymenInvoiceToolStripMenuItem_Click);
+            UnldActToolStripMenuItem.Click += new EventHandler(FinishActToolStripMenu_Click);
+            UnldOrderToolStripMenuItem.Click += new EventHandler(OrderToolStripMenuItem_Click);
         }
         //события загрузки формы
         private void Form1_Load(object sender, EventArgs e)
         {
             Padding padding = new Padding(0, 8, 0, 8);
+            WindowIndex = WindowsStruct.Repairs;
             HideToolStripForRepair();
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             dataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dataGridView.RowTemplate.DefaultCellStyle.Padding = padding;
+            HideFinishedRepBtns();
             HideAutoButtons();
             HideClientButtons();
             HidePersonalButtons();
             HidePriceButtons();
             HideStockButtons();
-            HideSearch();
+            HideWayBillButtons();
             dataGridView.AllowUserToAddRows = false;
             dataGridView.ClearSelection();
             dataGridView.RowHeadersVisible = false;
@@ -88,50 +91,44 @@ namespace AutoService
         //событие при клике на законченные ремонты
         private void EndRepairsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (WindowIndex == (int)WindowsStruct.ActOfEndsRepairs)
+            if (WindowIndex == WindowsStruct.ActOfEndsRepairs)
                 return;
             SelectIndex = 0;
-            WindowIndex = (int)WindowsStruct.ActOfEndsRepairs;
+            WindowIndex = WindowsStruct.ActOfEndsRepairs;
             ShowToolStripForRepair();
             labelHeaderText.Text = "Завершенные ремонты";
+            ShowFinishedRepBtns();
+            ShowSearch();
             HideRepairButtons();
             HideAutoButtons();
             HideClientButtons();
             HidePriceButtons();
             HidePersonalButtons();
             HideStockButtons();
-            HideSearch();
-            if (logicParamForRepair == true)
-            {
-                dataGridView.Top -= resizeCount;
-                dataGridView.Height += resizeCount;
-            }
-            logicParamForRepair = false;
-            DataGridViewForRepairs();
+            HideWayBillButtons();
+            SeeFinishedRepair.Location = AddRepair.Location;
+            StartFinishedRepair.Location = EditRepair.Location;
+            DataGridViewForFinishedReps();
         }
         //событие при клике на текущие ремонты
         private void CurrentRepairsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            WindowIndex = (int)WindowsStruct.Repairs;
-            if (WindowIndex != (int)WindowsStruct.ActOfEndsRepairs)
+            WindowIndex = WindowsStruct.Repairs;
+            if (WindowIndex != WindowsStruct.ActOfEndsRepairs)
                 SelectIndex = 0;
             HideToolStripForRepair();
             labelHeaderText.Text = "Текущие ремонты";
             ShowRepairButtons();
+            ShowSearch();
+            HideFinishedRepBtns();
             HideAutoButtons();
             HideClientButtons();
             HidePersonalButtons();
             HidePriceButtons();
             HidePersonalButtons();
             HideStockButtons();
-            HideSearch();
+            HideWayBillButtons();
             AddListRepairsInGrid(dataGridView);
-            if (!logicParamForRepair)
-            {
-                labelHeaderText.Top = topForLabelOfHead;
-                dataGridView.Top = topForGridIdeal;
-            }
-            logicParamForRepair = true;
             DataGridViewForRepairs();
             DeleteSelectFirstRow();
         }
@@ -141,13 +138,15 @@ namespace AutoService
             logicParamForRepair = true;
             SelectIndex = 0;
             HideToolStripForRepair();
-            WindowIndex = (int)WindowsStruct.Client;
+            WindowIndex = WindowsStruct.Client;
+            HideFinishedRepBtns();
             HideAutoButtons();
             HideRepairButtons();
             HidePersonalButtons();
             HidePriceButtons();
             ShowClientButtons();
             HideStockButtons();
+            HideWayBillButtons();
             HideSearch();
             AddClient.Location = AddRepair.Location;
             EditClient.Location = EditRepair.Location;
@@ -163,12 +162,14 @@ namespace AutoService
             logicParamForRepair = true;
             SelectIndex = 0;
             HideToolStripForRepair();
-            WindowIndex = (int)WindowsStruct.Worker;
+            WindowIndex = WindowsStruct.Worker;
+            HideFinishedRepBtns();
             HideAutoButtons();
             HideRepairButtons();
             HideClientButtons();
             HidePriceButtons();
             HideStockButtons();
+            HideWayBillButtons();
             HideSearch();
             ShowPersonalButtons();
             AddPersonal.Location = AddRepair.Location;
@@ -182,19 +183,20 @@ namespace AutoService
         //событие при клике на автомобили
         private void AutoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             SelectIndex = 0;
             HideToolStripForRepair();
-            WindowIndex = (int)WindowsStruct.Auto;
+            WindowIndex = WindowsStruct.Auto;
             logicParamForRepair = true;
             ShowAutoButtons();
             AddAuto.Location = AddRepair.Location;
             EditAuto.Location = EditRepair.Location;
+            HideFinishedRepBtns();
             HideRepairButtons();
             HideClientButtons();
             HidePersonalButtons();
             HidePriceButtons();
             HideStockButtons();
+            HideWayBillButtons();
             HideSearch();
             dataGridView.Top = topForGridIdeal;
             labelHeaderText.Text = "Автомобили";
@@ -207,13 +209,15 @@ namespace AutoService
         {
             logicParamForRepair = true;
             SelectIndex = 0;
-            WindowIndex = (int)WindowsStruct.Price;
+            WindowIndex = WindowsStruct.Price;
             HideToolStripForRepair();
+            HideFinishedRepBtns();
             HideAutoButtons();
             HideRepairButtons();
             HideClientButtons();
             HidePersonalButtons();
             HideStockButtons();
+            HideWayBillButtons();
             ShowSearch();
             ShowPriceButtons();
             AddPosition.Location = AddRepair.Location;
@@ -227,20 +231,46 @@ namespace AutoService
 
         private void StockToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WindowIndex = (int) WindowsStruct.Stock;
+            WindowIndex = WindowsStruct.Stock;
             logicParamForRepair = true;
             SelectIndex = 0;
             HideToolStripForRepair();
+            HideFinishedRepBtns();
             HideAutoButtons();
             HideRepairButtons();
             HideClientButtons();
             HidePersonalButtons();
             HidePriceButtons();
             ShowStockButtons();
+            HideWayBillButtons();
             ShowSearch();
             AddInStock.Location = AddRepair.Location;
             EditStock.Location = EditRepair.Location;
             labelHeaderText.Text = "Склад";
+            dataGridView.Top = topForGridIdeal;
+            labelHeaderText.Top = topForLabelOfHead;
+            DataGridViewForStock();
+            DeleteSelectFirstRow();
+        }
+        private void WayBillToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WindowIndex = WindowsStruct.WayBill;
+            logicParamForRepair = true;
+            SelectIndex = 0;
+            HideToolStripForRepair();
+            HideFinishedRepBtns();
+            HideAutoButtons();
+            HideRepairButtons();
+            HideClientButtons();
+            HidePersonalButtons();
+            HidePriceButtons();
+            HideStockButtons();
+            ShowWayBillButtons();
+            ShowSearch();
+            AddWayBill.Location = AddRepair.Location;
+            EditWayBill.Location = EditRepair.Location;
+            DeleteWayBill.Location = EndRepair.Location;
+            labelHeaderText.Text = "Перевозки";
             dataGridView.Top = topForGridIdeal;
             labelHeaderText.Top = topForLabelOfHead;
             DataGridViewForStock();
@@ -251,9 +281,11 @@ namespace AutoService
         {
             try
             {
-                if (WindowIndex == (int)WindowsStruct.ActOfEndsRepairs)
-                    SelectIndex = int.Parse(dataGridView.Rows[e.RowIndex].Cells[0].Value.ToString());
-                else if (e.RowIndex == -1)
+                if (WindowIndex == WindowsStruct.ActOfEndsRepairs)
+                {
+                    SelectedIndEndRep = int.Parse(dataGridView.Rows[e.RowIndex].Cells[0].Value.ToString());
+                }
+                if (e.RowIndex == -1)
                     SelectIndex = 0;
                 else
                     SelectIndex = e.RowIndex;
@@ -279,6 +311,8 @@ namespace AutoService
 
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Right)
+                return;
             try
             {
                 dataGridView.Rows[e.RowIndex].Selected = true;
@@ -305,6 +339,16 @@ namespace AutoService
             AddRepair.Hide();
             EditRepair.Hide();
             EndRepair.Hide();
+        }
+        public void ShowFinishedRepBtns()
+        {
+            SeeFinishedRepair.Visible = true;
+            StartFinishedRepair.Visible = true;
+        }
+        public void HideFinishedRepBtns()
+        {
+            SeeFinishedRepair.Hide();
+            StartFinishedRepair.Hide();
         }
         private void ShowRepairButtons()
         {
@@ -352,6 +396,18 @@ namespace AutoService
             AddInStock.Visible = true;
             EditStock.Visible = true;
         }
+        private void ShowWayBillButtons()
+        {
+            AddWayBill.Visible = true;
+            EditWayBill.Visible = true;
+            DeleteWayBill.Visible = true;
+        }
+        private void HideWayBillButtons()
+        {
+            AddWayBill.Hide();
+            EditWayBill.Hide();
+            DeleteWayBill.Hide();
+        }
         private void ShowSearch()
         {
             labelSearch.Visible = true;
@@ -367,19 +423,21 @@ namespace AutoService
             PaymenInvoiceToolStripMenuItem.Visible = true;
             FinishActToolStripMenu.Visible = true;
             OrderToolStripMenuItem.Visible = true;
+            UploadAllToolStripMenuItem.Visible = true;
         }
         private void HideToolStripForRepair()
         {
             PaymenInvoiceToolStripMenuItem.Visible = false;
             FinishActToolStripMenu.Visible = false;
             OrderToolStripMenuItem.Visible = false;
+            UploadAllToolStripMenuItem.Visible = false;
         }
         //событие при клике по кнопке добавить ремонт
         private void AddRepair_Click(object sender, EventArgs e)
         {
             FormAddRepair.addOrEditInRepair = (int)AddEditOrDelete.Add;
-            AddOrEdit = (int)AddEditOrDelete.Add;
-            WindowIndex = (int) WindowsStruct.Repairs;
+            AddOrEdit = AddEditOrDelete.Add;
+            WindowIndex = WindowsStruct.Repairs;
             //проверка на наличие открытой формы
             if (!formAddRepair.Visible)
             {
@@ -396,8 +454,9 @@ namespace AutoService
             if (GridRowsColumnIsNull())
                 return;
             FormAddRepair.addOrEditInRepair = (int)AddEditOrDelete.Edit;
-            AddOrEdit = (int)AddEditOrDelete.Edit;
-            WindowIndex = (int)WindowsStruct.Repairs;
+            AddOrEdit = AddEditOrDelete.Edit;
+            if (WindowIndex != WindowsStruct.ActOfEndsRepairs)
+                WindowIndex = WindowsStruct.Repairs;
             //проверка на наличие открытой формы
             if (!formAddRepair.Visible)
             {
@@ -434,6 +493,18 @@ namespace AutoService
                 MessageBox.Show("Вы уже создаете новый ремонт, для создания нового ремонта завершите старый.", "", MessageBoxButtons.OK);
             return;
         }
+        private void StartFinishedRepair_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull())
+                return;
+            string rep_id = dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
+            bool confirm = ((MessageBox.Show(string.Format("Вы действительно хотите восстановить ремонт №{0}?",
+                dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK));
+            if (confirm)
+                DbProxy.InvokeProcedure.StartRepair(int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString()));
+            AddListFinishedRepsInGrid(dataGridView);
+        }
         private void EndRepair_Click(object sender, EventArgs e)
         {
             if (GridRowsColumnIsNull())
@@ -442,7 +513,7 @@ namespace AutoService
                 dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK))
             {
-                FinishRepair(int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString()));
+                DbProxy.InvokeProcedure.FinishRepair(int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString()));
                 AddListRepairsInGrid(dataGridView);
             }
         }
@@ -467,7 +538,7 @@ namespace AutoService
         {
             if (GridRowsColumnIsNull())
                 return;
-            AddOrEdit = (int)AddEditOrDelete.Edit;
+            AddOrEdit = AddEditOrDelete.Edit;
             if (!formAddAuto.Visible)
             {
                 formAddAuto = new FormAddAuto(this);
@@ -528,15 +599,12 @@ namespace AutoService
         {
             if (GridRowsColumnIsNull())
                 return;
-            AddOrEdit = (int)AddEditOrDelete.Edit;
+            AddOrEdit = AddEditOrDelete.Edit;
             if (!formAddClient.Visible)
             {
                 formAddClient = new FormAddClient(this);
                 AddBankInComBoxClient();
-                string query = string.Format("select inn, name_org, director, bank_bill," +
-                    "phone_numb, bill, kpp, oktmo, okato, bik, ogrn, address " +
-                    "from client where name_org = '{0}'",
-                dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+                string query = Queries.GetClientByClientName(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
                 using (FbCommand command = new FbCommand(query, db))
                 {
                     FbDataReader dataReader;
@@ -583,7 +651,7 @@ namespace AutoService
         {
             if (GridRowsColumnIsNull())
                 return;
-            AddOrEdit = (int)AddEditOrDelete.Edit;
+            AddOrEdit = AddEditOrDelete.Edit;
             formAddPersonal = new FormAddPersonal(this);
             string query = string.Format("select first_name, second_name, last_name," +
                                         "inn, passport, phone_numb, profession, gender, address, date_born " +
@@ -629,7 +697,7 @@ namespace AutoService
         {
             if (GridRowsColumnIsNull())
                 return;
-            AddOrEdit = (int)AddEditOrDelete.Edit;
+            AddOrEdit = AddEditOrDelete.Edit;
             formAddPrice = new FormAddPrice(this);
             FillFormPrice(dataGridView, db, formAddPrice);
         }
@@ -663,7 +731,7 @@ namespace AutoService
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK) && Malfunctions.MalfList.Count > 0)
                 {
                     Malfunctions.MalfList.RemoveAt(SelectIndex);
-                    AddListMalfunctionsInGrid(dataGridView, Form1.queryForMalfunctions);
+                    AddListMalfunctionsInGrid(dataGridView, Queries.MalfunctionsView);
                 }
             }
             catch (ArgumentOutOfRangeException)
@@ -687,7 +755,7 @@ namespace AutoService
         {
             if (GridRowsColumnIsNull())
                 return;
-            AddOrEdit = (int)AddEditOrDelete.Edit;
+            AddOrEdit = AddEditOrDelete.Edit;
             if (!formAddSparePart.Visible)
             {
                 formAddSparePart = new FormAddSparePart(this);
@@ -713,59 +781,57 @@ namespace AutoService
             else
                 return;
         }
-        //функции для добавления списка объектов в сетку
-        public static void AddListRepairsInGrid(DataGridView dataGridView)
+        private void AddWayBill_Click(object sender, EventArgs e)
         {
-            if (logicParamForRepair == true)
-            {
-                string query = @"select * from active_repairs";
-                string[] columnNames = { "№", "Дата начала", "Итоговая стоимость", "Автомобиль", "Заметки" };
-                CreateViewForDataGrid(query, columnNames, dataGridView);
-            }
-            else
-            {
-                string query = @"select * from finished_repairs";
-                string[] columnNames = { "№", "Дата начала", "Дата окончания", "Итоговая стоимость", "Автомобиль", "Заметки" };
-                CreateViewForDataGrid(query, columnNames, dataGridView);
-            }
+            FormAddWayBill formAddWayBill = new FormAddWayBill();
+            formAddWayBill.ShowDialog();
+        }
+        //функции для добавления списка объектов в сетку
+        public static void AddListRepairsInGrid(DataGridView dataGridView, string content = "")
+        {
+            string[] columnNames = { "№", "Дата начала", "Итоговая стоимость", "Заказчик", "Автомобиль", "Заметки" };
+            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
+        }
+        public static void AddListFinishedRepsInGrid(DataGridView dataGridView, string content= "")
+        {
+            string[] columnNames = { "№", "Дата начала", "Дата окончания", "Итоговая стоимость", "Заказчик", "Автомобиль", "Заметки" };
+            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
         }
         public static void AddListAutoInGrid(DataGridView dataGridView)
         {
-            string query = @"select * from cars_view";
             string[] columnNames = { "VIN", "Марка", "Гос.номер", "Свидетельство о рег.", "Владелец" };
-            CreateViewForDataGrid(query, columnNames,dataGridView);
+            DbProxy.DataSets.CreateDSForDataGrid(columnNames,dataGridView);
         }
         public static void AddListClientInGrid(DataGridView dataGridView)
         {
-            string query = @"select * from client_view";
             string[] columnNames = { "Наименование", "Директор", "ИНН", "Номер телефона" };
-            CreateViewForDataGrid(query, columnNames, dataGridView);
+            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView);
         }
-        public static string queryForStaff = @"select * from staff_view";
-        public static void AddListPersonalInGrid(DataGridView dataGridView, string query)
+        public static void AddListPersonalInGrid(DataGridView dataGridView, string content = "")
         {
             string[] columnNames = { "Табельный номер", "ФИО", "Адрес", "Должность", "Номер телефона" };
-            CreateViewForDataGrid(query, columnNames, dataGridView);
+            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
         }
-        public static string queryForMalfunctions = @"select * from type_of_work_view";
-        public static string queryForSpares = @"select * from simple_spares_view";
-        public static void AddListMalfunctionsInGrid(DataGridView dataGridView, string query)
+        public static void AddListMalfunctionsInGrid(DataGridView dataGridView, string content = "")
         {
             string[] columnNames = { "Наименование", "Единица измерения", "Стоимость(руб.)", "Количество" };
-            CreateViewForDataGrid(query, columnNames, dataGridView);
+            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
         }
-        public static string queryForSparePart = @"select * from stock_view";
-        public static void AddSparePartInStock(DataGridView dataGridView, string query)
+        public static void AddSparePartInStock(DataGridView dataGridView, string content = "")
         {
             string[] columnNames = { "Артикул", "Наименование", "Количество", "Cтоимость(руб.)", "Автомобиль" };
-            CreateViewForDataGrid(query, columnNames, dataGridView);
+            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
         }
         //функции для редактирования сетки 
         private void DataGridViewForRepairs()
         {
             dataGridView.Columns.Clear();
             AddListRepairsInGrid(dataGridView);
-
+        }
+        private void DataGridViewForFinishedReps()
+        {
+            dataGridView.Columns.Clear();
+            AddListFinishedRepsInGrid(dataGridView);
         }
         private void DataGridViewForClient()
         {
@@ -775,7 +841,7 @@ namespace AutoService
         private void DataGridViewForPersonal()
         {
             dataGridView.Columns.Clear();
-            AddListPersonalInGrid(dataGridView, Form1.queryForStaff);
+            AddListPersonalInGrid(dataGridView, Queries.StaffView);
         }
         private void DataGridViewForAuto()
         {
@@ -785,12 +851,12 @@ namespace AutoService
         private void DataGridViewForPrice()
         {
             dataGridView.Columns.Clear();
-            AddListMalfunctionsInGrid(dataGridView, queryForMalfunctions);
+            AddListMalfunctionsInGrid(dataGridView, Queries.MalfunctionsView);
         }
         private void DataGridViewForStock()
         {
             dataGridView.Columns.Clear();
-            AddSparePartInStock(dataGridView, queryForSparePart);
+            AddSparePartInStock(dataGridView, Queries.SparesView);
         }
 
         void VisibleColumns()
@@ -852,7 +918,13 @@ namespace AutoService
             string query;
             switch (WindowIndex)
             {
-                case ((int)WindowsStruct.Stock):
+                case (WindowsStruct.ActOfEndsRepairs):
+                    AddListFinishedRepsInGrid(dataGridView, textBoxSearch.Text);
+                    break;
+                case (WindowsStruct.Repairs):
+                    AddListRepairsInGrid(dataGridView, textBoxSearch.Text);
+                    break;
+                case (WindowsStruct.Stock):
                     query = $"select * from stock_view where uniq_code LIKE " +
                         $"'%{((int.TryParse(textBoxSearch.Text, out int j)) ? int.Parse(textBoxSearch.Text) : 0)}%'";
                     using (FbCommand command = new FbCommand(query, Form1.db))
@@ -870,52 +942,13 @@ namespace AutoService
                         db.Close();
                     }
                     break;
-                case ((int) WindowsStruct.Price):
+                case (WindowsStruct.Price):
                     query = $"select * from type_of_work_view where upper(description) " +
                         $"LIKE '%{textBoxSearch.Text.ToUpper()}%'";
                     AddListMalfunctionsInGrid(dataGridView, query);
                     break;
             }
         }
-        public static void CreateViewForDataGrid(string query, string[] columnNames, DataGridView dg)
-        {
-            using (FbCommand command = new FbCommand(query, Form1.db))
-            {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataSet ds = new DataSet();
-                db.Open();
-                dataAdapter.Fill(ds);
-                dg.DataSource = ds.Tables[0];
-                for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
-                {
-                    ds.Tables[0].Columns[i].ColumnName = columnNames[i];
-                }
-                db.Close();
-            }
-            dg.ClearSelection();
-        }
-        public void FinishRepair(int id_card)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("FINISH_REPAIR", Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_card;
-                command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
-
         private void AddRepair_MouseEnter(object sender, EventArgs e)
         {
             SetToolTip(AddRepair, "Добавить ремонт");
@@ -1028,17 +1061,20 @@ namespace AutoService
 
         private void PaymenInvoiceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WorkWithExcel.MakeBillInExcel(SelectIndex, db);
+            WorkWithExcel.MakeBillInExcelAsync(SelectedIndEndRep, db);
         }
 
         private void FinishActToolStripMenu_Click(object sender, EventArgs e)
         {
-            WorkWithExcel.MakeActOfWorkInExcel(SelectIndex, db);
+            WorkWithExcel.MakeActOfWorkInExcelAsync(SelectedIndEndRep, db);
         }
-
         private void OrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WorkWithExcel.MakeOrderInExcel(SelectIndex, db);
+            WorkWithExcel.MakeOrderInExcelAsync(SelectedIndEndRep, db);
+        }
+        private void UploadAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WorkWithExcel.UploadAllDocsInExcAsync(SelectedIndEndRep, db);
         }
         public bool GridRowsColumnIsNull()
         {
@@ -1046,6 +1082,15 @@ namespace AutoService
                 return true;
             else
                 return false;
+        }
+
+        private void dataGridView_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && WindowIndex == WindowsStruct.ActOfEndsRepairs
+                && dataGridView.SelectedRows.Count > 0)
+            {
+                contMenuStripDataGrid.Show(Cursor.Position);
+            }
         }
     }
 }

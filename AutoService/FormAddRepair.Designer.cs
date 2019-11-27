@@ -432,6 +432,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление ремонта";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAddRepair_FormClosing);
+            this.Load += new System.EventHandler(this.FormAddRepair_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

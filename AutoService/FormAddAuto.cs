@@ -19,6 +19,8 @@ namespace AutoService
     {
         FormForSelect formSelectAuto;
         FormAddRepair formAddCarInRepair;
+        FormAddWayBill formAddWayBill;
+
         int selectedIndex;
         public bool OwnerSelected = false;
         Form1 mainForm;
@@ -34,6 +36,10 @@ namespace AutoService
         {
             formAddCarInRepair = addRepair;
             this.mainForm = mainForm; 
+        }
+        public FormAddAuto(FormAddWayBill formAddWayBill) : this ()
+        {
+            this.formAddWayBill = formAddWayBill;
         }
         private void FormAddAuto_Load(object sender, EventArgs e)
         {
@@ -53,7 +59,7 @@ namespace AutoService
             }
             if (formAddCarInRepair.Visible)
                 return;
-            if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
+            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
             {
                 comboBoxAuto.Text = mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[1].Value.ToString();
             }
@@ -61,7 +67,7 @@ namespace AutoService
         }
         private void buttonAddAuto_Click(object sender, EventArgs e)
         {
-            if (textBoxGosNumb.Text.Length == 0 || OwnerSelected == false)
+            if (textBoxGosNumb.Text.Length == 0)
             {
                 MessageBox.Show("Вы ввели не все данные!");
                 return;
@@ -74,17 +80,26 @@ namespace AutoService
                 this.Close();
                 return;
             }
-            if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
+            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Add)
             {
                 ExecuteAutoProcedure("NEW_CAR_PROCEDURE");
+                if (formAddWayBill != null)
+                {
+                    formAddWayBill.FillComboBox(formAddWayBill.comboBoxCar, Form1.db,
+                        formAddWayBill.car_query, formAddWayBill.displayMembers[FormAddWayBill.DisplayMembers.Car],
+                        formAddWayBill.valueMembers[FormAddWayBill.ValueMembers.Car]);
+                    formAddWayBill.comboBoxCar.SelectedIndex = -1;
+                    formAddWayBill.comboBoxCar.SelectedValue = textBoxGosNumb.Text;
+                    this.Close();
+                    return;
+                }
             }
 
-            else if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
+            else if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
             {
                 ExecuteAutoProcedure("UPDATE_CAR_PROCEDURE");
                 mainForm.dataGridView.Rows[selectedIndex].Selected = true;
             }
-            
             Form1.AddListAutoInGrid(mainForm.dataGridView);
             mainForm.dataGridView.ClearSelection();
             if (Form1.SelectIndex != 0)
@@ -95,7 +110,7 @@ namespace AutoService
         private void buttonAddOwner_Click(object sender, EventArgs e)
         {
             Form1.SelectIndex = 0;
-            Form1.WindowIndex = (int)Form1.WindowsStruct.Auto;
+            Form1.WindowIndex = Form1.WindowsStruct.AddAutoInRep;
             formSelectAuto = new FormForSelect(this, mainForm);
             formSelectAuto.ShowDialog();
         }

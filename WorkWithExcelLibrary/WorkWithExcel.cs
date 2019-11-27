@@ -9,7 +9,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using System.Configuration;
 
-namespace AutoService
+namespace WorkWithExcelLibrary
 {
     public static class WorkWithExcel
     {
@@ -28,6 +28,24 @@ namespace AutoService
         static string mainPath = ConfigurationManager.AppSettings.Get("DestExcelFolder");
         static string fileName;
         //работа с excel
+        public static async void UploadAllDocsInExcAsync(int idRepair, FbConnection db)
+        {
+            await Task.Run(() => MakeActOfWorkInExcel(idRepair, db));
+            await Task.Run(() => MakeOrderInExcel(idRepair, db));
+            await Task.Run(() => MakeBillInExcel(idRepair, db));
+        } 
+        public static async void MakeActOfWorkInExcelAsync(int idRepair, FbConnection db)
+        {
+            await Task.Run(() => MakeActOfWorkInExcel(idRepair, db));
+        }
+        static async public void MakeOrderInExcelAsync(int idRepair, FbConnection db)
+        {
+            await Task.Run(() => MakeOrderInExcel(idRepair, db));
+        }
+        static async public void MakeBillInExcelAsync(int idRepair, FbConnection db)
+        {
+            await Task.Run(() => MakeBillInExcel(idRepair, db));
+        }
         static public void MakeActOfWorkInExcel(int idRepair, FbConnection db)
         {
             rowStartForDelete = 0;
@@ -61,11 +79,11 @@ namespace AutoService
                 xlWorkBook.Close();
                 xlApp.Quit();
                 while (System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp) > 0) { }
-                MessageBox.Show("Акт выгружен в формате Excel!");
+                //MessageBox.Show($"Акт № {idRepair} выгружен в формате Excel!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Не удалось сделать акт выполненных работ\n" +
+                MessageBox.Show($"Не удалось сделать акт выполненных работ № {idRepair}\n" +
                     $"{ex.Message}");
                 xlWorkBook.Close(false);
                 xlApp.Quit();
@@ -107,11 +125,11 @@ namespace AutoService
                 xlWorkBook.Close();
                 xlApp.Quit();
                 while (System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp) > 0) { }
-                MessageBox.Show("Наряд выгружен в формате Excel!");
+                //MessageBox.Show($"Наряд № {idRepair} выгружен в формате Excel!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Не удалось сделать акт выполненных работ\n" +
+                MessageBox.Show($"Не удалось сделать акт выполненных работ № {idRepair}\n" +
                     $"{ex.Message}");
                 xlWorkBook.Close(false);
                 xlApp.Quit();
@@ -143,11 +161,11 @@ namespace AutoService
                 xlWorkBook.Close();
                 xlApp.Quit();
                 while (System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp) > 0) { }
-                MessageBox.Show("Счет выгружен в формате Excel!");
+                //MessageBox.Show($"Счет № {idRepair} выгружен в формате Excel!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Не удалось сделать счет на оплату\n" +
+                MessageBox.Show($"Не удалось сделать счет на оплату № {idRepair}\n" +
                     $"{ex.Message}");
                 xlWorkBook.Close(false);
                 xlApp.Quit();

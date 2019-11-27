@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AutoServiceLibrary;
+using DbProxy;
 
 namespace AutoService
 {
@@ -28,29 +29,27 @@ namespace AutoService
         {
             switch (Form1.WindowIndex)
             {
-                case (int) Form1.WindowsStruct.MalfAdd:
-                    AddMalfOrSparesInDB(Form1.queryForMalfunctions);
-                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Form1.queryForMalfunctions);
+                case Form1.WindowsStruct.MalfAdd:
+                    AddMalfOrSparesInDB();
+                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView);
                     break;
-                case (int)Form1.WindowsStruct.MalfView:
-                    AddMalfOrSparesInDB(formForSelect.queryForMalfView(formAddRepair.id_repair));
-                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, 
-                        formForSelect.queryForMalfView(formAddRepair.id_repair));
+                case Form1.WindowsStruct.MalfView:
+                    AddMalfOrSparesInDB();
+                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.GetMalfByIdRep(formAddRepair.id_repair.ToString()));
                     break;
-                case (int)Form1.WindowsStruct.SpareAdd:
-                    AddMalfOrSparesInDB(Form1.queryForSpares);
-                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Form1.queryForSpares);
+                case Form1.WindowsStruct.SpareAdd:
+                    AddMalfOrSparesInDB();
+                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView);
                     break;
-                case (int)Form1.WindowsStruct.SpareView:
-                    AddMalfOrSparesInDB(formForSelect.queryForSpareView(formAddRepair.id_repair));
-                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView,
-                        formForSelect.queryForSpareView(formAddRepair.id_repair));
+                case Form1.WindowsStruct.SpareView:
+                    AddMalfOrSparesInDB();
+                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.GetSparesByIdRep(formAddRepair.id_repair.ToString()));
                     break;
             }
             this.Close();
         }
 
-        private void AddMalfOrSparesInDB(string query)
+        private void AddMalfOrSparesInDB()
         {
             Malfunctions malfAdd = new Malfunctions(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString(),
                     int.Parse(numberUpDown.Value.ToString()));

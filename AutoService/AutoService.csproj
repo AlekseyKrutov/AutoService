@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AutoService</RootNamespace>
     <AssemblyName>AutoService</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -54,6 +54,9 @@
       <HintPath>..\..\AutoServiceLibrary\AutoServiceLibrary\bin\Debug\AutoServiceLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DbProxy">
+      <HintPath>\\krutov-nb\Users\Админ\Desktop\проекты\AutoService\DbProxy\bin\Debug\DbProxy.dll</HintPath>
+    </Reference>
     <Reference Include="FirebirdSql.Data.FirebirdClient, Version=6.3.0.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
       <HintPath>..\packages\FirebirdSql.Data.FirebirdClient.6.3.0\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>
       <Private>True</Private>
@@ -70,6 +73,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Messaging" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,6 +82,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WorkWithExcelLibrary">
+      <HintPath>..\WorkWithExcelLibrary\bin\Debug\WorkWithExcelLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Form1.cs">
@@ -128,6 +135,18 @@
     <Compile Include="FormAddSparePart.Designer.cs">
       <DependentUpon>FormAddSparePart.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAddTrip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddTrip.Designer.cs">
+      <DependentUpon>FormAddTrip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAddWayBill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddWayBill.Designer.cs">
+      <DependentUpon>FormAddWayBill.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormAuthorization.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,7 +160,6 @@
       <DependentUpon>FormForSelect.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkWithExcel.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -166,6 +184,12 @@
     <EmbeddedResource Include="FormAddSparePart.resx">
       <DependentUpon>FormAddSparePart.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormAddTrip.resx">
+      <DependentUpon>FormAddTrip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAddWayBill.resx">
+      <DependentUpon>FormAddWayBill.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormAuthorization.resx">
       <DependentUpon>FormAuthorization.cs</DependentUpon>
     </EmbeddedResource>
@@ -183,6 +207,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include=".editorconfig" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FirebirdSql.Data.FirebirdClient;
 using AutoServiceLibrary;
+using DbProxy;
 
 namespace AutoService
 {
@@ -21,6 +22,7 @@ namespace AutoService
         public FormAddPrice()
         {
             InitializeComponent();
+            textBoxPrice.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressFloat);
             comboBoxUnit.SelectedIndex = 0;
         }
         public FormAddPrice(Form1 mainForm) : this()
@@ -45,24 +47,25 @@ namespace AutoService
             else
                 ExecuteTypeWorkProc("UPDATE_TYPE_WORK");
         }
-        private void textBoxPrice_KeyPress(object sender, KeyPressEventArgs e)
+        /*private void textBoxPrice_KeyPress(object sender, KeyPressEventArgs e)
         {
+            TextBox textBox = (TextBox)sender;
             if (e.KeyChar == ',')
                 e.KeyChar = '.';
             if (!(Char.IsDigit(e.KeyChar)) && !((e.KeyChar == '.' || e.KeyChar == ',')
-                && (textBoxPrice.Text.IndexOf(".") == -1) && (textBoxPrice.Text.Length != 0)))
+                && (textBox.Text.IndexOf(".") == -1) && (textBox.Text.Length != 0)))
             {
                 if (e.KeyChar != (char)Keys.Back)
                 {
                     e.Handled = true;
                 }
             }
-            if (textBoxPrice.Text.Split('.').ToArray().Length > 1
-                && textBoxPrice.Text.Split('.').ToArray().Last().Length > 1 && e.KeyChar != (char)Keys.Back)
+            if (textBox.Text.Split('.').ToArray().Length > 1
+                && textBox.Text.Split('.').ToArray().Last().Length > 1 && e.KeyChar != (char)Keys.Back)
             {
                 e.Handled = true;
             }
-        }
+        }*/
         public void ExecuteTypeWorkProc(string nameProc)
         {
             Form1.db.Open();
@@ -80,7 +83,7 @@ namespace AutoService
                 else
                     command.Parameters.Add("@UNIT", FbDbType.VarChar).Value = 1;
                 command.Parameters.Add("@COST", FbDbType.Float).Value = textBoxPrice.Text;
-                if (Form1.WindowIndex == (int)Form1.WindowsStruct.SpareAdd)
+                if (Form1.WindowIndex == Form1.WindowsStruct.SpareAdd)
                     command.Parameters.Add("@MALF_OR_SPARE", FbDbType.VarChar).Value = 1;
                 else
                     command.Parameters.Add("@MALF_OR_SPARE", FbDbType.VarChar).Value = null;
@@ -102,18 +105,18 @@ namespace AutoService
                 }
                 trn.Commit();
                 Form1.db.Close();
-                if (formForSelect != null && Form1.WindowIndex == (int)Form1.WindowsStruct.MalfAdd)
+                if (formForSelect != null && Form1.WindowIndex == Form1.WindowsStruct.MalfAdd)
                 {
-                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Form1.queryForMalfunctions);
+                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.MalfunctionsView);
                     Form1.SelectIndex = 0;
                     formForSelect.textBoxSearch.Clear();
                     formForSelect.textBoxSearch.Text = textBoxDescription.Text;
                     this.Close();
                     return;
                 }
-                else if (formForSelect != null && Form1.WindowIndex == (int)Form1.WindowsStruct.SpareAdd)
+                else if (formForSelect != null && Form1.WindowIndex == Form1.WindowsStruct.SpareAdd)
                 {
-                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Form1.queryForSpares);
+                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.MalfunctionsView);
                     Form1.SelectIndex = 0;
                     formForSelect.textBoxSearch.Clear();
                     formForSelect.textBoxSearch.Text = textBoxDescription.Text;
@@ -122,14 +125,14 @@ namespace AutoService
                 }
             }
             this.Close();
-            Form1.AddListMalfunctionsInGrid(mainForm.dataGridView, Form1.queryForMalfunctions);
+            Form1.AddListMalfunctionsInGrid(mainForm.dataGridView, Queries.MalfunctionsView);
             mainForm.dataGridView.ClearSelection();
         }
 
         private void FormAddPrice_Shown(object sender, EventArgs e)
         {
             oldDescription = textBoxDescription.Text;
-            if (Form1.WindowIndex == (int)Form1.WindowsStruct.MalfAdd)
+            if (Form1.WindowIndex == Form1.WindowsStruct.MalfAdd)
                 comboBoxUnit.SelectedIndex = 1;
         }
     }

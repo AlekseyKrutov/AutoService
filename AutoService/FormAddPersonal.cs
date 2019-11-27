@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AutoServiceLibrary;
 using FirebirdSql.Data.FirebirdClient;
+using DbProxy;
 
 namespace AutoService
 {
     public partial class FormAddPersonal : Form
     {
         Form1 mainForm;
+        FormAddWayBill formAddWayBill = new FormAddWayBill();
+
         bool dateSelected = false;
 
         public string date;
@@ -26,6 +29,10 @@ namespace AutoService
         public FormAddPersonal(Form1 mainForm) : this()
         {
             this.mainForm = mainForm;
+        }
+        public FormAddPersonal(FormAddWayBill formAddWayBill) : this()
+        {
+            this.formAddWayBill = formAddWayBill;
         }
         private void FormAddPersonal_Load(object sender, EventArgs e)
         {
@@ -40,7 +47,7 @@ namespace AutoService
                 comboBoxFunction.DisplayMember = "PROFESSION";
                 Form1.db.Close();
             }
-            if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
+            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
             {
                 Form1.db.Open();
                 using (FbCommand command = new FbCommand("RETURN_GENDER_FUNC_PROCEDURE", Form1.db))
@@ -65,20 +72,29 @@ namespace AutoService
         {
             if (textBoxLastName.Text.Length == 0 || textBoxFirstName.Text.Length == 0
                 || comboBoxGender.Text.Length == 0 || 
-                (dateSelected == false && Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Add))
+                (dateSelected == false && Form1.AddOrEdit == Form1.AddEditOrDelete.Add))
             {
                 MessageBox.Show("Вы ввели не все данные!");
                 return;
             }
-            if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
+            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Add)
             {
                 ExecutePersonalProcedure("NEW_STAFF_PROCEDURE");
             }
-            else if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
+            else if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
             {
                 ExecutePersonalProcedure("UPDATE_STAFF_PROCEDURE");
             }
-            Form1.AddListPersonalInGrid(mainForm.dataGridView, Form1.queryForStaff);
+            if (formAddWayBill != null)
+            {
+                formAddWayBill.FillComboBox(formAddWayBill.comboBoxDriver, Form1.db,
+                    formAddWayBill.driver_query, formAddWayBill.displayMembers[FormAddWayBill.DisplayMembers.Driver],
+                    formAddWayBill.valueMembers[FormAddWayBill.ValueMembers.Driver]);
+                formAddWayBill.comboBoxDriver.SelectedIndex = -1;
+                this.Close();
+                return;
+            }
+            Form1.AddListPersonalInGrid(mainForm.dataGridView, Queries.StaffView);
             this.Close();
             mainForm.dataGridView.ClearSelection();
             mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;
@@ -90,7 +106,7 @@ namespace AutoService
             {
                 FbCommand command = new FbCommand(nameProc, Form1.db, trn);
                 command.CommandType = CommandType.StoredProcedure;
-                if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
+                if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
                 {
                     command.Parameters.Add("@TUB_NUMB", FbDbType.SmallInt).Value =
                         mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
@@ -100,7 +116,10 @@ namespace AutoService
                 else
                     command.Parameters.Add("@INN", FbDbType.BigInt).Value = textBoxINN.Text;
                 command.Parameters.Add("@FIRST_NAME", FbDbType.VarChar).Value = textBoxFirstName.Text;
-                command.Parameters.Add("@SECOND_NAME", FbDbType.VarChar).Value = textBoxSecondName.Text;
+                if (textBoxSecondName.Text == string.Empty)
+                    command.Parameters.Add("@SECOND_NAME", FbDbType.VarChar).Value = null;
+                else
+                    command.Parameters.Add("@SECOND_NAME", FbDbType.VarChar).Value = textBoxSecondName.Text;
                 command.Parameters.Add("@LAST_NAME", FbDbType.VarChar).Value = textBoxLastName.Text;
                 command.Parameters.Add("@PASSPORT", FbDbType.VarChar).Value = textBoxPassport.Text;
                 command.Parameters.Add("@ADDRESS", FbDbType.VarChar).Value = textBoxAddress.Text;

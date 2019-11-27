@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FirebirdSql.Data.FirebirdClient;
 using AutoServiceLibrary;
+using DbProxy;
+
 namespace AutoService
 {
     public partial class FormAddSparePart : Form
@@ -42,7 +44,7 @@ namespace AutoService
                 comboBoxAuto.DisplayMember = "MARK_MODEL";
                 Form1.db.Close();
             }
-            if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
+            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
             {
                 checkBoxOnlyNumb.Checked = true;
                 if (mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[4].Value.ToString().Length != 0)
@@ -126,10 +128,10 @@ namespace AutoService
                     trn.Commit();
                     Form1.db.Close();
                 }
-                Form1.AddSparePartInStock(mainForm.dataGridView, Form1.queryForSparePart);
+                Form1.AddSparePartInStock(mainForm.dataGridView, Queries.SparesView);
                 this.Close();
             }
-            else if(Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Edit)
+            else if(Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
             {
                 Form1.db.Open();
                 using (FbTransaction trn = Form1.db.BeginTransaction())
@@ -168,7 +170,7 @@ namespace AutoService
                     trn.Commit();
                     Form1.db.Close();
                 }
-                Form1.AddSparePartInStock(mainForm.dataGridView, Form1.queryForSparePart);
+                Form1.AddSparePartInStock(mainForm.dataGridView, Queries.SparesView);
                 this.Close();
                 mainForm.dataGridView.ClearSelection();
                 mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;

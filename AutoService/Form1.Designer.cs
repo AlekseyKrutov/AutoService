@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.RepairsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CurrentRepairsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,11 +40,13 @@
             this.PaymenInvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FinishActToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.OrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UploadAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PersonalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PriceStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.StockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.WayBillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,12 +73,26 @@
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.labelSearch = new System.Windows.Forms.Label();
             this.labelLogin = new System.Windows.Forms.Label();
+            this.EditWayBill = new System.Windows.Forms.Button();
+            this.AddWayBill = new System.Windows.Forms.Button();
+            this.DeleteWayBill = new System.Windows.Forms.Button();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contMenuStripDataGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.UnloadAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UnldBillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UnldActToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UnldOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SeeFinishedRepair = new System.Windows.Forms.Button();
+            this.StartFinishedRepair = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.contMenuStripDataGrid.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.menuStrip1.AutoSize = false;
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -85,7 +101,8 @@
             this.PersonalToolStripMenuItem,
             this.autoToolStripMenuItem,
             this.PriceStripMenuItem1,
-            this.StockToolStripMenuItem});
+            this.StockToolStripMenuItem,
+            this.WayBillToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1003, 40);
@@ -115,7 +132,8 @@
             this.EndRepairsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.PaymenInvoiceToolStripMenuItem,
             this.FinishActToolStripMenu,
-            this.OrderToolStripMenuItem});
+            this.OrderToolStripMenuItem,
+            this.UploadAllToolStripMenuItem});
             this.EndRepairsToolStripMenuItem.Name = "EndRepairsToolStripMenuItem";
             this.EndRepairsToolStripMenuItem.Size = new System.Drawing.Size(312, 34);
             this.EndRepairsToolStripMenuItem.Text = "Завершенные ремонты";
@@ -141,6 +159,13 @@
             this.OrderToolStripMenuItem.Size = new System.Drawing.Size(320, 34);
             this.OrderToolStripMenuItem.Text = "Заказ наряд";
             this.OrderToolStripMenuItem.Click += new System.EventHandler(this.OrderToolStripMenuItem_Click);
+            // 
+            // UploadAllToolStripMenuItem
+            // 
+            this.UploadAllToolStripMenuItem.Name = "UploadAllToolStripMenuItem";
+            this.UploadAllToolStripMenuItem.Size = new System.Drawing.Size(320, 34);
+            this.UploadAllToolStripMenuItem.Text = "Полная выгрузка";
+            this.UploadAllToolStripMenuItem.Click += new System.EventHandler(this.UploadAllToolStripMenuItem_Click);
             // 
             // ClientsToolStripMenuItem
             // 
@@ -187,6 +212,15 @@
             this.StockToolStripMenuItem.Text = "Склад";
             this.StockToolStripMenuItem.Click += new System.EventHandler(this.StockToolStripMenuItem_Click);
             // 
+            // WayBillToolStripMenuItem
+            // 
+            this.WayBillToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.WayBillToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("WayBillToolStripMenuItem.Image")));
+            this.WayBillToolStripMenuItem.Name = "WayBillToolStripMenuItem";
+            this.WayBillToolStripMenuItem.Size = new System.Drawing.Size(144, 36);
+            this.WayBillToolStripMenuItem.Text = "Перевозки";
+            this.WayBillToolStripMenuItem.Click += new System.EventHandler(this.WayBillToolStripMenuItem_Click);
+            // 
             // dataGridView
             // 
             this.dataGridView.AllowUserToResizeRows = false;
@@ -197,14 +231,14 @@
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView.ColumnHeadersHeight = 50;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -214,27 +248,27 @@
             this.Column4,
             this.Column5,
             this.Column6});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Aqua;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Aqua;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView.EnableHeadersVisualStyles = false;
             this.dataGridView.Location = new System.Drawing.Point(0, 158);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView.ShowCellToolTips = false;
             this.dataGridView.Size = new System.Drawing.Size(1003, 539);
@@ -242,6 +276,7 @@
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseClick);
+            this.dataGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView_MouseDown);
             // 
             // Column1
             // 
@@ -302,7 +337,7 @@
             this.labelHeaderText.Font = new System.Drawing.Font("Segoe UI", 17.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelHeaderText.Location = new System.Drawing.Point(0, 40);
             this.labelHeaderText.Name = "labelHeaderText";
-            this.labelHeaderText.Size = new System.Drawing.Size(131, 31);
+            this.labelHeaderText.Size = new System.Drawing.Size(129, 31);
             this.labelHeaderText.TabIndex = 3;
             this.labelHeaderText.Text = "HeaderText";
             // 
@@ -538,11 +573,128 @@
             this.labelLogin.Size = new System.Drawing.Size(0, 16);
             this.labelLogin.TabIndex = 23;
             // 
+            // EditWayBill
+            // 
+            this.EditWayBill.BackColor = System.Drawing.Color.Transparent;
+            this.EditWayBill.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.EditWayBill.FlatAppearance.BorderSize = 0;
+            this.EditWayBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EditWayBill.Image = ((System.Drawing.Image)(resources.GetObject("EditWayBill.Image")));
+            this.EditWayBill.Location = new System.Drawing.Point(282, 583);
+            this.EditWayBill.Name = "EditWayBill";
+            this.EditWayBill.Size = new System.Drawing.Size(70, 70);
+            this.EditWayBill.TabIndex = 25;
+            this.EditWayBill.UseVisualStyleBackColor = false;
+            // 
+            // AddWayBill
+            // 
+            this.AddWayBill.BackColor = System.Drawing.Color.Transparent;
+            this.AddWayBill.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.AddWayBill.FlatAppearance.BorderSize = 0;
+            this.AddWayBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AddWayBill.Image = ((System.Drawing.Image)(resources.GetObject("AddWayBill.Image")));
+            this.AddWayBill.Location = new System.Drawing.Point(206, 583);
+            this.AddWayBill.Name = "AddWayBill";
+            this.AddWayBill.Size = new System.Drawing.Size(70, 70);
+            this.AddWayBill.TabIndex = 24;
+            this.AddWayBill.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.AddWayBill.UseVisualStyleBackColor = false;
+            this.AddWayBill.Click += new System.EventHandler(this.AddWayBill_Click);
+            // 
+            // DeleteWayBill
+            // 
+            this.DeleteWayBill.BackColor = System.Drawing.Color.Transparent;
+            this.DeleteWayBill.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.DeleteWayBill.FlatAppearance.BorderSize = 0;
+            this.DeleteWayBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DeleteWayBill.Image = ((System.Drawing.Image)(resources.GetObject("DeleteWayBill.Image")));
+            this.DeleteWayBill.Location = new System.Drawing.Point(358, 583);
+            this.DeleteWayBill.Name = "DeleteWayBill";
+            this.DeleteWayBill.Size = new System.Drawing.Size(70, 70);
+            this.DeleteWayBill.TabIndex = 26;
+            this.DeleteWayBill.UseVisualStyleBackColor = false;
+            // 
+            // notifyIcon
+            // 
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "notifyIcon1";
+            this.notifyIcon.Visible = true;
+            // 
+            // contMenuStripDataGrid
+            // 
+            this.contMenuStripDataGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.UnloadAllToolStripMenuItem,
+            this.UnldBillToolStripMenuItem,
+            this.UnldActToolStripMenuItem,
+            this.UnldOrderToolStripMenuItem});
+            this.contMenuStripDataGrid.Name = "contMenuStripDataGrid";
+            this.contMenuStripDataGrid.Size = new System.Drawing.Size(251, 108);
+            // 
+            // UnloadAllToolStripMenuItem
+            // 
+            this.UnloadAllToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.UnloadAllToolStripMenuItem.Name = "UnloadAllToolStripMenuItem";
+            this.UnloadAllToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.UnloadAllToolStripMenuItem.Text = "Полная выгрузка";
+            // 
+            // UnldBillToolStripMenuItem
+            // 
+            this.UnldBillToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.UnldBillToolStripMenuItem.Name = "UnldBillToolStripMenuItem";
+            this.UnldBillToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.UnldBillToolStripMenuItem.Text = "Счет на оплату";
+            // 
+            // UnldActToolStripMenuItem
+            // 
+            this.UnldActToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.UnldActToolStripMenuItem.Name = "UnldActToolStripMenuItem";
+            this.UnldActToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.UnldActToolStripMenuItem.Text = "Акт выполненных работ";
+            // 
+            // UnldOrderToolStripMenuItem
+            // 
+            this.UnldOrderToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.UnldOrderToolStripMenuItem.Name = "UnldOrderToolStripMenuItem";
+            this.UnldOrderToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.UnldOrderToolStripMenuItem.Text = "Заказ наряд";
+            // 
+            // SeeFinishedRepair
+            // 
+            this.SeeFinishedRepair.BackColor = System.Drawing.Color.Transparent;
+            this.SeeFinishedRepair.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.SeeFinishedRepair.FlatAppearance.BorderSize = 0;
+            this.SeeFinishedRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SeeFinishedRepair.Image = ((System.Drawing.Image)(resources.GetObject("SeeFinishedRepair.Image")));
+            this.SeeFinishedRepair.Location = new System.Drawing.Point(372, 269);
+            this.SeeFinishedRepair.Name = "SeeFinishedRepair";
+            this.SeeFinishedRepair.Size = new System.Drawing.Size(70, 70);
+            this.SeeFinishedRepair.TabIndex = 27;
+            this.SeeFinishedRepair.UseVisualStyleBackColor = false;
+            // 
+            // StartFinishedRepair
+            // 
+            this.StartFinishedRepair.BackColor = System.Drawing.Color.Transparent;
+            this.StartFinishedRepair.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.StartFinishedRepair.FlatAppearance.BorderSize = 0;
+            this.StartFinishedRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StartFinishedRepair.Image = ((System.Drawing.Image)(resources.GetObject("StartFinishedRepair.Image")));
+            this.StartFinishedRepair.Location = new System.Drawing.Point(448, 269);
+            this.StartFinishedRepair.Name = "StartFinishedRepair";
+            this.StartFinishedRepair.Size = new System.Drawing.Size(70, 70);
+            this.StartFinishedRepair.TabIndex = 28;
+            this.StartFinishedRepair.UseVisualStyleBackColor = false;
+            this.StartFinishedRepair.Click += new System.EventHandler(this.StartFinishedRepair_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1003, 700);
+            this.Controls.Add(this.StartFinishedRepair);
+            this.Controls.Add(this.SeeFinishedRepair);
+            this.Controls.Add(this.DeleteWayBill);
+            this.Controls.Add(this.EditWayBill);
+            this.Controls.Add(this.AddWayBill);
             this.Controls.Add(this.labelLogin);
             this.Controls.Add(this.labelSearch);
             this.Controls.Add(this.textBoxSearch);
@@ -576,6 +728,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.contMenuStripDataGrid.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -621,6 +774,19 @@
         private System.Windows.Forms.ToolStripMenuItem PaymenInvoiceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem FinishActToolStripMenu;
         private System.Windows.Forms.ToolStripMenuItem OrderToolStripMenuItem;
+        private System.Windows.Forms.Button EditWayBill;
+        private System.Windows.Forms.Button AddWayBill;
+        private System.Windows.Forms.Button DeleteWayBill;
+        private System.Windows.Forms.ToolStripMenuItem WayBillToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem UploadAllToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ContextMenuStrip contMenuStripDataGrid;
+        private System.Windows.Forms.ToolStripMenuItem UnloadAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem UnldBillToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem UnldActToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem UnldOrderToolStripMenuItem;
+        private System.Windows.Forms.Button SeeFinishedRepair;
+        private System.Windows.Forms.Button StartFinishedRepair;
     }
 }
 

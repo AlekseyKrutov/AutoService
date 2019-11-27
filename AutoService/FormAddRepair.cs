@@ -32,15 +32,39 @@ namespace AutoService
             this.mainForm = mainForm;
             formForSelect = new FormForSelect(this, mainForm);
         }
+        private void FormAddRepair_Load(object sender, EventArgs e)
+        {
+            if (Form1.WindowIndex == Form1.WindowsStruct.ActOfEndsRepairs)
+            {
+                btnAddNewAutoRepair.Enabled = false;
+                btnSelExistAutoRepair.Enabled = false;
+                btnAddRepair.Visible = false;
+                btnAddMalf.Visible = false;
+                btnSelSparePart.Visible = false;
+                btnSelectPersonal.Visible = false;
+                btnShowMalf.Location = btnAddMalf.Location;
+                btnShowSparePart.Location = btnSelSparePart.Location;
+                btnShowWorker.Location = btnSelectPersonal.Location;
+                checkBoxTurnTime.Visible = false;
+                dateTimeStart.Enabled = false;
+                dateTimeFinish.Enabled = false;
+                textBoxNotes.Enabled = false;
+            }
+        }
         private void FormAddRepair_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (!btnAddNewAutoRepair.Enabled)
+            {
+                Form1.WindowIndex = Form1.WindowsStruct.ActOfEndsRepairs;
+                return;
+            }
             if (e.CloseReason == CloseReason.UserClosing && addOrEditInRepair == (int) Form1.AddEditOrDelete.Add)
                 DeleteSimpleRepair();
-            Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;
+            Form1.WindowIndex = Form1.WindowsStruct.Repairs;
         }
         private void btnAddNewAutoRepair_Click(object sender, EventArgs e)
         {
-            Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;  
+            Form1.WindowIndex = Form1.WindowsStruct.AddAutoInRep;  
             logicForAddRepair = true;
             formAddAutoInRepairs = new FormAddAuto(this, mainForm);
             formAddAutoInRepairs.ShowDialog();
@@ -49,7 +73,7 @@ namespace AutoService
         private void btnSelExistAutoRepair_Click(object sender, EventArgs e)
         {
             Form1.SelectIndex = 0;
-            Form1.WindowIndex = (int)Form1.WindowsStruct.Repairs;
+            Form1.WindowIndex = Form1.WindowsStruct.ViewAutoInRep;
             formForSelect.ShowDialog();
         }
 
@@ -58,7 +82,7 @@ namespace AutoService
             if (AutoNotSelected())
                 return;
             Form1.SelectIndex = 0;
-            Form1.WindowIndex = (int) Form1.WindowsStruct.WorkerAdd;
+            Form1.WindowIndex = Form1.WindowsStruct.WorkerAdd;
             formForSelect.ShowDialog();
         }
         private void btnShowWorker_Click(object sender, EventArgs e)
@@ -66,7 +90,7 @@ namespace AutoService
             if (AutoNotSelected())
                 return;
             Form1.SelectIndex = 0;
-            Form1.WindowIndex = (int)Form1.WindowsStruct.WorkerView;
+            Form1.WindowIndex = Form1.WindowsStruct.WorkerView;
             formForSelect.ShowDialog();
         }
         private void btnAddMalf_Click(object sender, EventArgs e)
@@ -74,7 +98,7 @@ namespace AutoService
             if (AutoNotSelected())
                 return;
             Form1.SelectIndex = 0;
-            Form1.WindowIndex = (int)Form1.WindowsStruct.MalfAdd;
+            Form1.WindowIndex = Form1.WindowsStruct.MalfAdd;
             formForSelect.ShowDialog();
         }
 
@@ -82,7 +106,7 @@ namespace AutoService
         {
             if (AutoNotSelected())
                 return;
-            Form1.WindowIndex = (int)Form1.WindowsStruct.MalfView;
+            Form1.WindowIndex = Form1.WindowsStruct.MalfView;
             formForSelect.ShowDialog();
         }
         private void btnSelSparePart_Click(object sender, EventArgs e)
@@ -90,7 +114,7 @@ namespace AutoService
             if (AutoNotSelected())
                 return;
             Form1.SelectIndex = 0;
-            Form1.WindowIndex = (int)Form1.WindowsStruct.SpareAdd;
+            Form1.WindowIndex = Form1.WindowsStruct.SpareAdd;
             formForSelect.ShowDialog();
         }
         private void btnShowSparePart_Click(object sender, EventArgs e)
@@ -98,7 +122,7 @@ namespace AutoService
             if (AutoNotSelected())
                 return;
             Form1.SelectIndex = 0;
-            Form1.WindowIndex = (int)Form1.WindowsStruct.SpareView;
+            Form1.WindowIndex = Form1.WindowsStruct.SpareView;
             formForSelect.ShowDialog();
         }
         private bool AutoNotSelected()
@@ -228,7 +252,7 @@ namespace AutoService
             {
                 FbCommand command = new FbCommand(nameProc, Form1.db, trn);
                 command.CommandType = CommandType.StoredProcedure;
-                if (Form1.WindowIndex == (int)Form1.WindowsStruct.MalfView)
+                if (Form1.WindowIndex == Form1.WindowsStruct.MalfView)
                 {
                     command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
                     command.Parameters.Add("@DESCRIPTION", FbDbType.Integer).Value = description;
@@ -244,7 +268,7 @@ namespace AutoService
                     Form1.db.Close();
                     return;
                 }
-                else if (Form1.WindowIndex == (int)Form1.WindowsStruct.SpareView)
+                else if (Form1.WindowIndex == Form1.WindowsStruct.SpareView)
                 {
                     command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
                     command.Parameters.Add("@DESCRIPTION", FbDbType.Integer).Value = description;
@@ -275,7 +299,7 @@ namespace AutoService
                     return;
                     */
                 }
-                else if(Form1.WindowIndex == (int)Form1.WindowsStruct.WorkerView)
+                else if(Form1.WindowIndex == Form1.WindowsStruct.WorkerView)
                 {
                     command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
                     command.Parameters.Add("@TUB_NUMB", FbDbType.Integer).Value = uniqCodeOrTubNumb;

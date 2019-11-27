@@ -54,19 +54,20 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 6);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.69277F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.87234F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.6383F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 31.15362F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 31.15362F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(371, 176);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(498, 235);
             this.tableLayoutPanel1.TabIndex = 25;
             // 
             // textBoxDescription
             // 
             this.textBoxDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxDescription.Location = new System.Drawing.Point(147, 3);
+            this.textBoxDescription.Location = new System.Drawing.Point(197, 3);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
-            this.textBoxDescription.Size = new System.Drawing.Size(221, 55);
+            this.textBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxDescription.Size = new System.Drawing.Size(298, 82);
             this.textBoxDescription.TabIndex = 16;
             // 
             // labelDescription
@@ -83,7 +84,7 @@
             // 
             this.labelPrice.AutoSize = true;
             this.labelPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelPrice.Location = new System.Drawing.Point(3, 120);
+            this.labelPrice.Location = new System.Drawing.Point(3, 161);
             this.labelPrice.Name = "labelPrice";
             this.labelPrice.Size = new System.Drawing.Size(78, 16);
             this.labelPrice.TabIndex = 2;
@@ -92,18 +93,17 @@
             // textBoxPrice
             // 
             this.textBoxPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxPrice.Location = new System.Drawing.Point(147, 123);
+            this.textBoxPrice.Location = new System.Drawing.Point(197, 164);
             this.textBoxPrice.Multiline = true;
             this.textBoxPrice.Name = "textBoxPrice";
-            this.textBoxPrice.Size = new System.Drawing.Size(155, 31);
+            this.textBoxPrice.Size = new System.Drawing.Size(181, 31);
             this.textBoxPrice.TabIndex = 17;
-            this.textBoxPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPrice_KeyPress);
             // 
             // labelUnit
             // 
             this.labelUnit.AutoSize = true;
             this.labelUnit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelUnit.Location = new System.Drawing.Point(3, 66);
+            this.labelUnit.Location = new System.Drawing.Point(3, 89);
             this.labelUnit.Name = "labelUnit";
             this.labelUnit.Size = new System.Drawing.Size(134, 16);
             this.labelUnit.TabIndex = 18;
@@ -112,20 +112,20 @@
             // comboBoxUnit
             // 
             this.comboBoxUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxUnit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxUnit.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxUnit.FormattingEnabled = true;
             this.comboBoxUnit.Items.AddRange(new object[] {
             "шт",
             "нч"});
-            this.comboBoxUnit.Location = new System.Drawing.Point(147, 69);
+            this.comboBoxUnit.Location = new System.Drawing.Point(197, 92);
             this.comboBoxUnit.Name = "comboBoxUnit";
-            this.comboBoxUnit.Size = new System.Drawing.Size(52, 28);
+            this.comboBoxUnit.Size = new System.Drawing.Size(52, 32);
             this.comboBoxUnit.TabIndex = 19;
             // 
             // buttonAddPosition
             // 
             this.buttonAddPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonAddPosition.Location = new System.Drawing.Point(264, 188);
+            this.buttonAddPosition.Location = new System.Drawing.Point(394, 247);
             this.buttonAddPosition.Name = "buttonAddPosition";
             this.buttonAddPosition.Size = new System.Drawing.Size(108, 36);
             this.buttonAddPosition.TabIndex = 24;
@@ -137,7 +137,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(379, 228);
+            this.ClientSize = new System.Drawing.Size(505, 290);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.buttonAddPosition);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

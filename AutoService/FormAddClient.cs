@@ -16,6 +16,7 @@ namespace AutoService
     public partial class FormAddClient : Form
     {
         Form1 mainForm;
+        FormAddWayBill formAddWayBill = new FormAddWayBill();
         string oldNameOrg;
         public FormAddClient()
         {
@@ -32,6 +33,10 @@ namespace AutoService
         {
             this.mainForm = mainForm;
         }
+        public FormAddClient(FormAddWayBill formAddWayBill) : this ()
+        {
+            this.formAddWayBill = formAddWayBill;
+        }
         private void FormAddClient_Load(object sender, EventArgs e)
         {
             oldNameOrg = textBoxName.Text;
@@ -43,12 +48,21 @@ namespace AutoService
                 MessageBox.Show("Вы ввели не все данные!");
                 return;
             }
-            if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
+            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Add)
             {
                 ExecuteClientProcedure("NEW_CLIENT_PROCEDURE");
+                if (formAddWayBill != null)
+                {
+                    formAddWayBill.FillComboBox(formAddWayBill.comboBoxClient, Form1.db,
+                        formAddWayBill.client_query, formAddWayBill.displayMembers[FormAddWayBill.DisplayMembers.Client]);
+                    formAddWayBill.comboBoxClient.SelectedIndex = -1;
+                    formAddWayBill.comboBoxClient.SelectedValue = textBoxName.Text;
+                    this.Close();
+                    return;
+                }
                 mainForm.dataGridView.ClearSelection();
             }
-            else if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Edit)
+            else if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
             {
                 ExecuteClientProcedure("UPDATE_CLIENT_PROCEDURE");
             }
@@ -75,7 +89,7 @@ namespace AutoService
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@INN", FbDbType.VarChar).Value = textBoxINN.Text;
                 command.Parameters.Add("@NAME_ORG", FbDbType.VarChar).Value = textBoxName.Text;
-                if (Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Edit)
+                if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
                     command.Parameters.Add("@OLD_NAME_ORG", FbDbType.VarChar).Value = oldNameOrg;
                 command.Parameters.Add("@DIRECTOR", FbDbType.VarChar).Value = textBoxDirector.Text;
                 if (comboBoxBank.Text.Length == 0)

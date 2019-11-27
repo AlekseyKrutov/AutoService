@@ -92,3 +92,4 @@ D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.csproj
 D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.csproj.CopyComplete
 D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.exe
 D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.pdb
+D:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormAddWayBill.resources
