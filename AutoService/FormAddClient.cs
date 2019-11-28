@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using FirebirdSql.Data.FirebirdClient;
+using DbProxy;
 using AutoServiceLibrary;
 
 namespace AutoService
@@ -26,7 +27,6 @@ namespace AutoService
             textBoxKPP.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressOnlyNumb);
             textBoxOKTMO.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressOnlyNumb);
             textBoxOKATO.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressOnlyNumb);
-            textBoxBIK.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressOnlyNumb);
             textBoxOGRN.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressOnlyNumb);
         }
         public FormAddClient(Form1 mainForm) : this ()
@@ -50,7 +50,9 @@ namespace AutoService
             }
             if (Form1.AddOrEdit == Form1.AddEditOrDelete.Add)
             {
-                ExecuteClientProcedure("NEW_CLIENT_PROCEDURE");
+                InvokeProcedure.ExecuteClientProcedure(InvokeProcedure.AddClient, textBoxINN.Text, textBoxName.Text, oldNameOrg, textBoxDirector.Text,
+                    comboBoxBank.SelectedValue.ToString(), textBoxNumbOfTel.Text, textBoxBill.Text, textBoxKPP.Text, textBoxOKTMO.Text, textBoxOKATO.Text, textBoxEmail.Text,
+                    textBoxOGRN.Text, textBoxAddress.Text, textBoxFactAddress.Text);
                 if (formAddWayBill != null)
                 {
                     formAddWayBill.FillComboBox(formAddWayBill.comboBoxClient, Form1.db,
@@ -64,7 +66,9 @@ namespace AutoService
             }
             else if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
             {
-                ExecuteClientProcedure("UPDATE_CLIENT_PROCEDURE");
+                InvokeProcedure.ExecuteClientProcedure(InvokeProcedure.UpdateClient, textBoxINN.Text, textBoxName.Text, oldNameOrg, textBoxDirector.Text,
+                    comboBoxBank.SelectedValue.ToString(), textBoxNumbOfTel.Text, textBoxBill.Text, textBoxKPP.Text, textBoxOKTMO.Text, textBoxOKATO.Text, textBoxEmail.Text,
+                    textBoxOGRN.Text, textBoxAddress.Text, textBoxFactAddress.Text);
             }
             Form1.AddListClientInGrid(mainForm.dataGridView);
             this.Close();
@@ -77,48 +81,6 @@ namespace AutoService
             if (!Char.IsNumber(e.KeyChar) && e.KeyChar != 8)
             {
                 e.Handled = true;
-            }
-        }
-
-        private void ExecuteClientProcedure(string nameProc)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand(nameProc, Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@INN", FbDbType.VarChar).Value = textBoxINN.Text;
-                command.Parameters.Add("@NAME_ORG", FbDbType.VarChar).Value = textBoxName.Text;
-                if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
-                    command.Parameters.Add("@OLD_NAME_ORG", FbDbType.VarChar).Value = oldNameOrg;
-                command.Parameters.Add("@DIRECTOR", FbDbType.VarChar).Value = textBoxDirector.Text;
-                if (comboBoxBank.Text.Length == 0)
-                    command.Parameters.Add("@BANK_BILL", FbDbType.VarChar).Value = null;
-                else
-                    command.Parameters.Add("@BANK_BILL", FbDbType.VarChar).Value = comboBoxBank.Text; ;
-                if (textBoxNumbOfTel.Text == " (   )   -")
-                    command.Parameters.Add("@PHONE_NUMB", FbDbType.VarChar).Value = "";
-                else
-                    command.Parameters.Add("@PHONE_NUMB", FbDbType.VarChar).Value = textBoxNumbOfTel.Text;
-                command.Parameters.Add("@BILL", FbDbType.VarChar).Value = textBoxBill.Text;
-                command.Parameters.Add("@KPP", FbDbType.VarChar).Value = textBoxKPP.Text;
-                command.Parameters.Add("@OKTMO", FbDbType.VarChar).Value = textBoxOKTMO.Text;
-                command.Parameters.Add("@OKATO", FbDbType.VarChar).Value = textBoxOKATO.Text;
-                command.Parameters.Add("@BIK", FbDbType.VarChar).Value = textBoxBIK.Text;
-                command.Parameters.Add("@OGRN", FbDbType.VarChar).Value = textBoxOGRN.Text;
-                command.Parameters.Add("@ADDRESS", FbDbType.VarChar).Value = textBoxAddress.Text;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException e)
-                {
-                    MessageBox.Show(e.Message);
-                    Form1.db.Close();
-                    return;
-                }
-                trn.Commit();
-                Form1.db.Close();
             }
         }
     }

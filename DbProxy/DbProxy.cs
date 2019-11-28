@@ -15,9 +15,14 @@ namespace DbProxy
     public static class InvokeProcedure
     {
         public static FbConnection db = Form1.db;
+
+        //наименования процедур
+        public static string AddClient = "NEW_CLIENT_PROCEDURE";
+        public static string UpdateClient = "UPDATE_CLIENT_PROCEDURE";
         public static void FinishRepair(int id_card)
         {
-            db.OpenAsync();
+            if (db.State != ConnectionState.Open)
+                Form1.db.Open();
             using (FbTransaction trn = Form1.db.BeginTransaction())
             {
                 FbCommand command = new FbCommand("FINISH_REPAIR", db, trn);
@@ -38,7 +43,8 @@ namespace DbProxy
         }
         public static void StartRepair(int id_card)
         {
-            db.OpenAsync();
+            if (db.State != ConnectionState.Open)
+                Form1.db.Open();
             using (FbTransaction trn = Form1.db.BeginTransaction())
             {
                 FbCommand command = new FbCommand("START_REPAIR", db, trn);
@@ -56,6 +62,51 @@ namespace DbProxy
             }
             db.Close();
         }
+        public static void ExecuteClientProcedure(string nameProc, string INN, string nameCl, string oldNameOrg,
+           string director,  string bankBill, string phoneNumb, string bill, string KPP, string OKTMO,
+           string OKATO, string email, string OGRN, string address, string factAddress)
+        {
+            if (db.State != ConnectionState.Open)
+                Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand(nameProc, Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@INN", FbDbType.VarChar).Value = INN;
+                command.Parameters.Add("@NAME_ORG", FbDbType.VarChar).Value = nameCl;
+                if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
+                    command.Parameters.Add("@OLD_NAME_ORG", FbDbType.VarChar).Value = oldNameOrg;
+                command.Parameters.Add("@DIRECTOR", FbDbType.VarChar).Value = director;
+                if (bankBill.Length == 0)
+                    command.Parameters.Add("@BANK_BILL", FbDbType.VarChar).Value = null;
+                else
+                    command.Parameters.Add("@BANK_BILL", FbDbType.VarChar).Value = bankBill;
+                if (phoneNumb == " (   )   -")
+                    command.Parameters.Add("@PHONE_NUMB", FbDbType.VarChar).Value = "";
+                else
+                    command.Parameters.Add("@PHONE_NUMB", FbDbType.VarChar).Value = phoneNumb;
+                command.Parameters.Add("@BILL", FbDbType.VarChar).Value = bill;
+                command.Parameters.Add("@KPP", FbDbType.VarChar).Value = KPP;
+                command.Parameters.Add("@OKTMO", FbDbType.VarChar).Value = OKTMO;
+                command.Parameters.Add("@OKATO", FbDbType.VarChar).Value = OKATO;
+                command.Parameters.Add("@EMAIL", FbDbType.VarChar).Value = email;
+                command.Parameters.Add("@OGRN", FbDbType.VarChar).Value = OGRN;
+                command.Parameters.Add("@ADDRESS", FbDbType.VarChar).Value = address;
+                command.Parameters.Add("@FACT_ADDRESS", FbDbType.VarChar).Value = factAddress;
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (FbException e)
+                {
+                    MessageBox.Show(e.Message);
+                    Form1.db.Close();
+                    return;
+                }
+                trn.Commit();
+                Form1.db.Close();
+            }
+        }
     }
     public static class Queries
     {
@@ -68,11 +119,14 @@ namespace DbProxy
         public static string MalfunctionsView = "select * from type_of_work_view";
         public static string SparesView = "select * from simple_spares_view";
         public static string StockView = "select * from stock_view";
+        public static string BankView = "select kor_bill, name_bank from bank";
 
         public static string GetClientByClientName(string ClientName) =>
-            "select inn, name_org, director, bank_bill," +
+            "select inn, name_org, director, bank.name_bank as bank, " +
                     "phone_numb, email, bill, kpp, oktmo, okato, ogrn, address, fact_address " +
-                    $"from client where name_org = '{ClientName}'";
+                    $"from client " +
+                    "left join bank on client.bank_bill = bank.kor_bill" + 
+                    $" where name_org = '{ClientName}'";
         public static string GetCarViaNumber(string stateNumber) => $"select* from cars_view where state_number like '{stateNumber}'";
         public static string GetMalfByIdRep(string id_repair) =>
                         $"select tw.description, case when tw.unit = 0 then 'шт'" +
@@ -163,7 +217,8 @@ namespace DbProxy
             {
                 FbDataAdapter dataAdapter = new FbDataAdapter(command);
                 DataSet ds = new DataSet();
-                db.Open();
+                if (db.State != ConnectionState.Open)
+                    Form1.db.Open();
                 dataAdapter.Fill(ds);
                 dg.DataSource = ds.Tables[0];
                 for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
@@ -173,6 +228,23 @@ namespace DbProxy
                 db.Close();
             }
             dg.ClearSelection();
+        }
+        public static void CreateDsForComboBox(ComboBox cb, string query, string displayMember, string valueMember)
+        {
+            using (FbCommand command = new FbCommand(query, Form1.db))
+            {
+                FbDataAdapter dataAdapter = new FbDataAdapter(command);
+                DataTable dt = new DataTable();
+                dataAdapter.Fill(dt);
+                
+                if (db.State != ConnectionState.Open)
+                    Form1.db.Open();
+                dt.Rows.Add(DBNull.Value);
+                cb.DataSource = dt;
+                cb.DisplayMember = displayMember;
+                cb.ValueMember = valueMember;
+                Form1.db.Close();
+            }
         }
     }
 }

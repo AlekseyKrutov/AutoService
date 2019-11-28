@@ -564,24 +564,6 @@ namespace AutoService
             else
                 return;
         }
-        private void AddBankInComBoxClient()
-        {
-            string query = @"select kor_bill 
-                             from bank";
-            using (FbCommand command = new FbCommand(query, Form1.db))
-            {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataTable dt = new DataTable();
-                dataAdapter.Fill(dt);
-                Form1.db.Open();
-                formAddClient.comboBoxBank.DataSource = dt;
-                formAddClient.comboBoxBank.DisplayMember = "kor_bill";
-                formAddClient.comboBoxBank.Text = "";
-                if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
-                    formAddClient.comboBoxBank.SelectedIndex = -1;
-                Form1.db.Close();
-            }
-        }
         //событие при клике по кнопке добавить клиента
         private void AddClient_Click(object sender, EventArgs e)
         {
@@ -589,7 +571,8 @@ namespace AutoService
             if (!formAddClient.Visible)
             {
                 formAddClient = new FormAddClient(this);
-                AddBankInComBoxClient();
+                DataSets.CreateDsForComboBox(formAddClient.comboBoxBank, Queries.BankView,
+                                            "name_bank", "kor_bill");
                 formAddClient.ShowDialog();
             }
         }
@@ -603,30 +586,32 @@ namespace AutoService
             if (!formAddClient.Visible)
             {
                 formAddClient = new FormAddClient(this);
-                AddBankInComBoxClient();
+                DataSets.CreateDsForComboBox(formAddClient.comboBoxBank, Queries.BankView,
+                                            "name_bank", "kor_bill");
                 string query = Queries.GetClientByClientName(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
                 using (FbCommand command = new FbCommand(query, db))
                 {
-                    FbDataReader dataReader;
+                    FbDataReader dr;
                     db.Open();
-                    dataReader = command.ExecuteReader();
-                    while (dataReader.Read())
+                    dr = command.ExecuteReader();
+                    while (dr.Read())
                     {
-                        formAddClient.textBoxINN.Text = dataReader.GetString(0);
-                        formAddClient.textBoxName.Text = dataReader.GetString(1);
-                        formAddClient.textBoxDirector.Text = dataReader.GetString(2);
-                        if (dataReader.GetString(3).Length != 0)
-                            formAddClient.comboBoxBank.Text = dataReader.GetString(3);
+                        formAddClient.textBoxINN.Text = dr.GetString(dr.GetOrdinal("INN"));
+                        formAddClient.textBoxName.Text = dr.GetString(dr.GetOrdinal("NAME_ORG"));
+                        formAddClient.textBoxDirector.Text = dr.GetString(dr.GetOrdinal("DIRECTOR"));
+                        if (dr.GetString(dr.GetOrdinal("BANK")).Length != 0)
+                            formAddClient.comboBoxBank.Text = dr.GetString(dr.GetOrdinal("BANK"));
                         else
                             formAddClient.comboBoxBank.SelectedIndex = -1;
-                        formAddClient.textBoxNumbOfTel.Text = dataReader.GetString(4);
-                        formAddClient.textBoxBill.Text = dataReader.GetString(5);
-                        formAddClient.textBoxKPP.Text = dataReader.GetString(6);
-                        formAddClient.textBoxOKTMO.Text = dataReader.GetString(7);
-                        formAddClient.textBoxOKATO.Text = dataReader.GetString(8);
-                        formAddClient.textBoxBIK.Text = dataReader.GetString(9);
-                        formAddClient.textBoxOGRN.Text = dataReader.GetString(10);
-                        formAddClient.textBoxAddress.Text = dataReader.GetString(11);
+                        formAddClient.textBoxNumbOfTel.Text = dr.GetString(dr.GetOrdinal("PHONE_NUMB"));
+                        formAddClient.textBoxBill.Text = dr.GetString(dr.GetOrdinal("BILL"));
+                        formAddClient.textBoxKPP.Text = dr.GetString(dr.GetOrdinal("KPP"));
+                        formAddClient.textBoxOKTMO.Text = dr.GetString(dr.GetOrdinal("OKTMO"));
+                        formAddClient.textBoxOKATO.Text = dr.GetString(dr.GetOrdinal("OKATO"));
+                        formAddClient.textBoxEmail.Text = dr.GetString(dr.GetOrdinal("EMAIL"));
+                        formAddClient.textBoxOGRN.Text = dr.GetString(dr.GetOrdinal("OGRN"));
+                        formAddClient.textBoxAddress.Text = dr.GetString(dr.GetOrdinal("ADDRESS"));
+                        formAddClient.textBoxFactAddress.Text = dr.GetString(dr.GetOrdinal("FACT_ADDRESS"));
                     }
                     db.Close();
                 }
