@@ -543,19 +543,18 @@ namespace AutoService
             {
                 formAddAuto = new FormAddAuto(this);
                 formAddAuto.OwnerSelected = true;
-                string query = string.Format("select * from cars_view where state_number like '{0}'", 
-                    dataGridView.Rows[SelectIndex].Cells[2].Value.ToString());
-                using (FbCommand command = new FbCommand(query, db))
+                using (FbCommand command = 
+                    new FbCommand(Queries.GetCarViaNumber(dataGridView.Rows[SelectIndex].Cells[1].Value.ToString()), db))
                 {
-                    FbDataReader dataReader;
+                    FbDataReader dr;
                     db.Open();
-                    dataReader = command.ExecuteReader();
-                    while (dataReader.Read())
+                    dr = command.ExecuteReader();
+                    while (dr.Read())
                     {
-                        formAddAuto.textBoxVIN.Text = dataReader.GetString(0);
-                        formAddAuto.textBoxGosNumb.Text = dataReader.GetString(2);
-                        formAddAuto.textBoxReg.Text = dataReader.GetString(3);
-                        formAddAuto.labelContentOwner.Text = dataReader.GetString(4);
+                        formAddAuto.textBoxVIN.Text = dr.GetString(dr.GetOrdinal("VIN"));
+                        formAddAuto.textBoxGosNumb.Text = dr.GetString(dr.GetOrdinal("STATE_NUMBER"));
+                        formAddAuto.textBoxReg.Text = dr.GetString(dr.GetOrdinal("CERTIFICATE"));
+                        formAddAuto.labelContentOwner.Text = dr.GetString(dr.GetOrdinal("ORG"));
                     }
                     db.Close();
                 }
@@ -784,7 +783,7 @@ namespace AutoService
         }
         public static void AddListAutoInGrid(DataGridView dataGridView, string content = "")
         {
-            string[] columnNames = { "VIN", "Марка", "Гос.номер", "Свидетельство о рег.", "Владелец" };
+            string[] columnNames = { "Марка", "Гос.номер", "VIN", "Свидетельство о рег.", "Владелец" };
             DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
         }
         public static void AddListClientInGrid(DataGridView dataGridView)

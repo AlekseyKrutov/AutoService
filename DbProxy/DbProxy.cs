@@ -15,7 +15,6 @@ namespace DbProxy
     public static class InvokeProcedure
     {
         public static FbConnection db = Form1.db;
-
         //наименования процедур
         public static string AddClient = "NEW_CLIENT_PROCEDURE";
         public static string UpdateClient = "UPDATE_CLIENT_PROCEDURE";
@@ -44,8 +43,8 @@ namespace DbProxy
         public static void StartRepair(int id_card)
         {
             if (db.State != ConnectionState.Open)
-                Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
+                db.Open();
+            using (FbTransaction trn = db.BeginTransaction())
             {
                 FbCommand command = new FbCommand("START_REPAIR", db, trn);
                 command.CommandType = CommandType.StoredProcedure;
@@ -67,10 +66,10 @@ namespace DbProxy
            string OKATO, string email, string OGRN, string address, string factAddress)
         {
             if (db.State != ConnectionState.Open)
-                Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
+                db.Open();
+            using (FbTransaction trn = db.BeginTransaction())
             {
-                FbCommand command = new FbCommand(nameProc, Form1.db, trn);
+                FbCommand command = new FbCommand(nameProc, db, trn);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@INN", FbDbType.VarChar).Value = INN;
                 command.Parameters.Add("@NAME_ORG", FbDbType.VarChar).Value = nameCl;
@@ -100,11 +99,11 @@ namespace DbProxy
                 catch (FbException e)
                 {
                     MessageBox.Show(e.Message);
-                    Form1.db.Close();
+                    db.Close();
                     return;
                 }
                 trn.Commit();
-                Form1.db.Close();
+                db.Close();
             }
         }
     }
@@ -120,6 +119,7 @@ namespace DbProxy
         public static string SparesView = "select * from simple_spares_view";
         public static string StockView = "select * from stock_view";
         public static string BankView = "select kor_bill, name_bank from bank";
+        public static string CarModelView = "select mark || ' ' || coalesce(model, '') as mark_model from car_model";
 
         public static string GetClientByClientName(string ClientName) =>
             "select inn, name_org, director, bank.name_bank as bank, " +
@@ -127,7 +127,7 @@ namespace DbProxy
                     $"from client " +
                     "left join bank on client.bank_bill = bank.kor_bill" + 
                     $" where name_org = '{ClientName}'";
-        public static string GetCarViaNumber(string stateNumber) => $"select* from cars_view where state_number like '{stateNumber}'";
+        public static string GetCarViaNumber(string stateNumber) => $"select* from cars_view where state_number = '{stateNumber}'";
         public static string GetMalfByIdRep(string id_repair) =>
                         $"select tw.description, case when tw.unit = 0 then 'шт'" +
                         $" when tw.unit = 1 then 'нч' end as unit, tw.cost, cr.number" +
@@ -213,12 +213,12 @@ namespace DbProxy
                     break;
 
             }
-            using (FbCommand command = new FbCommand(query, Form1.db))
+            using (FbCommand command = new FbCommand(query, db))
             {
                 FbDataAdapter dataAdapter = new FbDataAdapter(command);
                 DataSet ds = new DataSet();
                 if (db.State != ConnectionState.Open)
-                    Form1.db.Open();
+                    db.Open();
                 dataAdapter.Fill(ds);
                 dg.DataSource = ds.Tables[0];
                 for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
@@ -229,21 +229,21 @@ namespace DbProxy
             }
             dg.ClearSelection();
         }
-        public static void CreateDsForComboBox(ComboBox cb, string query, string displayMember, string valueMember)
+        public static void CreateDsForComboBox(ComboBox cb, string query, string displayMember, string valueMember = "")
         {
-            using (FbCommand command = new FbCommand(query, Form1.db))
+            using (FbCommand command = new FbCommand(query, db))
             {
                 FbDataAdapter dataAdapter = new FbDataAdapter(command);
                 DataTable dt = new DataTable();
                 dataAdapter.Fill(dt);
-                
                 if (db.State != ConnectionState.Open)
-                    Form1.db.Open();
+                    db.Open();
                 dt.Rows.Add(DBNull.Value);
                 cb.DataSource = dt;
                 cb.DisplayMember = displayMember;
-                cb.ValueMember = valueMember;
-                Form1.db.Close();
+                cb.ValueMember = (valueMember.Length != 0) ? valueMember : displayMember;
+                cb.SelectedIndex = -1;
+                db.Close();
             }
         }
     }

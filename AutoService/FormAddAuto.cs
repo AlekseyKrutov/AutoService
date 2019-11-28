@@ -12,6 +12,7 @@ using System.Xml;
 using System.Text.RegularExpressions;
 using FirebirdSql.Data.FirebirdClient;
 using AutoServiceLibrary;
+using DbProxy;
 
 namespace AutoService
 {
@@ -43,21 +44,8 @@ namespace AutoService
         }
         private void FormAddAuto_Load(object sender, EventArgs e)
         {
-            
-            string query = @"select CAR_ID, MARK || ' ' || coalesce(model, '') AS MARK_MODEL 
-                             from CAR_MODEL
-                             order by MARK_MODEL";
-            using (FbCommand command = new FbCommand(query, Form1.db))
-            {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataTable dt = new DataTable();
-                dataAdapter.Fill(dt);
-                Form1.db.Open();
-                comboBoxAuto.DataSource = dt;
-                comboBoxAuto.DisplayMember = "MARK_MODEL";
-                Form1.db.Close();
-            }
-            if (formAddCarInRepair.Visible)
+            DbProxy.DataSets.CreateDsForComboBox(comboBoxAuto, Queries.CarModelView, "MARK_MODEL");
+            if (formAddCarInRepair != null)
                 return;
             if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
             {
@@ -77,6 +65,7 @@ namespace AutoService
                 ExecuteAutoProcedure("NEW_CAR_PROCEDURE");
                 ReadAutoFromViewForRepair(textBoxGosNumb.Text, formAddCarInRepair);
                 formAddCarInRepair.GetIdRepair(textBoxGosNumb.Text);
+                Form1.WindowIndex = Form1.WindowsStruct.Repairs;
                 this.Close();
                 return;
             }
@@ -200,8 +189,7 @@ namespace AutoService
         }
         public static void ReadAutoFromViewForRepair(string state_number, FormAddRepair addRepair)
         {
-            string query = string.Format("select * from cars_view where state_number like '{0}'", state_number);
-            using (FbCommand command = new FbCommand(query, Form1.db))
+            using (FbCommand command = new FbCommand(Queries.GetCarViaNumber(state_number), Form1.db))
             {
                 FbDataReader dataReader;
                 Form1.db.Open();

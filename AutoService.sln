@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbProxy", "DbProxy\DbProxy.csproj", "{7981125D-D2CA-4402-A56F-6D072CA5BC84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoServiceLibrary", "AutoServiceLibrary\AutoServiceLibrary\AutoServiceLibrary.csproj", "{9DE2B409-90ED-4EEA-B256-8D162CB4906C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoServiceLibrary", "AutoServiceLibrary\AutoServiceLibrary.csproj", "{9DE2B409-90ED-4EEA-B256-8D162CB4906C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

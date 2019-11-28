@@ -19,6 +19,7 @@ namespace AutoService
         Form1 mainForm;
         FormAddWayBill formAddWayBill = new FormAddWayBill();
         string oldNameOrg;
+
         public FormAddClient()
         {
             InitializeComponent();
