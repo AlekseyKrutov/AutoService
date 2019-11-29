@@ -40,10 +40,6 @@ namespace AutoService
         public static bool logicParamForRepair = true;
         //перменна для определения добавления или редактирования
         public static AddEditOrDelete AddOrEdit;
-        //структура с названиями окон
-        public enum WindowsStruct { Nothing, Repairs, Auto, AddAutoInRep, ViewAutoInRep, ActOfEndsRepairs, Worker, MalfAdd, MalfView,
-                                    SpareAdd, SpareView, Stock , Client, WorkerAdd, WorkerView, Price, WayBill }
-        public enum AddEditOrDelete { Add, Edit, Delete };
 
         //конструктор формы
         public Form1()
@@ -453,7 +449,7 @@ namespace AutoService
         {
             if (GridRowsColumnIsNull())
                 return;
-            FormAddRepair.addOrEditInRepair = (int)AddEditOrDelete.Edit;
+            FormAddRepair.addOrEditInRepair = AddEditOrDelete.Edit;
             AddOrEdit = AddEditOrDelete.Edit;
             if (WindowIndex != WindowsStruct.ActOfEndsRepairs)
                 WindowIndex = WindowsStruct.Repairs;
@@ -520,11 +516,12 @@ namespace AutoService
         //событие при клике по кнопке добавить автомобиль
         private void AddAuto_Click(object sender, EventArgs e)
         {
-            AddOrEdit = (int)AddEditOrDelete.Add;
+            AddOrEdit = AddEditOrDelete.Add;
             //проверка на наличие открытой формы
             if (!formAddAuto.Visible)
             {
                 formAddAuto = new FormAddAuto(formAddRepair, this);
+                DbProxy.DataSets.CreateDsForComboBox(formAddAuto.comboBoxAuto, Queries.CarModelView, "MARK_MODEL", "", AddOrEdit);
                 formAddAuto.StartPosition = FormStartPosition.CenterScreen;
                 formAddAuto.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
                 formAddAuto.MaximizeBox = false;
@@ -543,6 +540,7 @@ namespace AutoService
             {
                 formAddAuto = new FormAddAuto(this);
                 formAddAuto.OwnerSelected = true;
+                DbProxy.DataSets.CreateDsForComboBox(formAddAuto.comboBoxAuto, Queries.CarModelView, "MARK_MODEL", "", AddOrEdit);
                 using (FbCommand command = 
                     new FbCommand(Queries.GetCarViaNumber(dataGridView.Rows[SelectIndex].Cells[1].Value.ToString()), db))
                 {
@@ -551,6 +549,10 @@ namespace AutoService
                     dr = command.ExecuteReader();
                     while (dr.Read())
                     {
+                        if (dr.GetString(dr.GetOrdinal("CAR_MODEL")).Length != 0)
+                            formAddAuto.comboBoxAuto.SelectedValue = dr.GetString(dr.GetOrdinal("CAR_MODEL"));
+                        else
+                            formAddAuto.comboBoxAuto.SelectedIndex = -1;
                         formAddAuto.textBoxVIN.Text = dr.GetString(dr.GetOrdinal("VIN"));
                         formAddAuto.textBoxGosNumb.Text = dr.GetString(dr.GetOrdinal("STATE_NUMBER"));
                         formAddAuto.textBoxReg.Text = dr.GetString(dr.GetOrdinal("CERTIFICATE"));
@@ -571,7 +573,7 @@ namespace AutoService
             {
                 formAddClient = new FormAddClient(this);
                 DataSets.CreateDsForComboBox(formAddClient.comboBoxBank, Queries.BankView,
-                                            "name_bank", "kor_bill");
+                                            "name_bank", "kor_bill", AddOrEdit);
                 formAddClient.ShowDialog();
             }
         }
@@ -586,7 +588,7 @@ namespace AutoService
             {
                 formAddClient = new FormAddClient(this);
                 DataSets.CreateDsForComboBox(formAddClient.comboBoxBank, Queries.BankView,
-                                            "name_bank", "kor_bill");
+                                            "name_bank", "kor_bill", AddOrEdit);
                 string query = Queries.GetClientByClientName(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
                 using (FbCommand command = new FbCommand(query, db))
                 {
@@ -774,72 +776,65 @@ namespace AutoService
         public static void AddListRepairsInGrid(DataGridView dataGridView, string content = "")
         {
             string[] columnNames = { "№", "Дата начала", "Итоговая стоимость", "Заказчик", "Автомобиль", "Заметки" };
-            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
         }
         public static void AddListFinishedRepsInGrid(DataGridView dataGridView, string content= "")
         {
             string[] columnNames = { "№", "Дата начала", "Дата окончания", "Итоговая стоимость", "Заказчик", "Автомобиль", "Заметки" };
-            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
         }
         public static void AddListAutoInGrid(DataGridView dataGridView, string content = "")
         {
             string[] columnNames = { "Марка", "Гос.номер", "VIN", "Свидетельство о рег.", "Владелец" };
-            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
         }
-        public static void AddListClientInGrid(DataGridView dataGridView)
+        public static void AddListClientInGrid(DataGridView dataGridView, string content = "")
         {
             string[] columnNames = { "Наименование", "Директор", "ИНН", "Номер телефона" };
-            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
         }
         public static void AddListPersonalInGrid(DataGridView dataGridView, string content = "")
         {
             string[] columnNames = { "Табельный номер", "ФИО", "Адрес", "Должность", "Номер телефона" };
-            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
         }
         public static void AddListMalfunctionsInGrid(DataGridView dataGridView, string content = "")
         {
             string[] columnNames = { "Наименование", "Единица измерения", "Стоимость(руб.)", "Количество" };
-            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
         }
         public static void AddSparePartInStock(DataGridView dataGridView, string content = "")
         {
             string[] columnNames = { "Артикул", "Наименование", "Количество", "Cтоимость(руб.)", "Автомобиль" };
-            DbProxy.DataSets.CreateDSForDataGrid(columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
         }
         //функции для редактирования сетки 
         private void DataGridViewForRepairs()
         {
-            dataGridView.Columns.Clear();
             AddListRepairsInGrid(dataGridView);
         }
         private void DataGridViewForFinishedReps()
         {
-            dataGridView.Columns.Clear();
             AddListFinishedRepsInGrid(dataGridView);
         }
         private void DataGridViewForClient()
         {
-            dataGridView.Columns.Clear();
             AddListClientInGrid(dataGridView);
         }
         private void DataGridViewForPersonal()
         {
-            dataGridView.Columns.Clear();
             AddListPersonalInGrid(dataGridView, Queries.StaffView);
         }
         private void DataGridViewForAuto()
         {
-            dataGridView.Columns.Clear();
             AddListAutoInGrid(dataGridView);
         }
         private void DataGridViewForPrice()
         {
-            dataGridView.Columns.Clear();
             AddListMalfunctionsInGrid(dataGridView, Queries.MalfunctionsView);
         }
         private void DataGridViewForStock()
         {
-            dataGridView.Columns.Clear();
             AddSparePartInStock(dataGridView, Queries.SparesView);
         }
 

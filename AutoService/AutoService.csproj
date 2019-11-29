@@ -50,9 +50,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoServiceLibrary">
-      <HintPath>..\..\AutoServiceLibrary\AutoServiceLibrary\bin\Debug\AutoServiceLibrary.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="AutoServiceLibrary, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b45d342e1b7e5b9e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AutoServiceLibrary\bin\Debug\AutoServiceLibrary.dll</HintPath>
     </Reference>
     <Reference Include="DbProxy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

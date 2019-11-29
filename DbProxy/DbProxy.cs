@@ -8,6 +8,7 @@ using FirebirdSql.Data.FirebirdClient;
 using System.Configuration;
 using AutoService;
 using System.Windows.Forms;
+using AutoServiceLibrary;
 
 namespace DbProxy
 {
@@ -62,7 +63,7 @@ namespace DbProxy
             db.Close();
         }
         public static void ExecuteClientProcedure(string nameProc, string INN, string nameCl, string oldNameOrg,
-           string director,  string bankBill, string phoneNumb, string bill, string KPP, string OKTMO,
+           string director,  object bankBill, string phoneNumb, string bill, string KPP, string OKTMO,
            string OKATO, string email, string OGRN, string address, string factAddress)
         {
             if (db.State != ConnectionState.Open)
@@ -76,19 +77,20 @@ namespace DbProxy
                 if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
                     command.Parameters.Add("@OLD_NAME_ORG", FbDbType.VarChar).Value = oldNameOrg;
                 command.Parameters.Add("@DIRECTOR", FbDbType.VarChar).Value = director;
-                if (bankBill.Length == 0)
+                bankBill = bankBill ?? "";
+                if (bankBill.ToString().Length == 0)
                     command.Parameters.Add("@BANK_BILL", FbDbType.VarChar).Value = null;
                 else
-                    command.Parameters.Add("@BANK_BILL", FbDbType.VarChar).Value = bankBill;
+                    command.Parameters.Add("@BANK_BILL", FbDbType.VarChar).Value = bankBill.ToString();
                 if (phoneNumb == " (   )   -")
                     command.Parameters.Add("@PHONE_NUMB", FbDbType.VarChar).Value = "";
                 else
                     command.Parameters.Add("@PHONE_NUMB", FbDbType.VarChar).Value = phoneNumb;
+                command.Parameters.Add("@EMAIL", FbDbType.VarChar).Value = email;
                 command.Parameters.Add("@BILL", FbDbType.VarChar).Value = bill;
                 command.Parameters.Add("@KPP", FbDbType.VarChar).Value = KPP;
                 command.Parameters.Add("@OKTMO", FbDbType.VarChar).Value = OKTMO;
                 command.Parameters.Add("@OKATO", FbDbType.VarChar).Value = OKATO;
-                command.Parameters.Add("@EMAIL", FbDbType.VarChar).Value = email;
                 command.Parameters.Add("@OGRN", FbDbType.VarChar).Value = OGRN;
                 command.Parameters.Add("@ADDRESS", FbDbType.VarChar).Value = address;
                 command.Parameters.Add("@FACT_ADDRESS", FbDbType.VarChar).Value = factAddress;
@@ -104,6 +106,37 @@ namespace DbProxy
                 }
                 trn.Commit();
                 db.Close();
+            }
+        }
+        public static void ExecuteAutoProcedure(string nameProc, string VIN, string stateNumb, string regCert, string model, string owner)
+        {
+            Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand(nameProc, Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                if (VIN.Length != 0)
+                    command.Parameters.Add("@VIN", FbDbType.VarChar).Value = VIN;
+                else
+                    command.Parameters.Add("@VIN", FbDbType.VarChar).Value = null;
+                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = stateNumb;
+                command.Parameters.Add("@REG_CERTIFICATE", FbDbType.VarChar).Value = (regCert.Length != 0) ? regCert : null;
+                command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value =model.Split(' ').ToArray().First();
+                command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = 
+                    (model.Split(' ').ToArray()[1].Length > 0) ? model.Split(' ').ToArray().Last() : null;
+                command.Parameters.Add("@NAME_ORG", FbDbType.VarChar).Value = owner;
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (FbException e)
+                {
+                    MessageBox.Show(e.Message);
+                    Form1.db.Close();
+                    return;
+                }
+                trn.Commit();
+                Form1.db.Close();
             }
         }
     }
@@ -152,63 +185,67 @@ namespace DbProxy
                         ActiveRepairsView + $" where client like '%{content}%' or car like '%{content}%'";
         public static string SearchInFinishedRepairs(string content) =>
                         FinishedRepairsView + $" where client like '%{content}%' or car like '%{content}%'";
-        public static string SerachInAuto(string content) =>
-                        CarView + $" where org like '%{content}%' or state_number like '%{content}%'";
+        public static string SearchInAuto(string content) =>
+                        CarView + $" where state_number like '%{content}%' or org like '%{content}%'";
+        public static string SearchInClient(string content) => ClientView +
+                        $" where name like '%{content}%'";
+
     }
     public static class DataSets
     {
         public static FbConnection db = Form1.db;
-        public static void CreateDSForDataGrid(string[] columnNames, DataGridView dg, string content = "")
+        public static void CreateDSForDataGrid(WindowsStruct windowIndex, string[] columnNames, DataGridView dg, string content = "")
         {
+            dg.Columns.Clear();
             string query = "";
-            switch (Form1.WindowIndex)
+            switch (windowIndex)
             {
-                case Form1.WindowsStruct.ActOfEndsRepairs:
+                case WindowsStruct.ActOfEndsRepairs:
                     query = (content.Length == 0) ? Queries.FinishedRepairsView : Queries.SearchInFinishedRepairs(content);
                     break;
-                case Form1.WindowsStruct.Repairs:
+                case WindowsStruct.Repairs:
                     query = (content.Length == 0) ? Queries.ActiveRepairsView : Queries.SearchInActiveRepairs(content);
                     break;
-                case Form1.WindowsStruct.Auto:
+                case WindowsStruct.Auto:
                     query = Queries.CarView;
                     break;
-                case Form1.WindowsStruct.AddAutoInRep:
-                    query = Queries.ClientView;
+                case WindowsStruct.AddClientInAuto:
+                    query = content.Length == 0 ? Queries.ClientView : Queries.SearchInClient(content);
                     break;
-                case Form1.WindowsStruct.ViewAutoInRep:
-                    query = content.Length == 0 ? Queries.CarView : Queries.SerachInAuto(content);
+                case WindowsStruct.ViewAutoInRep:
+                    query = content.Length == 0 ? Queries.CarView : Queries.SearchInAuto(content);
                     break;
-                case Form1.WindowsStruct.Client:
-                    query = Queries.ClientView;
+                case WindowsStruct.Client:
+                    query = content.Length == 0 ? Queries.ClientView : Queries.SearchInClient(content);
                     break;
-                case Form1.WindowsStruct.Worker:
+                case WindowsStruct.Worker:
                     query = Queries.StaffView;
                     break;
-                case Form1.WindowsStruct.Price:
+                case WindowsStruct.Price:
                     query = Queries.MalfunctionsView;
                     break;
-                case Form1.WindowsStruct.Stock:
+                case WindowsStruct.Stock:
                     query = Queries.StockView;
                     break;
-                case Form1.WindowsStruct.WayBill:
+                case WindowsStruct.WayBill:
                     query = Queries.SparesView;
                     break;
-                case (Form1.WindowsStruct.MalfAdd):
+                case (WindowsStruct.MalfAdd):
                     query = Queries.MalfunctionsView;
                     break;
-                case Form1.WindowsStruct.MalfView:
+                case WindowsStruct.MalfView:
                     query = Queries.GetMalfByIdRep(content);
                     break;
-                case Form1.WindowsStruct.SpareAdd:
+                case WindowsStruct.SpareAdd:
                     query = Queries.SparesView;
                     break;
-                case Form1.WindowsStruct.SpareView:
+                case WindowsStruct.SpareView:
                     query = Queries.GetSparesByIdRep(content);
                     break;
-                case Form1.WindowsStruct.WorkerAdd:
+                case WindowsStruct.WorkerAdd:
                     query = Queries.StaffView;
                     break;
-                case Form1.WindowsStruct.WorkerView:
+                case WindowsStruct.WorkerView:
                     query = Queries.GetStaffByIdRepair(content);
                     break;
 
@@ -229,20 +266,22 @@ namespace DbProxy
             }
             dg.ClearSelection();
         }
-        public static void CreateDsForComboBox(ComboBox cb, string query, string displayMember, string valueMember = "")
+        public static void CreateDsForComboBox(ComboBox cb, string query, string displayMember, 
+            string valueMember = "", AddEditOrDelete? addOrEdit = null)
         {
             using (FbCommand command = new FbCommand(query, db))
             {
                 FbDataAdapter dataAdapter = new FbDataAdapter(command);
                 DataTable dt = new DataTable();
                 dataAdapter.Fill(dt);
+                dt.Rows.Add(DBNull.Value);
                 if (db.State != ConnectionState.Open)
                     db.Open();
-                dt.Rows.Add(DBNull.Value);
                 cb.DataSource = dt;
                 cb.DisplayMember = displayMember;
                 cb.ValueMember = (valueMember.Length != 0) ? valueMember : displayMember;
-                cb.SelectedIndex = -1;
+                if (addOrEdit == null || addOrEdit == AddEditOrDelete.Add)
+                    cb.SelectedIndex = -1;
                 db.Close();
             }
         }

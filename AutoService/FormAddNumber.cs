@@ -29,19 +29,19 @@ namespace AutoService
         {
             switch (Form1.WindowIndex)
             {
-                case Form1.WindowsStruct.MalfAdd:
+                case WindowsStruct.MalfAdd:
                     AddMalfOrSparesInDB();
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView);
                     break;
-                case Form1.WindowsStruct.MalfView:
+                case WindowsStruct.MalfView:
                     AddMalfOrSparesInDB();
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.GetMalfByIdRep(formAddRepair.id_repair.ToString()));
                     break;
-                case Form1.WindowsStruct.SpareAdd:
+                case WindowsStruct.SpareAdd:
                     AddMalfOrSparesInDB();
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView);
                     break;
-                case Form1.WindowsStruct.SpareView:
+                case WindowsStruct.SpareView:
                     AddMalfOrSparesInDB();
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.GetSparesByIdRep(formAddRepair.id_repair.ToString()));
                     break;

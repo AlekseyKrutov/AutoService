@@ -40,7 +40,7 @@ namespace AutoService
         }
         private void buttonAddPosition_Click(object sender, EventArgs e)
         {
-            if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
+            if (Form1.AddOrEdit == AddEditOrDelete.Add)
             {
                 ExecuteTypeWorkProc("NEW_TYPE_OF_W_PROCEDURE");
             }
@@ -74,7 +74,7 @@ namespace AutoService
                 FbCommand command = new FbCommand(nameProc, Form1.db, trn);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = textBoxDescription.Text;
-                if (Form1.AddOrEdit != (int) Form1.AddEditOrDelete.Add)
+                if (Form1.AddOrEdit != (int) AddEditOrDelete.Add)
                     command.Parameters.Add("@OLDDESCRIPTION", FbDbType.VarChar).Value = oldDescription;
                 if (comboBoxUnit.Text == "шт")
                 {
@@ -83,7 +83,7 @@ namespace AutoService
                 else
                     command.Parameters.Add("@UNIT", FbDbType.VarChar).Value = 1;
                 command.Parameters.Add("@COST", FbDbType.Float).Value = textBoxPrice.Text;
-                if (Form1.WindowIndex == Form1.WindowsStruct.SpareAdd)
+                if (Form1.WindowIndex == WindowsStruct.SpareAdd)
                     command.Parameters.Add("@MALF_OR_SPARE", FbDbType.VarChar).Value = 1;
                 else
                     command.Parameters.Add("@MALF_OR_SPARE", FbDbType.VarChar).Value = null;
@@ -105,7 +105,7 @@ namespace AutoService
                 }
                 trn.Commit();
                 Form1.db.Close();
-                if (formForSelect != null && Form1.WindowIndex == Form1.WindowsStruct.MalfAdd)
+                if (formForSelect != null && Form1.WindowIndex == WindowsStruct.MalfAdd)
                 {
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.MalfunctionsView);
                     Form1.SelectIndex = 0;
@@ -114,7 +114,7 @@ namespace AutoService
                     this.Close();
                     return;
                 }
-                else if (formForSelect != null && Form1.WindowIndex == Form1.WindowsStruct.SpareAdd)
+                else if (formForSelect != null && Form1.WindowIndex == WindowsStruct.SpareAdd)
                 {
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.MalfunctionsView);
                     Form1.SelectIndex = 0;
@@ -132,7 +132,7 @@ namespace AutoService
         private void FormAddPrice_Shown(object sender, EventArgs e)
         {
             oldDescription = textBoxDescription.Text;
-            if (Form1.WindowIndex == Form1.WindowsStruct.MalfAdd)
+            if (Form1.WindowIndex == WindowsStruct.MalfAdd)
                 comboBoxUnit.SelectedIndex = 1;
         }
     }

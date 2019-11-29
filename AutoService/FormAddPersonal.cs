@@ -47,7 +47,7 @@ namespace AutoService
                 comboBoxFunction.DisplayMember = "PROFESSION";
                 Form1.db.Close();
             }
-            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
+            if (Form1.AddOrEdit == AddEditOrDelete.Edit)
             {
                 Form1.db.Open();
                 using (FbCommand command = new FbCommand("RETURN_GENDER_FUNC_PROCEDURE", Form1.db))
@@ -72,16 +72,16 @@ namespace AutoService
         {
             if (textBoxLastName.Text.Length == 0 || textBoxFirstName.Text.Length == 0
                 || comboBoxGender.Text.Length == 0 || 
-                (dateSelected == false && Form1.AddOrEdit == Form1.AddEditOrDelete.Add))
+                (dateSelected == false && Form1.AddOrEdit == AddEditOrDelete.Add))
             {
                 MessageBox.Show("Вы ввели не все данные!");
                 return;
             }
-            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Add)
+            if (Form1.AddOrEdit == AddEditOrDelete.Add)
             {
                 ExecutePersonalProcedure("NEW_STAFF_PROCEDURE");
             }
-            else if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
+            else if (Form1.AddOrEdit == AddEditOrDelete.Edit)
             {
                 ExecutePersonalProcedure("UPDATE_STAFF_PROCEDURE");
             }
@@ -106,7 +106,7 @@ namespace AutoService
             {
                 FbCommand command = new FbCommand(nameProc, Form1.db, trn);
                 command.CommandType = CommandType.StoredProcedure;
-                if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
+                if (Form1.AddOrEdit == AddEditOrDelete.Edit)
                 {
                     command.Parameters.Add("@TUB_NUMB", FbDbType.SmallInt).Value =
                         mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();

@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using FirebirdSql.Data.FirebirdClient;
 using DbProxy;
 using AutoServiceLibrary;
+using System.Net.Mail;
 
 namespace AutoService
 {
@@ -49,26 +50,29 @@ namespace AutoService
                 MessageBox.Show("Вы ввели не все данные!");
                 return;
             }
-            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Add)
+            if (!MailIsValid(textBoxEmail.Text) && textBoxEmail.Text.Length != 0)
+            {
+                MessageBox.Show("Электронная почта введена некорректно!");
+                return;
+            }
+            if (Form1.AddOrEdit == AddEditOrDelete.Add)
             {
                 InvokeProcedure.ExecuteClientProcedure(InvokeProcedure.AddClient, textBoxINN.Text, textBoxName.Text, oldNameOrg, textBoxDirector.Text,
-                    comboBoxBank.SelectedValue.ToString(), textBoxNumbOfTel.Text, textBoxBill.Text, textBoxKPP.Text, textBoxOKTMO.Text, textBoxOKATO.Text, textBoxEmail.Text,
+                    comboBoxBank.SelectedValue, textBoxNumbOfTel.Text, textBoxBill.Text, textBoxKPP.Text, textBoxOKTMO.Text, textBoxOKATO.Text, textBoxEmail.Text,
                     textBoxOGRN.Text, textBoxAddress.Text, textBoxFactAddress.Text);
-                if (formAddWayBill != null)
+                if (formAddWayBill != null && formAddWayBill.Visible)
                 {
                     formAddWayBill.FillComboBox(formAddWayBill.comboBoxClient, Form1.db,
                         formAddWayBill.client_query, formAddWayBill.displayMembers[FormAddWayBill.DisplayMembers.Client]);
                     formAddWayBill.comboBoxClient.SelectedIndex = -1;
                     formAddWayBill.comboBoxClient.SelectedValue = textBoxName.Text;
-                    this.Close();
-                    return;
                 }
                 mainForm.dataGridView.ClearSelection();
             }
-            else if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
+            else if (Form1.AddOrEdit == AddEditOrDelete.Edit)
             {
                 InvokeProcedure.ExecuteClientProcedure(InvokeProcedure.UpdateClient, textBoxINN.Text, textBoxName.Text, oldNameOrg, textBoxDirector.Text,
-                    comboBoxBank.SelectedValue.ToString(), textBoxNumbOfTel.Text, textBoxBill.Text, textBoxKPP.Text, textBoxOKTMO.Text, textBoxOKATO.Text, textBoxEmail.Text,
+                    comboBoxBank.SelectedValue, textBoxNumbOfTel.Text, textBoxBill.Text, textBoxKPP.Text, textBoxOKTMO.Text, textBoxOKATO.Text, textBoxEmail.Text,
                     textBoxOGRN.Text, textBoxAddress.Text, textBoxFactAddress.Text);
             }
             Form1.AddListClientInGrid(mainForm.dataGridView);
@@ -82,6 +86,21 @@ namespace AutoService
             if (!Char.IsNumber(e.KeyChar) && e.KeyChar != 8)
             {
                 e.Handled = true;
+            }
+        }
+        public bool MailIsValid(string emailaddress)
+        {
+            if (emailaddress.Length == 0)
+                return false;
+            try
+            {
+                MailAddress m = new MailAddress(emailaddress);
+
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
             }
         }
     }

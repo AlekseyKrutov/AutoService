@@ -44,10 +44,9 @@ namespace AutoService
         }
         private void FormAddAuto_Load(object sender, EventArgs e)
         {
-            DbProxy.DataSets.CreateDsForComboBox(comboBoxAuto, Queries.CarModelView, "MARK_MODEL");
             if (formAddCarInRepair != null)
                 return;
-            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
+            if (Form1.AddOrEdit == AddEditOrDelete.Edit)
             {
                 comboBoxAuto.Text = mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[1].Value.ToString();
             }
@@ -55,23 +54,27 @@ namespace AutoService
         }
         private void buttonAddAuto_Click(object sender, EventArgs e)
         {
-            if (textBoxGosNumb.Text.Length == 0)
+            if (textBoxGosNumb.Text.Length == 0 || 
+                comboBoxAuto.Text.Length == 0)
             {
                 MessageBox.Show("Вы ввели не все данные!");
                 return;
             }
             if (formAddCarInRepair != null && formAddCarInRepair.Visible)
             {
-                ExecuteAutoProcedure("NEW_CAR_PROCEDURE");
+                InvokeProcedure.ExecuteAutoProcedure("NEW_CAR_PROCEDURE",
+                    textBoxVIN.Text, textBoxGosNumb.Text, textBoxReg.Text, comboBoxAuto.Text, labelContentOwner.Text);
                 ReadAutoFromViewForRepair(textBoxGosNumb.Text, formAddCarInRepair);
                 formAddCarInRepair.GetIdRepair(textBoxGosNumb.Text);
-                Form1.WindowIndex = Form1.WindowsStruct.Repairs;
+                Form1.WindowIndex = WindowsStruct.Repairs;
                 this.Close();
                 return;
             }
-            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Add)
+            if (Form1.AddOrEdit == AddEditOrDelete.Add)
             {
-                ExecuteAutoProcedure("NEW_CAR_PROCEDURE");
+                InvokeProcedure.ExecuteAutoProcedure("NEW_CAR_PROCEDURE", textBoxVIN.Text, textBoxGosNumb.Text, textBoxReg.Text,
+                    comboBoxAuto.Text, labelContentOwner.Text);
+                ReadAutoFromViewForRepair(textBoxGosNumb.Text, formAddCarInRepair);
                 if (formAddWayBill != null)
                 {
                     formAddWayBill.FillComboBox(formAddWayBill.comboBoxCar, Form1.db,
@@ -84,9 +87,11 @@ namespace AutoService
                 }
             }
 
-            else if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
+            else if (Form1.AddOrEdit == AddEditOrDelete.Edit)
             {
-                ExecuteAutoProcedure("UPDATE_CAR_PROCEDURE");
+                InvokeProcedure.ExecuteAutoProcedure("UPDATE_CAR_PROCEDURE", textBoxVIN.Text, textBoxGosNumb.Text, textBoxReg.Text,
+                    comboBoxAuto.Text, labelContentOwner.Text);
+                ReadAutoFromViewForRepair(textBoxGosNumb.Text, formAddCarInRepair);
                 mainForm.dataGridView.Rows[selectedIndex].Selected = true;
             }
             Form1.AddListAutoInGrid(mainForm.dataGridView);
@@ -99,7 +104,7 @@ namespace AutoService
         private void buttonAddOwner_Click(object sender, EventArgs e)
         {
             Form1.SelectIndex = 0;
-            Form1.WindowIndex = Form1.WindowsStruct.AddAutoInRep;
+            Form1.WindowIndex = WindowsStruct.AddClientInAuto;
             formSelectAuto = new FormForSelect(this, mainForm);
             formSelectAuto.ShowDialog();
         }
@@ -150,57 +155,20 @@ namespace AutoService
                 e.Handled = true;
             }
         }
-
-        private void ExecuteAutoProcedure(string nameProc)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand(nameProc, Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                if (textBoxVIN.Text.Length != 0)
-                    command.Parameters.Add("@VIN", FbDbType.VarChar).Value = textBoxVIN.Text;
-                else
-                    command.Parameters.Add("@VIN", FbDbType.VarChar).Value = null;
-                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = textBoxGosNumb.Text;
-                if (textBoxReg.Text.Length != 0)
-                    command.Parameters.Add("@REG_CERTIFICATE", FbDbType.VarChar).Value = textBoxReg.Text;
-                else
-                    command.Parameters.Add("@REG_CERTIFICATE", FbDbType.VarChar).Value = null;
-                command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[0];
-                if (comboBoxAuto.Text.Split(' ').ToArray()[1].Length > 0)
-                    command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = comboBoxAuto.Text.Split(' ').ToArray()[1];
-                else
-                    command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = null;
-                command.Parameters.Add("@NAME_ORG", FbDbType.VarChar).Value = labelContentOwner.Text;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException e)
-                {
-                    MessageBox.Show(e.Message);
-                    Form1.db.Close();
-                    return;
-                }
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
         public static void ReadAutoFromViewForRepair(string state_number, FormAddRepair addRepair)
         {
             using (FbCommand command = new FbCommand(Queries.GetCarViaNumber(state_number), Form1.db))
             {
-                FbDataReader dataReader;
+                FbDataReader dr;
                 Form1.db.Open();
-                dataReader = command.ExecuteReader();
-                while (dataReader.Read())
+                dr = command.ExecuteReader();
+                while (dr.Read())
                 {
-                    addRepair.textBoxVIN.Text = dataReader.GetString(0);
-                    addRepair.textBoxMark.Text = dataReader.GetString(1);
-                    addRepair.textBoxGosNom.Text = dataReader.GetString(2);
-                    addRepair.textBoxReg.Text = dataReader.GetString(3);
-                    addRepair.textBoxOwner.Text = dataReader.GetString(4);
+                    addRepair.textBoxVIN.Text = dr.GetString(dr.GetOrdinal("VIN"));
+                    addRepair.textBoxMark.Text = dr.GetString(dr.GetOrdinal("CAR_MODEL"));
+                    addRepair.textBoxGosNom.Text = dr.GetString(dr.GetOrdinal("STATE_NUMBER"));
+                    addRepair.textBoxReg.Text = dr.GetString(dr.GetOrdinal("CERTIFICATE"));
+                    addRepair.textBoxOwner.Text = dr.GetString(dr.GetOrdinal("ORG"));
                 }
                 Form1.db.Close();
             }

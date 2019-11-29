@@ -44,7 +44,7 @@ namespace AutoService
                 comboBoxAuto.DisplayMember = "MARK_MODEL";
                 Form1.db.Close();
             }
-            if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
+            if (Form1.AddOrEdit == AddEditOrDelete.Edit)
             {
                 checkBoxOnlyNumb.Checked = true;
                 if (mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[4].Value.ToString().Length != 0)
@@ -57,7 +57,7 @@ namespace AutoService
                     comboBoxAuto.Enabled = false;
                 }
             }
-            if (Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
+            if (Form1.AddOrEdit == AddEditOrDelete.Add)
             {
                 checkBoxOnlyNumb.Visible = false;
             }
@@ -85,7 +85,7 @@ namespace AutoService
 
         private void buttonAddSparePart_Click(object sender, EventArgs e)
         {
-            if (Form1.AddOrEdit == (int) Form1.AddEditOrDelete.Add)
+            if (Form1.AddOrEdit == (int) AddEditOrDelete.Add)
             {
                 Form1.db.Open();
                 using (FbTransaction trn = Form1.db.BeginTransaction())
@@ -131,7 +131,7 @@ namespace AutoService
                 Form1.AddSparePartInStock(mainForm.dataGridView, Queries.SparesView);
                 this.Close();
             }
-            else if(Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
+            else if(Form1.AddOrEdit == AddEditOrDelete.Edit)
             {
                 Form1.db.Open();
                 using (FbTransaction trn = Form1.db.BeginTransaction())

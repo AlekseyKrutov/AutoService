@@ -47,45 +47,48 @@ namespace AutoService
             //оператор для определения в какой части приложения вызывается окно
             switch (Form1.WindowIndex)
             {
-                case Form1.WindowsStruct.Repairs:
+                case WindowsStruct.Repairs:
                     Form1.AddListAutoInGrid(dataGridView);
                     break;
-                case Form1.WindowsStruct.Auto:
+                //case WindowsStruct.Auto:
+                //    Form1.AddListClientInGrid(dataGridView);
+                //    break;
+                //case WindowsStruct.AddAutoInRep:
+                //    Form1.AddListClientInGrid(dataGridView);
+                //    break;
+                case WindowsStruct.AddClientInAuto:
                     Form1.AddListClientInGrid(dataGridView);
                     break;
-                case Form1.WindowsStruct.AddAutoInRep:
-                    Form1.AddListClientInGrid(dataGridView);
-                    break;
-                case Form1.WindowsStruct.ViewAutoInRep:
+                case WindowsStruct.ViewAutoInRep:
                     ShowSearch();
                     Form1.AddListAutoInGrid(dataGridView);
                     break;
-                case Form1.WindowsStruct.Worker:
+                case WindowsStruct.Worker:
                     Form1.AddListPersonalInGrid(dataGridView);
                     break;
-                case Form1.WindowsStruct.MalfAdd:
+                case WindowsStruct.MalfAdd:
                     ShowSearch();
                     ShowAddAndEditBtns();
                     Form1.AddListMalfunctionsInGrid(dataGridView);
                     break;
-                case Form1.WindowsStruct.MalfView:
+                case WindowsStruct.MalfView:
                     HideSearch();
                     Form1.AddListMalfunctionsInGrid(dataGridView, FormAddRepair.id_repair.ToString());
                     break;
-                case Form1.WindowsStruct.SpareAdd:
+                case WindowsStruct.SpareAdd:
                     ShowSearch();
                     ShowAddAndEditBtns();
                     Form1.AddListMalfunctionsInGrid(dataGridView);
                     break;
-                case Form1.WindowsStruct.SpareView:
+                case WindowsStruct.SpareView:
                     HideSearch();
                     Form1.AddListMalfunctionsInGrid(dataGridView, FormAddRepair.id_repair.ToString());
                     break;
-                case Form1.WindowsStruct.WorkerAdd:
+                case WindowsStruct.WorkerAdd:
                     ShowSearch();
                     Form1.AddListPersonalInGrid(dataGridView);
                     break;
-                case Form1.WindowsStruct.WorkerView:
+                case WindowsStruct.WorkerView:
                     HideSearch();
                     Form1.AddListPersonalInGrid(dataGridView, FormAddRepair.id_repair.ToString());
                     break;
@@ -104,30 +107,36 @@ namespace AutoService
                 //оператор для определения места вызова
                 switch (Form1.WindowIndex)
                 {
-                    case Form1.WindowsStruct.ViewAutoInRep:
-                        string state_number = dataGridView.Rows[Form1.SelectIndex].Cells[2].Value.ToString();
+                    case WindowsStruct.ViewAutoInRep:
+                        string state_number = dataGridView.Rows[Form1.SelectIndex].Cells[1].Value.ToString();
+                        Form1.WindowIndex = WindowsStruct.Repairs;
                         FormAddAuto.ReadAutoFromViewForRepair(state_number, FormAddRepair);
-                        if (FormAddRepair.id_repair == 0 && Form1.AddOrEdit == (int)Form1.AddEditOrDelete.Add)
+                        if (FormAddRepair.id_repair == 0 && Form1.AddOrEdit == AddEditOrDelete.Add)
                             FormAddRepair.id_repair = FormAddRepair.GetIdRepair(state_number);
                         this.Close();
                         break;
-                    case Form1.WindowsStruct.Auto:
+                    //case WindowsStruct.Auto:
+                    //    FormAddAuto.labelContentOwner.Text = selectedRowOneCellValue;
+                    //    this.Close();
+                    //    FormAddAuto.OwnerSelected = true;
+                    //    break;
+                    //case WindowsStruct.AddAutoInRep:
+                    //    FormAddAuto.labelContentOwner.Text = selectedRowOneCellValue;
+                    //    this.Close();
+                    //    FormAddAuto.OwnerSelected = true;
+                    //    break;
+                    case WindowsStruct.AddClientInAuto:
                         FormAddAuto.labelContentOwner.Text = selectedRowOneCellValue;
                         this.Close();
                         FormAddAuto.OwnerSelected = true;
                         break;
-                    case Form1.WindowsStruct.AddAutoInRep:
-                        FormAddAuto.labelContentOwner.Text = selectedRowOneCellValue;
-                        this.Close();
-                        FormAddAuto.OwnerSelected = true;
-                        break;
-                    case Form1.WindowsStruct.Worker:
+                    case WindowsStruct.Worker:
                         FormAddRepair.SelectedPersonLabel.Text = Personal.PersonalList[Form1.SelectIndex].Name;
                         break;
-                    case Form1.WindowsStruct.MalfAdd:
+                    case WindowsStruct.MalfAdd:
                         formAddNumber.ShowDialog();
                         break;
-                    case Form1.WindowsStruct.MalfView:
+                    case WindowsStruct.MalfView:
                         if (e.Button == MouseButtons.Left)
                         {
                             formAddNumber.ShowDialog();
@@ -141,10 +150,10 @@ namespace AutoService
                             }
                         }
                         break;
-                    case Form1.WindowsStruct.SpareAdd:
+                    case WindowsStruct.SpareAdd:
                         formAddNumber.ShowDialog();
                         break;
-                    case Form1.WindowsStruct.SpareView:
+                    case WindowsStruct.SpareView:
                         if (e.Button == MouseButtons.Left)
                             formAddNumber.ShowDialog();
                         else
@@ -156,11 +165,11 @@ namespace AutoService
                             }
                         }
                         break;
-                    case Form1.WindowsStruct.WorkerAdd:
+                    case WindowsStruct.WorkerAdd:
                         FormAddRepair.ExecuteProcedureForAddWorker(FormAddRepair.id_repair, int.Parse(selectedRowOneCellValue));
                         this.Close();
                         break;
-                    case Form1.WindowsStruct.WorkerView:
+                    case WindowsStruct.WorkerView:
                         Form1.AddListPersonalInGrid(dataGridView, Queries.GetStaffByIdRepair(FormAddRepair.id_repair.ToString()));
                         break;
                 }
@@ -172,8 +181,13 @@ namespace AutoService
         }
         private void FormForSelect_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Form1.WindowIndex = Form1.WindowsStruct.Repairs;
-            Form1.AddOrEdit = (int) Form1.AddEditOrDelete.Add;
+            if (FormAddAuto != null && FormAddAuto.Visible && FormAddRepair != null && FormAddRepair.Visible)
+                Form1.WindowIndex = WindowsStruct.Repairs;
+            else if (FormAddAuto != null && FormAddAuto.Visible)
+                Form1.WindowIndex = WindowsStruct.Auto;
+            else if (FormAddRepair != null && FormAddRepair.Visible)
+                Form1.WindowIndex = WindowsStruct.Repairs;
+
             textBoxSearch.Clear();
         }
         public bool AnswerAboutDeleting => (MessageBox.Show($"Вы действительно хотите удалить\n" +
@@ -182,14 +196,14 @@ namespace AutoService
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK);
         private void btnAddNewPosition_Click(object sender, EventArgs e)
         {
-            Form1.AddOrEdit = (int) Form1.AddEditOrDelete.Add;
+            Form1.AddOrEdit = AddEditOrDelete.Add;
             switch (Form1.WindowIndex)
             {
-                case Form1.WindowsStruct.MalfAdd:
+                case WindowsStruct.MalfAdd:
                     FormAddPrice = new FormAddPrice(mainForm, this);
                     FormAddPrice.ShowDialog();
                     break;
-                case Form1.WindowsStruct.SpareAdd:
+                case WindowsStruct.SpareAdd:
                     FormAddPrice = new FormAddPrice(mainForm, this);
                     FormAddPrice.ShowDialog();
                     break;
@@ -197,14 +211,14 @@ namespace AutoService
         }
         private void btnEditPosition_Click(object sender, EventArgs e)
         {
-            Form1.AddOrEdit = Form1.AddEditOrDelete.Edit;
+            Form1.AddOrEdit = AddEditOrDelete.Edit;
             switch (Form1.WindowIndex)
             {
-                case Form1.WindowsStruct.MalfAdd:
+                case WindowsStruct.MalfAdd:
                     FormAddPrice = new FormAddPrice(mainForm, this);
                     mainForm.FillFormPrice(dataGridView, Form1.db, FormAddPrice);
                 break;
-                case Form1.WindowsStruct.SpareAdd:
+                case WindowsStruct.SpareAdd:
                     FormAddPrice = new FormAddPrice(mainForm, this);
                     mainForm.FillFormPrice(dataGridView, Form1.db, FormAddPrice);
                 break;
@@ -215,14 +229,17 @@ namespace AutoService
             string content = textBoxSearch.Text.ToUpper();
             switch (Form1.WindowIndex)
             {
-                case (Form1. WindowsStruct.MalfAdd):
+                case WindowsStruct.MalfAdd:
                     Form1.AddListMalfunctionsInGrid(dataGridView, content);
                     break;
-                case (Form1.WindowsStruct.SpareAdd):
+                case WindowsStruct.SpareAdd:
                     Form1.AddListMalfunctionsInGrid(dataGridView, content);
                     break;
-                case (Form1.WindowsStruct.ViewAutoInRep):
+                case WindowsStruct.ViewAutoInRep:
                     Form1.AddListAutoInGrid(dataGridView, content);
+                    break;
+                case WindowsStruct.AddClientInAuto:
+                    Form1.AddListClientInGrid(dataGridView, content);
                     break;
             }
         }
