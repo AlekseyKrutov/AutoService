@@ -55,7 +55,7 @@ namespace AutoServiceLibrary
                 dr = command.ExecuteReader();
                 while (dr.Read())
                 {
-                    listMalf.Add(new Malfunctions(
+                    listMalf.Add(new Malfunctions( 
                         dr.GetDouble(dr.GetOrdinal("COST")),
                         dr.GetString(dr.GetOrdinal("DESCRIPTION")),
                         dr.GetString(dr.GetOrdinal("UNIT")),
