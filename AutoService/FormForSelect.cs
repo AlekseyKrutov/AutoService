@@ -146,7 +146,7 @@ namespace AutoService
                             if (AnswerAboutDeleting)
                             {
                                 FormAddRepair.ExecuteProcedureDelete(FormAddRepair.id_repair, 0, selectedRowOneCellValue, "DELETE_REPAIRS_WORKS");
-                                Form1.AddListMalfunctionsInGrid(dataGridView, Queries.GetMalfByIdRep(FormAddRepair.id_repair.ToString()));
+                                Form1.AddListMalfunctionsInGrid(dataGridView, FormAddRepair.id_repair.ToString());
                             }
                         }
                         break;
@@ -161,7 +161,7 @@ namespace AutoService
                             if (AnswerAboutDeleting)
                             {
                                 FormAddRepair.ExecuteProcedureDelete(FormAddRepair.id_repair, 0, selectedRowOneCellValue, "DELETE_REPAIRS_WORKS");
-                                Form1.AddSparePartInStock(dataGridView, Queries.GetSparesByIdRep(FormAddRepair.id_repair.ToString()));
+                                Form1.AddSparePartInStock(dataGridView, FormAddRepair.id_repair.ToString());
                             }
                         }
                         break;

@@ -38,7 +38,7 @@
     </Reference>
     <Reference Include="AutoServiceLibrary, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b45d342e1b7e5b9e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AutoServiceLibrary\bin\Debug\AutoServiceLibrary.dll</HintPath>
+      <HintPath>..\AutoService\bin\Debug\AutoServiceLibrary.dll</HintPath>
     </Reference>
     <Reference Include="FirebirdSql.Data.FirebirdClient, Version=6.3.0.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
       <HintPath>..\packages\FirebirdSql.Data.FirebirdClient.6.3.0\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>
@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="DbProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowItems.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
