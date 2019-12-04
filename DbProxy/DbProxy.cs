@@ -155,20 +155,20 @@ namespace DbProxy
         public static string CarModelView = "select mark || ' ' || coalesce(model, '') as mark_model from car_model";
 
         public static string GetClientByClientName(string ClientName) =>
-            "select inn, name_org, director, bank.name_bank as bank, " +
-                    "phone_numb, email, bill, kpp, oktmo, okato, ogrn, address, fact_address " +
-                    $"from client " +
-                    "left join bank on client.bank_bill = bank.kor_bill" + 
-                    $" where name_org = '{ClientName}'";
+                        "select inn, name_org, director, bank.name_bank as bank, " +
+                        "phone_numb, email, bill, kpp, oktmo, okato, ogrn, address, fact_address " +
+                        $"from client " +
+                        "left join bank on client.bank_bill = bank.kor_bill" + 
+                        $" where name_org = '{ClientName}'";
         public static string GetCarViaNumber(string stateNumber) => $"select* from cars_view where state_number = '{stateNumber}'";
         public static string GetMalfByIdRep(string id_repair) =>
                         $"select tw.description, case when tw.unit = 0 then 'шт'" +
-                        $" when tw.unit = 1 then 'нч' end as unit, tw.cost, cr.number" +
+                        $" when tw.unit = 1 then 'нч' end as unit, cr.cost, cr.number, (cr.cost * cr.number) as totalcost" +
                         $" from type_of_work as tw, card_of_rep_and_works as cr" +
                         $" where cr.id_card_of_repair = {id_repair} and tw.id_work = cr.id_work and tw.malf_or_spare = '0'";
         public static string GetSparesByIdRep(string id_repair) =>
                         "select tw.description, case when tw.unit = 0 then 'шт'" +
-                        " when tw.unit = 1 then 'нч' end as unit, tw.cost, cr.number" +
+                        " when tw.unit = 1 then 'нч' end as unit, cr.cost, cr.number, (cr.cost * cr.number) as totalcost" +
                         " from type_of_work as tw, card_of_rep_and_works as cr" +
                         $" where cr.id_card_of_repair = {id_repair} and tw.id_work = cr.id_work and tw.malf_or_spare = '1';";
         public static string GetStaffByIdRepair(string id_repair) =>
@@ -176,11 +176,9 @@ namespace DbProxy
                         " from staff_view as s, cards_and_staff as cs" +
                         $" where cs.cardofrepair_id_card = {0} and s.tub_numb = cs.staff_tub_numb";
         public static string SearchMalf(string content) =>
-                        "select tub_numb, name, address, prof, phone" +
-                        " from staff_view as s, cards_and_staff as cs" +
-                        $" where cs.cardofrepair_id_card = {0} and s.tub_numb = cs.staff_tub_numb";
+                        Queries.MalfunctionsView + $" where upper(description) LIKE '%{content}%'";
         public static string SearchSpares(string content) =>
-                        "select * from simple_spares_view where upper(description) LIKE '%{0}%'";
+                        Queries.SparesView + $" where upper(description) LIKE '%{content}%'";
         public static string SearchInActiveRepairs(string content) =>
                         ActiveRepairsView + $" where client like '%{content}%' or car like '%{content}%'";
         public static string SearchInFinishedRepairs(string content) =>
@@ -231,13 +229,13 @@ namespace DbProxy
                     query = Queries.SparesView;
                     break;
                 case (WindowsStruct.MalfAdd):
-                    query = Queries.MalfunctionsView;
+                    query = content.Length == 0 ? Queries.MalfunctionsView : Queries.SearchMalf(content);
                     break;
                 case WindowsStruct.MalfView:
                     query = Queries.GetMalfByIdRep(content);
                     break;
                 case WindowsStruct.SpareAdd:
-                    query = Queries.SparesView;
+                    query = content.Length == 0 ? Queries.SparesView : Queries.SearchSpares(content);
                     break;
                 case WindowsStruct.SpareView:
                     query = Queries.GetSparesByIdRep(content);

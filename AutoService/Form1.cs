@@ -800,7 +800,7 @@ namespace AutoService
         }
         public static void AddListMalfunctionsInGrid(DataGridView dataGridView, string content = "")
         {
-            string[] columnNames = { "Наименование", "Единица измерения", "Стоимость(руб.)", "Количество" };
+            string[] columnNames = { "Наименование", "Единица измерения", "Стоимость(руб.)", "Количество", "Итоговая сумма(руб.)" };
             DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
         }
         public static void AddSparePartInStock(DataGridView dataGridView, string content = "")

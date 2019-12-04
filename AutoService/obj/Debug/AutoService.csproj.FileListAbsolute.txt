@@ -175,7 +175,6 @@ G:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.csproj.G
 G:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.csproj.CopyComplete
 G:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.exe
 G:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.pdb
-G:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoServiceLibrary.dll
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoServiceLibrary.pdb
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoServiceLibrary.dll.config
 C:\Users\Админ\Source\Repos\AutoService\AutoService\obj\Debug\AutoService.csprojAssemblyReference.cache
@@ -208,3 +207,4 @@ C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\FirebirdSql.D
 C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\WorkWithExcelLibrary.pdb
 C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\WorkWithExcelLibrary.dll.config
 C:\Users\Админ\Source\Repos\AutoService\AutoService\obj\Debug\AutoService.csproj.CopyComplete
+G:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoServiceLibrary.dll

@@ -44,8 +44,11 @@ namespace AutoService
         }
         private void FormAddAuto_Load(object sender, EventArgs e)
         {
-            if (formAddCarInRepair != null)
+            if (formAddCarInRepair != null && formAddCarInRepair.Visible)
+            {
+                DataSets.CreateDsForComboBox(comboBoxAuto, Queries.CarModelView, "MARK_MODEL", "", AddEditOrDelete.Add);
                 return;
+            }
             if (Form1.AddOrEdit == AddEditOrDelete.Edit)
             {
                 comboBoxAuto.Text = mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[1].Value.ToString();
@@ -55,7 +58,7 @@ namespace AutoService
         private void buttonAddAuto_Click(object sender, EventArgs e)
         {
             if (textBoxGosNumb.Text.Length == 0 || 
-                comboBoxAuto.Text.Length == 0)
+                comboBoxAuto.Text.Length == 0 || (textBoxReg.Text.Length > 0 && textBoxReg.Text.Length < 10))
             {
                 MessageBox.Show("Вы ввели не все данные!");
                 return;

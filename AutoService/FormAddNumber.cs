@@ -35,7 +35,7 @@ namespace AutoService
                     break;
                 case WindowsStruct.MalfView:
                     AddMalfOrSparesInDB();
-                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.GetMalfByIdRep(formAddRepair.id_repair.ToString()));
+                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, formAddRepair.id_repair.ToString());
                     break;
                 case WindowsStruct.SpareAdd:
                     AddMalfOrSparesInDB();
@@ -43,7 +43,7 @@ namespace AutoService
                     break;
                 case WindowsStruct.SpareView:
                     AddMalfOrSparesInDB();
-                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.GetSparesByIdRep(formAddRepair.id_repair.ToString()));
+                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, formAddRepair.id_repair.ToString());
                     break;
             }
             this.Close();
