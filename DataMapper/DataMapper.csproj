@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7981125D-D2CA-4402-A56F-6D072CA5BC84}</ProjectGuid>
+    <ProjectGuid>{0CB58645-F75E-40EF-91EA-8DFDAD9AF5A2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DbProxy</RootNamespace>
-    <AssemblyName>DbProxy</AssemblyName>
+    <RootNamespace>DataMapper</RootNamespace>
+    <AssemblyName>DataMapper</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,24 +21,22 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\AutoService\bin\Debug\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AutoService\bin\Release\AutoService.exe</HintPath>
-    </Reference>
     <Reference Include="AutoServiceLibrary, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b45d342e1b7e5b9e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AutoService\bin\Debug\AutoServiceLibrary.dll</HintPath>
+      <HintPath>..\AutoServiceLibrary\bin\Debug\AutoServiceLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DbProxy">
+      <HintPath>..\DbProxy\bin\Debug\DbProxy.dll</HintPath>
     </Reference>
     <Reference Include="FirebirdSql.Data.FirebirdClient, Version=6.3.0.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
       <HintPath>..\packages\FirebirdSql.Data.FirebirdClient.6.3.0\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>
@@ -46,7 +44,6 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,7 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbProxy.cs" />
+    <Compile Include="CardOfRepairMapper.cs" />
+    <Compile Include="IConnection.cs" />
+    <Compile Include="IDbMapperCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

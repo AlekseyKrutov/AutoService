@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Xml;
 using FirebirdSql.Data.FirebirdClient;
 using AutoServiceLibrary;
+using DbProxy;
 
 namespace AutoService
 {
@@ -20,11 +21,15 @@ namespace AutoService
         FormAddAuto formAddAutoInRepairs;
         FormForSelect formForSelect;
         Form1 mainForm;
+        int infTxtWidth = 0;
         static public AddEditOrDelete addOrEditInRepair;
         public int id_repair; 
         public FormAddRepair()
         {
             InitializeComponent();
+            //расчет поля для изменения ширины формы, если информация по ремонту отсутствует
+            //infTxtWidth = textBoxInf.Location.X - (textBoxNotes.Location.X + textBoxNotes.Width);
+            //this.Width -= infTxtWidth + textBoxInf.Width;
         }
         public FormAddRepair(FormAddAuto addAuto, Form1 mainForm) : this()
         {
@@ -34,6 +39,11 @@ namespace AutoService
         }
         private void FormAddRepair_Load(object sender, EventArgs e)
         {
+            if (Form1.AddOrEdit == AddEditOrDelete.Edit &&
+                Form1.WindowIndex == WindowsStruct.ActOfEndsRepairs)
+                this.Text = "Просмотр ремонта";
+            else if (Form1.AddOrEdit == AddEditOrDelete.Edit)
+                this.Text = "Редактирование ремонта";
             if (Form1.WindowIndex == WindowsStruct.ActOfEndsRepairs)
             {
                 btnAddNewAutoRepair.Enabled = false;
@@ -59,7 +69,7 @@ namespace AutoService
                 return;
             }
             if (e.CloseReason == CloseReason.UserClosing && addOrEditInRepair == AddEditOrDelete.Add)
-                DeleteSimpleRepair();
+                InvokeProcedure.DeleteSimpleRepair(id_repair);
             Form1.WindowIndex = WindowsStruct.Repairs;
         }
         private void btnAddNewAutoRepair_Click(object sender, EventArgs e)
@@ -138,6 +148,8 @@ namespace AutoService
         //событие при нажатии на кнопку добавить ремонт
         private void btnAddRepair_Click(object sender, EventArgs e)
         {
+            DateTime? startDate;
+            DateTime? finishDate;
             if (textBoxMark.Text.Length == 0)
             {
                 MessageBox.Show("Пожалуйста выберете автомобиль!");
@@ -148,214 +160,26 @@ namespace AutoService
                 MessageBox.Show("Дата начала ремонта меньше даты завершения!");
                 return;
             }
-            AddRepairProcedure(id_repair, textBoxGosNom.Text, textBoxNotes.Text);
+            if (!checkBoxTurnTime.Checked)
+            {
+                startDate = DateTime.Now;
+                finishDate = null;
+            }
+            else if (checkBoxTurnTime.Checked)
+            {
+                startDate = dateTimeStart.Value;
+                finishDate = dateTimeFinish.Value;
+            }
+            else
+            {
+                startDate = null;
+                finishDate = null;
+            }
+            InvokeProcedure.AddRepair(id_repair, textBoxGosNom.Text, textBoxNotes.Text, startDate, finishDate);
             Form1.AddListRepairsInGrid(mainForm.dataGridView);
             this.FormClosing -= FormAddRepair_FormClosing;
             this.Close();
         }
-        public int GetIdRepair(string state_number)
-        {
-            Form1.db.Open();
-            using (FbCommand command = new FbCommand("CREATE_SIMPLE_REPAIR_PROCEDURE", Form1.db))
-            {
-                command.CommandType = CommandType.StoredProcedure;
-                FbTransaction trn = Form1.db.BeginTransaction();
-                command.Transaction = trn;
-                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = state_number;
-                FbDataReader dr = command.ExecuteReader();
-                while (dr.Read())
-                {
-                   id_repair  = int.Parse(dr.GetString(0));
-                }
-                dr.Close();
-                trn.Commit();
-            }
-            Form1.db.Close();
-            return id_repair;
-        }
-        public void DeleteSimpleRepair()
-        {
-            Form1.db.Open();
-            using (FbCommand command = new FbCommand("DELETE_REPAIR_PROCEDURE", Form1.db))
-            {
-                FbTransaction trn = Form1.db.BeginTransaction();
-                command.Transaction = trn;
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_REPAIR", FbDbType.VarChar).Value = id_repair;
-                command.ExecuteNonQuery();
-                trn.Commit();
-            }
-            Form1.db.Close();
-        }
-        public void ExecuteProcedureForAddMalf(int id_repair, string description, int number)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("INS_OR_UP_WORKS_AND_REP", Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = description;
-                command.Parameters.Add("@NUMBER", FbDbType.SmallInt).Value = number;
-                command.ExecuteNonQuery();
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
-        public void ExecuteProcedureForAddSparepart(int id_repair, int uniq_code, int number)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("INS_OR_UP_SPARE_REPAIR", Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                command.Parameters.Add("@UNIQ_CODE", FbDbType.Integer).Value = uniq_code;
-                command.Parameters.Add("@NUMBER", FbDbType.SmallInt).Value = number;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
-        public void ExecuteProcedureForAddWorker(int id_repair, int tub_numb)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("INS_STAFF_REPAIR", Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                command.Parameters.Add("@TUB_NUMB", FbDbType.SmallInt).Value = tub_numb;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
-        public void ExecuteProcedureDelete(int id_repair, int uniqCodeOrTubNumb, string description, string nameProc)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand(nameProc, Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                if (Form1.WindowIndex == WindowsStruct.MalfView)
-                {
-                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                    command.Parameters.Add("@DESCRIPTION", FbDbType.Integer).Value = description;
-                    try
-                    {
-                        command.ExecuteNonQuery();
-                    }
-                    catch (FbException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    trn.Commit();
-                    Form1.db.Close();
-                    return;
-                }
-                else if (Form1.WindowIndex == WindowsStruct.SpareView)
-                {
-                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                    command.Parameters.Add("@DESCRIPTION", FbDbType.Integer).Value = description;
-                    try
-                    {
-                        command.ExecuteNonQuery();
-                    }
-                    catch (FbException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    trn.Commit();
-                    Form1.db.Close();
-                    return;
-                    /*
-                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                    command.Parameters.Add("@UNIQ_CODE", FbDbType.Integer).Value = uniqCodeOrTubNumb;
-                    try
-                    {
-                        command.ExecuteNonQuery();
-                    }
-                    catch (FbException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    trn.Commit();
-                    Form1.db.Close();
-                    return;
-                    */
-                }
-                else if(Form1.WindowIndex == WindowsStruct.WorkerView)
-                {
-                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                    command.Parameters.Add("@TUB_NUMB", FbDbType.Integer).Value = uniqCodeOrTubNumb;
-                    try
-                    {
-                        command.ExecuteNonQuery();
-                    }
-                    catch (FbException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    trn.Commit();
-                    Form1.db.Close();
-                    return;
-                }
-            } 
-        }
-        public void AddRepairProcedure(int id_card, string state_number, string notes)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("UPDATE_CARD_OF_REPAIR", Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = state_number;
-                command.Parameters.Add("@NOTES", FbDbType.VarChar).Value = notes;
-                if (!checkBoxTurnTime.Checked)
-                {
-                    command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
-                    command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = null;
-                }
-                else if (checkBoxTurnTime.Checked)
-                {
-                    command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = dateTimeStart.Value.ToString("dd/MM/yyyy HH:mm");
-                    command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = dateTimeFinish.Value.ToString("dd/MM/yyyy HH:mm");
-                }
-                else
-                {
-                    command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = null;
-                    command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = null;
-                }
-                
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
-
         private void checkBoxTurnTime_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxTurnTime.Checked)

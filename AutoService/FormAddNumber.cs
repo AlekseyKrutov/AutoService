@@ -53,7 +53,7 @@ namespace AutoService
         {
             Malfunctions malfAdd = new Malfunctions(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString(),
                     int.Parse(numberUpDown.Value.ToString()));
-            formAddRepair.ExecuteProcedureForAddMalf(formAddRepair.id_repair, malfAdd.DescriptionOfMalf, malfAdd.Number);
+            InvokeProcedure.AddMalfInRep(formAddRepair.id_repair, malfAdd.DescriptionOfMalf, malfAdd.Number);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FirebirdSql.Data.FirebirdClient;
@@ -459,6 +460,14 @@ namespace AutoService
                 string state_numb = "";
                 formAddRepair = new FormAddRepair(formAddAuto, this);
                 formAddRepair.id_repair = int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+                string infContent = "";
+                infContent += "Работы" + Environment.NewLine;
+                infContent += "Запчасти" + Environment.NewLine;
+                List<Malfunctions> malfList = new List<Malfunctions>();
+                List<SparePart> spareParts = new List<SparePart>();
+                List<Personal> personList = new List<Personal>();
+                CardOfRepair card = new CardOfRepair(db, formAddRepair.id_repair, malfList, spareParts, personList);
+                formAddRepair.textBoxInf.Text = infContent;
                 Form1.db.Open();
                 using (FbCommand command = new FbCommand("TAKE_ID_CAR_FROM_REPAIR", Form1.db))
                 {
@@ -496,7 +505,7 @@ namespace AutoService
             string rep_id = dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
             bool confirm = ((MessageBox.Show(string.Format("Вы действительно хотите восстановить ремонт №{0}?",
                 dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK));
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK));
             if (confirm)
                 DbProxy.InvokeProcedure.StartRepair(int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString()));
             AddListFinishedRepsInGrid(dataGridView);
@@ -507,7 +516,7 @@ namespace AutoService
                 return;
             if ((MessageBox.Show(string.Format("Вы действительно завершить ремонт №{0}?",
                 dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK))
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK))
             {
                 DbProxy.InvokeProcedure.FinishRepair(int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString()));
                 AddListRepairsInGrid(dataGridView);

@@ -22,6 +22,7 @@ namespace AutoService
             InitializeComponent();
             textBoxUniqNumb.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressOnlyNumb);
             textBoxNumb.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressOnlyNumb);
+            textBoxCost.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressFloat);
             textBoxNumb.MaxLength = 5;
         }
         public FormAddSparePart(Form1 mainForm) : this()
@@ -31,19 +32,7 @@ namespace AutoService
 
         private void FormAddSparePart_Load(object sender, EventArgs e)
         {
-            string query = @"select CAR_ID, MARK || ' ' || coalesce(model, '') AS MARK_MODEL 
-                             from CAR_MODEL
-                             order by MARK_MODEL";
-            using (FbCommand command = new FbCommand(query, Form1.db))
-            {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataTable dt = new DataTable();
-                dataAdapter.Fill(dt);
-                Form1.db.Open();
-                comboBoxAuto.DataSource = dt;
-                comboBoxAuto.DisplayMember = "MARK_MODEL";
-                Form1.db.Close();
-            }
+            DataSets.CreateDsForComboBox(comboBoxAuto, Queries.CarModelView, "MARK_MODEL");
             if (Form1.AddOrEdit == AddEditOrDelete.Edit)
             {
                 checkBoxOnlyNumb.Checked = true;
@@ -198,25 +187,6 @@ namespace AutoService
                 }
                 else
                     comboBoxAuto.Enabled = true;
-            }
-        }
-
-        private void textBoxCost_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == ',')
-                e.KeyChar = '.';
-            if (!(Char.IsDigit(e.KeyChar)) && !((e.KeyChar == '.' || e.KeyChar == ',')
-                && (textBoxCost.Text.IndexOf(".") == -1) && (textBoxCost.Text.Length != 0)))
-            {
-                if (e.KeyChar != (char)Keys.Back)
-                {
-                    e.Handled = true;
-                }
-            }
-            if (textBoxCost.Text.Split('.').ToArray().Length > 1 
-                && textBoxCost.Text.Split('.').ToArray().Last().Length > 1 && e.KeyChar != (char)Keys.Back)
-            {
-                e.Handled = true;
             }
         }
     }

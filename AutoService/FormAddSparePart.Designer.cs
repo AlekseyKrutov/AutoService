@@ -56,12 +56,12 @@
             this.tableLayoutPanel1.Controls.Add(this.labelCost, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.labelCar, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.textBoxUniqNumb, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBoxDescr, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.textBoxCost, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.labelNumb, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.textBoxNumb, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxShowAuto, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.labelUniqCode, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxDescr, 1, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 6;
@@ -71,7 +71,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.41572F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.41572F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.87855F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(337, 293);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(440, 357);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // comboBoxAuto
@@ -79,16 +79,16 @@
             this.comboBoxAuto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAuto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxAuto.FormattingEnabled = true;
-            this.comboBoxAuto.Location = new System.Drawing.Point(171, 192);
+            this.comboBoxAuto.Location = new System.Drawing.Point(223, 234);
             this.comboBoxAuto.Name = "comboBoxAuto";
-            this.comboBoxAuto.Size = new System.Drawing.Size(163, 24);
+            this.comboBoxAuto.Size = new System.Drawing.Size(214, 24);
             this.comboBoxAuto.TabIndex = 2;
             // 
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
             this.labelDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelDescription.Location = new System.Drawing.Point(3, 63);
+            this.labelDescription.Location = new System.Drawing.Point(3, 77);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(107, 16);
             this.labelDescription.TabIndex = 1;
@@ -98,7 +98,7 @@
             // 
             this.labelCost.AutoSize = true;
             this.labelCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelCost.Location = new System.Drawing.Point(3, 126);
+            this.labelCost.Location = new System.Drawing.Point(3, 154);
             this.labelCost.Name = "labelCost";
             this.labelCost.Size = new System.Drawing.Size(78, 16);
             this.labelCost.TabIndex = 2;
@@ -108,7 +108,7 @@
             // 
             this.labelCar.AutoSize = true;
             this.labelCar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelCar.Location = new System.Drawing.Point(3, 189);
+            this.labelCar.Location = new System.Drawing.Point(3, 231);
             this.labelCar.Name = "labelCar";
             this.labelCar.Size = new System.Drawing.Size(88, 16);
             this.labelCar.TabIndex = 3;
@@ -117,19 +117,19 @@
             // textBoxUniqNumb
             // 
             this.textBoxUniqNumb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxUniqNumb.Location = new System.Drawing.Point(171, 3);
+            this.textBoxUniqNumb.Location = new System.Drawing.Point(223, 3);
             this.textBoxUniqNumb.Multiline = true;
             this.textBoxUniqNumb.Name = "textBoxUniqNumb";
-            this.textBoxUniqNumb.Size = new System.Drawing.Size(163, 30);
+            this.textBoxUniqNumb.Size = new System.Drawing.Size(214, 30);
             this.textBoxUniqNumb.TabIndex = 5;
             // 
             // textBoxDescr
             // 
             this.textBoxDescr.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxDescr.Location = new System.Drawing.Point(171, 66);
+            this.textBoxDescr.Location = new System.Drawing.Point(223, 80);
             this.textBoxDescr.Multiline = true;
             this.textBoxDescr.Name = "textBoxDescr";
-            this.textBoxDescr.Size = new System.Drawing.Size(163, 30);
+            this.textBoxDescr.Size = new System.Drawing.Size(214, 30);
             this.textBoxDescr.TabIndex = 6;
             this.textBoxDescr.Enter += new System.EventHandler(this.textBoxDescr_Enter);
             this.textBoxDescr.Leave += new System.EventHandler(this.textBoxDescr_Leave);
@@ -137,18 +137,17 @@
             // textBoxCost
             // 
             this.textBoxCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxCost.Location = new System.Drawing.Point(171, 129);
+            this.textBoxCost.Location = new System.Drawing.Point(223, 157);
             this.textBoxCost.Multiline = true;
             this.textBoxCost.Name = "textBoxCost";
-            this.textBoxCost.Size = new System.Drawing.Size(163, 30);
+            this.textBoxCost.Size = new System.Drawing.Size(214, 30);
             this.textBoxCost.TabIndex = 7;
-            this.textBoxCost.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxCost_KeyPress);
             // 
             // labelNumb
             // 
             this.labelNumb.AutoSize = true;
             this.labelNumb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelNumb.Location = new System.Drawing.Point(3, 255);
+            this.labelNumb.Location = new System.Drawing.Point(3, 311);
             this.labelNumb.Name = "labelNumb";
             this.labelNumb.Size = new System.Drawing.Size(86, 16);
             this.labelNumb.TabIndex = 4;
@@ -157,17 +156,17 @@
             // textBoxNumb
             // 
             this.textBoxNumb.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxNumb.Location = new System.Drawing.Point(171, 258);
+            this.textBoxNumb.Location = new System.Drawing.Point(223, 314);
             this.textBoxNumb.Multiline = true;
             this.textBoxNumb.Name = "textBoxNumb";
-            this.textBoxNumb.Size = new System.Drawing.Size(163, 29);
+            this.textBoxNumb.Size = new System.Drawing.Size(214, 29);
             this.textBoxNumb.TabIndex = 9;
             // 
             // checkBoxShowAuto
             // 
             this.checkBoxShowAuto.AutoSize = true;
             this.checkBoxShowAuto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBoxShowAuto.Location = new System.Drawing.Point(171, 225);
+            this.checkBoxShowAuto.Location = new System.Drawing.Point(223, 274);
             this.checkBoxShowAuto.Name = "checkBoxShowAuto";
             this.checkBoxShowAuto.Size = new System.Drawing.Size(86, 20);
             this.checkBoxShowAuto.TabIndex = 11;
@@ -188,7 +187,7 @@
             // buttonAddSparePart
             // 
             this.buttonAddSparePart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonAddSparePart.Location = new System.Drawing.Point(176, 311);
+            this.buttonAddSparePart.Location = new System.Drawing.Point(325, 399);
             this.buttonAddSparePart.Name = "buttonAddSparePart";
             this.buttonAddSparePart.Size = new System.Drawing.Size(120, 32);
             this.buttonAddSparePart.TabIndex = 1;
@@ -212,7 +211,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 344);
+            this.ClientSize = new System.Drawing.Size(456, 443);
             this.Controls.Add(this.checkBoxOnlyNumb);
             this.Controls.Add(this.buttonAddSparePart);
             this.Controls.Add(this.tableLayoutPanel1);

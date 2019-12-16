@@ -15,10 +15,128 @@ namespace DbProxy
     
     public static class InvokeProcedure
     {
-        public static FbConnection db = Form1.db;
+        public static FbConnection db = new FbConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
         //наименования процедур
         public static string AddClient = "NEW_CLIENT_PROCEDURE";
         public static string UpdateClient = "UPDATE_CLIENT_PROCEDURE";
+        public static int GetIdRepairViaCarNumber(string state_number)
+        {
+            int id_repair = 0;
+            Form1.db.Open();
+            using (FbCommand command = new FbCommand("CREATE_SIMPLE_REPAIR_PROCEDURE", Form1.db))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                FbTransaction trn = Form1.db.BeginTransaction();
+                command.Transaction = trn;
+                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = state_number;
+                FbDataReader dr = command.ExecuteReader();
+                while (dr.Read())
+                {
+                    id_repair = int.Parse(dr.GetString(0));
+                }
+                dr.Close();
+                trn.Commit();
+            }
+            Form1.db.Close();
+            return id_repair;
+        }
+        public static void DeleteSimpleRepair(int id_repair)
+        {
+            Form1.db.Open();
+            using (FbCommand command = new FbCommand("DELETE_REPAIR_PROCEDURE", Form1.db))
+            {
+                FbTransaction trn = Form1.db.BeginTransaction();
+                command.Transaction = trn;
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@ID_REPAIR", FbDbType.VarChar).Value = id_repair;
+                command.ExecuteNonQuery();
+                trn.Commit();
+            }
+            Form1.db.Close();
+        }
+        public static void AddMalfInRep(int id_repair, string description, int number)
+        {
+            Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand("INS_OR_UP_WORKS_AND_REP", Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = description;
+                command.Parameters.Add("@NUMBER", FbDbType.SmallInt).Value = number;
+                command.ExecuteNonQuery();
+                trn.Commit();
+                Form1.db.Close();
+            }
+        }
+        public static void AddSpareInRep(int id_repair, int uniq_code, int number)
+        {
+            Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand("INS_OR_UP_SPARE_REPAIR", Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                command.Parameters.Add("@UNIQ_CODE", FbDbType.Integer).Value = uniq_code;
+                command.Parameters.Add("@NUMBER", FbDbType.SmallInt).Value = number;
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (FbException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                trn.Commit();
+                Form1.db.Close();
+            }
+        }
+        public static void AddWorkerInRep(int id_repair, int tub_numb)
+        {
+            Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand("INS_STAFF_REPAIR", Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                command.Parameters.Add("@TUB_NUMB", FbDbType.SmallInt).Value = tub_numb;
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (FbException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                trn.Commit();
+                Form1.db.Close();
+            }
+        }
+        public static void AddRepair(int id_repair, string state_number, string notes,
+            DateTime? startDate, DateTime? finishDate)
+        {
+            Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand("UPDATE_CARD_OF_REPAIR", Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = state_number;
+                command.Parameters.Add("@NOTES", FbDbType.VarChar).Value = notes;
+                command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = startDate;
+                command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = finishDate;
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (FbException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                trn.Commit();
+                Form1.db.Close();
+            }
+        }
         public static void FinishRepair(int id_card)
         {
             if (db.State != ConnectionState.Open)
@@ -28,7 +146,6 @@ namespace DbProxy
                 FbCommand command = new FbCommand("FINISH_REPAIR", db, trn);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_card;
-                command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                 try
                 {
                     command.ExecuteNonQuery();
@@ -61,6 +178,27 @@ namespace DbProxy
                 trn.Commit();
             }
             db.Close();
+        }
+        public static void DeleteWorksInRep(int id_repair, string description)
+        {
+            Form1.db.Open();
+            using (FbTransaction trn = Form1.db.BeginTransaction())
+            {
+                FbCommand command = new FbCommand("DELETE_REPAIRS_WORKS", Form1.db, trn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
+                command.Parameters.Add("@DESCRIPTION", FbDbType.Integer).Value = description;
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (FbException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                trn.Commit();
+                Form1.db.Close();
+            }
         }
         public static void ExecuteClientProcedure(string nameProc, string INN, string nameCl, string oldNameOrg,
            string director,  object bankBill, string phoneNumb, string bill, string KPP, string OKTMO,
@@ -154,6 +292,8 @@ namespace DbProxy
         public static string BankView = "select kor_bill, name_bank from bank";
         public static string CarModelView = "select mark || ' ' || coalesce(model, '') as mark_model from car_model";
 
+        public static string GetRepairById(string id_repair) =>
+            $"select * from repair_cars_owner where id_card_of_repair = {id_repair}";
         public static string GetClientByClientName(string ClientName) =>
                         "select inn, name_org, director, bank.name_bank as bank, " +
                         "phone_numb, email, bill, kpp, oktmo, okato, ogrn, address, fact_address " +

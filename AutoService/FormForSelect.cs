@@ -112,7 +112,7 @@ namespace AutoService
                         Form1.WindowIndex = WindowsStruct.Repairs;
                         FormAddAuto.ReadAutoFromViewForRepair(state_number, FormAddRepair);
                         if (FormAddRepair.id_repair == 0 && Form1.AddOrEdit == AddEditOrDelete.Add)
-                            FormAddRepair.id_repair = FormAddRepair.GetIdRepair(state_number);
+                            FormAddRepair.id_repair = InvokeProcedure.GetIdRepairViaCarNumber(state_number);
                         this.Close();
                         break;
                     //case WindowsStruct.Auto:
@@ -145,7 +145,7 @@ namespace AutoService
                         {
                             if (AnswerAboutDeleting)
                             {
-                                FormAddRepair.ExecuteProcedureDelete(FormAddRepair.id_repair, 0, selectedRowOneCellValue, "DELETE_REPAIRS_WORKS");
+                                InvokeProcedure.DeleteWorksInRep(FormAddRepair.id_repair, selectedRowOneCellValue);
                                 Form1.AddListMalfunctionsInGrid(dataGridView, FormAddRepair.id_repair.ToString());
                             }
                         }
@@ -160,13 +160,13 @@ namespace AutoService
                         {
                             if (AnswerAboutDeleting)
                             {
-                                FormAddRepair.ExecuteProcedureDelete(FormAddRepair.id_repair, 0, selectedRowOneCellValue, "DELETE_REPAIRS_WORKS");
+                                InvokeProcedure.DeleteWorksInRep(FormAddRepair.id_repair, selectedRowOneCellValue);
                                 Form1.AddSparePartInStock(dataGridView, FormAddRepair.id_repair.ToString());
                             }
                         }
                         break;
                     case WindowsStruct.WorkerAdd:
-                        FormAddRepair.ExecuteProcedureForAddWorker(FormAddRepair.id_repair, int.Parse(selectedRowOneCellValue));
+                        InvokeProcedure.AddWorkerInRep(FormAddRepair.id_repair, int.Parse(selectedRowOneCellValue));
                         this.Close();
                         break;
                     case WindowsStruct.WorkerView:

@@ -68,7 +68,7 @@ namespace AutoService
                 InvokeProcedure.ExecuteAutoProcedure("NEW_CAR_PROCEDURE",
                     textBoxVIN.Text, textBoxGosNumb.Text, textBoxReg.Text, comboBoxAuto.Text, labelContentOwner.Text);
                 ReadAutoFromViewForRepair(textBoxGosNumb.Text, formAddCarInRepair);
-                formAddCarInRepair.GetIdRepair(textBoxGosNumb.Text);
+                formAddCarInRepair.id_repair = InvokeProcedure.GetIdRepairViaCarNumber(textBoxGosNumb.Text);
                 Form1.WindowIndex = WindowsStruct.Repairs;
                 this.Close();
                 return;

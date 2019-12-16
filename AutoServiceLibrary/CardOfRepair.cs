@@ -68,7 +68,7 @@ namespace AutoServiceLibrary
                 {
                     this.id_repair = id_repair;
                     TimeOfStart = dr.GetDateTime(dr.GetOrdinal("START_DATE"));
-                    TimeOfFinish = dr.GetDateTime(dr.GetOrdinal("FINISH_DATE"));
+                    //TimeOfFinish = dr.GetDateTime(dr.GetOrdinal("FINISH_DATE"));
                     TotalPrice = dr.GetDouble(dr.GetOrdinal("TOTAL_COST"));
                     RepairIsCurrent = dr.GetBoolean(dr.GetOrdinal("CURRENT_OR_NOT"));
                     Notes = @dr.GetString(dr.GetOrdinal("NOTES"));
@@ -85,18 +85,9 @@ namespace AutoServiceLibrary
                 }
                 db.Close();
             }
-            foreach (Malfunctions malf in malfunctions)
-            {
-                ListOfMalf.Add(malf);
-            }
-            foreach (SparePart sp in spareParts)
-            {
-                ListOfSpareParts.Add(sp);
-            }
-            foreach (Personal p in listOfPersonal)
-            {
-                ListOfPersonal.Add(p);
-            }
+            ListOfMalf.AddRange(malfunctions);
+            ListOfSpareParts.AddRange(spareParts);
+            ListOfPersonal.AddRange(ListOfPersonal);
         }
         //функция для вывода автомобиля
         public string CarInRepairToString()
