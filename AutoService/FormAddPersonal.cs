@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AutoServiceLibrary;
 using FirebirdSql.Data.FirebirdClient;
+using DataMapper;
 using DbProxy;
 
 namespace AutoService
@@ -17,6 +18,8 @@ namespace AutoService
     {
         Form1 mainForm;
         FormAddWayBill formAddWayBill = new FormAddWayBill();
+
+        public Employee emp = null;
 
         bool dateSelected = false;
 
@@ -29,6 +32,7 @@ namespace AutoService
         public FormAddPersonal(Form1 mainForm) : this()
         {
             this.mainForm = mainForm;
+            DbProxy.DataSets.CreateDsForComboBox(comboBoxFunction, Queries.Profession, "prof", "id_prof");
         }
         public FormAddPersonal(FormAddWayBill formAddWayBill) : this()
         {
@@ -36,122 +40,64 @@ namespace AutoService
         }
         private void FormAddPersonal_Load(object sender, EventArgs e)
         {
-            string query = @"select p.profession from profession as p";
-            using (FbCommand command = new FbCommand(query, Form1.db))
-            {
-                FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                DataTable dt = new DataTable();
-                dataAdapter.Fill(dt);
-                Form1.db.Open();
-                comboBoxFunction.DataSource = dt;
-                comboBoxFunction.DisplayMember = "PROFESSION";
-                Form1.db.Close();
-            }
-            if (Form1.AddOrEdit == AddEditOrDelete.Edit)
-            {
-                Form1.db.Open();
-                using (FbCommand command = new FbCommand("RETURN_GENDER_FUNC_PROCEDURE", Form1.db))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add("@TUB_NUMB", FbDbType.VarChar).Value =
-                        mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
-                    FbDataReader dr = command.ExecuteReader();
-                    while (dr.Read())
-                    {
-                        comboBoxFunction.Text = dr.GetString(0);
-                        if (int.Parse(dr.GetString(1)) == 0)
-                            comboBoxGender.Text = "М";
-                        else
-                            comboBoxGender.Text = "Ж";
-                    }
-                    Form1.db.Close();
-                }
-            }
         }
         private void buttonAddPersonal_Click(object sender, EventArgs e)
         {
             if (textBoxLastName.Text.Length == 0 || textBoxFirstName.Text.Length == 0
-                || comboBoxGender.Text.Length == 0 || 
+                || comboBoxGender.Text.Length == 0 || comboBoxFunction.Text.Length == 0 ||
                 (dateSelected == false && Form1.AddOrEdit == AddEditOrDelete.Add))
             {
                 MessageBox.Show("Вы ввели не все данные!");
                 return;
             }
-            if (Form1.AddOrEdit == AddEditOrDelete.Add)
+            Functions funcCmb = (Functions)int.Parse(comboBoxFunction.SelectedValue.ToString());
+            if (emp == null)
             {
-                ExecutePersonalProcedure("NEW_STAFF_PROCEDURE");
+                emp = new Employee(textBoxINN.Text, textBoxFirstName.Text, textBoxSecondName.Text,
+                    textBoxLastName.Text, textBoxPassport.Text, textBoxAddress.Text, Convert.ToDateTime(date), 
+                    UnitsConvert.ConvertSex(comboBoxGender.Text), textBoxNumbOfTel.Text, funcCmb);
+                EmployeeMapper em = new EmployeeMapper();
+                try
+                {
+                    emp = em.Insert(emp);
+                }
+                catch (Exception ex)
+                {
+                    emp = null;
+                    MessageBox.Show("При добавлении данных произошла ошибка - " +
+                        $"{ex.Message}");
+                    return;
+                }
             }
-            else if (Form1.AddOrEdit == AddEditOrDelete.Edit)
+            else
             {
-                ExecutePersonalProcedure("UPDATE_STAFF_PROCEDURE");
-            }
-            if (formAddWayBill != null)
-            {
-                formAddWayBill.FillComboBox(formAddWayBill.comboBoxDriver, Form1.db,
-                    formAddWayBill.driver_query, formAddWayBill.displayMembers[FormAddWayBill.DisplayMembers.Driver],
-                    formAddWayBill.valueMembers[FormAddWayBill.ValueMembers.Driver]);
-                formAddWayBill.comboBoxDriver.SelectedIndex = -1;
-                this.Close();
-                return;
+                EmployeeMapper em = new EmployeeMapper();
+                emp.INN = textBoxINN.Text;
+                emp.FirstName = textBoxFirstName.Text;
+                emp.SecondName = textBoxSecondName.Text;
+                emp.LastName = textBoxLastName.Text;
+                emp.Passport = textBoxPassport.Text;
+                emp.Address = textBoxAddress.Text;
+                emp.BornDate = Convert.ToDateTime(date);
+                emp.Gender = UnitsConvert.ConvertSex(comboBoxGender.Text);
+                emp.Function = funcCmb;
+                emp.PhoneNumb = textBoxNumbOfTel.Text;
+                em.Update(emp);
             }
             Form1.AddListPersonalInGrid(mainForm.dataGridView, Queries.StaffView);
             this.Close();
             mainForm.dataGridView.ClearSelection();
             mainForm.dataGridView.Rows[Form1.SelectIndex].Selected = true;
         }
-        private void ExecutePersonalProcedure(string nameProc)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand(nameProc, Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                if (Form1.AddOrEdit == AddEditOrDelete.Edit)
-                {
-                    command.Parameters.Add("@TUB_NUMB", FbDbType.SmallInt).Value =
-                        mainForm.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
-                }
-                if (textBoxINN.Text.Length == 0)
-                    command.Parameters.Add("@INN", FbDbType.BigInt).Value = null;
-                else
-                    command.Parameters.Add("@INN", FbDbType.BigInt).Value = textBoxINN.Text;
-                command.Parameters.Add("@FIRST_NAME", FbDbType.VarChar).Value = textBoxFirstName.Text;
-                if (textBoxSecondName.Text == string.Empty)
-                    command.Parameters.Add("@SECOND_NAME", FbDbType.VarChar).Value = null;
-                else
-                    command.Parameters.Add("@SECOND_NAME", FbDbType.VarChar).Value = textBoxSecondName.Text;
-                command.Parameters.Add("@LAST_NAME", FbDbType.VarChar).Value = textBoxLastName.Text;
-                command.Parameters.Add("@PASSPORT", FbDbType.VarChar).Value = textBoxPassport.Text;
-                command.Parameters.Add("@ADDRESS", FbDbType.VarChar).Value = textBoxAddress.Text;
-                command.Parameters.Add("@DATE_BORN", FbDbType.Date).Value = date;
-                if (comboBoxGender.Text == "М")
-                    command.Parameters.Add("@GENDER", FbDbType.SmallInt).Value = 0;
-                else if (comboBoxGender.Text == "Ж")
-                    command.Parameters.Add("@GENDER", FbDbType.SmallInt).Value = 1;
-                command.Parameters.Add("@PROFESSION", FbDbType.VarChar).Value = comboBoxFunction.Text;
-                if (textBoxNumbOfTel.Text == " (   )   -")
-                    command.Parameters.Add("@PHONE_NUMB", FbDbType.VarChar).Value = "";
-                else
-                    command.Parameters.Add("@PHONE_NUMB", FbDbType.VarChar).Value = textBoxNumbOfTel.Text;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                    Form1.db.Close();
-                    return;
-                }
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
-
         private void monthCalendarDayBirth_DateSelected(object sender, DateRangeEventArgs e)
         {
             dateSelected = true;
             date = e.End.ToString("dd/MM/yyyy");
+        }
+
+        private void FormAddPersonal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            emp = null;
         }
     }
 }

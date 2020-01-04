@@ -9,8 +9,8 @@ namespace DataMapper
     public interface IDbMapperCommand<T>
     {
         T Get(string id);
-        void Insert();
-        void Update();
-        void Delete();
+        T Insert(T id);
+        void Update(T id);
+        void Delete(T id);
     }
 }

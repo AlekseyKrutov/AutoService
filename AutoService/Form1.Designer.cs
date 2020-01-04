@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.RepairsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CurrentRepairsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,7 +76,6 @@
             this.EditWayBill = new System.Windows.Forms.Button();
             this.AddWayBill = new System.Windows.Forms.Button();
             this.DeleteWayBill = new System.Windows.Forms.Button();
-            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.contMenuStripDataGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.UnloadAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnldBillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,6 +83,9 @@
             this.UnldOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SeeFinishedRepair = new System.Windows.Forms.Button();
             this.StartFinishedRepair = new System.Windows.Forms.Button();
+            this.PushInStock = new System.Windows.Forms.Button();
+            this.PopInStock = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contMenuStripDataGrid.SuspendLayout();
@@ -105,7 +107,7 @@
             this.WayBillToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1003, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(1183, 40);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -231,14 +233,14 @@
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
             this.dataGridView.ColumnHeadersHeight = 50;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -248,30 +250,30 @@
             this.Column4,
             this.Column5,
             this.Column6});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Aqua;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.Aqua;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle17;
             this.dataGridView.EnableHeadersVisualStyles = false;
             this.dataGridView.Location = new System.Drawing.Point(0, 158);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView.ShowCellToolTips = false;
-            this.dataGridView.Size = new System.Drawing.Size(1003, 539);
+            this.dataGridView.Size = new System.Drawing.Size(1183, 539);
             this.dataGridView.TabIndex = 1;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
@@ -319,6 +321,7 @@
             this.AddRepair.BackColor = System.Drawing.Color.Transparent;
             this.AddRepair.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.AddRepair.FlatAppearance.BorderSize = 0;
+            this.AddRepair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddRepair.Image = ((System.Drawing.Image)(resources.GetObject("AddRepair.Image")));
             this.AddRepair.Location = new System.Drawing.Point(6, 79);
@@ -346,6 +349,7 @@
             this.EndRepair.BackColor = System.Drawing.Color.Transparent;
             this.EndRepair.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.EndRepair.FlatAppearance.BorderSize = 0;
+            this.EndRepair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.EndRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EndRepair.Image = ((System.Drawing.Image)(resources.GetObject("EndRepair.Image")));
             this.EndRepair.Location = new System.Drawing.Point(158, 79);
@@ -362,6 +366,7 @@
             this.AddAuto.BackColor = System.Drawing.Color.Transparent;
             this.AddAuto.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.AddAuto.FlatAppearance.BorderSize = 0;
+            this.AddAuto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddAuto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddAuto.Image = ((System.Drawing.Image)(resources.GetObject("AddAuto.Image")));
             this.AddAuto.Location = new System.Drawing.Point(206, 193);
@@ -379,6 +384,7 @@
             this.AddClient.BackColor = System.Drawing.Color.Transparent;
             this.AddClient.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.AddClient.FlatAppearance.BorderSize = 0;
+            this.AddClient.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddClient.Image = ((System.Drawing.Image)(resources.GetObject("AddClient.Image")));
             this.AddClient.Location = new System.Drawing.Point(206, 269);
@@ -395,6 +401,7 @@
             this.AddPersonal.BackColor = System.Drawing.Color.Transparent;
             this.AddPersonal.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.AddPersonal.FlatAppearance.BorderSize = 0;
+            this.AddPersonal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddPersonal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddPersonal.Image = ((System.Drawing.Image)(resources.GetObject("AddPersonal.Image")));
             this.AddPersonal.Location = new System.Drawing.Point(206, 431);
@@ -412,6 +419,7 @@
             this.AddPosition.BackColor = System.Drawing.Color.Transparent;
             this.AddPosition.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.AddPosition.FlatAppearance.BorderSize = 0;
+            this.AddPosition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddPosition.Image = ((System.Drawing.Image)(resources.GetObject("AddPosition.Image")));
             this.AddPosition.Location = new System.Drawing.Point(206, 355);
@@ -429,6 +437,7 @@
             this.EditRepair.BackColor = System.Drawing.Color.Transparent;
             this.EditRepair.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.EditRepair.FlatAppearance.BorderSize = 0;
+            this.EditRepair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.EditRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EditRepair.Image = ((System.Drawing.Image)(resources.GetObject("EditRepair.Image")));
             this.EditRepair.Location = new System.Drawing.Point(82, 79);
@@ -445,6 +454,7 @@
             this.EditPersonal.BackColor = System.Drawing.Color.Transparent;
             this.EditPersonal.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.EditPersonal.FlatAppearance.BorderSize = 0;
+            this.EditPersonal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.EditPersonal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EditPersonal.Image = ((System.Drawing.Image)(resources.GetObject("EditPersonal.Image")));
             this.EditPersonal.Location = new System.Drawing.Point(282, 431);
@@ -461,6 +471,7 @@
             this.EditClient.BackColor = System.Drawing.Color.Transparent;
             this.EditClient.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.EditClient.FlatAppearance.BorderSize = 0;
+            this.EditClient.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.EditClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EditClient.Image = ((System.Drawing.Image)(resources.GetObject("EditClient.Image")));
             this.EditClient.Location = new System.Drawing.Point(282, 269);
@@ -477,6 +488,7 @@
             this.EditAuto.BackColor = System.Drawing.Color.Transparent;
             this.EditAuto.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.EditAuto.FlatAppearance.BorderSize = 0;
+            this.EditAuto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.EditAuto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EditAuto.Image = ((System.Drawing.Image)(resources.GetObject("EditAuto.Image")));
             this.EditAuto.Location = new System.Drawing.Point(282, 193);
@@ -493,6 +505,7 @@
             this.EditPosition.BackColor = System.Drawing.Color.Transparent;
             this.EditPosition.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.EditPosition.FlatAppearance.BorderSize = 0;
+            this.EditPosition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.EditPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EditPosition.Image = ((System.Drawing.Image)(resources.GetObject("EditPosition.Image")));
             this.EditPosition.Location = new System.Drawing.Point(282, 355);
@@ -510,6 +523,7 @@
             this.AddInStock.BackColor = System.Drawing.Color.Transparent;
             this.AddInStock.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.AddInStock.FlatAppearance.BorderSize = 0;
+            this.AddInStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddInStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddInStock.Image = ((System.Drawing.Image)(resources.GetObject("AddInStock.Image")));
             this.AddInStock.Location = new System.Drawing.Point(206, 507);
@@ -527,6 +541,7 @@
             this.EditStock.BackColor = System.Drawing.Color.Transparent;
             this.EditStock.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.EditStock.FlatAppearance.BorderSize = 0;
+            this.EditStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.EditStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EditStock.Image = ((System.Drawing.Image)(resources.GetObject("EditStock.Image")));
             this.EditStock.Location = new System.Drawing.Point(282, 507);
@@ -546,7 +561,7 @@
             // 
             this.textBoxSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSearch.Location = new System.Drawing.Point(790, 63);
+            this.textBoxSearch.Location = new System.Drawing.Point(970, 100);
             this.textBoxSearch.Multiline = true;
             this.textBoxSearch.Name = "textBoxSearch";
             this.textBoxSearch.Size = new System.Drawing.Size(201, 30);
@@ -558,7 +573,7 @@
             this.labelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSearch.AutoSize = true;
             this.labelSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelSearch.Location = new System.Drawing.Point(725, 67);
+            this.labelSearch.Location = new System.Drawing.Point(905, 103);
             this.labelSearch.Name = "labelSearch";
             this.labelSearch.Size = new System.Drawing.Size(59, 20);
             this.labelSearch.TabIndex = 22;
@@ -614,12 +629,6 @@
             this.DeleteWayBill.TabIndex = 26;
             this.DeleteWayBill.UseVisualStyleBackColor = false;
             // 
-            // notifyIcon
-            // 
-            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-            this.notifyIcon.Text = "notifyIcon1";
-            this.notifyIcon.Visible = true;
-            // 
             // contMenuStripDataGrid
             // 
             this.contMenuStripDataGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -663,6 +672,7 @@
             this.SeeFinishedRepair.BackColor = System.Drawing.Color.Transparent;
             this.SeeFinishedRepair.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.SeeFinishedRepair.FlatAppearance.BorderSize = 0;
+            this.SeeFinishedRepair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SeeFinishedRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.SeeFinishedRepair.Image = ((System.Drawing.Image)(resources.GetObject("SeeFinishedRepair.Image")));
             this.SeeFinishedRepair.Location = new System.Drawing.Point(372, 269);
@@ -676,6 +686,7 @@
             this.StartFinishedRepair.BackColor = System.Drawing.Color.Transparent;
             this.StartFinishedRepair.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.StartFinishedRepair.FlatAppearance.BorderSize = 0;
+            this.StartFinishedRepair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.StartFinishedRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.StartFinishedRepair.Image = ((System.Drawing.Image)(resources.GetObject("StartFinishedRepair.Image")));
             this.StartFinishedRepair.Location = new System.Drawing.Point(448, 269);
@@ -685,11 +696,59 @@
             this.StartFinishedRepair.UseVisualStyleBackColor = false;
             this.StartFinishedRepair.Click += new System.EventHandler(this.StartFinishedRepair_Click);
             // 
+            // PushInStock
+            // 
+            this.PushInStock.BackColor = System.Drawing.Color.Transparent;
+            this.PushInStock.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.PushInStock.FlatAppearance.BorderSize = 0;
+            this.PushInStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PushInStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PushInStock.Image = ((System.Drawing.Image)(resources.GetObject("PushInStock.Image")));
+            this.PushInStock.Location = new System.Drawing.Point(358, 507);
+            this.PushInStock.Name = "PushInStock";
+            this.PushInStock.Size = new System.Drawing.Size(70, 70);
+            this.PushInStock.TabIndex = 30;
+            this.PushInStock.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.PushInStock, "Добавление на склад");
+            this.PushInStock.UseVisualStyleBackColor = false;
+            this.PushInStock.Click += new System.EventHandler(this.PushInStock_Click);
+            // 
+            // PopInStock
+            // 
+            this.PopInStock.BackColor = System.Drawing.Color.Transparent;
+            this.PopInStock.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.PopInStock.FlatAppearance.BorderSize = 0;
+            this.PopInStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PopInStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PopInStock.Image = ((System.Drawing.Image)(resources.GetObject("PopInStock.Image")));
+            this.PopInStock.Location = new System.Drawing.Point(434, 507);
+            this.PopInStock.Name = "PopInStock";
+            this.PopInStock.Size = new System.Drawing.Size(70, 70);
+            this.PopInStock.TabIndex = 31;
+            this.PopInStock.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.PopInStock, "Выдача со склада");
+            this.PopInStock.UseVisualStyleBackColor = false;
+            this.PopInStock.Click += new System.EventHandler(this.PopInStock_Click);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(970, 57);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 24);
+            this.label1.TabIndex = 32;
+            this.label1.Text = "label1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1003, 700);
+            this.ClientSize = new System.Drawing.Size(1183, 700);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.PopInStock);
+            this.Controls.Add(this.PushInStock);
             this.Controls.Add(this.StartFinishedRepair);
             this.Controls.Add(this.SeeFinishedRepair);
             this.Controls.Add(this.DeleteWayBill);
@@ -779,7 +838,6 @@
         private System.Windows.Forms.Button DeleteWayBill;
         private System.Windows.Forms.ToolStripMenuItem WayBillToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem UploadAllToolStripMenuItem;
-        private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenuStrip contMenuStripDataGrid;
         private System.Windows.Forms.ToolStripMenuItem UnloadAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem UnldBillToolStripMenuItem;
@@ -787,6 +845,9 @@
         private System.Windows.Forms.ToolStripMenuItem UnldOrderToolStripMenuItem;
         private System.Windows.Forms.Button SeeFinishedRepair;
         private System.Windows.Forms.Button StartFinishedRepair;
+        private System.Windows.Forms.Button PushInStock;
+        private System.Windows.Forms.Button PopInStock;
+        private System.Windows.Forms.Label label1;
     }
 }
 

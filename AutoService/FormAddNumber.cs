@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AutoServiceLibrary;
+using DataMapper;
 using DbProxy;
 
 namespace AutoService
@@ -30,30 +31,35 @@ namespace AutoService
             switch (Form1.WindowIndex)
             {
                 case WindowsStruct.MalfAdd:
-                    AddMalfOrSparesInDB();
+                    AddMalfOrSparesInRepair();
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView);
                     break;
                 case WindowsStruct.MalfView:
-                    AddMalfOrSparesInDB();
+                    AddMalfOrSparesInRepair();
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, formAddRepair.id_repair.ToString());
                     break;
                 case WindowsStruct.SpareAdd:
-                    AddMalfOrSparesInDB();
+                    AddMalfOrSparesInRepair();
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView);
                     break;
                 case WindowsStruct.SpareView:
-                    AddMalfOrSparesInDB();
+                    AddMalfOrSparesInRepair();
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, formAddRepair.id_repair.ToString());
                     break;
             }
             this.Close();
         }
 
-        private void AddMalfOrSparesInDB()
+        private void AddMalfOrSparesInRepair()
         {
-            Malfunctions malfAdd = new Malfunctions(formForSelect.dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString(),
-                    int.Parse(numberUpDown.Value.ToString()));
-            InvokeProcedure.AddMalfInRep(formAddRepair.id_repair, malfAdd.DescriptionOfMalf, malfAdd.Number);
+            Malfunctions malfAdd = new MalfMapper().Get(formForSelect.dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+            malfAdd.Number = (int) numberUpDown.Value;
+            Malfunctions malf = formAddRepair.repair.ListOfMalf.Find(m => m.IdMalf == malfAdd.IdMalf);
+            if (malf == null)
+                formAddRepair.repair.AddMalfInList(malfAdd);
+            else
+                malf.Number = (int) numberUpDown.Value;
+            formAddRepair.repair.CalculateTotalPrice();
         }
     }
 }

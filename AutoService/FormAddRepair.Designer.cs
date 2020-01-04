@@ -401,13 +401,14 @@
             // 
             // textBoxInf
             // 
-            this.textBoxInf.Enabled = false;
             this.textBoxInf.Location = new System.Drawing.Point(531, 20);
             this.textBoxInf.Multiline = true;
             this.textBoxInf.Name = "textBoxInf";
             this.textBoxInf.ReadOnly = true;
+            this.textBoxInf.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxInf.Size = new System.Drawing.Size(356, 675);
             this.textBoxInf.TabIndex = 31;
+            this.textBoxInf.TextChanged += new System.EventHandler(this.textBoxInf_TextChanged);
             // 
             // FormAddRepair
             // 
@@ -437,6 +438,7 @@
             this.Controls.Add(this.btnAddNewAutoRepair);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;

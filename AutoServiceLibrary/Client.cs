@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace AutoServiceLibrary
 {
-    public class Client : Person
+    public class Client : Company
     {
+        public string Director { get; set; }
+        public double Discount { get; set; } = 0;
         //конструктор по умолчанию
         public Client() { }
-        //конструктор с 1 параметром
-        public Client(string Name) : base(Name) { }
         //конструктор с 4 параметрами
-        public Client(string OwnerName, string INN, string Address, string NumberOfTel)
-            : base(OwnerName, INN, Address, NumberOfTel)
+        public Client(string director, string inn, string name, Bank bank,
+                      string phoneNumber, string email,
+                      string bill, string kpp, string oktmo, string okato,
+                      string ogrn, string address, string factAddress)
+           : base(inn, name, bank, phoneNumber, email, bill, kpp,
+                  oktmo, okato, ogrn, address, factAddress)
         {
-        }
-        //переопределенный метод для вывод информации по клиенту
-        public override string ToString()
-        {
-            return $"\nНаименование: {Name}, \nИНН: {INN},\nНомер телефона: {NumberOfTel}";
+            Director = director;
         }
     }
 }

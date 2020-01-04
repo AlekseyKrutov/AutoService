@@ -11,25 +11,31 @@ using System.Windows.Forms;
 using System.Xml;
 using FirebirdSql.Data.FirebirdClient;
 using AutoServiceLibrary;
+using DataMapper;
 using DbProxy;
 
 namespace AutoService
 {
     public partial class FormAddRepair : Form
     {
+        public CardOfRepair repair = null;
         public static bool logicForAddRepair;
         FormAddAuto formAddAutoInRepairs;
         FormForSelect formForSelect;
         Form1 mainForm;
         int infTxtWidth = 0;
+        int fullWidth = 0;
+        int cutedWidth = 0;
         static public AddEditOrDelete addOrEditInRepair;
         public int id_repair; 
         public FormAddRepair()
         {
             InitializeComponent();
             //расчет поля для изменения ширины формы, если информация по ремонту отсутствует
-            //infTxtWidth = textBoxInf.Location.X - (textBoxNotes.Location.X + textBoxNotes.Width);
-            //this.Width -= infTxtWidth + textBoxInf.Width;
+            fullWidth = this.Width;
+            infTxtWidth = textBoxInf.Location.X - (textBoxNotes.Location.X + textBoxNotes.Width);
+            this.Width -= infTxtWidth + textBoxInf.Width;
+            cutedWidth = this.Width;
         }
         public FormAddRepair(FormAddAuto addAuto, Form1 mainForm) : this()
         {
@@ -68,8 +74,6 @@ namespace AutoService
                 Form1.WindowIndex = WindowsStruct.ActOfEndsRepairs;
                 return;
             }
-            if (e.CloseReason == CloseReason.UserClosing && addOrEditInRepair == AddEditOrDelete.Add)
-                InvokeProcedure.DeleteSimpleRepair(id_repair);
             Form1.WindowIndex = WindowsStruct.Repairs;
         }
         private void btnAddNewAutoRepair_Click(object sender, EventArgs e)
@@ -148,8 +152,6 @@ namespace AutoService
         //событие при нажатии на кнопку добавить ремонт
         private void btnAddRepair_Click(object sender, EventArgs e)
         {
-            DateTime? startDate;
-            DateTime? finishDate;
             if (textBoxMark.Text.Length == 0)
             {
                 MessageBox.Show("Пожалуйста выберете автомобиль!");
@@ -162,22 +164,21 @@ namespace AutoService
             }
             if (!checkBoxTurnTime.Checked)
             {
-                startDate = DateTime.Now;
-                finishDate = null;
+                repair.TimeOfStart = DateTime.Now;
             }
             else if (checkBoxTurnTime.Checked)
             {
-                startDate = dateTimeStart.Value;
-                finishDate = dateTimeFinish.Value;
+                repair.TimeOfStart = dateTimeStart.Value;
+                repair.TimeOfFinish = dateTimeFinish.Value;
             }
-            else
-            {
-                startDate = null;
-                finishDate = null;
-            }
-            InvokeProcedure.AddRepair(id_repair, textBoxGosNom.Text, textBoxNotes.Text, startDate, finishDate);
+            repair.Notes = textBoxNotes.Text;
+            CardMapper cm = new CardMapper();
+            repair.CalculateTotalPrice();
+            if (Form1.AddOrEdit == AddEditOrDelete.Add)
+                repair = cm.Insert(repair);
+            else if (Form1.AddOrEdit == AddEditOrDelete.Edit)
+                cm.Update(repair);
             Form1.AddListRepairsInGrid(mainForm.dataGridView);
-            this.FormClosing -= FormAddRepair_FormClosing;
             this.Close();
         }
         private void checkBoxTurnTime_CheckedChanged(object sender, EventArgs e)
@@ -191,6 +192,21 @@ namespace AutoService
             {
                 dateTimeStart.Enabled = false;
                 dateTimeFinish.Enabled = false;
+            }
+        }
+    
+        private void textBoxInf_TextChanged(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (textBox.Text != "" && this.Width != fullWidth)
+            {
+                this.Width += infTxtWidth + textBoxInf.Width;
+                CenterToScreen();
+            }
+            else if (textBox.Text == "" && this.Width != cutedWidth)
+            {
+                this.Width -= infTxtWidth + textBoxInf.Width;
+                CenterToScreen();
             }
         }
     }

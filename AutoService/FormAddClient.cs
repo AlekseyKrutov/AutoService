@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using FirebirdSql.Data.FirebirdClient;
+using DataMapper;
 using DbProxy;
 using AutoServiceLibrary;
 using System.Net.Mail;
@@ -19,11 +20,13 @@ namespace AutoService
     {
         Form1 mainForm;
         FormAddWayBill formAddWayBill = new FormAddWayBill();
-        string oldNameOrg;
+        public Client client = null;
 
         public FormAddClient()
         {
             InitializeComponent();
+            DataSets.CreateDsForComboBox(comboBoxBank, Queries.BankView,
+                                            "name_bank", "kor_bill");
             textBoxINN.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressOnlyNumb);
             textBoxBill.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressOnlyNumb);
             textBoxKPP.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressOnlyNumb);
@@ -41,7 +44,6 @@ namespace AutoService
         }
         private void FormAddClient_Load(object sender, EventArgs e)
         {
-            oldNameOrg = textBoxName.Text;
         }
         private void buttonAddClient_Click(object sender, EventArgs e)
         {
@@ -55,11 +57,22 @@ namespace AutoService
                 MessageBox.Show("Электронная почта введена некорректно!");
                 return;
             }
-            if (Form1.AddOrEdit == AddEditOrDelete.Add)
+            if (client == null)
             {
-                InvokeProcedure.ExecuteClientProcedure(InvokeProcedure.AddClient, textBoxINN.Text, textBoxName.Text, oldNameOrg, textBoxDirector.Text,
-                    comboBoxBank.SelectedValue, textBoxNumbOfTel.Text, textBoxBill.Text, textBoxKPP.Text, textBoxOKTMO.Text, textBoxOKATO.Text, textBoxEmail.Text,
+                Client client = new Client(textBoxDirector.Text, textBoxINN.Text, textBoxName.Text, new BankMapper().Get(comboBoxBank.Text),
+                    textBoxNumbOfTel.Text, textBoxEmail.Text, textBoxBill.Text, textBoxKPP.Text, textBoxOKTMO.Text, textBoxOKATO.Text,
                     textBoxOGRN.Text, textBoxAddress.Text, textBoxFactAddress.Text);
+                try
+                {
+                    client = new ClientMapper().Insert(client);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("При добавлении данных произошла ошибка - " +
+                        $"{ex.Message}");
+                    client = null;
+                    return;
+                }
                 if (formAddWayBill != null && formAddWayBill.Visible)
                 {
                     formAddWayBill.FillComboBox(formAddWayBill.comboBoxClient, Form1.db,
@@ -69,11 +82,36 @@ namespace AutoService
                 }
                 mainForm.dataGridView.ClearSelection();
             }
-            else if (Form1.AddOrEdit == AddEditOrDelete.Edit)
+            else
             {
-                InvokeProcedure.ExecuteClientProcedure(InvokeProcedure.UpdateClient, textBoxINN.Text, textBoxName.Text, oldNameOrg, textBoxDirector.Text,
-                    comboBoxBank.SelectedValue, textBoxNumbOfTel.Text, textBoxBill.Text, textBoxKPP.Text, textBoxOKTMO.Text, textBoxOKATO.Text, textBoxEmail.Text,
-                    textBoxOGRN.Text, textBoxAddress.Text, textBoxFactAddress.Text);
+                ClientMapper cm = new ClientMapper();
+                client.Director = textBoxDirector.Text;
+                client.INN = textBoxINN.Text;
+                client.Name = textBoxName.Text;
+                try
+                {
+                    client.Bank = new BankMapper().Get(comboBoxBank.SelectedValue.ToString());
+                }
+                catch (NullReferenceException ex) { }
+                client.PhoneNumber = textBoxNumbOfTel.Text;
+                client.Email = textBoxEmail.Text;
+                client.Bill = textBoxBill.Text;
+                client.KPP = textBoxKPP.Text;
+                client.OKTMO = textBoxOKTMO.Text;
+                client.OKATO = textBoxOKATO.Text;
+                client.OGRN = textBoxOGRN.Text;
+                client.Address = textBoxAddress.Text;
+                client.FactAddress = textBoxFactAddress.Text;
+                try
+                {
+                    cm.Update(client);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("При добавлении данных произошла ошибка - " +
+                        $"{ex.Message}");
+                    return;
+                }
             }
             Form1.AddListClientInGrid(mainForm.dataGridView);
             this.Close();
@@ -102,6 +140,11 @@ namespace AutoService
             {
                 return false;
             }
+        }
+
+        private void FormAddClient_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            client = null;
         }
     }
 }

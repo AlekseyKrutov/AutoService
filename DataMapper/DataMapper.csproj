@@ -44,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,10 +53,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CardOfRepairMapper.cs" />
+    <Compile Include="BankMapper.cs" />
+    <Compile Include="CardMapper.cs" />
+    <Compile Include="CarMapper.cs" />
+    <Compile Include="ClientMapper.cs" />
+    <Compile Include="EmployeeMapper.cs" />
     <Compile Include="IConnection.cs" />
     <Compile Include="IDbMapperCommand.cs" />
+    <Compile Include="MalfMapper.cs" />
+    <Compile Include="OwnerMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpareMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

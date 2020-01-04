@@ -145,6 +145,7 @@
             this.Name = "FormAddPrice";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление позиции";
+            this.Load += new System.EventHandler(this.FormAddPrice_Load);
             this.Shown += new System.EventHandler(this.FormAddPrice_Shown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

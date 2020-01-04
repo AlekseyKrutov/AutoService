@@ -54,6 +54,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AutoServiceLibrary\bin\Debug\AutoServiceLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="DataMapper">
+      <HintPath>..\DataMapper\bin\Debug\DataMapper.dll</HintPath>
+    </Reference>
     <Reference Include="DbProxy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DbProxy\bin\Debug\DbProxy.dll</HintPath>
@@ -88,6 +91,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormAddNumbReason.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddNumbReason.Designer.cs">
+      <DependentUpon>FormAddNumbReason.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +170,9 @@
       <DependentUpon>FormForSelect.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormAddNumbReason.resx">
+      <DependentUpon>FormAddNumbReason.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

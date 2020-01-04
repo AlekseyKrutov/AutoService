@@ -384,6 +384,7 @@
             this.Name = "FormAddClient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление клиента";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormAddClient_FormClosed);
             this.Load += new System.EventHandler(this.FormAddClient_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
