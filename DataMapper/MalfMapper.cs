@@ -31,7 +31,7 @@ namespace DataMapper
                 while (dr.Read())
                 {
                     malf.IdMalf = dr.GetInt32(dr.GetOrdinal("ID"));
-                    malf.DescriptionOfMalf = dr.GetString(dr.GetOrdinal("DESCRIPTION"));
+                    malf.Description = dr.GetString(dr.GetOrdinal("DESCRIPTION"));
                     malf.Unit = (Units) dr.GetInt32(dr.GetOrdinal("UNIT"));
                     malf.Price = dr.GetDouble(dr.GetOrdinal("COST"));
                     malf.MalfOrSpare = dr.GetInt32(dr.GetOrdinal("MALF_OR_SPARE"));
@@ -49,7 +49,7 @@ namespace DataMapper
             {
                 FbCommand command = new FbCommand("NEW_TYPE_OF_W_PROCEDURE", db, trn);
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = malf.DescriptionOfMalf;
+                command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = malf.Description;
                 command.Parameters.Add("@UNIT", FbDbType.SmallInt).Value = malf.Unit;
                 command.Parameters.Add("@COST", FbDbType.Float).Value = malf.Price;
                 command.Parameters.Add("@MALF_OR_SPARE", FbDbType.SmallInt).Value = malf.MalfOrSpare;
@@ -82,7 +82,7 @@ namespace DataMapper
                 FbCommand command = new FbCommand("UPDATE_TYPE_WORK", db, trn);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@ID_WORK", FbDbType.SmallInt).Value = malf.IdMalf;
-                command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = malf.DescriptionOfMalf;
+                command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = malf.Description;
                 command.Parameters.Add("@UNIT", FbDbType.SmallInt).Value = malf.Unit;
                 command.Parameters.Add("@COST", FbDbType.Float).Value = malf.Price;
                 command.Parameters.Add("@MALF_OR_SPARE", FbDbType.SmallInt).Value = malf.MalfOrSpare;

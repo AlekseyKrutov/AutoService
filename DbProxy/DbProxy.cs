@@ -17,29 +17,6 @@ namespace DbProxy
     {
         public static FbConnection db = new FbConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
         //наименования процедур
-        public static string AddClient = "NEW_CLIENT_PROCEDURE";
-        public static string UpdateClient = "UPDATE_CLIENT_PROCEDURE";
-        public static int InsertRepair(string state_number)
-        {
-            int id_repair = 0;
-            Form1.db.Open();
-            using (FbCommand command = new FbCommand("CREATE_SIMPLE_REPAIR_PROCEDURE", Form1.db))
-            {
-                command.CommandType = CommandType.StoredProcedure;
-                FbTransaction trn = Form1.db.BeginTransaction();
-                command.Transaction = trn;
-                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = state_number;
-                FbDataReader dr = command.ExecuteReader();
-                while (dr.Read())
-                {
-                    id_repair = int.Parse(dr.GetString(0));
-                }
-                dr.Close();
-                trn.Commit();
-            }
-            Form1.db.Close();
-            return id_repair;
-        }
         public static void DeleteRepair(int id_repair)
         {
             Form1.db.Open();
@@ -53,229 +30,6 @@ namespace DbProxy
                 trn.Commit();
             }
             Form1.db.Close();
-        }
-        public static void AddMalfInRep(int id_repair, string description, int number)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("INS_OR_UP_WORKS_AND_REP", Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = description;
-                command.Parameters.Add("@NUMBER", FbDbType.SmallInt).Value = number;
-                command.ExecuteNonQuery();
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
-        public static void AddSpareInRep(int id_repair, int uniq_code, int number)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("INS_OR_UP_SPARE_REPAIR", Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                command.Parameters.Add("@UNIQ_CODE", FbDbType.Integer).Value = uniq_code;
-                command.Parameters.Add("@NUMBER", FbDbType.SmallInt).Value = number;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
-        public static void AddWorkerInRep(int id_repair, int tub_numb)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("INS_STAFF_REPAIR", Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                command.Parameters.Add("@TUB_NUMB", FbDbType.SmallInt).Value = tub_numb;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
-        public static void UpdateRepair(int id_repair, string state_number, string notes,
-            DateTime? startDate, DateTime? finishDate)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("UPDATE_CARD_OF_REPAIR", Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = state_number;
-                command.Parameters.Add("@NOTES", FbDbType.VarChar).Value = notes;
-                command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = startDate;
-                command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = finishDate;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
-        public static void FinishRepair(int id_card)
-        {
-            if (db.State != ConnectionState.Open)
-                Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("FINISH_REPAIR", db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_card;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                trn.Commit();
-            }
-            db.Close();
-        }
-        public static void StartRepair(int id_card)
-        {
-            if (db.State != ConnectionState.Open)
-                db.Open();
-            using (FbTransaction trn = db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("START_REPAIR", db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_card;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                trn.Commit();
-            }
-            db.Close();
-        }
-        public static void DeleteWorksInRep(int id_repair, string description)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand("DELETE_REPAIRS_WORKS", Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = id_repair;
-                command.Parameters.Add("@DESCRIPTION", FbDbType.Integer).Value = description;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                trn.Commit();
-                Form1.db.Close();
-            }
-        }
-        public static void ExecuteClientProcedure(string nameProc, string INN, string nameCl, string oldNameOrg,
-           string director,  object bankBill, string phoneNumb, string bill, string KPP, string OKTMO,
-           string OKATO, string email, string OGRN, string address, string factAddress)
-        {
-            if (db.State != ConnectionState.Open)
-                db.Open();
-            using (FbTransaction trn = db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand(nameProc, db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@INN", FbDbType.VarChar).Value = INN;
-                command.Parameters.Add("@NAME_ORG", FbDbType.VarChar).Value = nameCl;
-                if (Form1.AddOrEdit == Form1.AddEditOrDelete.Edit)
-                    command.Parameters.Add("@OLD_NAME_ORG", FbDbType.VarChar).Value = oldNameOrg;
-                command.Parameters.Add("@DIRECTOR", FbDbType.VarChar).Value = director;
-                bankBill = bankBill ?? "";
-                if (bankBill.ToString().Length == 0)
-                    command.Parameters.Add("@BANK_BILL", FbDbType.VarChar).Value = null;
-                else
-                    command.Parameters.Add("@BANK_BILL", FbDbType.VarChar).Value = bankBill.ToString();
-                if (phoneNumb == " (   )   -")
-                    command.Parameters.Add("@PHONE_NUMB", FbDbType.VarChar).Value = "";
-                else
-                    command.Parameters.Add("@PHONE_NUMB", FbDbType.VarChar).Value = phoneNumb;
-                command.Parameters.Add("@EMAIL", FbDbType.VarChar).Value = email;
-                command.Parameters.Add("@BILL", FbDbType.VarChar).Value = bill;
-                command.Parameters.Add("@KPP", FbDbType.VarChar).Value = KPP;
-                command.Parameters.Add("@OKTMO", FbDbType.VarChar).Value = OKTMO;
-                command.Parameters.Add("@OKATO", FbDbType.VarChar).Value = OKATO;
-                command.Parameters.Add("@OGRN", FbDbType.VarChar).Value = OGRN;
-                command.Parameters.Add("@ADDRESS", FbDbType.VarChar).Value = address;
-                command.Parameters.Add("@FACT_ADDRESS", FbDbType.VarChar).Value = factAddress;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException e)
-                {
-                    MessageBox.Show(e.Message);
-                    db.Close();
-                    return;
-                }
-                trn.Commit();
-                db.Close();
-            }
-        }
-        public static void ExecuteAutoProcedure(string nameProc, string VIN, string stateNumb, string regCert, string model, string owner)
-        {
-            Form1.db.Open();
-            using (FbTransaction trn = Form1.db.BeginTransaction())
-            {
-                FbCommand command = new FbCommand(nameProc, Form1.db, trn);
-                command.CommandType = CommandType.StoredProcedure;
-                if (VIN.Length != 0)
-                    command.Parameters.Add("@VIN", FbDbType.VarChar).Value = VIN;
-                else
-                    command.Parameters.Add("@VIN", FbDbType.VarChar).Value = null;
-                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = stateNumb;
-                command.Parameters.Add("@REG_CERTIFICATE", FbDbType.VarChar).Value = (regCert.Length != 0) ? regCert : null;
-                command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value =model.Split(' ').ToArray().First();
-                command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = 
-                    (model.Split(' ').ToArray()[1].Length > 0) ? model.Split(' ').ToArray().Last() : null;
-                command.Parameters.Add("@NAME_ORG", FbDbType.VarChar).Value = owner;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (FbException e)
-                {
-                    MessageBox.Show(e.Message);
-                    Form1.db.Close();
-                    return;
-                }
-                trn.Commit();
-                Form1.db.Close();
-            }
         }
     }
     public static class Queries
@@ -296,6 +50,13 @@ namespace DbProxy
         public static string StaffReadView = "select * from staff";
         public static string Profession = "select id_prof, profession as prof from profession";
         public static string RepairsForCBox = "select id, id || '  ' || \"Машина\" as info from active_repairs";
+        public static string CarForCBox = "select state_number, state_number || ' ' ||cm.mark || ' ' || coalesce(cm.model, '') as car" +
+                                          " from cars as c inner join client as cl" +
+                                          " on c.owner = cl.id_client and cl.system_owner = 1" +
+                                          " left join car_model as cm" +
+                                          " on c.car_model_id = cm.car_id";
+        public static string DriverForCBox = "select tub_numb, (last_name || ' ' || first_name || coalesce((' ' || second_name), '')) as name" +
+                                             " from staff where profession = 7";
         public static string GetRepairById(string id_repair) =>
             $"select * from repair_cars_owner where id_card_of_repair = {id_repair}";
         public static string GetBankViaBill(string bill) =>
@@ -329,15 +90,15 @@ namespace DbProxy
         public static string GetSystemOwner() => CompanyView + $" where system_owner = 1";
         public static string GetStaffById(string tubNumb) => StaffReadView + $" where tub_numb = {tubNumb}";
         public static string SearchMalf(string content) =>
-                        Queries.MalfunctionsView + $" where upper(description) LIKE '%{content}%'";
+                        Queries.MalfunctionsView + $" where upper(\"Наименование\") LIKE '%{content.ToUpper()}%'";
         public static string SearchSpares(string content) =>
-                        Queries.SparesView + $" where upper(description) LIKE '%{content}%'";
+                        Queries.SparesView + $" where upper(\"Наименование\") LIKE '%{content.ToUpper()}%'";
         public static string SearchInActiveRepairs(string content) =>
-                        ActiveRepairsView + $" where client like '%{content}%' or car like '%{content}%'";
+                        ActiveRepairsView + $" where \"Клиент\" like '%{content}%' or \"Машина\" like '%{content}%'";
         public static string SearchInFinishedRepairs(string content) =>
-                        FinishedRepairsView + $" where client like '%{content}%' or car like '%{content}%'";
+                        FinishedRepairsView + $" where \"Клиент\" like '%{content}%' or \"Машина\" like '%{content}%'";
         public static string SearchInAuto(string content) =>
-                        CarView + $" where state_number like '%{content}%' or org like '%{content}%'";
+                        CarView + $" where \"Гос.номер\" like '%{content}%' or \"Владелец\" like '%{content}%'";
         public static string SearchInClient(string content) => ClientView +
                         $" where \"Наименование\" like '%{content}%'";
     }
@@ -409,10 +170,6 @@ namespace DbProxy
                 dataAdapter.Fill(ds);
                 dg.DataSource = ds.Tables[0];
                 dg.Columns[0].Visible = false;
-                //for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
-                //{
-                //    ds.Tables[0].Columns[i].ColumnName = columnNames[i];
-                //}
                 db.Close();
             }
             dg.ClearSelection();

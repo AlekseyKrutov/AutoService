@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.RepairsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CurrentRepairsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,6 +47,9 @@
             this.PriceStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.StockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.WayBillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.repairReportToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.wayBillReportToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,6 +72,8 @@
             this.AddInStock = new System.Windows.Forms.Button();
             this.EditStock = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.PushInStock = new System.Windows.Forms.Button();
+            this.PopInStock = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.labelSearch = new System.Windows.Forms.Label();
@@ -83,9 +88,6 @@
             this.UnldOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SeeFinishedRepair = new System.Windows.Forms.Button();
             this.StartFinishedRepair = new System.Windows.Forms.Button();
-            this.PushInStock = new System.Windows.Forms.Button();
-            this.PopInStock = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contMenuStripDataGrid.SuspendLayout();
@@ -104,7 +106,8 @@
             this.autoToolStripMenuItem,
             this.PriceStripMenuItem1,
             this.StockToolStripMenuItem,
-            this.WayBillToolStripMenuItem});
+            this.WayBillToolStripMenuItem,
+            this.reportsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1183, 40);
@@ -223,6 +226,29 @@
             this.WayBillToolStripMenuItem.Text = "Перевозки";
             this.WayBillToolStripMenuItem.Click += new System.EventHandler(this.WayBillToolStripMenuItem_Click);
             // 
+            // reportsToolStripMenuItem
+            // 
+            this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.repairReportToolStrip,
+            this.wayBillReportToolStrip});
+            this.reportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.reportsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("reportsToolStripMenuItem.Image")));
+            this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(152, 36);
+            this.reportsToolStripMenuItem.Text = "Отчетность";
+            // 
+            // repairReportToolStrip
+            // 
+            this.repairReportToolStrip.Name = "repairReportToolStrip";
+            this.repairReportToolStrip.Size = new System.Drawing.Size(189, 34);
+            this.repairReportToolStrip.Text = "Ремонты";
+            // 
+            // wayBillReportToolStrip
+            // 
+            this.wayBillReportToolStrip.Name = "wayBillReportToolStrip";
+            this.wayBillReportToolStrip.Size = new System.Drawing.Size(189, 34);
+            this.wayBillReportToolStrip.Text = "Перевозки";
+            // 
             // dataGridView
             // 
             this.dataGridView.AllowUserToResizeRows = false;
@@ -233,14 +259,14 @@
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView.ColumnHeadersHeight = 50;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -250,27 +276,27 @@
             this.Column4,
             this.Column5,
             this.Column6});
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.Aqua;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Aqua;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView.EnableHeadersVisualStyles = false;
             this.dataGridView.Location = new System.Drawing.Point(0, 158);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView.ShowCellToolTips = false;
             this.dataGridView.Size = new System.Drawing.Size(1183, 539);
@@ -329,6 +355,7 @@
             this.AddRepair.Size = new System.Drawing.Size(70, 70);
             this.AddRepair.TabIndex = 2;
             this.AddRepair.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.AddRepair, "Добавить ремонт");
             this.AddRepair.UseVisualStyleBackColor = false;
             this.AddRepair.Click += new System.EventHandler(this.AddRepair_Click);
             this.AddRepair.MouseEnter += new System.EventHandler(this.AddRepair_MouseEnter);
@@ -356,6 +383,7 @@
             this.EndRepair.Name = "EndRepair";
             this.EndRepair.Size = new System.Drawing.Size(70, 70);
             this.EndRepair.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.EndRepair, "Завершить ремонт");
             this.EndRepair.UseVisualStyleBackColor = false;
             this.EndRepair.Click += new System.EventHandler(this.EndRepair_Click);
             this.EndRepair.MouseEnter += new System.EventHandler(this.EndRepair_MouseEnter);
@@ -374,6 +402,7 @@
             this.AddAuto.Size = new System.Drawing.Size(70, 70);
             this.AddAuto.TabIndex = 5;
             this.AddAuto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.AddAuto, "Добавить новый автомобиль");
             this.AddAuto.UseVisualStyleBackColor = false;
             this.AddAuto.Click += new System.EventHandler(this.AddAuto_Click);
             this.AddAuto.MouseEnter += new System.EventHandler(this.AddAuto_MouseEnter);
@@ -391,6 +420,7 @@
             this.AddClient.Name = "AddClient";
             this.AddClient.Size = new System.Drawing.Size(70, 70);
             this.AddClient.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.AddClient, "Добавить клиента");
             this.AddClient.UseVisualStyleBackColor = false;
             this.AddClient.Click += new System.EventHandler(this.AddClient_Click);
             this.AddClient.MouseEnter += new System.EventHandler(this.AddClient_MouseEnter);
@@ -408,6 +438,7 @@
             this.AddPersonal.Name = "AddPersonal";
             this.AddPersonal.Size = new System.Drawing.Size(70, 70);
             this.AddPersonal.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.AddPersonal, "Добавить работника");
             this.AddPersonal.UseVisualStyleBackColor = false;
             this.AddPersonal.Visible = false;
             this.AddPersonal.Click += new System.EventHandler(this.AddPersonal_Click);
@@ -426,6 +457,7 @@
             this.AddPosition.Name = "AddPosition";
             this.AddPosition.Size = new System.Drawing.Size(70, 70);
             this.AddPosition.TabIndex = 11;
+            this.toolTip1.SetToolTip(this.AddPosition, "Добавить позицию");
             this.AddPosition.UseVisualStyleBackColor = false;
             this.AddPosition.Visible = false;
             this.AddPosition.Click += new System.EventHandler(this.AddPosition_Click);
@@ -444,6 +476,7 @@
             this.EditRepair.Name = "EditRepair";
             this.EditRepair.Size = new System.Drawing.Size(70, 70);
             this.EditRepair.TabIndex = 13;
+            this.toolTip1.SetToolTip(this.EditRepair, "Редактировать ремонт");
             this.EditRepair.UseVisualStyleBackColor = false;
             this.EditRepair.Click += new System.EventHandler(this.EditRepair_Click);
             this.EditRepair.MouseEnter += new System.EventHandler(this.EditRepair_MouseEnter);
@@ -461,6 +494,7 @@
             this.EditPersonal.Name = "EditPersonal";
             this.EditPersonal.Size = new System.Drawing.Size(70, 70);
             this.EditPersonal.TabIndex = 14;
+            this.toolTip1.SetToolTip(this.EditPersonal, "Редактировать работника");
             this.EditPersonal.UseVisualStyleBackColor = false;
             this.EditPersonal.Click += new System.EventHandler(this.EditPersonal_Click);
             this.EditPersonal.MouseEnter += new System.EventHandler(this.EditPersonal_MouseEnter);
@@ -478,6 +512,7 @@
             this.EditClient.Name = "EditClient";
             this.EditClient.Size = new System.Drawing.Size(70, 70);
             this.EditClient.TabIndex = 15;
+            this.toolTip1.SetToolTip(this.EditClient, "Редактировать клиента");
             this.EditClient.UseVisualStyleBackColor = false;
             this.EditClient.Click += new System.EventHandler(this.EditClient_Click);
             this.EditClient.MouseEnter += new System.EventHandler(this.EditClient_MouseEnter);
@@ -495,6 +530,7 @@
             this.EditAuto.Name = "EditAuto";
             this.EditAuto.Size = new System.Drawing.Size(70, 70);
             this.EditAuto.TabIndex = 16;
+            this.toolTip1.SetToolTip(this.EditAuto, "Редактирование автомобиля");
             this.EditAuto.UseVisualStyleBackColor = false;
             this.EditAuto.Click += new System.EventHandler(this.EditAuto_Click);
             this.EditAuto.MouseEnter += new System.EventHandler(this.EditAuto_MouseEnter);
@@ -512,6 +548,7 @@
             this.EditPosition.Name = "EditPosition";
             this.EditPosition.Size = new System.Drawing.Size(70, 70);
             this.EditPosition.TabIndex = 17;
+            this.toolTip1.SetToolTip(this.EditPosition, "Редактировать позицию");
             this.EditPosition.UseVisualStyleBackColor = false;
             this.EditPosition.Visible = false;
             this.EditPosition.Click += new System.EventHandler(this.EditPosition_Click);
@@ -531,6 +568,7 @@
             this.AddInStock.Size = new System.Drawing.Size(70, 70);
             this.AddInStock.TabIndex = 18;
             this.AddInStock.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.AddInStock, "Добавить новую запчасть");
             this.AddInStock.UseVisualStyleBackColor = false;
             this.AddInStock.Click += new System.EventHandler(this.AddInStock_Click);
             this.AddInStock.MouseEnter += new System.EventHandler(this.AddInStock_MouseEnter);
@@ -548,10 +586,45 @@
             this.EditStock.Name = "EditStock";
             this.EditStock.Size = new System.Drawing.Size(70, 70);
             this.EditStock.TabIndex = 19;
+            this.toolTip1.SetToolTip(this.EditStock, "Редактировать информацию");
             this.EditStock.UseVisualStyleBackColor = false;
             this.EditStock.Click += new System.EventHandler(this.EditStock_Click);
             this.EditStock.MouseEnter += new System.EventHandler(this.EditStock_MouseEnter);
             this.EditStock.MouseLeave += new System.EventHandler(this.EditStock_MouseLeave);
+            // 
+            // PushInStock
+            // 
+            this.PushInStock.BackColor = System.Drawing.Color.Transparent;
+            this.PushInStock.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.PushInStock.FlatAppearance.BorderSize = 0;
+            this.PushInStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PushInStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PushInStock.Image = ((System.Drawing.Image)(resources.GetObject("PushInStock.Image")));
+            this.PushInStock.Location = new System.Drawing.Point(358, 507);
+            this.PushInStock.Name = "PushInStock";
+            this.PushInStock.Size = new System.Drawing.Size(70, 70);
+            this.PushInStock.TabIndex = 30;
+            this.PushInStock.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.PushInStock, "Добавление на склад");
+            this.PushInStock.UseVisualStyleBackColor = false;
+            this.PushInStock.Click += new System.EventHandler(this.PushInStock_Click);
+            // 
+            // PopInStock
+            // 
+            this.PopInStock.BackColor = System.Drawing.Color.Transparent;
+            this.PopInStock.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.PopInStock.FlatAppearance.BorderSize = 0;
+            this.PopInStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PopInStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PopInStock.Image = ((System.Drawing.Image)(resources.GetObject("PopInStock.Image")));
+            this.PopInStock.Location = new System.Drawing.Point(434, 507);
+            this.PopInStock.Name = "PopInStock";
+            this.PopInStock.Size = new System.Drawing.Size(70, 70);
+            this.PopInStock.TabIndex = 31;
+            this.PopInStock.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.PopInStock, "Выдача со склада");
+            this.PopInStock.UseVisualStyleBackColor = false;
+            this.PopInStock.Click += new System.EventHandler(this.PopInStock_Click);
             // 
             // timer1
             // 
@@ -593,6 +666,7 @@
             this.EditWayBill.BackColor = System.Drawing.Color.Transparent;
             this.EditWayBill.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.EditWayBill.FlatAppearance.BorderSize = 0;
+            this.EditWayBill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.EditWayBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EditWayBill.Image = ((System.Drawing.Image)(resources.GetObject("EditWayBill.Image")));
             this.EditWayBill.Location = new System.Drawing.Point(282, 583);
@@ -606,6 +680,7 @@
             this.AddWayBill.BackColor = System.Drawing.Color.Transparent;
             this.AddWayBill.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.AddWayBill.FlatAppearance.BorderSize = 0;
+            this.AddWayBill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddWayBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddWayBill.Image = ((System.Drawing.Image)(resources.GetObject("AddWayBill.Image")));
             this.AddWayBill.Location = new System.Drawing.Point(206, 583);
@@ -621,6 +696,7 @@
             this.DeleteWayBill.BackColor = System.Drawing.Color.Transparent;
             this.DeleteWayBill.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.DeleteWayBill.FlatAppearance.BorderSize = 0;
+            this.DeleteWayBill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DeleteWayBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.DeleteWayBill.Image = ((System.Drawing.Image)(resources.GetObject("DeleteWayBill.Image")));
             this.DeleteWayBill.Location = new System.Drawing.Point(358, 583);
@@ -679,6 +755,7 @@
             this.SeeFinishedRepair.Name = "SeeFinishedRepair";
             this.SeeFinishedRepair.Size = new System.Drawing.Size(70, 70);
             this.SeeFinishedRepair.TabIndex = 27;
+            this.toolTip1.SetToolTip(this.SeeFinishedRepair, "Информация по ремонту");
             this.SeeFinishedRepair.UseVisualStyleBackColor = false;
             // 
             // StartFinishedRepair
@@ -693,60 +770,15 @@
             this.StartFinishedRepair.Name = "StartFinishedRepair";
             this.StartFinishedRepair.Size = new System.Drawing.Size(70, 70);
             this.StartFinishedRepair.TabIndex = 28;
+            this.toolTip1.SetToolTip(this.StartFinishedRepair, "Восстановление ремонта");
             this.StartFinishedRepair.UseVisualStyleBackColor = false;
             this.StartFinishedRepair.Click += new System.EventHandler(this.StartFinishedRepair_Click);
-            // 
-            // PushInStock
-            // 
-            this.PushInStock.BackColor = System.Drawing.Color.Transparent;
-            this.PushInStock.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.PushInStock.FlatAppearance.BorderSize = 0;
-            this.PushInStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PushInStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.PushInStock.Image = ((System.Drawing.Image)(resources.GetObject("PushInStock.Image")));
-            this.PushInStock.Location = new System.Drawing.Point(358, 507);
-            this.PushInStock.Name = "PushInStock";
-            this.PushInStock.Size = new System.Drawing.Size(70, 70);
-            this.PushInStock.TabIndex = 30;
-            this.PushInStock.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip1.SetToolTip(this.PushInStock, "Добавление на склад");
-            this.PushInStock.UseVisualStyleBackColor = false;
-            this.PushInStock.Click += new System.EventHandler(this.PushInStock_Click);
-            // 
-            // PopInStock
-            // 
-            this.PopInStock.BackColor = System.Drawing.Color.Transparent;
-            this.PopInStock.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.PopInStock.FlatAppearance.BorderSize = 0;
-            this.PopInStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PopInStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.PopInStock.Image = ((System.Drawing.Image)(resources.GetObject("PopInStock.Image")));
-            this.PopInStock.Location = new System.Drawing.Point(434, 507);
-            this.PopInStock.Name = "PopInStock";
-            this.PopInStock.Size = new System.Drawing.Size(70, 70);
-            this.PopInStock.TabIndex = 31;
-            this.PopInStock.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip1.SetToolTip(this.PopInStock, "Выдача со склада");
-            this.PopInStock.UseVisualStyleBackColor = false;
-            this.PopInStock.Click += new System.EventHandler(this.PopInStock_Click);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(970, 57);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 24);
-            this.label1.TabIndex = 32;
-            this.label1.Text = "label1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1183, 700);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.PopInStock);
             this.Controls.Add(this.PushInStock);
             this.Controls.Add(this.StartFinishedRepair);
@@ -847,7 +879,9 @@
         private System.Windows.Forms.Button StartFinishedRepair;
         private System.Windows.Forms.Button PushInStock;
         private System.Windows.Forms.Button PopInStock;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem reportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem repairReportToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem wayBillReportToolStrip;
     }
 }
 

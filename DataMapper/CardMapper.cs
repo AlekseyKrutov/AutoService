@@ -23,7 +23,7 @@ namespace DataMapper
             {
                 FbCommand command = new FbCommand("INSERT_CARD_OF_REPAIR", db, trn);
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = card.Car.NumberOfCar;
+                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = card.Car.Number;
                 command.Parameters.Add("@NOTES", FbDbType.VarChar).Value = card.Notes;
                 command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = card.TimeOfStart;
                 command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = card.TimeOfFinish;
@@ -45,7 +45,7 @@ namespace DataMapper
                 }
             }
             db.Close();
-            card.id_repair = Get(id).id_repair;
+            card.IdRepair = Get(id).IdRepair;
             InsertWorks(card);
             InsertSpares(card);
             InsertWorkers(card);
@@ -61,7 +61,7 @@ namespace DataMapper
                 {
                     FbCommand command = new FbCommand("INSERT_WORK_REPAIR", db, trn);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.id_repair;
+                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.IdRepair;
                     command.Parameters.Add("@ID_WORK", FbDbType.SmallInt).Value = malf.IdMalf;
                     command.Parameters.Add("@NUMBER", FbDbType.SmallInt).Value = malf.Number;
                     command.Parameters.Add("@COST", FbDbType.Float).Value = malf.Price;
@@ -90,7 +90,7 @@ namespace DataMapper
                 {
                     FbCommand command = new FbCommand("INSERT_SPARE_REPAIR", db, trn);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.id_repair;
+                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.IdRepair;
                     command.Parameters.Add("@ID_SPARE", FbDbType.SmallInt).Value = part.IdSpare;
                     command.Parameters.Add("@NUMBER", FbDbType.Float).Value = part.Number;
                     command.Parameters.Add("@COST", FbDbType.Float).Value = part.Price;
@@ -119,7 +119,7 @@ namespace DataMapper
                 {
                     FbCommand command = new FbCommand("INSERT_WORKER_REPAIR", db, trn);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.id_repair;
+                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.IdRepair;
                     command.Parameters.Add("@TUB_NUMB", FbDbType.SmallInt).Value = emp.TubNumb;
                     try
                     {
@@ -144,8 +144,8 @@ namespace DataMapper
             {
                 FbCommand command = new FbCommand("UPDATE_CARD_OF_REPAIR", db, trn);
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.id_repair;
-                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = card.Car.NumberOfCar;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.IdRepair;
+                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = card.Car.Number;
                 command.Parameters.Add("@NOTES", FbDbType.VarChar).Value = card.Notes;
                 command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = card.TimeOfStart;
                 command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = card.TimeOfFinish;
@@ -185,7 +185,7 @@ namespace DataMapper
         }
         public void Delete(CardOfRepair card)
         {
-            DbProxy.InvokeProcedure.DeleteRepair(card.id_repair);
+            DbProxy.InvokeProcedure.DeleteRepair(card.IdRepair);
         }
         public void DeleteWorks(CardOfRepair card)
         {
@@ -195,7 +195,7 @@ namespace DataMapper
             {
                 FbCommand command = new FbCommand("DELETE_WORK_REPAIR", db, trn);
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.id_repair;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.IdRepair;
                 try
                 {
                     command.ExecuteNonQuery();
@@ -218,7 +218,7 @@ namespace DataMapper
             {
                 FbCommand command = new FbCommand("DELETE_SPARE_REPAIR", db, trn);
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.id_repair;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.IdRepair;
                 try
                 {
                     command.ExecuteNonQuery();
@@ -241,7 +241,7 @@ namespace DataMapper
             {
                 FbCommand command = new FbCommand("DELETE_WORKER_REPAIR", db, trn);
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.id_repair;
+                command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.IdRepair;
                 try
                 {
                     command.ExecuteNonQuery();
@@ -267,9 +267,16 @@ namespace DataMapper
                 dr = command.ExecuteReader();
                 while (dr.Read())
                 {
-                    card.id_repair = int.Parse(id);
+                    card.IdRepair = int.Parse(id);
                     card.TimeOfStart = dr.GetDateTime(dr.GetOrdinal("START_DATE"));
-                    //card.TimeOfFinish = dr.GetDateTime(dr.GetOrdinal("FINISH_DATE"));
+                    try
+                    {
+                        card.TimeOfFinish = dr.GetDateTime(dr.GetOrdinal("FINISH_DATE"));
+                    }
+                    catch (InvalidCastException ex)
+                    {
+                        card.TimeOfFinish = null;
+                    }
                     card.TotalPrice = dr.GetDouble(dr.GetOrdinal("TOTAL_COST"));
                     card.RepairIsCurrent = dr.GetBoolean(dr.GetOrdinal("CURRENT_OR_NOT"));
                     card.Notes = dr.GetString(dr.GetOrdinal("NOTES"));
@@ -277,9 +284,9 @@ namespace DataMapper
                 }
                 db.Close();
             }
-            card.ListOfMalf = GetListMalf(card.id_repair);
-            card.ListOfSpareParts = GetListSpare(card.id_repair);
-            card.ListOfPersonal = GetListPersonal(card.id_repair);
+            card.ListOfMalf = GetListMalf(card.IdRepair);
+            card.ListOfSpareParts = GetListSpare(card.IdRepair);
+            card.ListOfPersonal = GetListPersonal(card.IdRepair);
             return card;
         }
         public List<Malfunctions> GetListMalf(int id_repair)
@@ -318,6 +325,7 @@ namespace DataMapper
                 while (dr.Read())
                 {
                     listSpare.Add(new SparePart(
+                        dr.GetInt32(dr.GetOrdinal("ID_SPARE")),
                         dr.GetString(dr.GetOrdinal("ARTICUL")),
                         dr.GetInt32(dr.GetOrdinal("NUMBER")),
                         dr.GetDouble(dr.GetOrdinal("COST")),

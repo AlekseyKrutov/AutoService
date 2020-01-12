@@ -14,11 +14,11 @@ namespace AutoServiceLibrary
         //переменная хранящая номер свидетельства о регистрации
         public string RegCertific { get; set;}
         //переменная хранящая марку автомобиля
-        public string CarMark { get; set; }
+        public string Mark { get; set; }
         //переменная хранящая модель автомобиля
-        public string CarModel { get; set; }
+        public string Model { get; set; }
         //переменная хранящая Гос. номер автомобиля
-        public string NumberOfCar { get; set; }
+        public string Number { get; set; }
         //переменная хранящая информацию о владельце автомобиля
         public Client Owner { get; set; }
         //конструктор по умолчанию
@@ -29,9 +29,9 @@ namespace AutoServiceLibrary
         {
             this.CarVIN = CarVIN;
             this.RegCertific = RegCertific;
-            this.CarMark = CarMark;
-            this.CarModel = CarModel;
-            this.NumberOfCar = NumberOfCar;
+            this.Mark = CarMark;
+            this.Model = CarModel;
+            this.Number = NumberOfCar;
             this.Owner = Owner;
         }
         //конструктор с 5 параметрами
@@ -40,9 +40,9 @@ namespace AutoServiceLibrary
         {
             this.CarVIN = CarVIN;
             this.RegCertific = RegCertific;
-            this.CarMark = CarMark;
-            this.CarModel = CarModel;
-            this.NumberOfCar = NumberOfCar;
+            this.Mark = CarMark;
+            this.Model = CarModel;
+            this.Number = NumberOfCar;
             this.Owner = new Client();
         }
         public Car(string CarVin)
@@ -63,7 +63,7 @@ namespace AutoServiceLibrary
                 dr = command.ExecuteReader();
                 while (dr.Read())
                 {
-                    this.NumberOfCar = NumberOfCar;
+                    this.Number = NumberOfCar;
                     this.Owner = new Client
                     {
                         Name = dr.GetString(dr.GetOrdinal("ORG"))
@@ -75,7 +75,7 @@ namespace AutoServiceLibrary
         //метод для вывода автомобиля
         public override string ToString()
         {
-            return $"\nМарка: {CarMark}, \nМодель: {CarModel},\nГос.номер: {NumberOfCar}";
+            return $"\nМарка: {Mark}, \nМодель: {Model},\nГос.номер: {Number}";
         }
     }
 }

@@ -87,9 +87,6 @@ namespace AutoService
                 }
                 if (formAddWayBill != null)
                 {
-                    formAddWayBill.FillComboBox(formAddWayBill.comboBoxCar, Form1.db,
-                        formAddWayBill.car_query, formAddWayBill.displayMembers[FormAddWayBill.DisplayMembers.Car],
-                        formAddWayBill.valueMembers[FormAddWayBill.ValueMembers.Car]);
                     formAddWayBill.comboBoxCar.SelectedIndex = -1;
                     formAddWayBill.comboBoxCar.SelectedValue = textBoxGosNumb.Text;
                     this.Close();
@@ -100,9 +97,9 @@ namespace AutoService
             {
                 CarMapper cm = new CarMapper();
                 car.CarVIN = textBoxVIN.Text;
-                car.CarMark = carMark;
-                car.CarModel = carModel;
-                car.NumberOfCar = textBoxGosNumb.Text;
+                car.Mark = carMark;
+                car.Model = carModel;
+                car.Number = textBoxGosNumb.Text;
                 car.RegCertific = textBoxReg.Text;
                 car.Owner = client;
                 try

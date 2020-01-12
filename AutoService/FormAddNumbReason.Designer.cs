@@ -96,9 +96,9 @@
             this.labelNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelNumber.Location = new System.Drawing.Point(12, 100);
             this.labelNumber.Name = "labelNumber";
-            this.labelNumber.Size = new System.Drawing.Size(104, 20);
+            this.labelNumber.Size = new System.Drawing.Size(100, 20);
             this.labelNumber.TabIndex = 5;
-            this.labelNumber.Text = "Количество:";
+            this.labelNumber.Text = "Количество";
             // 
             // comboBoxRepair
             // 
@@ -109,6 +109,7 @@
             this.comboBoxRepair.Name = "comboBoxRepair";
             this.comboBoxRepair.Size = new System.Drawing.Size(229, 28);
             this.comboBoxRepair.TabIndex = 7;
+            this.comboBoxRepair.SelectionChangeCommitted += new System.EventHandler(this.comboBoxRepair_SelectionChangeCommitted);
             // 
             // textBoxNumber
             // 
@@ -118,6 +119,7 @@
             this.textBoxNumber.Name = "textBoxNumber";
             this.textBoxNumber.Size = new System.Drawing.Size(75, 28);
             this.textBoxNumber.TabIndex = 8;
+            this.textBoxNumber.TextChanged += new System.EventHandler(this.textBoxNumber_TextChanged);
             // 
             // FormAddNumbReason
             // 
@@ -138,6 +140,7 @@
             this.Name = "FormAddNumbReason";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Работа со складом";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAddNumbReason_FormClosing);
             this.Load += new System.EventHandler(this.FormAddNumbReason_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -149,10 +152,10 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Label labelReason;
         private System.Windows.Forms.Label labelAdd;
-        private System.Windows.Forms.Label labelNumber;
         public System.Windows.Forms.TextBox textBoxReason;
         public System.Windows.Forms.TextBox textBoxDescrContent;
         public System.Windows.Forms.ComboBox comboBoxRepair;
         public System.Windows.Forms.TextBox textBoxNumber;
+        public System.Windows.Forms.Label labelNumber;
     }
 }
