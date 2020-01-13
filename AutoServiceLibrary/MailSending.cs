@@ -8,20 +8,20 @@ using System.Net.Mail;
 
 namespace AutoServiceLibrary
 {
-    class MailSending
+    public class MailSending
     {
-        public void SendMessage()
+        public void SendMessage(string toMail, string Name)
         {
-            var fromAddress = new MailAddress("alekseykrutovvv@gmail.com", "From Name");
-            var toAddress = new MailAddress("alekseykrutovvv@gmail.com", "To Name");
-            const string fromPassword = "zegpwqbcbzsxooru";
+            var fromAddress = new MailAddress("alekseykrutovvv@gmail.com", "Aleksey Krutov");
+            var toAddress = new MailAddress(toMail, "To Name");
+            const string fromPassword = "yjbgnanmeeevrryf";
             const string subject = "Subject";
             const string body = "Body";
 
             var smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
-                Port = 587,
+                Port = 465,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,

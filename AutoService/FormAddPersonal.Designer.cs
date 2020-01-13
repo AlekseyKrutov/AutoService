@@ -312,6 +312,7 @@
             this.Name = "FormAddPersonal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление сотрудника";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAddPersonal_FormClosing);
             this.Load += new System.EventHandler(this.FormAddPersonal_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

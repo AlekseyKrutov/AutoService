@@ -37,6 +37,7 @@
             this.labelSearch = new System.Windows.Forms.Label();
             this.btnAddNewPosition = new System.Windows.Forms.Button();
             this.btnEditPosition = new System.Windows.Forms.Button();
+            this.btnDeletePosition = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,6 +89,7 @@
             this.dataGridView.TabIndex = 2;
             this.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseClick);
             this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
+            this.dataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView_DataError);
             // 
             // textBoxSearch
             // 
@@ -112,6 +114,8 @@
             // 
             this.btnAddNewPosition.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAddNewPosition.BackgroundImage")));
             this.btnAddNewPosition.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnAddNewPosition.FlatAppearance.BorderSize = 0;
+            this.btnAddNewPosition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddNewPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnAddNewPosition.Location = new System.Drawing.Point(4, 8);
             this.btnAddNewPosition.Name = "btnAddNewPosition";
@@ -124,6 +128,8 @@
             // 
             this.btnEditPosition.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnEditPosition.BackgroundImage")));
             this.btnEditPosition.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnEditPosition.FlatAppearance.BorderSize = 0;
+            this.btnEditPosition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnEditPosition.Location = new System.Drawing.Point(82, 8);
             this.btnEditPosition.Name = "btnEditPosition";
@@ -132,11 +138,26 @@
             this.btnEditPosition.UseVisualStyleBackColor = true;
             this.btnEditPosition.Click += new System.EventHandler(this.btnEditPosition_Click);
             // 
+            // btnDeletePosition
+            // 
+            this.btnDeletePosition.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDeletePosition.BackgroundImage")));
+            this.btnDeletePosition.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnDeletePosition.FlatAppearance.BorderSize = 0;
+            this.btnDeletePosition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeletePosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnDeletePosition.Location = new System.Drawing.Point(6, 8);
+            this.btnDeletePosition.Name = "btnDeletePosition";
+            this.btnDeletePosition.Size = new System.Drawing.Size(70, 70);
+            this.btnDeletePosition.TabIndex = 8;
+            this.btnDeletePosition.UseVisualStyleBackColor = true;
+            this.btnDeletePosition.Click += new System.EventHandler(this.btnDeletePosition_Click);
+            // 
             // FormForSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 672);
+            this.Controls.Add(this.btnDeletePosition);
             this.Controls.Add(this.btnEditPosition);
             this.Controls.Add(this.btnAddNewPosition);
             this.Controls.Add(this.labelSearch);
@@ -164,5 +185,6 @@
         public System.Windows.Forms.TextBox textBoxSearch;
         public System.Windows.Forms.Button btnAddNewPosition;
         public System.Windows.Forms.Button btnEditPosition;
+        public System.Windows.Forms.Button btnDeletePosition;
     }
 }

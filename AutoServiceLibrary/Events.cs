@@ -17,7 +17,7 @@ namespace AutoServiceLibrary
                 e.Handled = true;
             }
         }
-        public static void KeyPressFloat(object sender, KeyPressEventArgs e)
+        /*public static void KeyPressFloat(object sender, KeyPressEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
             if (e.KeyChar == ',')
@@ -35,6 +35,30 @@ namespace AutoServiceLibrary
             {
                 e.Handled = true;
             }
+        }*/
+        public static void KeyPressFloat(object sender, KeyPressEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (e.KeyChar == '.')
+                e.KeyChar = ',';
+            if (!(Char.IsDigit(e.KeyChar)) && !((e.KeyChar == '.' || e.KeyChar == ',')
+                && (textBox.Text.IndexOf(",") == -1) && (textBox.Text.Length != 0)))
+            {
+                if (e.KeyChar != (char)Keys.Back)
+                {
+                    e.Handled = true;
+                }
+            }
+            if (textBox.Text.Split(',').ToArray().Length > 1
+                && textBox.Text.Split(',').ToArray().Last().Length > 1 && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
+        }
+        public static void KeyPressUpper(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsUpper(e.KeyChar))
+                e.KeyChar = Char.ToUpper(e.KeyChar);
         }
     }
 }

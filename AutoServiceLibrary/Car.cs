@@ -25,7 +25,7 @@ namespace AutoServiceLibrary
         public Car() { }
         //конструктор с 6 параметрами
         public Car(string CarVIN, string RegCertific, string CarMark,
-                    string NumberOfCar, Client Owner)
+                   string CarModel, string NumberOfCar, Client Owner)
         {
             this.CarVIN = CarVIN;
             this.RegCertific = RegCertific;
@@ -35,8 +35,8 @@ namespace AutoServiceLibrary
             this.Owner = Owner;
         }
         //конструктор с 5 параметрами
-        public Car(string CarVIN, string RegCertific, string CarModel,
-                    string NumberOfCar)
+        public Car(string CarVIN, string RegCertific, string CarMark,
+                   string CarModel, string NumberOfCar)
         {
             this.CarVIN = CarVIN;
             this.RegCertific = RegCertific;

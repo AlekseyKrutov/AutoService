@@ -2,6 +2,7 @@
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FirebirdSql.Data.FirebirdClient;
@@ -9,6 +10,8 @@ using AutoServiceLibrary;
 using System.Configuration;
 using WorkWithExcelLibrary;
 using DbProxy;
+using DataMapper;
+using System.Threading;
 
 namespace AutoService
 {
@@ -242,6 +245,8 @@ namespace AutoService
             ShowSearch();
             AddInStock.Location = AddRepair.Location;
             EditStock.Location = EditRepair.Location;
+            PushInStock.Location = EndRepair.Location;
+            PopInStock.Location = new Point(PushInStock.Location.X + PopInStock.Width + 5, PushInStock.Location.Y);
             labelHeaderText.Text = "Склад";
             dataGridView.Top = topForGridIdeal;
             labelHeaderText.Top = topForLabelOfHead;
@@ -386,11 +391,15 @@ namespace AutoService
         {
             AddInStock.Hide();
             EditStock.Hide();
+            PopInStock.Hide();
+            PushInStock.Hide();
         }
         private void ShowStockButtons()
         {
             AddInStock.Visible = true;
             EditStock.Visible = true;
+            PopInStock.Visible = true;
+            PushInStock.Visible = true;
         }
         private void ShowWayBillButtons()
         {
@@ -434,16 +443,9 @@ namespace AutoService
             FormAddRepair.addOrEditInRepair = (int)AddEditOrDelete.Add;
             AddOrEdit = AddEditOrDelete.Add;
             WindowIndex = WindowsStruct.Repairs;
-            //проверка на наличие открытой формы
-            if (!formAddRepair.Visible)
-            {
-                formAddRepair = new FormAddRepair(formAddAuto, this);
-                formAddRepair.ShowDialog();
-            }
-            else
-                //если окно добавления автомобиля будет открыто выведется окно с предупреждением
-                MessageBox.Show("Вы уже создаете новый ремонт, для создания нового ремонта завершите старый.", "", MessageBoxButtons.OK);
-            return;
+            formAddRepair = new FormAddRepair(formAddAuto, this);
+            formAddRepair.repair = new CardOfRepair();
+            formAddRepair.ShowDialog();
         }
         private void EditRepair_Click(object sender, EventArgs e)
         {
@@ -456,38 +458,29 @@ namespace AutoService
             //проверка на наличие открытой формы
             if (!formAddRepair.Visible)
             {
-                string state_numb = "";
                 formAddRepair = new FormAddRepair(formAddAuto, this);
                 formAddRepair.id_repair = int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
-                Form1.db.Open();
-                using (FbCommand command = new FbCommand("TAKE_ID_CAR_FROM_REPAIR", Form1.db))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = formAddRepair.id_repair;
-                    FbDataReader dr = command.ExecuteReader();
-                    while (dr.Read())
-                    {
-                        state_numb = dr.GetString(dr.GetOrdinal("STATE_NUMBER"));
-                        formAddRepair.textBoxNotes.Text = dr.GetString(dr.GetOrdinal("NOTES"));
-                        formAddRepair.dateTimeStart.Value = dr.GetDateTime(dr.GetOrdinal("START_DATE"));
-                        string str = dr.GetString(dr.GetOrdinal("FINISH_DATE"));
-                        DateTime finishDate;
-                        if (DateTime.TryParse(str, out finishDate))
-                        {
-                            formAddRepair.dateTimeFinish.Value = finishDate;
-                            formAddRepair.checkBoxTurnTime.Checked = true;
-                        }
-
-                    }
-                    Form1.db.Close();
-                }
-                FormAddAuto.ReadAutoFromViewForRepair(state_numb, formAddRepair);
+                formAddRepair.repair = new CardMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+                formAddRepair.textBoxInf.Text = formAddRepair.repair.ToString();
+                formAddRepair.textBoxNotes.Text = formAddRepair.repair.Notes;
+                formAddRepair.dateTimeStart.Value = formAddRepair.repair.TimeOfStart;
+                //formAddRepair.dateTimeFinish.Value = (formAddRepair.repair.TimeOfFinish == null) ? formAddRepair.repair.TimeOfStart : formAddRepair.repair.TimeOfFinish;
+                FillCardWithCar(formAddRepair, formAddRepair.repair.Car);
                 formAddRepair.ShowDialog();
             }
             else
                 //если окно добавления автомобиля будет открыто выведется окно с предупреждением
                 MessageBox.Show("Вы уже создаете новый ремонт, для создания нового ремонта завершите старый.", "", MessageBoxButtons.OK);
             return;
+        }
+        public void FillCardWithCar(FormAddRepair formAddRepair, Car car)
+        {
+            formAddRepair.textBoxVIN.Text = car.CarVIN;
+            string model = (car.CarModel == null) ? "" : car.CarModel;
+            formAddRepair.textBoxMark.Text = car.CarMark + " " + model;
+            formAddRepair.textBoxGosNom.Text = car.NumberOfCar;
+            formAddRepair.textBoxReg.Text = car.RegCertific;
+            formAddRepair.textBoxOwner.Text = (car.Owner == null) ? "" : car.Owner.Name;
         }
         private void StartFinishedRepair_Click(object sender, EventArgs e)
         {
@@ -496,7 +489,7 @@ namespace AutoService
             string rep_id = dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
             bool confirm = ((MessageBox.Show(string.Format("Вы действительно хотите восстановить ремонт №{0}?",
                 dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK));
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK));
             if (confirm)
                 DbProxy.InvokeProcedure.StartRepair(int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString()));
             AddListFinishedRepsInGrid(dataGridView);
@@ -507,9 +500,18 @@ namespace AutoService
                 return;
             if ((MessageBox.Show(string.Format("Вы действительно завершить ремонт №{0}?",
                 dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK))
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK))
             {
-                DbProxy.InvokeProcedure.FinishRepair(int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString()));
+                CardMapper cm = new CardMapper();
+                CardOfRepair card = cm.Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+                if (card.TimeOfFinish != null)
+                    card.FinishRepair();
+                else
+                {
+                    MessageBox.Show("В ремонте не указана дата завершения!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+                cm.Update(card);
                 AddListRepairsInGrid(dataGridView);
             }
         }
@@ -517,53 +519,27 @@ namespace AutoService
         private void AddAuto_Click(object sender, EventArgs e)
         {
             AddOrEdit = AddEditOrDelete.Add;
-            //проверка на наличие открытой формы
-            if (!formAddAuto.Visible)
-            {
-                formAddAuto = new FormAddAuto(formAddRepair, this);
-                DbProxy.DataSets.CreateDsForComboBox(formAddAuto.comboBoxAuto, Queries.CarModelView, "MARK_MODEL", "", AddOrEdit);
-                formAddAuto.StartPosition = FormStartPosition.CenterScreen;
-                formAddAuto.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-                formAddAuto.MaximizeBox = false;
-                formAddAuto.ShowDialog();
-            }
-            // если окно добавления уже открыто событие игнорируется
-            else
-                return;
+            formAddAuto = new FormAddAuto(formAddRepair, this);
+            formAddAuto.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            formAddAuto.MaximizeBox = false;
+            formAddAuto.ShowDialog();
         }
         private void EditAuto_Click(object sender, EventArgs e)
         {
             if (GridRowsColumnIsNull())
                 return;
             AddOrEdit = AddEditOrDelete.Edit;
-            if (!formAddAuto.Visible)
-            {
-                formAddAuto = new FormAddAuto(this);
-                formAddAuto.OwnerSelected = true;
-                DbProxy.DataSets.CreateDsForComboBox(formAddAuto.comboBoxAuto, Queries.CarModelView, "MARK_MODEL", "", AddOrEdit);
-                using (FbCommand command = 
-                    new FbCommand(Queries.GetCarViaNumber(dataGridView.Rows[SelectIndex].Cells[1].Value.ToString()), db))
-                {
-                    FbDataReader dr;
-                    db.Open();
-                    dr = command.ExecuteReader();
-                    while (dr.Read())
-                    {
-                        if (dr.GetString(dr.GetOrdinal("CAR_MODEL")).Length != 0)
-                            formAddAuto.comboBoxAuto.SelectedValue = dr.GetString(dr.GetOrdinal("CAR_MODEL"));
-                        else
-                            formAddAuto.comboBoxAuto.SelectedIndex = -1;
-                        formAddAuto.textBoxVIN.Text = dr.GetString(dr.GetOrdinal("VIN"));
-                        formAddAuto.textBoxGosNumb.Text = dr.GetString(dr.GetOrdinal("STATE_NUMBER"));
-                        formAddAuto.textBoxReg.Text = dr.GetString(dr.GetOrdinal("CERTIFICATE"));
-                        formAddAuto.labelContentOwner.Text = dr.GetString(dr.GetOrdinal("ORG"));
-                    }
-                    db.Close();
-                }
-                formAddAuto.ShowDialog();
-            }
-            else
-                return;
+            formAddAuto = new FormAddAuto(this);
+            formAddAuto.car = new CarMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+            formAddAuto.textBoxGosNumb.Text = formAddAuto.car.NumberOfCar;
+            formAddAuto.textBoxVIN.Text = formAddAuto.car.CarVIN;
+            formAddAuto.textBoxReg.Text = formAddAuto.car.RegCertific;
+            string model = (formAddAuto.car.CarModel == "") ? formAddAuto.car.CarMark :
+                formAddAuto.car.CarMark + ' ' + formAddAuto.car.CarModel;
+            formAddAuto.comboBoxAuto.Text = model;
+            formAddAuto.labelContentOwner.Text = (formAddAuto.car.Owner != null ) ? formAddAuto.car.Owner.Name : "";
+            formAddAuto.client = formAddAuto.car.Owner;
+            formAddAuto.Show();
         }
         //событие при клике по кнопке добавить клиента
         private void AddClient_Click(object sender, EventArgs e)
@@ -584,42 +560,22 @@ namespace AutoService
             if (GridRowsColumnIsNull())
                 return;
             AddOrEdit = AddEditOrDelete.Edit;
-            if (!formAddClient.Visible)
-            {
-                formAddClient = new FormAddClient(this);
-                DataSets.CreateDsForComboBox(formAddClient.comboBoxBank, Queries.BankView,
-                                            "name_bank", "kor_bill", AddOrEdit);
-                string query = Queries.GetClientByClientName(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
-                using (FbCommand command = new FbCommand(query, db))
-                {
-                    FbDataReader dr;
-                    db.Open();
-                    dr = command.ExecuteReader();
-                    while (dr.Read())
-                    {
-                        formAddClient.textBoxINN.Text = dr.GetString(dr.GetOrdinal("INN"));
-                        formAddClient.textBoxName.Text = dr.GetString(dr.GetOrdinal("NAME_ORG"));
-                        formAddClient.textBoxDirector.Text = dr.GetString(dr.GetOrdinal("DIRECTOR"));
-                        if (dr.GetString(dr.GetOrdinal("BANK")).Length != 0)
-                            formAddClient.comboBoxBank.Text = dr.GetString(dr.GetOrdinal("BANK"));
-                        else
-                            formAddClient.comboBoxBank.SelectedIndex = -1;
-                        formAddClient.textBoxNumbOfTel.Text = dr.GetString(dr.GetOrdinal("PHONE_NUMB"));
-                        formAddClient.textBoxBill.Text = dr.GetString(dr.GetOrdinal("BILL"));
-                        formAddClient.textBoxKPP.Text = dr.GetString(dr.GetOrdinal("KPP"));
-                        formAddClient.textBoxOKTMO.Text = dr.GetString(dr.GetOrdinal("OKTMO"));
-                        formAddClient.textBoxOKATO.Text = dr.GetString(dr.GetOrdinal("OKATO"));
-                        formAddClient.textBoxEmail.Text = dr.GetString(dr.GetOrdinal("EMAIL"));
-                        formAddClient.textBoxOGRN.Text = dr.GetString(dr.GetOrdinal("OGRN"));
-                        formAddClient.textBoxAddress.Text = dr.GetString(dr.GetOrdinal("ADDRESS"));
-                        formAddClient.textBoxFactAddress.Text = dr.GetString(dr.GetOrdinal("FACT_ADDRESS"));
-                    }
-                    db.Close();
-                }
-                formAddClient.ShowDialog();
-            }
-            else
-                return;
+            formAddClient = new FormAddClient(this);
+            formAddClient.client = new ClientMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+            formAddClient.textBoxINN.Text = formAddClient.client.INN;
+            formAddClient.textBoxName.Text = formAddClient.client.Name;
+            formAddClient.textBoxDirector.Text = formAddClient.client.Director;
+            formAddClient.comboBoxBank.SelectedValue = (formAddClient.client.Bank.KorBill != null) ? formAddClient.client.Bank.KorBill : "";
+            formAddClient.textBoxNumbOfTel.Text = formAddClient.client.PhoneNumber;
+            formAddClient.textBoxBill.Text = formAddClient.client.Bill;
+            formAddClient.textBoxKPP.Text = formAddClient.client.KPP;
+            formAddClient.textBoxOKTMO.Text = formAddClient.client.OKTMO;
+            formAddClient.textBoxOKATO.Text = formAddClient.client.OKATO;
+            formAddClient.textBoxEmail.Text = formAddClient.client.Email;
+            formAddClient.textBoxOGRN.Text = formAddClient.client.OGRN;
+            formAddClient.textBoxAddress.Text = formAddClient.client.Address;
+            formAddClient.textBoxFactAddress.Text = formAddClient.client.FactAddress;
+            formAddClient.ShowDialog();
         }
         //событие при клике по кнопке добавить персонал
         private void AddPersonal_Click(object sender, EventArgs e)
@@ -639,45 +595,27 @@ namespace AutoService
                 return;
             AddOrEdit = AddEditOrDelete.Edit;
             formAddPersonal = new FormAddPersonal(this);
-            string query = string.Format("select first_name, second_name, last_name," +
-                                        "inn, passport, phone_numb, profession, gender, address, date_born " +
-                                        "from staff " +
-                                        "where tub_numb = {0};",
-                dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
-            using (FbCommand command = new FbCommand(query, db))
-            {
-                FbDataReader dataReader;
-                db.Open();
-                dataReader = command.ExecuteReader();
-                while (dataReader.Read())
-                {
-                    formAddPersonal.textBoxFirstName.Text = dataReader.GetString(0);
-                    formAddPersonal.textBoxSecondName.Text = dataReader.GetString(1);
-                    formAddPersonal.textBoxLastName.Text = dataReader.GetString(2);
-                    formAddPersonal.textBoxINN.Text = dataReader.GetString(3);
-                    formAddPersonal.textBoxPassport.Text = dataReader.GetString(4);
-                    formAddPersonal.textBoxNumbOfTel.Text = dataReader.GetString(5);
-                    formAddPersonal.textBoxAddress.Text = dataReader.GetString(8);
-                    string[] date = dataReader.GetString(9).Split(' ').ToArray()[0].Split('.').Reverse().ToArray();
-                    DateTime dateTime = new DateTime(int.Parse(date[0]), int.Parse(date[1]), int.Parse(date[2]));
-                    formAddPersonal.monthCalendarDayBirth.SelectionEnd = dateTime;
-                    formAddPersonal.date = dateTime.ToString("dd/MM/yyyy");
-                }
-                db.Close();
-            }
+            string id = dataGridView.Rows[SelectIndex].Cells[0].Value.ToString();
+            formAddPersonal.emp = new EmployeeMapper().Get(id);
+            formAddPersonal.textBoxFirstName.Text = formAddPersonal.emp.FirstName;
+            formAddPersonal.textBoxSecondName.Text = formAddPersonal.emp.SecondName;
+            formAddPersonal.textBoxLastName.Text = formAddPersonal.emp.LastName;
+            formAddPersonal.textBoxINN.Text = formAddPersonal.emp.INN;
+            formAddPersonal.textBoxPassport.Text = formAddPersonal.emp.Passport;
+            formAddPersonal.textBoxNumbOfTel.Text = formAddPersonal.emp.PhoneNumb;
+            formAddPersonal.textBoxAddress.Text = formAddPersonal.emp.Address;
+            formAddPersonal.monthCalendarDayBirth.SelectionEnd = formAddPersonal.emp.BornDate;
+            formAddPersonal.date = formAddPersonal.emp.BornDate.ToString("dd/MM/yyyy");
+            formAddPersonal.comboBoxGender.Text = UnitsConvert.ConvertSex(formAddPersonal.emp.Gender);
+            formAddPersonal.comboBoxFunction.SelectedValue = formAddPersonal.emp.Function;
             formAddPersonal.ShowDialog();
         }
         //событие при клике по кнопке добавить позицию
         private void AddPosition_Click(object sender, EventArgs e)
         {
             AddOrEdit = (int)AddEditOrDelete.Add;
-            if (!formAddPrice.Visible)
-            {
-                formAddPrice = new FormAddPrice(this);
-                formAddPrice.ShowDialog();
-            }
-            else
-                return;
+            formAddPrice = new FormAddPrice(this);
+            formAddPrice.ShowDialog();
         }
         private void EditPosition_Click(object sender, EventArgs e)
         {
@@ -685,128 +623,88 @@ namespace AutoService
                 return;
             AddOrEdit = AddEditOrDelete.Edit;
             formAddPrice = new FormAddPrice(this);
-            FillFormPrice(dataGridView, db, formAddPrice);
+            FillFormPrice(dataGridView, formAddPrice);
         }
-        public void FillFormPrice(DataGridView dataGridView, FbConnection db, FormAddPrice formAddPrice)
+        //используется при добавлении в formForSelect
+        public void FillFormPrice(DataGridView dg, FormAddPrice fAddPrice)
         {
-            string query = $" select description, unit, cost from type_of_work where description LIKE " +
-                $"'{dataGridView.Rows[SelectIndex].Cells[0].Value.ToString()}'";
-            using (FbCommand command = new FbCommand(query, db))
-            {
-                FbDataReader dr;
-                db.Open();
-                dr = command.ExecuteReader();
-                while (dr.Read())
-                {
-                    formAddPrice.textBoxDescription.Text = dr.GetString(dr.GetOrdinal("DESCRIPTION"));
-                    formAddPrice.comboBoxUnit.SelectedItem = dr.GetString(dr.GetOrdinal("UNIT"));
-                    formAddPrice.textBoxPrice.Text = dr.GetDouble(dr.GetOrdinal("COST")).ToString();
-                }
-                db.Close();
-            }
-            formAddPrice.ShowDialog();
+            fAddPrice.malf = new MalfMapper().Get(dg.Rows[SelectIndex].Cells[0].Value.ToString());
+            fAddPrice.textBoxDescription.Text = fAddPrice.malf.DescriptionOfMalf;
+            fAddPrice.textBoxPrice.Text = fAddPrice.malf.Price.ToString();
+            fAddPrice.comboBoxUnit.Text = UnitsConvert.ConvertUnit(fAddPrice.malf.Unit);
+            fAddPrice.Show();
         }
-        //событие при клике по кнопке удалить позицию
-        private void DeletePosition_Click(object sender, EventArgs e)
-        {
-            //при клике по заголовку сетки ловится исключение и событие игнорируется
-            try
-            {
-                //при попытке удалить объект появляется окно с подтверждением удаления
-                if ((MessageBox.Show(string.Format("Вы действительно хотите удалить эту позицию?{0}", Malfunctions.MalfList[SelectIndex].ToString()), "Предупреждение",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.OK) && Malfunctions.MalfList.Count > 0)
-                {
-                    Malfunctions.MalfList.RemoveAt(SelectIndex);
-                    AddListMalfunctionsInGrid(dataGridView, Queries.MalfunctionsView);
-                }
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return;
-            }
-        }
-
         private void AddInStock_Click(object sender, EventArgs e)
         {
             AddOrEdit = (int)AddEditOrDelete.Add;
-            if (!formAddSparePart.Visible)
-            {
-                formAddSparePart = new FormAddSparePart(this);
-                formAddSparePart.ShowDialog();
-            }
-            else
-                return;
+            formAddSparePart = new FormAddSparePart(this);
+            formAddSparePart.ShowDialog();
         }
         private void EditStock_Click(object sender, EventArgs e)
         {
             if (GridRowsColumnIsNull())
                 return;
             AddOrEdit = AddEditOrDelete.Edit;
-            if (!formAddSparePart.Visible)
-            {
-                formAddSparePart = new FormAddSparePart(this);
-                string query = string.Format("select sp.uniq_code, sp.description, sp.cost, st.number " +
-                    "from sparepart as sp, stock as st where sp.uniq_code = '{0}'  and st.uniq_code = '{0}'",
-                dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
-                using (FbCommand command = new FbCommand(query, db))
-                {
-                    FbDataReader dataReader;
-                    db.Open();
-                    dataReader = command.ExecuteReader();
-                    while (dataReader.Read())
-                    {
-                        formAddSparePart.textBoxUniqNumb.Text = dataReader.GetString(0);
-                        formAddSparePart.textBoxDescr.Text = dataReader.GetString(1);
-                        formAddSparePart.textBoxCost.Text = dataReader.GetString(2);
-                        formAddSparePart.textBoxNumb.Text = dataReader.GetString(3);
-                    }
-                    db.Close();
-                }
-                formAddSparePart.ShowDialog();
-            }
-            else
-                return;
+            formAddSparePart = new FormAddSparePart(this);
+            formAddSparePart.part = new SpareMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+            formAddSparePart.textBoxUniqNumb.Text = formAddSparePart.part.Articul;
+            formAddSparePart.textBoxDescr.Text = formAddSparePart.part.Description;
+            formAddSparePart.textBoxCost.Text = formAddSparePart.part.Price.ToString();
+            formAddSparePart.textBoxNumb.Text = formAddSparePart.part.Number.ToString();
+            formAddSparePart.comboBoxUnit.Text = UnitsConvert.ConvertUnit(formAddSparePart.part.Unit);
+            formAddSparePart.ShowDialog();
+        }
+        //положить на склад
+        private void PushInStock_Click(object sender, EventArgs e)
+        {
+            FormAddNumbReason addNumb = new FormAddNumbReason();
+            WindowIndex = WindowsStruct.PushInStock;
+            SparePart sp = new SparePart();
+            sp = new SpareMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+            addNumb.textBoxDescrContent.Text = sp.Description;
+            addNumb.ShowDialog();
+        }
+        //выдать со склада
+        private void PopInStock_Click(object sender, EventArgs e)
+        {
+            FormAddNumbReason addNumb = new FormAddNumbReason();
+            WindowIndex = WindowsStruct.PopFromStock;
+            addNumb.ShowDialog();
         }
         private void AddWayBill_Click(object sender, EventArgs e)
         {
             FormAddWayBill formAddWayBill = new FormAddWayBill();
             formAddWayBill.ShowDialog();
         }
+        
         //функции для добавления списка объектов в сетку
         public static void AddListRepairsInGrid(DataGridView dataGridView, string content = "")
         {
-            string[] columnNames = { "№", "Дата начала", "Итоговая стоимость", "Заказчик", "Автомобиль", "Заметки" };
-            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, dataGridView, content);
         }
         public static void AddListFinishedRepsInGrid(DataGridView dataGridView, string content= "")
         {
-            string[] columnNames = { "№", "Дата начала", "Дата окончания", "Итоговая стоимость", "Заказчик", "Автомобиль", "Заметки" };
-            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, dataGridView, content);
         }
         public static void AddListAutoInGrid(DataGridView dataGridView, string content = "")
         {
-            string[] columnNames = { "Марка", "Гос.номер", "VIN", "Свидетельство о рег.", "Владелец" };
-            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, dataGridView, content);
         }
         public static void AddListClientInGrid(DataGridView dataGridView, string content = "")
         {
-            string[] columnNames = { "Наименование", "Директор", "ИНН", "Номер телефона" };
-            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, dataGridView, content);
         }
         public static void AddListPersonalInGrid(DataGridView dataGridView, string content = "")
         {
-            string[] columnNames = { "Табельный номер", "ФИО", "Адрес", "Должность", "Номер телефона" };
-            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, dataGridView, content);
         }
         public static void AddListMalfunctionsInGrid(DataGridView dataGridView, string content = "")
         {
-            string[] columnNames = { "Наименование", "Единица измерения", "Стоимость(руб.)", "Количество", "Итоговая сумма(руб.)" };
-            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, dataGridView, content);
         }
         public static void AddSparePartInStock(DataGridView dataGridView, string content = "")
         {
-            string[] columnNames = { "Артикул", "Наименование", "Количество", "Cтоимость(руб.)", "Автомобиль" };
-            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, columnNames, dataGridView, content);
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, dataGridView, content);
         }
         //функции для редактирования сетки 
         private void DataGridViewForRepairs()
@@ -904,22 +802,7 @@ namespace AutoService
                     AddListRepairsInGrid(dataGridView, textBoxSearch.Text);
                     break;
                 case (WindowsStruct.Stock):
-                    query = $"select * from stock_view where uniq_code LIKE " +
-                        $"'%{((int.TryParse(textBoxSearch.Text, out int j)) ? int.Parse(textBoxSearch.Text) : 0)}%'";
-                    using (FbCommand command = new FbCommand(query, Form1.db))
-                    {
-                        FbDataAdapter dataAdapter = new FbDataAdapter(command);
-                        DataSet ds = new DataSet();
-                        db.Open();
-                        dataAdapter.Fill(ds);
-                        dataGridView.DataSource = ds.Tables[0];
-                        ds.Tables[0].Columns[0].ColumnName = "Артикул";
-                        ds.Tables[0].Columns[1].ColumnName = "Наименование";
-                        ds.Tables[0].Columns[2].ColumnName = "Количество";
-                        ds.Tables[0].Columns[3].ColumnName = "Cтоимость(руб.)";
-                        ds.Tables[0].Columns[4].ColumnName = "Автомобиль";
-                        db.Close();
-                    }
+                    
                     break;
                 case (WindowsStruct.Price):
                     query = $"select * from type_of_work_view where upper(description) " +

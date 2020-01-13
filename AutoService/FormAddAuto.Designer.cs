@@ -48,7 +48,7 @@
             // buttonAddAuto
             // 
             this.buttonAddAuto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonAddAuto.Location = new System.Drawing.Point(275, 309);
+            this.buttonAddAuto.Location = new System.Drawing.Point(276, 324);
             this.buttonAddAuto.Name = "buttonAddAuto";
             this.buttonAddAuto.Size = new System.Drawing.Size(109, 36);
             this.buttonAddAuto.TabIndex = 12;
@@ -185,9 +185,9 @@
             // buttonAddOwner
             // 
             this.buttonAddOwner.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonAddOwner.Location = new System.Drawing.Point(167, 276);
+            this.buttonAddOwner.Location = new System.Drawing.Point(167, 273);
             this.buttonAddOwner.Name = "buttonAddOwner";
-            this.buttonAddOwner.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddOwner.Size = new System.Drawing.Size(93, 31);
             this.buttonAddOwner.TabIndex = 15;
             this.buttonAddOwner.Text = "Выбрать...";
             this.buttonAddOwner.UseVisualStyleBackColor = true;
@@ -197,7 +197,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(396, 357);
+            this.ClientSize = new System.Drawing.Size(397, 368);
             this.Controls.Add(this.buttonAddOwner);
             this.Controls.Add(this.labelContentOwner);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -208,6 +208,7 @@
             this.Name = "FormAddAuto";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Новый автомобиль";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormAddAuto_FormClosed);
             this.Load += new System.EventHandler(this.FormAddAuto_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

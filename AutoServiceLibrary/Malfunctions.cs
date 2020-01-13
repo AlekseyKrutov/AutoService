@@ -7,37 +7,54 @@ using FirebirdSql.Data.FirebirdClient;
 
 namespace AutoServiceLibrary
 {
+    public enum Units { Pieces, Hours, Liters, Kilograms, Nothing }
     public class Malfunctions
     {
-        //статическая переменная хранящая список неисправностей 
-        public static List<Malfunctions> MalfList = new List<Malfunctions>();
-        //переменная хранящая стоимость работы
+        private int number;
+        public int IdMalf { get; set; }
+        public string DescriptionOfMalf { get; set; }
+        public int Number
+        {
+            get
+            {
+                return number;
+            }
+            set
+            {
+                number = value;
+                TotalPrice = Price * number;
+            }
+        }
+        public Units Unit { get; set; }
         public double Price { get; set; }
         public double TotalPrice { get; set; }
-        //переменная хранящая описание неисправности
-        public string DescriptionOfMalf { get; set; }
-        //переменная хранящая валюту
-        public string Unit { get; set; }
-        //переменная хранящая количество
-        public int Number { get; set; }
- 
         public int MalfOrSpare { get; set; }
-        //конструктор по умолчанию
         public Malfunctions() { }
-        //конструктор с 3 параметрами
         public Malfunctions(string DescriptionOfMalf, int Number)
         {
             this.DescriptionOfMalf = DescriptionOfMalf;
             this.Number = Number;
         }
-        public Malfunctions(double Price, string DescriptionOfMalf, string Unit, int Number, int MalfOrSpare)
+        public Malfunctions(string DescriptionOfMalf, double Price, Units Unit, int MalfOrSpare = 0)
+        {
+            this.DescriptionOfMalf = DescriptionOfMalf;
+            this.Price = Price;
+            this.Unit = Unit;
+            this.MalfOrSpare = MalfOrSpare;
+        }
+        public Malfunctions(double Price, string DescriptionOfMalf, Units Unit, int Number, int MalfOrSpare)
             : this (DescriptionOfMalf, Number)
         {
             this.Price = Price;
-            this.TotalPrice = Price * Number;
             this.Unit = Unit;
+            this.Number = Number;
             this.MalfOrSpare = MalfOrSpare;
             
+        }
+        public Malfunctions(int Id, double Price, string DescriptionOfMalf, Units Unit, int Number, int MalfOrSpare)
+            : this(Price, DescriptionOfMalf, Unit, Number, MalfOrSpare)
+        {
+            this.IdMalf = Id;
         }
         //переопределенный метод для вывода информации по неисправности
         public override string ToString()
@@ -58,7 +75,7 @@ namespace AutoServiceLibrary
                     listMalf.Add(new Malfunctions( 
                         dr.GetDouble(dr.GetOrdinal("COST")),
                         dr.GetString(dr.GetOrdinal("DESCRIPTION")),
-                        dr.GetString(dr.GetOrdinal("UNIT")),
+                        (Units) dr.GetInt32(dr.GetOrdinal("UNIT")),
                         dr.GetInt32(dr.GetOrdinal("NUMBER")),
                         int.Parse(dr.GetString(dr.GetOrdinal("MALF_OR_SPARE")))
                         ));

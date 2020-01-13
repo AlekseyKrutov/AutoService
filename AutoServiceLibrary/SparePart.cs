@@ -9,51 +9,48 @@ namespace AutoServiceLibrary
 {
     public class SparePart
     {
+        private float number;
+        public int IdSpare { get; set; }
         public string Articul { get; set; }
-        public int Number { get; set; }
-
-        public double Cost { get; set; }
-        public double TotalCost { get; set; }
-        public string Description { get; set; }
-        public SparePart() { }
-        public SparePart(string Articul, int Number)
+        public float Number
         {
-            this.Articul = Articul;
-            this.Number = Number;
-        }
-        public SparePart(string Articul, int Number, double Cost, string Description)
-        {
-            this.Articul = Articul;
-            this.Number = Number;
-            this.Cost = Cost;
-            this.TotalCost = Cost * Number;
-            this.Description = Description;
-        }
-        public static List<SparePart> GetListSpareFromDb(FbConnection db, int id_repair)
-        {
-            List<SparePart> listSpare = new List<SparePart>();
-            string query = $"select * from spare_and_repair where id_repair = {id_repair}";
-            using (FbCommand command = new FbCommand(query, db))
+            get
             {
-                FbDataReader dr;
-                db.Open();
-                dr = command.ExecuteReader();
-                while (dr.Read())
-                {
-                    listSpare.Add(new SparePart(
-                        @dr.GetString(dr.GetOrdinal("ARTICUL")),
-                        int.Parse(dr.GetString(dr.GetOrdinal("NUMBER"))),
-                        dr.GetDouble(dr.GetOrdinal("COST")),
-                        @dr.GetString(dr.GetOrdinal("DESCRIPTION"))
-                        ));
-                }
-                db.Close();
+                return number;
             }
-            return listSpare;
+            set
+            {
+                number = value;
+                TotalPrice = Price * number;
+            }
+        }
+        public double Price { get; set; }
+        public double TotalPrice { get; set; }
+        public string Description { get; set; }
+        public Units Unit { get; set; }
+        public SparePart() { }
+        public SparePart(string Articul, float Number)
+        {
+            this.Articul = Articul;
+            this.Number = Number;
+        }
+        public SparePart(string Articul, float Number, double Cost, string Description, Units Unit)
+        {
+            this.Articul = Articul;
+            this.Number = Number;
+            this.Price = Cost;
+            this.TotalPrice = Cost * Number;
+            this.Description = Description;
+            this.Unit = Unit;
+        }
+        public SparePart(int IdSpare, string Articul, float Number, double Cost, string Description, Units Unit)
+            : this (Articul, Number, Cost, Description, Unit)
+        {
+            this.IdSpare = IdSpare;
         }
         public static double GetTotalPriceFromList(List<SparePart> listSpare)
         {
-            return listSpare.Select(n => n.TotalCost).Sum();
+            return listSpare.Select(n => n.TotalPrice).Sum();
         }
     }
 }

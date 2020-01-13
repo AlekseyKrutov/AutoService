@@ -60,6 +60,7 @@
             this.labelStartTime = new System.Windows.Forms.Label();
             this.labelFinishTime = new System.Windows.Forms.Label();
             this.checkBoxTurnTime = new System.Windows.Forms.CheckBox();
+            this.textBoxInf = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -398,11 +399,23 @@
             this.checkBoxTurnTime.UseVisualStyleBackColor = true;
             this.checkBoxTurnTime.CheckedChanged += new System.EventHandler(this.checkBoxTurnTime_CheckedChanged);
             // 
+            // textBoxInf
+            // 
+            this.textBoxInf.Location = new System.Drawing.Point(531, 20);
+            this.textBoxInf.Multiline = true;
+            this.textBoxInf.Name = "textBoxInf";
+            this.textBoxInf.ReadOnly = true;
+            this.textBoxInf.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxInf.Size = new System.Drawing.Size(356, 675);
+            this.textBoxInf.TabIndex = 31;
+            this.textBoxInf.TextChanged += new System.EventHandler(this.textBoxInf_TextChanged);
+            // 
             // FormAddRepair
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 707);
+            this.ClientSize = new System.Drawing.Size(890, 707);
+            this.Controls.Add(this.textBoxInf);
             this.Controls.Add(this.checkBoxTurnTime);
             this.Controls.Add(this.labelFinishTime);
             this.Controls.Add(this.labelStartTime);
@@ -425,6 +438,7 @@
             this.Controls.Add(this.btnAddNewAutoRepair);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
@@ -472,5 +486,6 @@
         public System.Windows.Forms.DateTimePicker dateTimeStart;
         public System.Windows.Forms.DateTimePicker dateTimeFinish;
         public System.Windows.Forms.CheckBox checkBoxTurnTime;
+        public System.Windows.Forms.TextBox textBoxInf;
     }
 }
