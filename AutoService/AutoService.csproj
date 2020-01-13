@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="AutoServiceLibrary, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b45d342e1b7e5b9e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\AutoServiceLibrary.dll</HintPath>
+      <HintPath>..\AutoServiceLibrary\bin\Debug\AutoServiceLibrary.dll</HintPath>
     </Reference>
     <Reference Include="DataMapper">
       <HintPath>..\DataMapper\bin\Debug\DataMapper.dll</HintPath>
