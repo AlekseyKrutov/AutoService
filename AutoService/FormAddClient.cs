@@ -38,7 +38,7 @@ namespace AutoService
         {
             this.mainForm = mainForm;
         }
-        public FormAddClient(FormAddWayBill formAddWayBill) : this ()
+        public FormAddClient(FormAddWayBill formAddWayBill, Form1 mainForm) : this (mainForm)
         {
             this.formAddWayBill = formAddWayBill;
         }
@@ -75,6 +75,17 @@ namespace AutoService
                 }
                 if (formAddWayBill != null && formAddWayBill.Visible)
                 {
+                    if (formAddWayBill.insWayBill != null)
+                    {
+                        formAddWayBill.insWayBill.Client = client;
+                    }
+                    else
+                    {
+                        formAddWayBill.wayBill.Client = client;
+                    }
+                    formAddWayBill.textBoxClient.Text = client.Name;
+                    this.Close();
+                    return;
                 }
                 mainForm.dataGridView.ClearSelection();
             }

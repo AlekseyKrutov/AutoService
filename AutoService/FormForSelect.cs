@@ -17,9 +17,10 @@ namespace AutoService
 {
     public partial class FormForSelect : Form
     {
-        FormAddRepair FormAddRepair;
-        FormAddAuto FormAddAuto;
-        FormAddPrice FormAddPrice;
+        FormAddRepair formAddRepair;
+        FormAddAuto formAddAuto;
+        FormAddPrice formAddPrice;
+        FormAddWayBill formAddWayBill;
         Form1 mainForm;
         string[] columnNames = { "ID", "Описание", "Количество", "Ед. измерения", "Стоимость", "Итого" };
         public FormForSelect()
@@ -29,16 +30,21 @@ namespace AutoService
         public FormForSelect(FormAddRepair FormAddRepair, Form1 mainForm) : this ()
         {
             this.mainForm = mainForm;
-            this.FormAddRepair = FormAddRepair;
+            this.formAddRepair = FormAddRepair;
         }
         public FormForSelect(FormAddAuto FormAddAuto, Form1 mainForm) : this ()
         {
             this.mainForm = mainForm;
-            this.FormAddAuto = FormAddAuto;
+            this.formAddAuto = FormAddAuto;
+        }
+        public FormForSelect(FormAddWayBill formAddWayBill, Form1 mainForm) : this()
+        {
+            this.formAddWayBill = formAddWayBill;
+            this.mainForm = mainForm;
         }
         public FormForSelect(FormAddPrice FormAddPrice) : this()
         {
-            this.FormAddPrice = FormAddPrice;
+            this.formAddPrice = FormAddPrice;
         }
         private void FormForSelect_Load(object sender, EventArgs e)
         {
@@ -52,12 +58,6 @@ namespace AutoService
                 case WindowsStruct.Repairs:
                     Form1.AddListAutoInGrid(dataGridView);
                     break;
-                //case WindowsStruct.Auto:
-                //    Form1.AddListClientInGrid(dataGridView);
-                //    break;
-                //case WindowsStruct.AddAutoInRep:
-                //    Form1.AddListClientInGrid(dataGridView);
-                //    break;
                 case WindowsStruct.AddClientInAuto:
                     Form1.AddListClientInGrid(dataGridView);
                     break;
@@ -97,6 +97,16 @@ namespace AutoService
                     ShowDeleteButton();
                     AddListWorkersInGrid();
                     break;
+                case WindowsStruct.AddClientInWay:
+                    ShowSearch();
+                    Form1.AddListClientInGrid(dataGridView);
+                    break;
+                case WindowsStruct.AddTripInWay:
+                    btnEditPosition.Visible = true;
+                    btnEditPosition.Location = btnAddNewPosition.Location;
+                    ShowSearch();
+                    Form1.AddListClientInGrid(dataGridView);
+                    break;
             }
             Form1.SelectIndex = 0;
         }
@@ -108,7 +118,7 @@ namespace AutoService
                     return;
                 Form1.SelectIndex = e.RowIndex;
                 string selectedRowOneCellValue = dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
-                FormAddNumber formAddNumber = new FormAddNumber(this, FormAddRepair);
+                FormAddNumber formAddNumber = new FormAddNumber(this, formAddRepair);
                 //оператор для определения места вызова
                 switch (Form1.WindowIndex)
                 {
@@ -116,15 +126,41 @@ namespace AutoService
                         string state_number = dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
                         Form1.WindowIndex = WindowsStruct.Repairs;
                         Car car = new CarMapper().Get(state_number);
-                        mainForm.FillCardWithCar(FormAddRepair, car);
-                        FormAddRepair.repair.Car = car;
+                        mainForm.FillCardWithCar(formAddRepair, car);
+                        formAddRepair.repair.Car = car;
                         this.Close();
                         break;
                     case WindowsStruct.AddClientInAuto:
-                        FormAddAuto.client = new ClientMapper().Get(selectedRowOneCellValue);
-                        FormAddAuto.labelContentOwner.Text = FormAddAuto.client.Name;
+                        formAddAuto.client = new ClientMapper().Get(selectedRowOneCellValue);
+                        formAddAuto.labelContentOwner.Text = formAddAuto.client.Name;
                         this.Close();
-                        FormAddAuto.OwnerSelected = true;
+                        formAddAuto.OwnerSelected = true;
+                        break;
+                    case WindowsStruct.AddClientInWay:
+                        if (formAddWayBill.wayBill != null)
+                        {
+                            formAddWayBill.wayBill.Client = new ClientMapper().Get(selectedRowOneCellValue);
+                            formAddWayBill.textBoxClient.Text = formAddWayBill.wayBill.Client.Name;
+                        }
+                        else
+                        {
+                            formAddWayBill.insWayBill.Client = new ClientMapper().Get(selectedRowOneCellValue);
+                            formAddWayBill.textBoxClient.Text = formAddWayBill.insWayBill.Client.Name;
+                        }
+                        this.Close();
+                        break;
+                    case WindowsStruct.AddTripInWay:
+                        if (formAddWayBill.wayBill != null)
+                        {
+                            formAddWayBill.wayBill.Trip = new TripMapper().Get(selectedRowOneCellValue);
+                            formAddWayBill.textBoxTrip.Text = formAddWayBill.wayBill.Trip.Name;
+                        }
+                        else
+                        {
+                            formAddWayBill.insWayBill.Trip = new TripMapper().Get(selectedRowOneCellValue);
+                            formAddWayBill.textBoxTrip.Text = formAddWayBill.insWayBill.Trip.Name;
+                        }
+                        this.Close();
                         break;
                     case WindowsStruct.Worker:
                         //FormAddRepair.SelectedPersonLabel.Text = Employee.PersonalList[Form1.SelectIndex].Name;
@@ -139,7 +175,7 @@ namespace AutoService
                         Employee emp = new EmployeeMapper().Get(selectedRowOneCellValue);
                         try
                         {
-                            FormAddRepair.repair.AddPersonalInList(emp);
+                            formAddRepair.repair.AddPersonalInList(emp);
                         }
                         catch (FormatException ex)
                         {
@@ -163,14 +199,18 @@ namespace AutoService
         }
         private void FormForSelect_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (FormAddAuto != null && FormAddAuto.Visible && FormAddRepair != null && FormAddRepair.Visible)
+            if (formAddAuto != null && formAddAuto.Visible && formAddRepair != null && formAddRepair.Visible)
                 Form1.WindowIndex = WindowsStruct.Repairs;
-            else if (FormAddAuto != null && FormAddAuto.Visible)
+            else if (formAddAuto != null && formAddAuto.Visible)
                 Form1.WindowIndex = WindowsStruct.Auto;
-            else if (FormAddRepair != null && FormAddRepair.Visible)
+            else if (formAddRepair != null && formAddRepair.Visible)
             {
                 Form1.WindowIndex = WindowsStruct.Repairs;
-                FormAddRepair.textBoxInf.Text = FormAddRepair.repair.ToString();
+                formAddRepair.textBoxInf.Text = formAddRepair.repair.ToString();
+            }
+            else if (formAddWayBill != null && formAddWayBill.Visible)
+            {
+                Form1.WindowIndex = WindowsStruct.ActiveWayBills;
             }
 
             textBoxSearch.Clear();
@@ -185,12 +225,12 @@ namespace AutoService
             switch (Form1.WindowIndex)
             {
                 case WindowsStruct.MalfAdd:
-                    FormAddPrice = new FormAddPrice(mainForm, this);
-                    FormAddPrice.ShowDialog();
+                    formAddPrice = new FormAddPrice(mainForm, this);
+                    formAddPrice.ShowDialog();
                     break;
                 case WindowsStruct.SpareAdd:
-                    FormAddPrice = new FormAddPrice(mainForm, this);
-                    FormAddPrice.ShowDialog();
+                    formAddPrice = new FormAddPrice(mainForm, this);
+                    formAddPrice.ShowDialog();
                     break;
             }
         }
@@ -200,13 +240,19 @@ namespace AutoService
             switch (Form1.WindowIndex)
             {
                 case WindowsStruct.MalfAdd:
-                    FormAddPrice = new FormAddPrice(mainForm, this);
-                    mainForm.FillFormPrice(dataGridView, FormAddPrice);
-                break;
+                    formAddPrice = new FormAddPrice(mainForm, this);
+                    mainForm.FillFormPrice(dataGridView, formAddPrice);
+                    break;
                 case WindowsStruct.SpareAdd:
-                    FormAddPrice = new FormAddPrice(mainForm, this);
-                    mainForm.FillFormPrice(dataGridView, FormAddPrice);
-                break;
+                    formAddPrice = new FormAddPrice(mainForm, this);
+                    mainForm.FillFormPrice(dataGridView, formAddPrice);
+                    break;
+                case WindowsStruct.AddTripInWay:
+                    FormAddTrip formAddTrip = new FormAddTrip(this, mainForm);
+                    formAddTrip.trip = new TripMapper().Get(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+                    formAddTrip.textBoxTrip.Text = formAddTrip.trip.Name;
+                    formAddTrip.ShowDialog();
+                    break;
             }
         }
         private void btnDeletePosition_Click(object sender, EventArgs e)
@@ -217,12 +263,12 @@ namespace AutoService
             if (Form1.WindowIndex == WindowsStruct.MalfView|| Form1.WindowIndex == WindowsStruct.SpareView)
             {
                 Malfunctions malf = new MalfMapper().Get(id);
-                FormAddRepair.repair.RemoveMalfFromList(malf);
+                formAddRepair.repair.RemoveMalfFromList(malf);
             }
             else if (Form1.WindowIndex == WindowsStruct.WorkerView)
             {
                 Employee emp = new EmployeeMapper().Get(id);
-                FormAddRepair.repair.RemovePersonalFromList(emp);
+                formAddRepair.repair.RemovePersonalFromList(emp);
             }
             RefreshDataInGrid();
         }
@@ -242,6 +288,12 @@ namespace AutoService
                     break;
                 case WindowsStruct.AddClientInAuto:
                     Form1.AddListClientInGrid(dataGridView, content);
+                    break;
+                case WindowsStruct.AddClientInWay:
+                    Form1.AddListClientInGrid(dataGridView, content);
+                    break;
+                case WindowsStruct.AddTripInWay:
+                    Form1.AddListTripInGrid(dataGridView, content);
                     break;
             }
         }
@@ -285,7 +337,7 @@ namespace AutoService
         }
         public void AddListMalfInGrid()
         {
-            dataGridView.DataSource = FormAddRepair.repair.ListOfMalf.Select(m => m)
+            dataGridView.DataSource = formAddRepair.repair.ListOfMalf.Select(m => m)
             .Where(m => m.MalfOrSpare == 0).ToList();
             dataGridView.Columns[0].Visible = false;
             dataGridView.Columns[dataGridView.Columns.Count - 1].Visible = false;
@@ -293,7 +345,7 @@ namespace AutoService
         }
         public void AddListSpareInGrid()
         {
-            dataGridView.DataSource = FormAddRepair.repair.ListOfMalf.Select(m => m)
+            dataGridView.DataSource = formAddRepair.repair.ListOfMalf.Select(m => m)
             . Where(m => m.MalfOrSpare == 1).ToList();
             dataGridView.Columns[0].Visible = false;
             dataGridView.Columns[dataGridView.Columns.Count - 1].Visible = false;
@@ -301,7 +353,7 @@ namespace AutoService
         }
         public void AddListWorkersInGrid()
         {
-            dataGridView.DataSource = FormAddRepair.repair.ListOfPersonal;
+            dataGridView.DataSource = formAddRepair.repair.ListOfPersonal;
         }
         private void CallHeadersInDG(DataGridView dg, string[] colNames)
         {

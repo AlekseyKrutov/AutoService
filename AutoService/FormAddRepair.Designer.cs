@@ -376,6 +376,7 @@
             // 
             // dateTimeFinish
             // 
+            this.dateTimeFinish.Checked = false;
             this.dateTimeFinish.CustomFormat = "dd.MM.yyyy HH:mm";
             this.dateTimeFinish.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimeFinish.Location = new System.Drawing.Point(243, 529);

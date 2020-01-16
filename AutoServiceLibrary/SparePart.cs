@@ -21,11 +21,11 @@ namespace AutoServiceLibrary
             set
             {
                 number = value;
-                TotalPrice = Price * number;
+                TotalCost = Cost * number;
             }
         }
-        public double Price { get; set; }
-        public double TotalPrice { get; set; }
+        public double Cost { get; set; }
+        public double TotalCost { get; set; }
         public string Description { get; set; }
         public Units Unit { get; set; }
         public SparePart() { }
@@ -38,8 +38,8 @@ namespace AutoServiceLibrary
         {
             this.Articul = Articul;
             this.Number = Number;
-            this.Price = Cost;
-            this.TotalPrice = Cost * Number;
+            this.Cost = Cost;
+            this.TotalCost = Cost * Number;
             this.Description = Description;
             this.Unit = Unit;
         }
@@ -50,7 +50,7 @@ namespace AutoServiceLibrary
         }
         public static double GetTotalPriceFromList(List<SparePart> listSpare)
         {
-            return listSpare.Select(n => n.TotalPrice).Sum();
+            return listSpare.Select(n => n.TotalCost).Sum();
         }
     }
 }

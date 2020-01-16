@@ -213,3 +213,4 @@ G:\Desktop\проекты\AutoService\AutoService\bin\Debug\DataMapper.dll
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\DataMapper.pdb
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\DataMapper.dll.config
 G:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAddNumbReason.resources
+G:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormInformation.resources

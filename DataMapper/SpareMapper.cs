@@ -52,7 +52,7 @@ namespace DataMapper
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@VENDOR_NUMBER", FbDbType.VarChar).Value = part.Articul;
                 command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = part.Description;
-                command.Parameters.Add("@COST", FbDbType.Float).Value = part.Price;
+                command.Parameters.Add("@COST", FbDbType.Float).Value = part.Cost;
                 command.Parameters.Add("@UNIT", FbDbType.SmallInt).Value = part.Unit;
                 command.Parameters.Add("@NUMBER", FbDbType.Float).Value = part.Number;
 
@@ -88,7 +88,7 @@ namespace DataMapper
                 command.Parameters.Add("@VENDOR_NUMBER", FbDbType.VarChar).Value = part.Articul;
                 command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = part.Description;
                 command.Parameters.Add("@UNIT", FbDbType.SmallInt).Value = part.Unit;
-                command.Parameters.Add("@COST", FbDbType.Float).Value = part.Price;
+                command.Parameters.Add("@COST", FbDbType.Float).Value = part.Cost;
                 command.Parameters.Add("@NUMBER", FbDbType.Float).Value = part.Number;
                 try
                 {

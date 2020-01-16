@@ -12,28 +12,32 @@ namespace AutoServiceLibrary
         public delegate void PriceChanged();
 
         public static event PriceChanged PriceChangedEvent;
-        //переменная хранящая список неисправностей
+
+        private double paidMoney;
+
         public List<Malfunctions> ListOfMalf = new List<Malfunctions>();
-
         public List<SparePart> ListOfSpareParts = new List<SparePart>();
-
         public List<Employee> ListOfPersonal = new List<Employee>();
-        //переменная для хранения времени начала ремонта
-        public DateTime TimeOfStart { get; set; }
-        //переменная для хранения времени окончания ремонта
-        public DateTime? TimeOfFinish { get; set; }
-        //переменная для хранения записей
-        public string Notes { get; set; }
-        //пременная для хранения общей суммы за ремонт
-        public double TotalPrice { get; set; }
-        public Car Car { get; set; }
-        //переменная для проверки исполняется ли ремонт в данный момент
-        public bool RepairIsCurrent { get; set; }
-        //переменная для хранения номера ремонта
+
         public int IdRepair { get; set; }
-        //конструктор по умолчанию
+        public DateTime TimeOfStart { get; set; }
+        public DateTime? TimeOfFinish { get; set; }
+        public string Notes { get; set; }
+        public double TotalPrice { get; set; }
+        public double PaidMoney
+        {
+            get => paidMoney;
+            set
+            {
+                if (value > TotalPrice)
+                    paidMoney = TotalPrice;
+                else
+                    paidMoney = value;
+            }
+        }
+        public Car Car { get; set; }
+        public bool RepairIsCurrent { get; set; }
         public CardOfRepair() { PriceChangedEvent += CalculateTotalPrice; }
-        //конструктор с 10 параметрами
         public CardOfRepair(int id_repair, string TimeOfStart, string TimeOfFinish, List<Malfunctions> malfunctions, List<SparePart> spareParts,
                     List<Employee> listOfPersonal, string Owner, string CarVIN, string CarMark, string NumberOfCar, string CarVin, string RegCertific)
         {
@@ -41,7 +45,7 @@ namespace AutoServiceLibrary
             this.TimeOfStart = DateTime.Parse(TimeOfStart);
             this.TimeOfFinish = DateTime.Parse(TimeOfFinish);
             this.RepairIsCurrent = RepairIsCurrent;
-
+            
             PriceChangedEvent += CalculateTotalPrice;
 
             ListOfMalf.AddRange(malfunctions);
@@ -59,6 +63,7 @@ namespace AutoServiceLibrary
         }
         public void AddMalfInList(Malfunctions malf)
         {
+            malf.CalculateCostForClient(Car.Owner);
             ListOfMalf.Add(malf);
             PriceChangedEvent();
         }
@@ -105,8 +110,8 @@ namespace AutoServiceLibrary
                 return showStr;
             List<Malfunctions> malfs = this.ListOfMalf.Select(m => m).Where(m => m.MalfOrSpare == 0).ToList();
             List<Malfunctions> fakeSpare = this.ListOfMalf.Select(m => m).Where(m => m.MalfOrSpare == 1).ToList();
-            double sumForMalf = malfs.Select(m => m.TotalPrice).Sum();
-            double sumForSpare = fakeSpare.Select(m => m.TotalPrice).Sum() + this.ListOfSpareParts.Select(s => s.TotalPrice).Sum();
+            double sumForMalf = malfs.Select(m => m.TotalCost).Sum();
+            double sumForSpare = fakeSpare.Select(m => m.TotalCost).Sum() + this.ListOfSpareParts.Select(s => s.TotalCost).Sum();
             string enter = Environment.NewLine;
             if (this.Car.Owner != null)
             showStr += $"Заказчик: {this.Car.Owner.Name}{enter}";
@@ -125,7 +130,7 @@ namespace AutoServiceLibrary
                 foreach (Malfunctions m in malfs)
                 {
                     showStr += $"{enter}{m.Description} {enter}Количество ({UnitsConvert.ConvertUnit(m.Unit)}): {m.Number}" +
-                        $"{enter}Сумма: {m.Price}{enter}Итоговая сумма: {m.TotalPrice}{enter}";
+                        $"{enter}Сумма: {m.Cost}{enter}Итоговая сумма: {m.TotalCost}{enter}";
                 }
                 showStr += $"{enter}Итого: {sumForMalf} руб.{enter}";
                 showStr += "------------------------------------";
@@ -138,7 +143,7 @@ namespace AutoServiceLibrary
                     foreach (Malfunctions s in fakeSpare)
                     {
                         showStr += $"{enter}{s.Description} {enter}Количество ({UnitsConvert.ConvertUnit(s.Unit)}): {s.Number}" +
-                            $"{enter}Сумма: {s.Price}{enter}Итоговая сумма: {s.TotalPrice}{enter}";
+                            $"{enter}Сумма: {s.Cost}{enter}Итоговая сумма: {s.TotalCost}{enter}";
                     }
                 }
                 if (this.ListOfSpareParts.Count > 0)
@@ -146,7 +151,7 @@ namespace AutoServiceLibrary
                     foreach (SparePart s in this.ListOfSpareParts)
                     {
                         showStr += $"{enter}{s.Description} {enter}Количество ({UnitsConvert.ConvertUnit(s.Unit)}): {s.Number}" +
-                            $"{enter}Сумма: {s.Price}{enter}Итоговая сумма: {s.TotalPrice}{enter}";
+                            $"{enter}Сумма: {s.Cost}{enter}Итоговая сумма: {s.TotalCost}{enter}";
                     }
                 }
                 showStr += $"{enter}Итого: {sumForSpare} руб.{enter}";

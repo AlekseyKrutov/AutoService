@@ -33,7 +33,7 @@ namespace DataMapper
                     malf.IdMalf = dr.GetInt32(dr.GetOrdinal("ID"));
                     malf.Description = dr.GetString(dr.GetOrdinal("DESCRIPTION"));
                     malf.Unit = (Units) dr.GetInt32(dr.GetOrdinal("UNIT"));
-                    malf.Price = dr.GetDouble(dr.GetOrdinal("COST"));
+                    malf.Cost = dr.GetDouble(dr.GetOrdinal("COST"));
                     malf.MalfOrSpare = dr.GetInt32(dr.GetOrdinal("MALF_OR_SPARE"));
                 }
                 db.Close();
@@ -51,7 +51,7 @@ namespace DataMapper
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = malf.Description;
                 command.Parameters.Add("@UNIT", FbDbType.SmallInt).Value = malf.Unit;
-                command.Parameters.Add("@COST", FbDbType.Float).Value = malf.Price;
+                command.Parameters.Add("@COST", FbDbType.Float).Value = malf.Cost;
                 command.Parameters.Add("@MALF_OR_SPARE", FbDbType.SmallInt).Value = malf.MalfOrSpare;
                 try
                 {
@@ -84,7 +84,7 @@ namespace DataMapper
                 command.Parameters.Add("@ID_WORK", FbDbType.SmallInt).Value = malf.IdMalf;
                 command.Parameters.Add("@DESCRIPTION", FbDbType.VarChar).Value = malf.Description;
                 command.Parameters.Add("@UNIT", FbDbType.SmallInt).Value = malf.Unit;
-                command.Parameters.Add("@COST", FbDbType.Float).Value = malf.Price;
+                command.Parameters.Add("@COST", FbDbType.Float).Value = malf.Cost;
                 command.Parameters.Add("@MALF_OR_SPARE", FbDbType.SmallInt).Value = malf.MalfOrSpare;
                 try
                 {

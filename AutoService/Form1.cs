@@ -11,7 +11,7 @@ using System.Configuration;
 using WorkWithExcelLibrary;
 using DbProxy;
 using DataMapper;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace AutoService
 {
@@ -51,7 +51,6 @@ namespace AutoService
             topForGridIdeal = dataGridView.Top;
             topForLabelOfHead = labelHeaderText.Top;
             dataGridView.MultiSelect = false;
-            SeeFinishedRepair.Click += new EventHandler(EditRepair_Click);
             UnloadAllToolStripMenuItem.Click += new EventHandler(UploadAllToolStripMenuItem_Click);
             UnldBillToolStripMenuItem.Click += new EventHandler(PaymenInvoiceToolStripMenuItem_Click);
             UnldActToolStripMenuItem.Click += new EventHandler(FinishActToolStripMenu_Click);
@@ -73,6 +72,7 @@ namespace AutoService
             HidePriceButtons();
             HideStockButtons();
             HideWayBillButtons();
+            HideFinishedWayBillBtns();
             dataGridView.AllowUserToAddRows = false;
             dataGridView.ClearSelection();
             dataGridView.RowHeadersVisible = false;
@@ -86,6 +86,7 @@ namespace AutoService
             //formAuthorization = new FormAuthorization(this);
             //formAuthorization.ShowDialog();
             DataGridViewForRepairs();
+            MakeDataGridReadOnly();
         }
         //событие при клике на законченные ремонты
         private void EndRepairsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -105,9 +106,11 @@ namespace AutoService
             HidePersonalButtons();
             HideStockButtons();
             HideWayBillButtons();
+            HideFinishedWayBillBtns();
             SeeFinishedRepair.Location = AddRepair.Location;
             StartFinishedRepair.Location = EditRepair.Location;
             DataGridViewForFinishedReps();
+            MakeDataGridReadOnly();
         }
         //событие при клике на текущие ремонты
         private void CurrentRepairsToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -127,9 +130,11 @@ namespace AutoService
             HidePersonalButtons();
             HideStockButtons();
             HideWayBillButtons();
+            HideFinishedWayBillBtns();
             AddListRepairsInGrid(dataGridView);
             DataGridViewForRepairs();
             DeleteSelectFirstRow();
+            MakeDataGridReadOnly();
         }
         //событие при клике на клиенты
         private void ClientsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -146,6 +151,7 @@ namespace AutoService
             ShowClientButtons();
             HideStockButtons();
             HideWayBillButtons();
+            HideFinishedWayBillBtns();
             HideSearch();
             AddClient.Location = AddRepair.Location;
             EditClient.Location = EditRepair.Location;
@@ -154,6 +160,7 @@ namespace AutoService
             labelHeaderText.Top = topForLabelOfHead;
             DataGridViewForClient();
             DeleteSelectFirstRow();
+            MakeDataGridReadOnly();
         }
         //событие при клике на персонал
         private void PersonalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -169,6 +176,7 @@ namespace AutoService
             HidePriceButtons();
             HideStockButtons();
             HideWayBillButtons();
+            HideFinishedWayBillBtns();
             HideSearch();
             ShowPersonalButtons();
             AddPersonal.Location = AddRepair.Location;
@@ -178,6 +186,7 @@ namespace AutoService
             labelHeaderText.Top = topForLabelOfHead;
             DataGridViewForPersonal();
             DeleteSelectFirstRow();
+            MakeDataGridReadOnly();
         }
         //событие при клике на автомобили
         private void AutoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -196,12 +205,14 @@ namespace AutoService
             HidePriceButtons();
             HideStockButtons();
             HideWayBillButtons();
+            HideFinishedWayBillBtns();
             HideSearch();
             dataGridView.Top = topForGridIdeal;
             labelHeaderText.Text = "Автомобили";
             labelHeaderText.Top = topForLabelOfHead;
             DataGridViewForAuto();
             DeleteSelectFirstRow();
+            MakeDataGridReadOnly();
         }
         //событие при клике на прайс
         private void PriceStripMenuItem1_Click(object sender, EventArgs e)
@@ -217,6 +228,7 @@ namespace AutoService
             HidePersonalButtons();
             HideStockButtons();
             HideWayBillButtons();
+            HideFinishedWayBillBtns();
             ShowSearch();
             ShowPriceButtons();
             AddPosition.Location = AddRepair.Location;
@@ -226,6 +238,7 @@ namespace AutoService
             labelHeaderText.Top = topForLabelOfHead;
             DataGridViewForPrice();
             DeleteSelectFirstRow();
+            MakeDataGridReadOnly();
         }
 
         private void StockToolStripMenuItem_Click(object sender, EventArgs e)
@@ -242,6 +255,7 @@ namespace AutoService
             HidePriceButtons();
             ShowStockButtons();
             HideWayBillButtons();
+            HideFinishedWayBillBtns();
             ShowSearch();
             AddInStock.Location = AddRepair.Location;
             EditStock.Location = EditRepair.Location;
@@ -252,10 +266,14 @@ namespace AutoService
             labelHeaderText.Top = topForLabelOfHead;
             DataGridViewForStock();
             DeleteSelectFirstRow();
+            MakeDataGridReadOnly();
         }
         private void WayBillToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WindowIndex = WindowsStruct.WayBill;
+        }
+        private void CurrentWayBillToolStrip_Click(object sender, EventArgs e)
+        {
+            WindowIndex = WindowsStruct.ActiveWayBills;
             logicParamForRepair = true;
             SelectIndex = 0;
             HideToolStripForRepair();
@@ -266,16 +284,94 @@ namespace AutoService
             HidePersonalButtons();
             HidePriceButtons();
             HideStockButtons();
+            HideFinishedWayBillBtns();
             ShowWayBillButtons();
             ShowSearch();
             AddWayBill.Location = AddRepair.Location;
             EditWayBill.Location = EditRepair.Location;
             DeleteWayBill.Location = EndRepair.Location;
-            labelHeaderText.Text = "Перевозки";
+            labelHeaderText.Text = "Текущие перевозки";
             dataGridView.Top = topForGridIdeal;
             labelHeaderText.Top = topForLabelOfHead;
-            DataGridViewForStock();
+            DataSets.CreateDSForDataGrid(WindowIndex, dataGridView);
             DeleteSelectFirstRow();
+            MakeDataGridReadOnly();
+        }
+        private void FinishedWayBillToolStrip_Click(object sender, EventArgs e)
+        {
+            WindowIndex = WindowsStruct.FinishedWayBills;
+            logicParamForRepair = true;
+            SelectIndex = 0;
+            HideToolStripForRepair();
+            HideFinishedRepBtns();
+            HideAutoButtons();
+            HideRepairButtons();
+            HideClientButtons();
+            HidePersonalButtons();
+            HidePriceButtons();
+            HideStockButtons();
+            HideWayBillButtons();
+            ShowFinishedWayBillBtns();
+            ShowSearch();
+            SeeFinishedWayBill.Location = AddRepair.Location;
+            StartFinishedWayBill.Location = EditRepair.Location;
+            labelHeaderText.Text = "Завершенные перевозки";
+            dataGridView.Top = topForGridIdeal;
+            labelHeaderText.Top = topForLabelOfHead;
+            DataSets.CreateDSForDataGrid(WindowIndex, dataGridView);
+            DeleteSelectFirstRow();
+            MakeDataGridReadOnly();
+        }
+        private void repairReportToolStrip_Click(object sender, EventArgs e)
+        {
+            WindowIndex = WindowsStruct.RepairsReport;
+            logicParamForRepair = true;
+            SelectIndex = 0;
+            HideToolStripForRepair();
+            HideFinishedRepBtns();
+            HideAutoButtons();
+            HideRepairButtons();
+            HideClientButtons();
+            HidePersonalButtons();
+            HidePriceButtons();
+            HideStockButtons();
+            HideWayBillButtons();
+            HideWayBillButtons();
+            ShowSearch();
+            SeeFinishedRepair.Visible = true;
+            SeeFinishedRepair.Location = AddRepair.Location;
+            labelHeaderText.Text = "Отчет по ремонтам";
+            dataGridView.Top = topForGridIdeal;
+            labelHeaderText.Top = topForLabelOfHead;
+            DataSets.CreateDSForDataGrid(WindowIndex, dataGridView);
+            DeleteSelectFirstRow();
+            MakeDataGridForReports();
+        }
+
+        private void wayBillReportToolStrip_Click(object sender, EventArgs e)
+        {
+            WindowIndex = WindowsStruct.WayBillsReport;
+            logicParamForRepair = true;
+            SelectIndex = 0;
+            HideToolStripForRepair();
+            HideFinishedRepBtns();
+            HideAutoButtons();
+            HideRepairButtons();
+            HideClientButtons();
+            HidePersonalButtons();
+            HidePriceButtons();
+            HideStockButtons();
+            HideWayBillButtons();
+            HideWayBillButtons();
+            ShowSearch();
+            SeeFinishedWayBill.Visible = true;
+            SeeFinishedWayBill.Location = AddRepair.Location;
+            labelHeaderText.Text = "Отчет по грузоперевозкам";
+            dataGridView.Top = topForGridIdeal;
+            labelHeaderText.Top = topForLabelOfHead;
+            DataSets.CreateDSForDataGrid(WindowIndex, dataGridView);
+            DeleteSelectFirstRow();
+            MakeDataGridForReports();
         }
         //событие при клике по сетке
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -413,6 +509,16 @@ namespace AutoService
             EditWayBill.Hide();
             DeleteWayBill.Hide();
         }
+        private void ShowFinishedWayBillBtns()
+        {
+            SeeFinishedWayBill.Visible = true;
+            StartFinishedWayBill.Visible = true;
+        }
+        private void HideFinishedWayBillBtns()
+        {
+            SeeFinishedWayBill.Hide();
+            StartFinishedWayBill.Hide();
+        }
         private void ShowSearch()
         {
             labelSearch.Visible = true;
@@ -506,6 +612,17 @@ namespace AutoService
                 cm.Update(card);
             }
             AddListFinishedRepsInGrid(dataGridView);
+        }
+        private void SeeFinishedRepair_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull())
+                return;
+            CardMapper cm = new CardMapper();
+            CardOfRepair cr = cm.Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+            FormInformation formInformation = new FormInformation();
+            formInformation.card = cr;
+            formInformation.textBoxInf.Text = cr.ToString();
+            formInformation.ShowDialog();
         }
         private void EndRepair_Click(object sender, EventArgs e)
         {
@@ -639,7 +756,7 @@ namespace AutoService
         {
             fAddPrice.malf = new MalfMapper().Get(dg.Rows[SelectIndex].Cells[0].Value.ToString());
             fAddPrice.textBoxDescription.Text = fAddPrice.malf.Description;
-            fAddPrice.textBoxPrice.Text = fAddPrice.malf.Price.ToString();
+            fAddPrice.textBoxPrice.Text = fAddPrice.malf.Cost.ToString();
             fAddPrice.comboBoxUnit.Text = UnitsConvert.ConvertUnit(fAddPrice.malf.Unit);
             fAddPrice.Show();
         }
@@ -658,7 +775,7 @@ namespace AutoService
             formAddSparePart.part = new SpareMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
             formAddSparePart.textBoxUniqNumb.Text = formAddSparePart.part.Articul;
             formAddSparePart.textBoxDescr.Text = formAddSparePart.part.Description;
-            formAddSparePart.textBoxCost.Text = formAddSparePart.part.Price.ToString();
+            formAddSparePart.textBoxCost.Text = formAddSparePart.part.Cost.ToString();
             formAddSparePart.textBoxNumb.Text = formAddSparePart.part.Number.ToString();
             formAddSparePart.comboBoxUnit.Text = UnitsConvert.ConvertUnit(formAddSparePart.part.Unit);
             formAddSparePart.ShowDialog();
@@ -685,13 +802,84 @@ namespace AutoService
         }
         private void AddWayBill_Click(object sender, EventArgs e)
         {
-            WindowIndex = WindowsStruct.WayBill;
-            FormAddWayBill formAddWayBill = new FormAddWayBill();
-            formAddWayBill.textBoxClient.Text = "ИП Семенов А.И.";
-            formAddWayBill.textBoxTrip.Text = "Маршрут г.Выкса - г. Санкт-Петербург";
+            WindowIndex = WindowsStruct.ActiveWayBills;
+            FormAddWayBill formAddWayBill = new FormAddWayBill(this);
+            formAddWayBill.insWayBill = new WayBill();
             formAddWayBill.ShowDialog();
         }
-        
+        private void EditWayBill_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull())
+                return;
+            FormAddWayBill formAddWayBill = new FormAddWayBill(this);
+            formAddWayBill.wayBill = new WayBillMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+            formAddWayBill.textBoxClient.Text = formAddWayBill.wayBill.Client.Name;
+            formAddWayBill.textBoxTrip.Text = formAddWayBill.wayBill.Trip.Name;
+            formAddWayBill.comboBoxCar.SelectedValue = formAddWayBill.wayBill.Car.Number;
+            formAddWayBill.comboBoxDriver.SelectedValue = formAddWayBill.wayBill.Driver.TubNumb;
+            formAddWayBill.pickerStart.Value = formAddWayBill.wayBill.LoadDate;
+            if (formAddWayBill.wayBill.UnloadDate != null)
+            {
+                formAddWayBill.pickerEnd.Value = (DateTime)formAddWayBill.wayBill.UnloadDate;
+                formAddWayBill.pickerEnd.Checked = true;
+            }
+            else
+                formAddWayBill.pickerEnd.Checked = false;
+            formAddWayBill.textBoxBaseDoc.Text = formAddWayBill.wayBill.BaseDocument;
+            formAddWayBill.textBoxKm.Text = formAddWayBill.wayBill.Kilometers.ToString();
+            formAddWayBill.txtBoxCost.Text = formAddWayBill.wayBill.Cost.ToString();
+            formAddWayBill.textBoxFuel.Text = formAddWayBill.wayBill.Fuel.ToString();
+            formAddWayBill.textBoxNotes.Text = formAddWayBill.wayBill.Notes;
+            formAddWayBill.ShowDialog();
+        }
+        private void DeleteWayBill_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull())
+                return;
+            WayBillMapper wm = new WayBillMapper();
+            WayBill wayBill = wm.Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+            if (wayBill.UnloadDate == null)
+            {
+                MessageBox.Show("Для завершения перевозки необходимо указать дату выгрузки!");
+                return;
+            }
+            if ((MessageBox.Show(string.Format("Вы действительно завершить перевозку №{0}?",
+                dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK))
+            {
+                wayBill.Finish();
+                wm.Update(wayBill);
+                DataSets.CreateDSForDataGrid(WindowIndex, dataGridView);
+            }
+        }
+        private void SeeFinishedWayBill_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull())
+                return;
+            WayBill wayBill = new WayBill();
+            WayBillMapper wm = new WayBillMapper();
+            wayBill = wm.Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+            FormInformation formInformation = new FormInformation();
+            formInformation.wayBill = wayBill;
+            formInformation.textBoxInf.Text = wayBill.ToString();
+            formInformation.ShowDialog();
+        }
+        private void StartFinishedWayBill_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull())
+                return;
+            bool confirm = ((MessageBox.Show(string.Format("Вы действительно хотите восстановить перевозку №{0}?",
+                dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK));
+            if (confirm)
+            {
+                WayBillMapper wm = new WayBillMapper();
+                WayBill wayBill = wm.Get(dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString());
+                wayBill.Activate();
+                wm.Update(wayBill);
+            }
+            DataSets.CreateDSForDataGrid(WindowIndex, dataGridView);
+        }
         //функции для добавления списка объектов в сетку
         public static void AddListRepairsInGrid(DataGridView dataGridView, string content = "")
         {
@@ -718,6 +906,10 @@ namespace AutoService
             DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, dataGridView, content);
         }
         public static void AddSparePartInStock(DataGridView dataGridView, string content = "")
+        {
+            DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, dataGridView, content);
+        }
+        public static void AddListTripInGrid(DataGridView dataGridView, string content = "")
         {
             DbProxy.DataSets.CreateDSForDataGrid(WindowIndex, dataGridView, content);
         }
@@ -976,6 +1168,69 @@ namespace AutoService
             {
                 contMenuStripDataGrid.Show(Cursor.Position);
             }
+        }
+        private void MakeDataGridReadOnly()
+        {
+            dataGridView.ReadOnly = true;
+        }
+        private void MakeDataGridForReports()
+        {
+            dataGridView.ReadOnly = false;
+            for (int i = 0; i < dataGridView.Columns.Count; i++)
+            {
+                if (i == dataGridView.Columns.Count - 1)
+                    dataGridView.Columns[i].ReadOnly = false;
+                else
+                {
+                    dataGridView.Columns[i].ReadOnly = true;
+                }
+            }
+        }
+
+        private void dataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            TextBox textBox = (TextBox) e.Control;
+            textBox.KeyPress += new KeyPressEventHandler(EventsInForm.KeyPressFloat);
+        }
+
+        private void dataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            double cellValue = 0;
+            try
+            {
+                cellValue = double.Parse(dataGridView.SelectedRows[0].Cells[e.ColumnIndex].Value.ToString());
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return;
+            }
+            catch (FormatException)
+            {
+                
+            }
+            if (WindowIndex == WindowsStruct.RepairsReport)
+            {
+                CardMapper cm = new CardMapper();
+                CardOfRepair card = cm.Get(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+                card.PaidMoney = cellValue;
+                cm.Update(card);
+            }
+            else if (WindowIndex == WindowsStruct.WayBillsReport)
+            {
+                WayBillMapper wm = new WayBillMapper();
+                WayBill wayBill = wm.Get(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+                wayBill.PaidMoney = cellValue;
+                wm.Update(wayBill);
+            }
+            BeginInvoke(new MethodInvoker(() =>
+            {
+                DataSets.CreateDSForDataGrid(WindowIndex, dataGridView);
+            }));
+        }
+
+        private void dataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+
         }
     }
 }

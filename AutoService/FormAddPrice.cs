@@ -63,7 +63,7 @@ namespace AutoService
             {
                 malf.Description = textBoxDescription.Text;
                 malf.Unit = UnitsConvert.ConvertUnit(comboBoxUnit.Text);
-                malf.Price = Convert.ToDouble(textBoxPrice.Text);
+                malf.Cost = Convert.ToDouble(textBoxPrice.Text);
                 if (formForSelect != null && Form1.WindowIndex == WindowsStruct.MalfAdd)
                 {
                     mm.Update(malf);

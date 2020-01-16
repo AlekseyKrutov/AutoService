@@ -18,14 +18,11 @@ namespace TestApp
     {
         static void Main(string[] args)
         {
-            Malfunctions malf = new Malfunctions();
-            CardOfRepair card = new CardOfRepair();
-            malf = new MalfMapper().Get("10");
-            card = new CardMapper().Get("258");
-            card.ListOfMalf.Add(malf);
-            CardMapper cm = new CardMapper();
-            cm.UpdateWorks(card);
+            WayBill wayBill = new WayBill();
 
+            WayBillMapper wayBillMapper = new WayBillMapper();
+            wayBill = wayBillMapper.Get("1");
+            CardOfRepair cr = new CardMapper().Get("268");
         }
         //TimerCallback tc = new TimerCallback(PrintTime);
         //Timer timer = new Timer(tc, "sasi", 0, 1000);
