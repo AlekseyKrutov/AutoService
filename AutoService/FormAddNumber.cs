@@ -36,7 +36,7 @@ namespace AutoService
                     break;
                 case WindowsStruct.MalfView:
                     AddMalfOrSparesInRepair();
-                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, formAddRepair.id_repair.ToString());
+                    formForSelect.AddListMalfInGrid();
                     break;
                 case WindowsStruct.SpareAdd:
                     AddMalfOrSparesInRepair();
@@ -44,7 +44,7 @@ namespace AutoService
                     break;
                 case WindowsStruct.SpareView:
                     AddMalfOrSparesInRepair();
-                    Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, formAddRepair.id_repair.ToString());
+                    formForSelect.AddListSpareInGrid();
                     break;
             }
             this.Close();

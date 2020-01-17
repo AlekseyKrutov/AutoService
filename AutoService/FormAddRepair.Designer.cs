@@ -58,9 +58,8 @@
             this.dateTimeStart = new System.Windows.Forms.DateTimePicker();
             this.dateTimeFinish = new System.Windows.Forms.DateTimePicker();
             this.labelStartTime = new System.Windows.Forms.Label();
-            this.labelFinishTime = new System.Windows.Forms.Label();
-            this.checkBoxTurnTime = new System.Windows.Forms.CheckBox();
             this.textBoxInf = new System.Windows.Forms.TextBox();
+            this.labelFinishTime = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,6 +101,7 @@
             this.textBoxMark.ReadOnly = true;
             this.textBoxMark.Size = new System.Drawing.Size(301, 26);
             this.textBoxMark.TabIndex = 16;
+            this.textBoxMark.TabStop = false;
             // 
             // MarkLabel
             // 
@@ -132,6 +132,7 @@
             this.textBoxVIN.ReadOnly = true;
             this.textBoxVIN.Size = new System.Drawing.Size(301, 26);
             this.textBoxVIN.TabIndex = 18;
+            this.textBoxVIN.TabStop = false;
             // 
             // RegLabel
             // 
@@ -152,6 +153,7 @@
             this.textBoxReg.ReadOnly = true;
             this.textBoxReg.Size = new System.Drawing.Size(301, 26);
             this.textBoxReg.TabIndex = 19;
+            this.textBoxReg.TabStop = false;
             // 
             // GosNomLabel
             // 
@@ -172,6 +174,7 @@
             this.textBoxGosNom.ReadOnly = true;
             this.textBoxGosNom.Size = new System.Drawing.Size(301, 26);
             this.textBoxGosNom.TabIndex = 20;
+            this.textBoxGosNom.TabStop = false;
             // 
             // OwnerLabel
             // 
@@ -192,6 +195,7 @@
             this.textBoxOwner.ReadOnly = true;
             this.textBoxOwner.Size = new System.Drawing.Size(301, 26);
             this.textBoxOwner.TabIndex = 21;
+            this.textBoxOwner.TabStop = false;
             // 
             // btnAddNewAutoRepair
             // 
@@ -200,6 +204,7 @@
             this.btnAddNewAutoRepair.Name = "btnAddNewAutoRepair";
             this.btnAddNewAutoRepair.Size = new System.Drawing.Size(236, 52);
             this.btnAddNewAutoRepair.TabIndex = 10;
+            this.btnAddNewAutoRepair.TabStop = false;
             this.btnAddNewAutoRepair.Text = "Добавить новый автомобиль";
             this.btnAddNewAutoRepair.UseVisualStyleBackColor = true;
             this.btnAddNewAutoRepair.Click += new System.EventHandler(this.btnAddNewAutoRepair_Click);
@@ -211,6 +216,7 @@
             this.btnSelExistAutoRepair.Name = "btnSelExistAutoRepair";
             this.btnSelExistAutoRepair.Size = new System.Drawing.Size(219, 52);
             this.btnSelExistAutoRepair.TabIndex = 11;
+            this.btnSelExistAutoRepair.TabStop = false;
             this.btnSelExistAutoRepair.Text = "Выбрать существующий автомобиль";
             this.btnSelExistAutoRepair.UseVisualStyleBackColor = true;
             this.btnSelExistAutoRepair.Click += new System.EventHandler(this.btnSelExistAutoRepair_Click);
@@ -242,6 +248,7 @@
             this.btnAddMalf.Name = "btnAddMalf";
             this.btnAddMalf.Size = new System.Drawing.Size(112, 35);
             this.btnAddMalf.TabIndex = 14;
+            this.btnAddMalf.TabStop = false;
             this.btnAddMalf.Text = "Добавить";
             this.btnAddMalf.UseVisualStyleBackColor = true;
             this.btnAddMalf.Click += new System.EventHandler(this.btnAddMalf_Click);
@@ -253,6 +260,7 @@
             this.btnShowMalf.Name = "btnShowMalf";
             this.btnShowMalf.Size = new System.Drawing.Size(112, 35);
             this.btnShowMalf.TabIndex = 15;
+            this.btnShowMalf.TabStop = false;
             this.btnShowMalf.Text = "Просмотр...";
             this.btnShowMalf.UseVisualStyleBackColor = true;
             this.btnShowMalf.Click += new System.EventHandler(this.btnShowMalf_Click);
@@ -264,6 +272,7 @@
             this.btnSelectPersonal.Name = "btnSelectPersonal";
             this.btnSelectPersonal.Size = new System.Drawing.Size(112, 35);
             this.btnSelectPersonal.TabIndex = 16;
+            this.btnSelectPersonal.TabStop = false;
             this.btnSelectPersonal.Text = "Выбрать";
             this.btnSelectPersonal.UseVisualStyleBackColor = true;
             this.btnSelectPersonal.Click += new System.EventHandler(this.btnSelectPersonal_Click);
@@ -295,6 +304,7 @@
             this.textBoxNotes.Name = "textBoxNotes";
             this.textBoxNotes.Size = new System.Drawing.Size(311, 90);
             this.textBoxNotes.TabIndex = 19;
+            this.textBoxNotes.TabStop = false;
             // 
             // btnShowWorker
             // 
@@ -303,6 +313,7 @@
             this.btnShowWorker.Name = "btnShowWorker";
             this.btnShowWorker.Size = new System.Drawing.Size(112, 35);
             this.btnShowWorker.TabIndex = 20;
+            this.btnShowWorker.TabStop = false;
             this.btnShowWorker.Text = "Просмотр...";
             this.btnShowWorker.UseVisualStyleBackColor = true;
             this.btnShowWorker.Click += new System.EventHandler(this.btnShowWorker_Click);
@@ -324,6 +335,7 @@
             this.btnSelSparePart.Name = "btnSelSparePart";
             this.btnSelSparePart.Size = new System.Drawing.Size(112, 35);
             this.btnSelSparePart.TabIndex = 22;
+            this.btnSelSparePart.TabStop = false;
             this.btnSelSparePart.Text = "Добавить";
             this.btnSelSparePart.UseVisualStyleBackColor = true;
             this.btnSelSparePart.Click += new System.EventHandler(this.btnSelSparePart_Click);
@@ -335,6 +347,7 @@
             this.btnShowSparePart.Name = "btnShowSparePart";
             this.btnShowSparePart.Size = new System.Drawing.Size(112, 35);
             this.btnShowSparePart.TabIndex = 23;
+            this.btnShowSparePart.TabStop = false;
             this.btnShowSparePart.Text = "Просмотр...";
             this.btnShowSparePart.UseVisualStyleBackColor = true;
             this.btnShowSparePart.Click += new System.EventHandler(this.btnShowSparePart_Click);
@@ -352,52 +365,35 @@
             // 
             // dateTimeStart
             // 
-            this.dateTimeStart.Enabled = false;
-            this.dateTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimeStart.Location = new System.Drawing.Point(219, 531);
+            this.dateTimeStart.CustomFormat = "dd.MM.yyyy HH:mm";
+            this.dateTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimeStart.Location = new System.Drawing.Point(16, 529);
             this.dateTimeStart.Name = "dateTimeStart";
-            this.dateTimeStart.Size = new System.Drawing.Size(123, 26);
+            this.dateTimeStart.ShowCheckBox = true;
+            this.dateTimeStart.Size = new System.Drawing.Size(204, 26);
             this.dateTimeStart.TabIndex = 26;
+            this.dateTimeStart.TabStop = false;
             // 
             // dateTimeFinish
             // 
-            this.dateTimeFinish.Enabled = false;
-            this.dateTimeFinish.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimeFinish.Location = new System.Drawing.Point(377, 531);
+            this.dateTimeFinish.CustomFormat = "dd.MM.yyyy HH:mm";
+            this.dateTimeFinish.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimeFinish.Location = new System.Drawing.Point(243, 529);
             this.dateTimeFinish.Name = "dateTimeFinish";
-            this.dateTimeFinish.Size = new System.Drawing.Size(124, 26);
+            this.dateTimeFinish.ShowCheckBox = true;
+            this.dateTimeFinish.Size = new System.Drawing.Size(202, 26);
             this.dateTimeFinish.TabIndex = 27;
+            this.dateTimeFinish.TabStop = false;
             // 
             // labelStartTime
             // 
             this.labelStartTime.AutoSize = true;
-            this.labelStartTime.Location = new System.Drawing.Point(214, 499);
+            this.labelStartTime.Location = new System.Drawing.Point(13, 498);
             this.labelStartTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelStartTime.Name = "labelStartTime";
             this.labelStartTime.Size = new System.Drawing.Size(140, 20);
             this.labelStartTime.TabIndex = 28;
             this.labelStartTime.Text = "Начало ремонта:";
-            // 
-            // labelFinishTime
-            // 
-            this.labelFinishTime.AutoSize = true;
-            this.labelFinishTime.Location = new System.Drawing.Point(373, 498);
-            this.labelFinishTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelFinishTime.Name = "labelFinishTime";
-            this.labelFinishTime.Size = new System.Drawing.Size(128, 20);
-            this.labelFinishTime.TabIndex = 29;
-            this.labelFinishTime.Text = "Конец ремонта:";
-            // 
-            // checkBoxTurnTime
-            // 
-            this.checkBoxTurnTime.AutoSize = true;
-            this.checkBoxTurnTime.Location = new System.Drawing.Point(16, 499);
-            this.checkBoxTurnTime.Name = "checkBoxTurnTime";
-            this.checkBoxTurnTime.Size = new System.Drawing.Size(141, 24);
-            this.checkBoxTurnTime.TabIndex = 30;
-            this.checkBoxTurnTime.Text = "Указать время";
-            this.checkBoxTurnTime.UseVisualStyleBackColor = true;
-            this.checkBoxTurnTime.CheckedChanged += new System.EventHandler(this.checkBoxTurnTime_CheckedChanged);
             // 
             // textBoxInf
             // 
@@ -408,7 +404,18 @@
             this.textBoxInf.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxInf.Size = new System.Drawing.Size(356, 675);
             this.textBoxInf.TabIndex = 31;
+            this.textBoxInf.TabStop = false;
             this.textBoxInf.TextChanged += new System.EventHandler(this.textBoxInf_TextChanged);
+            // 
+            // labelFinishTime
+            // 
+            this.labelFinishTime.AutoSize = true;
+            this.labelFinishTime.Location = new System.Drawing.Point(239, 498);
+            this.labelFinishTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelFinishTime.Name = "labelFinishTime";
+            this.labelFinishTime.Size = new System.Drawing.Size(128, 20);
+            this.labelFinishTime.TabIndex = 29;
+            this.labelFinishTime.Text = "Конец ремонта:";
             // 
             // FormAddRepair
             // 
@@ -416,7 +423,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(890, 707);
             this.Controls.Add(this.textBoxInf);
-            this.Controls.Add(this.checkBoxTurnTime);
             this.Controls.Add(this.labelFinishTime);
             this.Controls.Add(this.labelStartTime);
             this.Controls.Add(this.dateTimeFinish);
@@ -482,10 +488,9 @@
         public System.Windows.Forms.Button btnAddRepair;
         public System.Windows.Forms.TextBox textBoxNotes;
         private System.Windows.Forms.Label labelStartTime;
-        private System.Windows.Forms.Label labelFinishTime;
         public System.Windows.Forms.DateTimePicker dateTimeStart;
         public System.Windows.Forms.DateTimePicker dateTimeFinish;
-        public System.Windows.Forms.CheckBox checkBoxTurnTime;
         public System.Windows.Forms.TextBox textBoxInf;
+        private System.Windows.Forms.Label labelFinishTime;
     }
 }

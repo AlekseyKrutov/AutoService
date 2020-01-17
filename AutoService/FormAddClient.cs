@@ -75,10 +75,6 @@ namespace AutoService
                 }
                 if (formAddWayBill != null && formAddWayBill.Visible)
                 {
-                    formAddWayBill.FillComboBox(formAddWayBill.comboBoxClient, Form1.db,
-                        formAddWayBill.client_query, formAddWayBill.displayMembers[FormAddWayBill.DisplayMembers.Client]);
-                    formAddWayBill.comboBoxClient.SelectedIndex = -1;
-                    formAddWayBill.comboBoxClient.SelectedValue = textBoxName.Text;
                 }
                 mainForm.dataGridView.ClearSelection();
             }

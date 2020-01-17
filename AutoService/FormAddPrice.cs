@@ -61,7 +61,7 @@ namespace AutoService
             }
             else
             {
-                malf.DescriptionOfMalf = textBoxDescription.Text;
+                malf.Description = textBoxDescription.Text;
                 malf.Unit = UnitsConvert.ConvertUnit(comboBoxUnit.Text);
                 malf.Price = Convert.ToDouble(textBoxPrice.Text);
                 if (formForSelect != null && Form1.WindowIndex == WindowsStruct.MalfAdd)
@@ -92,6 +92,7 @@ namespace AutoService
                 this.Close();
                 return;
             }
+            mm.Update(malf);
             this.Close();
             Form1.AddListMalfunctionsInGrid(mainForm.dataGridView, Queries.MalfunctionsView);
             mainForm.dataGridView.ClearSelection();
@@ -103,9 +104,9 @@ namespace AutoService
                 comboBoxUnit.SelectedIndex = 1;
         }
 
-        private void FormAddPrice_Load(object sender, EventArgs e)
+        private void FormAddPrice_FormClosed(object sender, FormClosedEventArgs e)
         {
-            malf = null;
+            malf = null;        
         }
     }
 }

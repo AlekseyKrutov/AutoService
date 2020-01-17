@@ -32,6 +32,33 @@ namespace AutoService
         {
             InitializeComponent();
             //расчет поля для изменения ширины формы, если информация по ремонту отсутствует
+            if (Form1.WindowIndex == WindowsStruct.ActOfEndsRepairs)
+            {
+                btnAddNewAutoRepair.Visible = false;
+                btnSelExistAutoRepair.Visible = false;
+                btnAddRepair.Visible = false;
+                btnAddMalf.Visible = false;
+                btnSelSparePart.Visible = false;
+                btnSelectPersonal.Visible = false;
+                btnShowMalf.Visible = false;
+                btnShowSparePart.Visible = false;
+                btnShowWorker.Visible = false;
+                dateTimeStart.Visible = false;
+                dateTimeFinish.Visible = false;
+                textBoxNotes.Visible = false;
+                textBoxGosNom.Visible = false;
+                textBoxMark.Visible = false;
+                textBoxOwner.Visible = false;
+                textBoxReg.Visible = false;
+                textBoxVIN.Visible = false;
+                labelFinishTime.Visible = false;
+                labelNotes.Visible = false;
+                labelStartTime.Visible = false;
+                textBoxInf.Location = new Point(0, 0);
+                this.Width = 0;
+                this.Height = textBoxInf.Height + 30;
+                return;
+            }
             fullWidth = this.Width;
             infTxtWidth = textBoxInf.Location.X - (textBoxNotes.Location.X + textBoxNotes.Width);
             this.Width -= infTxtWidth + textBoxInf.Width;
@@ -50,26 +77,10 @@ namespace AutoService
                 this.Text = "Просмотр ремонта";
             else if (Form1.AddOrEdit == AddEditOrDelete.Edit)
                 this.Text = "Редактирование ремонта";
-            if (Form1.WindowIndex == WindowsStruct.ActOfEndsRepairs)
-            {
-                btnAddNewAutoRepair.Enabled = false;
-                btnSelExistAutoRepair.Enabled = false;
-                btnAddRepair.Visible = false;
-                btnAddMalf.Visible = false;
-                btnSelSparePart.Visible = false;
-                btnSelectPersonal.Visible = false;
-                btnShowMalf.Location = btnAddMalf.Location;
-                btnShowSparePart.Location = btnSelSparePart.Location;
-                btnShowWorker.Location = btnSelectPersonal.Location;
-                checkBoxTurnTime.Visible = false;
-                dateTimeStart.Enabled = false;
-                dateTimeFinish.Enabled = false;
-                textBoxNotes.Enabled = false;
-            }
         }
         private void FormAddRepair_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!btnAddNewAutoRepair.Enabled)
+            if (!btnAddNewAutoRepair.Visible)
             {
                 Form1.WindowIndex = WindowsStruct.ActOfEndsRepairs;
                 return;
@@ -157,16 +168,28 @@ namespace AutoService
                 MessageBox.Show("Пожалуйста выберете автомобиль!");
                 return;
             }
-            if (checkBoxTurnTime.Checked && (dateTimeStart.Value.Date > dateTimeFinish.Value.Date))
+            if (dateTimeFinish.Checked && !dateTimeStart.Checked)
+            {
+                MessageBox.Show("Выберете дату начала ремонта!");
+                return;
+            }
+            if (dateTimeStart.Checked && dateTimeFinish.Checked 
+                && (dateTimeStart.Value.Date > dateTimeFinish.Value.Date))
             {
                 MessageBox.Show("Дата начала ремонта меньше даты завершения!");
                 return;
             }
-            if (!checkBoxTurnTime.Checked)
+            if (!dateTimeStart.Checked && !dateTimeFinish.Checked)
             {
                 repair.TimeOfStart = DateTime.Now;
+                repair.TimeOfFinish = null;
             }
-            else if (checkBoxTurnTime.Checked)
+            if (dateTimeStart.Checked && !dateTimeFinish.Checked)
+            {
+                repair.TimeOfStart = dateTimeStart.Value;
+                repair.TimeOfFinish = null;
+            }
+            else if (dateTimeStart.Checked && dateTimeFinish.Checked)
             {
                 repair.TimeOfStart = dateTimeStart.Value;
                 repair.TimeOfFinish = dateTimeFinish.Value;
@@ -181,20 +204,6 @@ namespace AutoService
             Form1.AddListRepairsInGrid(mainForm.dataGridView);
             this.Close();
         }
-        private void checkBoxTurnTime_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxTurnTime.Checked)
-            {
-                dateTimeStart.Enabled = true;
-                dateTimeFinish.Enabled = true;
-            }
-            else
-            {
-                dateTimeStart.Enabled = false;
-                dateTimeFinish.Enabled = false;
-            }
-        }
-    
         private void textBoxInf_TextChanged(object sender, EventArgs e)
         {
             TextBox textBox = (TextBox)sender;

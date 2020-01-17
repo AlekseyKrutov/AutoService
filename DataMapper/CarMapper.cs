@@ -31,9 +31,9 @@ namespace DataMapper
                 while (dr.Read())
                 {
                     string[] model = dr.GetString(dr.GetOrdinal("MODEL")).Split(' ');
-                    car.CarMark = dr.GetString(dr.GetOrdinal("MODEL")).Split(' ').First();
-                    car.CarModel = (model.Length > 1) ? model.Last() : "";
-                    car.NumberOfCar = dr.GetString(dr.GetOrdinal("STATE_NUMBER"));
+                    car.Mark = dr.GetString(dr.GetOrdinal("MODEL")).Split(' ').First();
+                    car.Model = (model.Length > 1) ? model.Last() : "";
+                    car.Number = dr.GetString(dr.GetOrdinal("STATE_NUMBER"));
                     car.CarVIN = dr.GetString(dr.GetOrdinal("VIN"));
                     car.RegCertific = dr.GetString(dr.GetOrdinal("REG_CERT"));
                     car.Owner = new ClientMapper().Get(dr.GetString(dr.GetOrdinal("ID_CLIENT")));
@@ -52,10 +52,10 @@ namespace DataMapper
                 FbCommand command = new FbCommand("NEW_CAR_PROCEDURE", db, trn);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@VIN", FbDbType.VarChar).Value = car.CarVIN;
-                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = car.NumberOfCar;
+                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = car.Number;
                 command.Parameters.Add("@REG_CERTIFICATE", FbDbType.VarChar).Value = car.RegCertific;
-                command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value = car.CarMark;
-                command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = car.CarModel;
+                command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value = car.Mark;
+                command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = car.Model;
                 if (car.Owner != null)
                     command.Parameters.Add("@CLIENT_ID", FbDbType.SmallInt).Value = car.Owner.IdCompany;
                 else
@@ -84,10 +84,10 @@ namespace DataMapper
                 FbCommand command = new FbCommand("UPDATE_CAR_PROCEDURE", db, trn);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@VIN", FbDbType.VarChar).Value = car.CarVIN;
-                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = car.NumberOfCar;
+                command.Parameters.Add("@STATE_NUMBER", FbDbType.VarChar).Value = car.Number;
                 command.Parameters.Add("@REG_CERTIFICATE", FbDbType.VarChar).Value = car.RegCertific;
-                command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value = car.CarMark;
-                command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = car.CarModel;
+                command.Parameters.Add("@CAR_MARK", FbDbType.VarChar).Value = car.Mark;
+                command.Parameters.Add("@CAR_MODEL", FbDbType.VarChar).Value = car.Model;
                 if (car.Owner != null)
                     command.Parameters.Add("@CLIENT_ID", FbDbType.SmallInt).Value = car.Owner.IdCompany;
                 else

@@ -458,13 +458,22 @@ namespace AutoService
             //проверка на наличие открытой формы
             if (!formAddRepair.Visible)
             {
+                if (WindowIndex == WindowsStruct.ActOfEndsRepairs)
+                {
+                    formAddRepair = new FormAddRepair();
+                    formAddRepair.repair = new CardMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+                    formAddRepair.textBoxInf.Text = formAddRepair.repair.ToString();
+                }
                 formAddRepair = new FormAddRepair(formAddAuto, this);
                 formAddRepair.id_repair = int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
                 formAddRepair.repair = new CardMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
                 formAddRepair.textBoxInf.Text = formAddRepair.repair.ToString();
                 formAddRepair.textBoxNotes.Text = formAddRepair.repair.Notes;
                 formAddRepair.dateTimeStart.Value = formAddRepair.repair.TimeOfStart;
-                //formAddRepair.dateTimeFinish.Value = (formAddRepair.repair.TimeOfFinish == null) ? formAddRepair.repair.TimeOfStart : formAddRepair.repair.TimeOfFinish;
+                if (formAddRepair.repair.TimeOfFinish != null)
+                    formAddRepair.dateTimeFinish.Value = (DateTime) formAddRepair.repair.TimeOfFinish;
+                else
+                    formAddRepair.dateTimeFinish.Checked = false;
                 FillCardWithCar(formAddRepair, formAddRepair.repair.Car);
                 formAddRepair.ShowDialog();
             }
@@ -476,9 +485,9 @@ namespace AutoService
         public void FillCardWithCar(FormAddRepair formAddRepair, Car car)
         {
             formAddRepair.textBoxVIN.Text = car.CarVIN;
-            string model = (car.CarModel == null) ? "" : car.CarModel;
-            formAddRepair.textBoxMark.Text = car.CarMark + " " + model;
-            formAddRepair.textBoxGosNom.Text = car.NumberOfCar;
+            string model = (car.Model == null) ? "" : car.Model;
+            formAddRepair.textBoxMark.Text = car.Mark + " " + model;
+            formAddRepair.textBoxGosNom.Text = car.Number;
             formAddRepair.textBoxReg.Text = car.RegCertific;
             formAddRepair.textBoxOwner.Text = (car.Owner == null) ? "" : car.Owner.Name;
         }
@@ -486,12 +495,16 @@ namespace AutoService
         {
             if (GridRowsColumnIsNull())
                 return;
-            string rep_id = dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString();
             bool confirm = ((MessageBox.Show(string.Format("Вы действительно хотите восстановить ремонт №{0}?",
                 dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString()), "Предупреждение",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK));
             if (confirm)
-                DbProxy.InvokeProcedure.StartRepair(int.Parse(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString()));
+            {
+                CardMapper cm = new CardMapper();
+                CardOfRepair card = cm.Get(dataGridView.Rows[Form1.SelectIndex].Cells[0].Value.ToString());
+                card.ActivateRepair();
+                cm.Update(card);
+            }
             AddListFinishedRepsInGrid(dataGridView);
         }
         private void EndRepair_Click(object sender, EventArgs e)
@@ -504,13 +517,9 @@ namespace AutoService
             {
                 CardMapper cm = new CardMapper();
                 CardOfRepair card = cm.Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
-                if (card.TimeOfFinish != null)
-                    card.FinishRepair();
-                else
-                {
-                    MessageBox.Show("В ремонте не указана дата завершения!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
-                }
+                if (card.TimeOfFinish == null)
+                    card.TimeOfFinish = DateTime.Now;
+                card.FinishRepair();
                 cm.Update(card);
                 AddListRepairsInGrid(dataGridView);
             }
@@ -531,11 +540,11 @@ namespace AutoService
             AddOrEdit = AddEditOrDelete.Edit;
             formAddAuto = new FormAddAuto(this);
             formAddAuto.car = new CarMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
-            formAddAuto.textBoxGosNumb.Text = formAddAuto.car.NumberOfCar;
+            formAddAuto.textBoxGosNumb.Text = formAddAuto.car.Number;
             formAddAuto.textBoxVIN.Text = formAddAuto.car.CarVIN;
             formAddAuto.textBoxReg.Text = formAddAuto.car.RegCertific;
-            string model = (formAddAuto.car.CarModel == "") ? formAddAuto.car.CarMark :
-                formAddAuto.car.CarMark + ' ' + formAddAuto.car.CarModel;
+            string model = (formAddAuto.car.Model == "") ? formAddAuto.car.Mark :
+                formAddAuto.car.Mark + ' ' + formAddAuto.car.Model;
             formAddAuto.comboBoxAuto.Text = model;
             formAddAuto.labelContentOwner.Text = (formAddAuto.car.Owner != null ) ? formAddAuto.car.Owner.Name : "";
             formAddAuto.client = formAddAuto.car.Owner;
@@ -629,7 +638,7 @@ namespace AutoService
         public void FillFormPrice(DataGridView dg, FormAddPrice fAddPrice)
         {
             fAddPrice.malf = new MalfMapper().Get(dg.Rows[SelectIndex].Cells[0].Value.ToString());
-            fAddPrice.textBoxDescription.Text = fAddPrice.malf.DescriptionOfMalf;
+            fAddPrice.textBoxDescription.Text = fAddPrice.malf.Description;
             fAddPrice.textBoxPrice.Text = fAddPrice.malf.Price.ToString();
             fAddPrice.comboBoxUnit.Text = UnitsConvert.ConvertUnit(fAddPrice.malf.Unit);
             fAddPrice.Show();
@@ -657,23 +666,29 @@ namespace AutoService
         //положить на склад
         private void PushInStock_Click(object sender, EventArgs e)
         {
-            FormAddNumbReason addNumb = new FormAddNumbReason();
+            FormAddNumbReason addNumb = new FormAddNumbReason(this);
             WindowIndex = WindowsStruct.PushInStock;
-            SparePart sp = new SparePart();
-            sp = new SpareMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
-            addNumb.textBoxDescrContent.Text = sp.Description;
+            addNumb.part = new SpareMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+            addNumb.textBoxDescrContent.Text = addNumb.part.Description;
+            addNumb.labelNumber.Text += $"({UnitsConvert.ConvertUnit(addNumb.part.Unit)}):";
             addNumb.ShowDialog();
         }
         //выдать со склада
         private void PopInStock_Click(object sender, EventArgs e)
         {
-            FormAddNumbReason addNumb = new FormAddNumbReason();
+            FormAddNumbReason addNumb = new FormAddNumbReason(this);
             WindowIndex = WindowsStruct.PopFromStock;
+            addNumb.part = new SpareMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
+            addNumb.textBoxDescrContent.Text = addNumb.part.Description;
+            addNumb.labelNumber.Text += $"({UnitsConvert.ConvertUnit(addNumb.part.Unit)}):";
             addNumb.ShowDialog();
         }
         private void AddWayBill_Click(object sender, EventArgs e)
         {
+            WindowIndex = WindowsStruct.WayBill;
             FormAddWayBill formAddWayBill = new FormAddWayBill();
+            formAddWayBill.textBoxClient.Text = "ИП Семенов А.И.";
+            formAddWayBill.textBoxTrip.Text = "Маршрут г.Выкса - г. Санкт-Петербург";
             formAddWayBill.ShowDialog();
         }
         
@@ -923,24 +938,32 @@ namespace AutoService
 
         private void PaymenInvoiceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WorkWithExcel.MakeBillInExcelAsync(SelectedIndEndRep, db);
+            if (dataGridView.SelectedRows.Count == 0)
+                return;
+            WorkWithExcel.MakeBillInExcelAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
         }
 
         private void FinishActToolStripMenu_Click(object sender, EventArgs e)
         {
-            WorkWithExcel.MakeActOfWorkInExcelAsync(SelectedIndEndRep, db);
+            if (dataGridView.SelectedRows.Count == 0)
+                return;
+            WorkWithExcel.MakeActOfWorkInExcelAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
         }
         private void OrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WorkWithExcel.MakeOrderInExcelAsync(SelectedIndEndRep, db);
+            if (dataGridView.SelectedRows.Count == 0)
+                return;
+            WorkWithExcel.MakeOrderInExcelAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
         }
         private void UploadAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WorkWithExcel.UploadAllDocsInExcAsync(SelectedIndEndRep, db);
+            if (dataGridView.SelectedRows.Count == 0)
+                return;
+            WorkWithExcel.UploadAllDocsInExcAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
         }
         public bool GridRowsColumnIsNull()
         {
-            if (dataGridView.Rows.Count == 0)
+            if (dataGridView.Rows.Count == 0 || dataGridView.SelectedRows.Count == 0)
                 return true;
             else
                 return false;

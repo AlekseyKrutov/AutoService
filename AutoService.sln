@@ -12,6 +12,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoService", "AutoService\
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkWithExcelLibrary", "WorkWithExcelLibrary\WorkWithExcelLibrary.csproj", "{1B78EEDC-0C4D-4367-8113-8FC46D692DC4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9DE2B409-90ED-4EEA-B256-8D162CB4906C} = {9DE2B409-90ED-4EEA-B256-8D162CB4906C}
+		{0CB58645-F75E-40EF-91EA-8DFDAD9AF5A2} = {0CB58645-F75E-40EF-91EA-8DFDAD9AF5A2}
+		{7981125D-D2CA-4402-A56F-6D072CA5BC84} = {7981125D-D2CA-4402-A56F-6D072CA5BC84}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{C9187A23-48CF-49DD-957C-BDC577E17F9B}"
 	ProjectSection(ProjectDependencies) = postProject

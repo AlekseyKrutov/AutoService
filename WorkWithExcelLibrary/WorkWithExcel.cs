@@ -8,6 +8,7 @@ using AutoServiceLibrary;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using System.Configuration;
+using DataMapper;
 
 namespace WorkWithExcelLibrary
 {
@@ -28,41 +29,38 @@ namespace WorkWithExcelLibrary
         static string mainPath = ConfigurationManager.AppSettings.Get("DestExcelFolder");
         static string fileName;
         //работа с excel
-        public static async void UploadAllDocsInExcAsync(int idRepair, FbConnection db)
+        public static async void UploadAllDocsInExcAsync(string idRepair)
         {
-            await Task.Run(() => MakeActOfWorkInExcel(idRepair, db));
-            await Task.Run(() => MakeOrderInExcel(idRepair, db));
-            await Task.Run(() => MakeBillInExcel(idRepair, db));
+            await Task.Run(() => MakeActOfWorkInExcel(idRepair));
+            await Task.Run(() => MakeOrderInExcel(idRepair));
+            await Task.Run(() => MakeBillInExcel(idRepair));
         } 
-        public static async void MakeActOfWorkInExcelAsync(int idRepair, FbConnection db)
+        public static async void MakeActOfWorkInExcelAsync(string idRepair)
         {
-            await Task.Run(() => MakeActOfWorkInExcel(idRepair, db));
+            await Task.Run(() => MakeActOfWorkInExcel(idRepair));
         }
-        static async public void MakeOrderInExcelAsync(int idRepair, FbConnection db)
+        static async public void MakeOrderInExcelAsync(string idRepair)
         {
-            await Task.Run(() => MakeOrderInExcel(idRepair, db));
+            await Task.Run(() => MakeOrderInExcel(idRepair));
         }
-        static async public void MakeBillInExcelAsync(int idRepair, FbConnection db)
+        static async public void MakeBillInExcelAsync(string idRepair)
         {
-            await Task.Run(() => MakeBillInExcel(idRepair, db));
+            await Task.Run(() => MakeBillInExcel(idRepair));
         }
-        static public void MakeActOfWorkInExcel(int idRepair, FbConnection db)
+        static public void MakeActOfWorkInExcel(string idRepair)
         {
             rowStartForDelete = 0;
             try
             {
-                if (!CheckRepairNull(idRepair))
-                    return;
                 xlApp = new Excel.Application();
                 xlWorkBook = xlApp.Workbooks.Open(ConfigurationManager.AppSettings.Get("PathForOpenAct"));
                 xlSheet = xlWorkBook.Sheets[1];
-                CardOfRepair card = new CardOfRepair(db, idRepair, Malfunctions.GetListMalfFromDb(db, idRepair),
-                                                    SparePart.GetListSpareFromDb(db, idRepair),
-                                                    Personal.GetListPersonalFromDb(db, idRepair));
-                xlSheet.Cells[3, "G"] = card.id_repair;
-                xlSheet.Cells[3, "J"] = card.TimeOfFinish.ToString("dd/MM/yyyy");
-                xlSheet.Cells[4, "D"] = $"{card.Owner.Name}, ИНН {card.Owner.INN}";
-                xlSheet.Cells[5, "E"] = $"{card.CarMark} {card.NumberOfCar}";
+                CardOfRepair card = new CardMapper().Get(idRepair.ToString());
+                xlSheet.Cells[3, "G"] = card.IdRepair;
+                xlSheet.Cells[3, "J"] = ((DateTime) card.TimeOfFinish).ToString("dd/MM/yyyy");
+                if (card.Car.Owner != null)
+                    xlSheet.Cells[4, "D"] = $"{card.Car.Owner.Name}, ИНН {card.Car.Owner.INN}";
+                xlSheet.Cells[5, "E"] = $"{card.Car.Mark} {card.Car.Number}";
                 List<Malfunctions> MalfList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 0).ToList<Malfunctions>();
                 List<Malfunctions> SpareList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 1).ToList<Malfunctions>();
                 if (!FillRowsWithMalf(rowStartAct1, rowFinishAct1, MalfList))
@@ -74,7 +72,7 @@ namespace WorkWithExcelLibrary
                 xlSheet.Cells[29, "Q"] = Malfunctions.GetTotalPriceFromList(MalfList);
                 xlSheet.Cells[45, "Q"] = Malfunctions.GetTotalPriceFromList(SpareList);
                 xlSheet.Cells[46, "Q"] = card.TotalPrice;
-                fileName = String.Format(@"{0} Акт {1}.xlsx", card.id_repair, card.Owner.Name.Replace("\"", ""));
+                fileName = String.Format(@"{0} Акт {1}.xlsx", card.IdRepair, card.Car.Owner.Name.Replace("\"", ""));
                 xlWorkBook.SaveAs(mainPath + fileName);
                 xlWorkBook.Close();
                 xlApp.Quit();
@@ -90,25 +88,21 @@ namespace WorkWithExcelLibrary
                 while (System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp) > 0) { }
             }
         }
-        static public void MakeOrderInExcel(int idRepair, FbConnection db)
+        static public void MakeOrderInExcel(string idRepair)
         {
             rowStartForDelete = 0;
             try
             {
-                if (!CheckRepairNull(idRepair))
-                    return;
                 xlApp = new Excel.Application();
                 xlWorkBook = xlApp.Workbooks.Open(ConfigurationManager.AppSettings.Get("PathForOpenOrder"));
                 xlSheet = xlWorkBook.Sheets[1];
-                CardOfRepair card = new CardOfRepair(db, idRepair, Malfunctions.GetListMalfFromDb(db, idRepair),
-                                                    SparePart.GetListSpareFromDb(db, idRepair),
-                                                    Personal.GetListPersonalFromDb(db, idRepair));
-                xlSheet.Cells[3, "G"] = card.id_repair;
+                CardOfRepair card = new CardMapper().Get(idRepair.ToString());
+                xlSheet.Cells[3, "G"] = card.IdRepair;
                 xlSheet.Cells[5, "O"] = card.TimeOfStart.ToString("dd/MM/yyyy");
-                xlSheet.Cells[7, "O"] = card.TimeOfFinish.ToString("dd/MM/yyyy");
-                xlSheet.Cells[9, "A"] = $"Заказчик: {card.Owner.Name}";
-                xlSheet.Cells[10, "D"] = card.CarMark;
-                xlSheet.Cells[11, "G"] = card.NumberOfCar;
+                xlSheet.Cells[7, "O"] = ((DateTime)card.TimeOfFinish).ToString("dd/MM/yyyy");
+                xlSheet.Cells[9, "A"] = $"Заказчик: {card.Car.Owner.Name}";
+                xlSheet.Cells[10, "D"] = card.Car.Mark;
+                xlSheet.Cells[11, "G"] = card.Car.Number;
                 List<Malfunctions> MalfList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 0).ToList<Malfunctions>();
                 List<Malfunctions> SpareList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 1).ToList<Malfunctions>();
                 if (!FillRowsWithMalf(rowStartOrder1, rowFinishOrder1, MalfList))
@@ -120,7 +114,7 @@ namespace WorkWithExcelLibrary
                 xlSheet.Cells[36, "Q"] = Malfunctions.GetTotalPriceFromList(MalfList);
                 xlSheet.Cells[52, "Q"] = Malfunctions.GetTotalPriceFromList(SpareList);
                 xlSheet.Cells[53, "Q"] = card.TotalPrice;
-                fileName = String.Format(@"{0} Заказ наряд {1}.xlsx", card.id_repair, card.Owner.Name.Replace("\"", ""));
+                fileName = String.Format(@"{0} Заказ наряд {1}.xlsx", card.IdRepair, card.Car.Owner.Name.Replace("\"", ""));
                 xlWorkBook.SaveAs(mainPath + fileName);
                 xlWorkBook.Close();
                 xlApp.Quit();
@@ -136,27 +130,23 @@ namespace WorkWithExcelLibrary
                 while (System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp) > 0) { }
             }
         }
-        static public void MakeBillInExcel(int idRepair, FbConnection db)
+        static public void MakeBillInExcel(string idRepair)
         {
             try
             {
-                if (!CheckRepairNull(idRepair))
-                    return;
                 xlApp = new Excel.Application();
                 xlWorkBook = xlApp.Workbooks.Open(ConfigurationManager.AppSettings.Get("PathForOpenBill"));
                 xlSheet = xlWorkBook.Sheets[1];
-                CardOfRepair card = new CardOfRepair(db, idRepair, Malfunctions.GetListMalfFromDb(db, idRepair),
-                                                    SparePart.GetListSpareFromDb(db, idRepair),
-                                                    Personal.GetListPersonalFromDb(db, idRepair));
-                xlSheet.Cells[13, "K"] = card.id_repair;
-                xlSheet.Cells[13, "Q"] = card.TimeOfFinish.ToString("dd/MM/yyyy");
-                xlSheet.Cells[19, "F"] = $"{card.Owner.Name}, ИНН {card.Owner.INN}, {card.Owner.Address}";
-                xlSheet.Cells[5, "E"] = $"{card.CarMark} {card.NumberOfCar}";
-                xlSheet.Cells[22, "D"] = $"Ремонт автомобиля: {card.CarMark} {card.NumberOfCar} по заявке № {idRepair}" +
-                    $" от {card.TimeOfFinish.ToString("dd/MM/yyyy")}";
+                CardOfRepair card = new CardMapper().Get(idRepair.ToString());
+                xlSheet.Cells[13, "K"] = card.IdRepair;
+                xlSheet.Cells[13, "Q"] = ((DateTime)card.TimeOfFinish).ToString("dd/MM/yyyy");
+                xlSheet.Cells[19, "F"] = $"{card.Car.Owner.Name}, ИНН {card.Car.Owner.INN}, {card.Car.Owner.Address}";
+                xlSheet.Cells[5, "E"] = $"{card.Car.Mark} {card.Car.Number}";
+                xlSheet.Cells[22, "D"] = $"Ремонт автомобиля: {card.Car.Mark} {card.Car.Number} по заявке № {idRepair}" +
+                    $" от {((DateTime)card.TimeOfFinish).ToString("dd/MM/yyyy")}";
                 xlSheet.Cells[22, "AB"] = card.TotalPrice;
                 xlSheet.Cells[28, "B"] = RuDateAndMoneyConverter.CurrencyToTxt(card.TotalPrice, true);
-                fileName = String.Format(@"{0} Счет на оплату {1}.xlsx", card.id_repair, card.Owner.Name.Replace("\"", ""));
+                fileName = String.Format(@"{0} Счет на оплату {1}.xlsx", card.IdRepair, card.Car.Owner.Name.Replace("\"", ""));
                 xlWorkBook.SaveAs(mainPath + fileName);
                 xlWorkBook.Close();
                 xlApp.Quit();
@@ -181,11 +171,11 @@ namespace WorkWithExcelLibrary
             }
             for (int i = startRow, j = 0; j < MalfList.Count; i++, j++)
             {
-                if (MalfList[j].Unit == "шт")
+                if (MalfList[j].Unit == Units.Pieces)
                     xlSheet.Cells[i, "M"] = MalfList[j].Number;
                 else
                     xlSheet.Cells[i, "N"] = MalfList[j].Number;
-                xlSheet.Cells[i, "B"] = $"{MalfList[j].DescriptionOfMalf}";
+                xlSheet.Cells[i, "B"] = $"{MalfList[j].Description}";
                 xlSheet.Cells[i, "O"] = $"{MalfList[j].Price}";
                 xlSheet.Cells[i, "Q"] = $"{MalfList[j].TotalPrice}";
                 rowStartForDelete = i + 1;
@@ -203,7 +193,7 @@ namespace WorkWithExcelLibrary
             for (int i = startRow, j = 0; j < SpareList.Count; i++, j++)
             {
                 xlSheet.Cells[i, "N"] = SpareList[j].Number;
-                xlSheet.Cells[i, "B"] = $"{SpareList[j].DescriptionOfMalf}";
+                xlSheet.Cells[i, "B"] = $"{SpareList[j].Description}";
                 xlSheet.Cells[i, "O"] = $"{SpareList[j].Price}";
                 xlSheet.Cells[i, "Q"] = $"{SpareList[j].TotalPrice}";
                 rowStartForDelete = i + 1;

@@ -7,7 +7,7 @@ using FirebirdSql.Data.FirebirdClient;
 
 namespace AutoServiceLibrary
 {
-    public class CardOfRepair : Car
+    public class CardOfRepair
     {
         public delegate void PriceChanged();
 
@@ -30,15 +30,14 @@ namespace AutoServiceLibrary
         //переменная для проверки исполняется ли ремонт в данный момент
         public bool RepairIsCurrent { get; set; }
         //переменная для хранения номера ремонта
-        public int id_repair { get; set; }
+        public int IdRepair { get; set; }
         //конструктор по умолчанию
         public CardOfRepair() { PriceChangedEvent += CalculateTotalPrice; }
         //конструктор с 10 параметрами
         public CardOfRepair(int id_repair, string TimeOfStart, string TimeOfFinish, List<Malfunctions> malfunctions, List<SparePart> spareParts,
                     List<Employee> listOfPersonal, string Owner, string CarVIN, string CarMark, string NumberOfCar, string CarVin, string RegCertific)
-                    : base(CarVIN, RegCertific, CarMark, NumberOfCar, Owner)
         {
-            this.id_repair = id_repair;
+            this.IdRepair = id_repair;
             this.TimeOfStart = DateTime.Parse(TimeOfStart);
             this.TimeOfFinish = DateTime.Parse(TimeOfFinish);
             this.RepairIsCurrent = RepairIsCurrent;
@@ -53,6 +52,10 @@ namespace AutoServiceLibrary
         public void FinishRepair()
         {
             RepairIsCurrent = false;
+        }
+        public void ActivateRepair()
+        {
+            RepairIsCurrent = true;
         }
         public void AddMalfInList(Malfunctions malf)
         {
@@ -92,40 +95,7 @@ namespace AutoServiceLibrary
         {
             TotalPrice = Malfunctions.GetTotalPriceFromList(ListOfMalf) + SparePart.GetTotalPriceFromList(ListOfSpareParts);
         }
-        public CardOfRepair(FbConnection db, int id_repair, List<Malfunctions> malfunctions, List<SparePart> spareParts,
-                    List<Employee> listOfPersonal)
-        {
-            string query = $"select * from repair_cars_owner where id_card_of_repair = {id_repair}";
-            using (FbCommand command = new FbCommand(query, db))
-            {
-                FbDataReader dr;
-                db.Open();
-                dr = command.ExecuteReader();
-                while (dr.Read())
-                {
-                    this.id_repair = id_repair;
-                    TimeOfStart = dr.GetDateTime(dr.GetOrdinal("START_DATE"));
-                    //TimeOfFinish = dr.GetDateTime(dr.GetOrdinal("FINISH_DATE"));
-                    TotalPrice = dr.GetDouble(dr.GetOrdinal("TOTAL_COST"));
-                    RepairIsCurrent = dr.GetBoolean(dr.GetOrdinal("CURRENT_OR_NOT"));
-                    Notes = @dr.GetString(dr.GetOrdinal("NOTES"));
-                    CarVIN = dr.GetString(dr.GetOrdinal("VIN"));
-                    NumberOfCar = dr.GetString(dr.GetOrdinal("STATE_NUMBER"));
-                    CarMark = dr.GetString(dr.GetOrdinal("CAR_MODEL"));
-                    RegCertific = dr.GetString(dr.GetOrdinal("REG_CERT"));
-                    Owner = new Client
-                    {
-                        @Address = dr.GetString(dr.GetOrdinal("ADDRESS")),
-                        INN = dr.GetString(dr.GetOrdinal("INN")),
-                        @Name = dr.GetString(dr.GetOrdinal("NAME_ORG"))
-                    };
-                }
-                db.Close();
-            }
-            ListOfMalf.AddRange(malfunctions);
-            ListOfSpareParts.AddRange(spareParts);
-            ListOfPersonal.AddRange(ListOfPersonal);
-        }
+        
         //вывод информации о ремонте
         public override string ToString()
         {
@@ -140,24 +110,36 @@ namespace AutoServiceLibrary
             string enter = Environment.NewLine;
             if (this.Car.Owner != null)
             showStr += $"Заказчик: {this.Car.Owner.Name}{enter}";
+            showStr += $"Автомобиль: {this.Car.Mark + " " + this.Car.Model + " " + this.Car.Number}{enter}";
+            if (this.TimeOfStart != null)
+            {
+                showStr += $"Дата начала: {this.TimeOfStart}{enter}";
+            }
+            if (this.TimeOfFinish != null)
+            {
+                showStr += $"Дата окончания: {this.TimeOfFinish}{enter}";
+            }
             if (malfs.Count > 0)
             {
-                showStr += $"Работы: {enter}";
+                showStr += $"{enter}Работы: {enter}";
                 foreach (Malfunctions m in malfs)
                 {
-                    showStr += $"{enter}{m.DescriptionOfMalf} {enter}Количество ({UnitsConvert.ConvertUnit(m.Unit)}): {m.Number}" +
+                    showStr += $"{enter}{m.Description} {enter}Количество ({UnitsConvert.ConvertUnit(m.Unit)}): {m.Number}" +
                         $"{enter}Сумма: {m.Price}{enter}Итоговая сумма: {m.TotalPrice}{enter}";
                 }
                 showStr += $"{enter}Итого: {sumForMalf} руб.{enter}";
                 showStr += "------------------------------------";
             }
-            if (fakeSpare.Count > 0)
+            if (fakeSpare.Count > 0 || this.ListOfSpareParts.Count > 0)
             {
                 showStr += $"{enter}Запчасти: {enter}";
-                foreach (Malfunctions s in fakeSpare)
+                if (fakeSpare.Count > 0)
                 {
-                    showStr += $"{enter}{s.DescriptionOfMalf} {enter}Количество ({UnitsConvert.ConvertUnit(s.Unit)}): {s.Number}" +
-                        $"{enter}Сумма: {s.Price}{enter}Итоговая сумма: {s.TotalPrice}{enter}";
+                    foreach (Malfunctions s in fakeSpare)
+                    {
+                        showStr += $"{enter}{s.Description} {enter}Количество ({UnitsConvert.ConvertUnit(s.Unit)}): {s.Number}" +
+                            $"{enter}Сумма: {s.Price}{enter}Итоговая сумма: {s.TotalPrice}{enter}";
+                    }
                 }
                 if (this.ListOfSpareParts.Count > 0)
                 {

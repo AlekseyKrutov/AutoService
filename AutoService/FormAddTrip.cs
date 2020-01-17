@@ -31,21 +31,7 @@ namespace AutoService
             }
             try
             {
-                string sqlCommand = $"insert into trip (trip_name) values('{textBoxTrip.Text}')";
-                Form1.db.Open();
-                using (FbTransaction trn = Form1.db.BeginTransaction())
-                {
-                    FbCommand command = new FbCommand(sqlCommand, Form1.db, trn);
-                    command.CommandType = CommandType.Text;
-                    command.ExecuteNonQuery();
-                    trn.Commit();
-                    Form1.db.Close();
-                    formAddWayBill.FillComboBox(formAddWayBill.comboBoxRoute, Form1.db,
-                        formAddWayBill.trip_query, formAddWayBill.displayMembers[FormAddWayBill.DisplayMembers.Trip],
-                        formAddWayBill.valueMembers[FormAddWayBill.ValueMembers.Trip]);
-                    formAddWayBill.comboBoxRoute.SelectedIndex = -1;
-                    formAddWayBill.comboBoxRoute.SelectedValue = textBoxTrip.Text;
-                }
+                
             }
             catch (Exception ex)
             {
