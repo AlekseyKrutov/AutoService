@@ -219,3 +219,4 @@ C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\DataMapper.dl
 C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\DbProxy.dll
 C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\DataMapper.pdb
 C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\DataMapper.dll.config
+C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\WorkWithExcelLibrary.dll
