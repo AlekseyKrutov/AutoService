@@ -9,7 +9,8 @@ namespace AutoServiceLibrary
     public enum WindowsStruct
     {
         Nothing, Repairs, Auto, AddAutoInRep, ViewAutoInRep, ActOfEndsRepairs, Worker, MalfAdd, MalfView,
-        SpareAdd, SpareView, Stock, Client, WorkerAdd, WorkerView, Price, WayBill, AddClientInAuto, PushInStock, PopFromStock
+        SpareAdd, SpareView, Stock, Client, WorkerAdd, WorkerView, Price, ActiveWayBills, FinishedWayBills,
+        AddClientInAuto, PushInStock, PopFromStock, AddClientInWay, AddTripInWay, RepairsReport, WayBillsReport
     }
     public enum AddEditOrDelete { Add, Edit, Delete, Nothing };
 }

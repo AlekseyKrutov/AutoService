@@ -41,15 +41,17 @@
             this.FinishActToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.OrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UploadAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.PersonalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.autoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.PriceStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.StockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.WayBillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CurrentWayBillToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.FinishedWayBillToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.repairReportToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.wayBillReportToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.StockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PersonalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PriceStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,6 +76,10 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.PushInStock = new System.Windows.Forms.Button();
             this.PopInStock = new System.Windows.Forms.Button();
+            this.SeeFinishedRepair = new System.Windows.Forms.Button();
+            this.StartFinishedRepair = new System.Windows.Forms.Button();
+            this.SeeFinishedWayBill = new System.Windows.Forms.Button();
+            this.StartFinishedWayBill = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.labelSearch = new System.Windows.Forms.Label();
@@ -86,8 +92,6 @@
             this.UnldBillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnldActToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnldOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SeeFinishedRepair = new System.Windows.Forms.Button();
-            this.StartFinishedRepair = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contMenuStripDataGrid.SuspendLayout();
@@ -101,16 +105,16 @@
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RepairsToolStripMenuItem,
+            this.WayBillToolStripMenuItem,
+            this.reportsToolStripMenuItem,
+            this.StockToolStripMenuItem,
             this.ClientsToolStripMenuItem,
             this.PersonalToolStripMenuItem,
-            this.autoToolStripMenuItem,
             this.PriceStripMenuItem1,
-            this.StockToolStripMenuItem,
-            this.WayBillToolStripMenuItem,
-            this.reportsToolStripMenuItem});
+            this.autoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1183, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(1275, 40);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -128,8 +132,8 @@
             // CurrentRepairsToolStripMenuItem1
             // 
             this.CurrentRepairsToolStripMenuItem1.Name = "CurrentRepairsToolStripMenuItem1";
-            this.CurrentRepairsToolStripMenuItem1.Size = new System.Drawing.Size(312, 34);
-            this.CurrentRepairsToolStripMenuItem1.Text = "Текущие ремонты";
+            this.CurrentRepairsToolStripMenuItem1.Size = new System.Drawing.Size(220, 34);
+            this.CurrentRepairsToolStripMenuItem1.Text = "Текущие";
             this.CurrentRepairsToolStripMenuItem1.Click += new System.EventHandler(this.CurrentRepairsToolStripMenuItem1_Click);
             // 
             // EndRepairsToolStripMenuItem
@@ -140,8 +144,8 @@
             this.OrderToolStripMenuItem,
             this.UploadAllToolStripMenuItem});
             this.EndRepairsToolStripMenuItem.Name = "EndRepairsToolStripMenuItem";
-            this.EndRepairsToolStripMenuItem.Size = new System.Drawing.Size(312, 34);
-            this.EndRepairsToolStripMenuItem.Text = "Завершенные ремонты";
+            this.EndRepairsToolStripMenuItem.Size = new System.Drawing.Size(220, 34);
+            this.EndRepairsToolStripMenuItem.Text = "Завершенные";
             this.EndRepairsToolStripMenuItem.Click += new System.EventHandler(this.EndRepairsToolStripMenuItem_Click);
             // 
             // PaymenInvoiceToolStripMenuItem
@@ -172,6 +176,66 @@
             this.UploadAllToolStripMenuItem.Text = "Полная выгрузка";
             this.UploadAllToolStripMenuItem.Click += new System.EventHandler(this.UploadAllToolStripMenuItem_Click);
             // 
+            // WayBillToolStripMenuItem
+            // 
+            this.WayBillToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CurrentWayBillToolStrip,
+            this.FinishedWayBillToolStrip});
+            this.WayBillToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.WayBillToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("WayBillToolStripMenuItem.Image")));
+            this.WayBillToolStripMenuItem.Name = "WayBillToolStripMenuItem";
+            this.WayBillToolStripMenuItem.Size = new System.Drawing.Size(144, 36);
+            this.WayBillToolStripMenuItem.Text = "Перевозки";
+            this.WayBillToolStripMenuItem.Click += new System.EventHandler(this.WayBillToolStripMenuItem_Click);
+            // 
+            // CurrentWayBillToolStrip
+            // 
+            this.CurrentWayBillToolStrip.Name = "CurrentWayBillToolStrip";
+            this.CurrentWayBillToolStrip.Size = new System.Drawing.Size(220, 34);
+            this.CurrentWayBillToolStrip.Text = "Текущие";
+            this.CurrentWayBillToolStrip.Click += new System.EventHandler(this.CurrentWayBillToolStrip_Click);
+            // 
+            // FinishedWayBillToolStrip
+            // 
+            this.FinishedWayBillToolStrip.Name = "FinishedWayBillToolStrip";
+            this.FinishedWayBillToolStrip.Size = new System.Drawing.Size(220, 34);
+            this.FinishedWayBillToolStrip.Text = "Завершенные";
+            this.FinishedWayBillToolStrip.Click += new System.EventHandler(this.FinishedWayBillToolStrip_Click);
+            // 
+            // reportsToolStripMenuItem
+            // 
+            this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.repairReportToolStrip,
+            this.wayBillReportToolStrip});
+            this.reportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.reportsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("reportsToolStripMenuItem.Image")));
+            this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(152, 36);
+            this.reportsToolStripMenuItem.Text = "Отчетность";
+            // 
+            // repairReportToolStrip
+            // 
+            this.repairReportToolStrip.Name = "repairReportToolStrip";
+            this.repairReportToolStrip.Size = new System.Drawing.Size(189, 34);
+            this.repairReportToolStrip.Text = "Ремонты";
+            this.repairReportToolStrip.Click += new System.EventHandler(this.repairReportToolStrip_Click);
+            // 
+            // wayBillReportToolStrip
+            // 
+            this.wayBillReportToolStrip.Name = "wayBillReportToolStrip";
+            this.wayBillReportToolStrip.Size = new System.Drawing.Size(189, 34);
+            this.wayBillReportToolStrip.Text = "Перевозки";
+            this.wayBillReportToolStrip.Click += new System.EventHandler(this.wayBillReportToolStrip_Click);
+            // 
+            // StockToolStripMenuItem
+            // 
+            this.StockToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StockToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("StockToolStripMenuItem.Image")));
+            this.StockToolStripMenuItem.Name = "StockToolStripMenuItem";
+            this.StockToolStripMenuItem.Size = new System.Drawing.Size(97, 36);
+            this.StockToolStripMenuItem.Text = "Склад";
+            this.StockToolStripMenuItem.Click += new System.EventHandler(this.StockToolStripMenuItem_Click);
+            // 
             // ClientsToolStripMenuItem
             // 
             this.ClientsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -190,15 +254,6 @@
             this.PersonalToolStripMenuItem.Text = "Сотрудники";
             this.PersonalToolStripMenuItem.Click += new System.EventHandler(this.PersonalToolStripMenuItem_Click);
             // 
-            // autoToolStripMenuItem
-            // 
-            this.autoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.autoToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("autoToolStripMenuItem.Image")));
-            this.autoToolStripMenuItem.Name = "autoToolStripMenuItem";
-            this.autoToolStripMenuItem.Size = new System.Drawing.Size(161, 36);
-            this.autoToolStripMenuItem.Text = "Автомобили";
-            this.autoToolStripMenuItem.Click += new System.EventHandler(this.AutoToolStripMenuItem_Click);
-            // 
             // PriceStripMenuItem1
             // 
             this.PriceStripMenuItem1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -208,46 +263,14 @@
             this.PriceStripMenuItem1.Text = "Прайс";
             this.PriceStripMenuItem1.Click += new System.EventHandler(this.PriceStripMenuItem1_Click);
             // 
-            // StockToolStripMenuItem
+            // autoToolStripMenuItem
             // 
-            this.StockToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.StockToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("StockToolStripMenuItem.Image")));
-            this.StockToolStripMenuItem.Name = "StockToolStripMenuItem";
-            this.StockToolStripMenuItem.Size = new System.Drawing.Size(97, 36);
-            this.StockToolStripMenuItem.Text = "Склад";
-            this.StockToolStripMenuItem.Click += new System.EventHandler(this.StockToolStripMenuItem_Click);
-            // 
-            // WayBillToolStripMenuItem
-            // 
-            this.WayBillToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.WayBillToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("WayBillToolStripMenuItem.Image")));
-            this.WayBillToolStripMenuItem.Name = "WayBillToolStripMenuItem";
-            this.WayBillToolStripMenuItem.Size = new System.Drawing.Size(144, 36);
-            this.WayBillToolStripMenuItem.Text = "Перевозки";
-            this.WayBillToolStripMenuItem.Click += new System.EventHandler(this.WayBillToolStripMenuItem_Click);
-            // 
-            // reportsToolStripMenuItem
-            // 
-            this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.repairReportToolStrip,
-            this.wayBillReportToolStrip});
-            this.reportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.reportsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("reportsToolStripMenuItem.Image")));
-            this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(152, 36);
-            this.reportsToolStripMenuItem.Text = "Отчетность";
-            // 
-            // repairReportToolStrip
-            // 
-            this.repairReportToolStrip.Name = "repairReportToolStrip";
-            this.repairReportToolStrip.Size = new System.Drawing.Size(189, 34);
-            this.repairReportToolStrip.Text = "Ремонты";
-            // 
-            // wayBillReportToolStrip
-            // 
-            this.wayBillReportToolStrip.Name = "wayBillReportToolStrip";
-            this.wayBillReportToolStrip.Size = new System.Drawing.Size(189, 34);
-            this.wayBillReportToolStrip.Text = "Перевозки";
+            this.autoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.autoToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("autoToolStripMenuItem.Image")));
+            this.autoToolStripMenuItem.Name = "autoToolStripMenuItem";
+            this.autoToolStripMenuItem.Size = new System.Drawing.Size(161, 36);
+            this.autoToolStripMenuItem.Text = "Автомобили";
+            this.autoToolStripMenuItem.Click += new System.EventHandler(this.AutoToolStripMenuItem_Click);
             // 
             // dataGridView
             // 
@@ -301,9 +324,12 @@
             this.dataGridView.ShowCellToolTips = false;
             this.dataGridView.Size = new System.Drawing.Size(1183, 539);
             this.dataGridView.TabIndex = 1;
+            this.dataGridView.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView_CellBeginEdit);
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            this.dataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellEndEdit);
             this.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseClick);
+            this.dataGridView.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView_EditingControlShowing);
             this.dataGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView_MouseDown);
             // 
             // Column1
@@ -626,6 +652,70 @@
             this.PopInStock.UseVisualStyleBackColor = false;
             this.PopInStock.Click += new System.EventHandler(this.PopInStock_Click);
             // 
+            // SeeFinishedRepair
+            // 
+            this.SeeFinishedRepair.BackColor = System.Drawing.Color.Transparent;
+            this.SeeFinishedRepair.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.SeeFinishedRepair.FlatAppearance.BorderSize = 0;
+            this.SeeFinishedRepair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SeeFinishedRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SeeFinishedRepair.Image = ((System.Drawing.Image)(resources.GetObject("SeeFinishedRepair.Image")));
+            this.SeeFinishedRepair.Location = new System.Drawing.Point(372, 269);
+            this.SeeFinishedRepair.Name = "SeeFinishedRepair";
+            this.SeeFinishedRepair.Size = new System.Drawing.Size(70, 70);
+            this.SeeFinishedRepair.TabIndex = 27;
+            this.toolTip1.SetToolTip(this.SeeFinishedRepair, "Информация по ремонту");
+            this.SeeFinishedRepair.UseVisualStyleBackColor = false;
+            this.SeeFinishedRepair.Click += new System.EventHandler(this.SeeFinishedRepair_Click);
+            // 
+            // StartFinishedRepair
+            // 
+            this.StartFinishedRepair.BackColor = System.Drawing.Color.Transparent;
+            this.StartFinishedRepair.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.StartFinishedRepair.FlatAppearance.BorderSize = 0;
+            this.StartFinishedRepair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.StartFinishedRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StartFinishedRepair.Image = ((System.Drawing.Image)(resources.GetObject("StartFinishedRepair.Image")));
+            this.StartFinishedRepair.Location = new System.Drawing.Point(448, 269);
+            this.StartFinishedRepair.Name = "StartFinishedRepair";
+            this.StartFinishedRepair.Size = new System.Drawing.Size(70, 70);
+            this.StartFinishedRepair.TabIndex = 28;
+            this.toolTip1.SetToolTip(this.StartFinishedRepair, "Восстановление ремонта");
+            this.StartFinishedRepair.UseVisualStyleBackColor = false;
+            this.StartFinishedRepair.Click += new System.EventHandler(this.StartFinishedRepair_Click);
+            // 
+            // SeeFinishedWayBill
+            // 
+            this.SeeFinishedWayBill.BackColor = System.Drawing.Color.Transparent;
+            this.SeeFinishedWayBill.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.SeeFinishedWayBill.FlatAppearance.BorderSize = 0;
+            this.SeeFinishedWayBill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SeeFinishedWayBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SeeFinishedWayBill.Image = ((System.Drawing.Image)(resources.GetObject("SeeFinishedWayBill.Image")));
+            this.SeeFinishedWayBill.Location = new System.Drawing.Point(434, 583);
+            this.SeeFinishedWayBill.Name = "SeeFinishedWayBill";
+            this.SeeFinishedWayBill.Size = new System.Drawing.Size(70, 70);
+            this.SeeFinishedWayBill.TabIndex = 32;
+            this.toolTip1.SetToolTip(this.SeeFinishedWayBill, "Информация по перевозке");
+            this.SeeFinishedWayBill.UseVisualStyleBackColor = false;
+            this.SeeFinishedWayBill.Click += new System.EventHandler(this.SeeFinishedWayBill_Click);
+            // 
+            // StartFinishedWayBill
+            // 
+            this.StartFinishedWayBill.BackColor = System.Drawing.Color.Transparent;
+            this.StartFinishedWayBill.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.StartFinishedWayBill.FlatAppearance.BorderSize = 0;
+            this.StartFinishedWayBill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.StartFinishedWayBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StartFinishedWayBill.Image = ((System.Drawing.Image)(resources.GetObject("StartFinishedWayBill.Image")));
+            this.StartFinishedWayBill.Location = new System.Drawing.Point(510, 583);
+            this.StartFinishedWayBill.Name = "StartFinishedWayBill";
+            this.StartFinishedWayBill.Size = new System.Drawing.Size(70, 70);
+            this.StartFinishedWayBill.TabIndex = 33;
+            this.toolTip1.SetToolTip(this.StartFinishedWayBill, "Восстановление перевозки");
+            this.StartFinishedWayBill.UseVisualStyleBackColor = false;
+            this.StartFinishedWayBill.Click += new System.EventHandler(this.StartFinishedWayBill_Click);
+            // 
             // timer1
             // 
             this.timer1.Interval = 2000;
@@ -674,6 +764,7 @@
             this.EditWayBill.Size = new System.Drawing.Size(70, 70);
             this.EditWayBill.TabIndex = 25;
             this.EditWayBill.UseVisualStyleBackColor = false;
+            this.EditWayBill.Click += new System.EventHandler(this.EditWayBill_Click);
             // 
             // AddWayBill
             // 
@@ -704,6 +795,7 @@
             this.DeleteWayBill.Size = new System.Drawing.Size(70, 70);
             this.DeleteWayBill.TabIndex = 26;
             this.DeleteWayBill.UseVisualStyleBackColor = false;
+            this.DeleteWayBill.Click += new System.EventHandler(this.DeleteWayBill_Click);
             // 
             // contMenuStripDataGrid
             // 
@@ -743,42 +835,13 @@
             this.UnldOrderToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
             this.UnldOrderToolStripMenuItem.Text = "Заказ наряд";
             // 
-            // SeeFinishedRepair
-            // 
-            this.SeeFinishedRepair.BackColor = System.Drawing.Color.Transparent;
-            this.SeeFinishedRepair.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.SeeFinishedRepair.FlatAppearance.BorderSize = 0;
-            this.SeeFinishedRepair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SeeFinishedRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SeeFinishedRepair.Image = ((System.Drawing.Image)(resources.GetObject("SeeFinishedRepair.Image")));
-            this.SeeFinishedRepair.Location = new System.Drawing.Point(372, 269);
-            this.SeeFinishedRepair.Name = "SeeFinishedRepair";
-            this.SeeFinishedRepair.Size = new System.Drawing.Size(70, 70);
-            this.SeeFinishedRepair.TabIndex = 27;
-            this.toolTip1.SetToolTip(this.SeeFinishedRepair, "Информация по ремонту");
-            this.SeeFinishedRepair.UseVisualStyleBackColor = false;
-            // 
-            // StartFinishedRepair
-            // 
-            this.StartFinishedRepair.BackColor = System.Drawing.Color.Transparent;
-            this.StartFinishedRepair.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.StartFinishedRepair.FlatAppearance.BorderSize = 0;
-            this.StartFinishedRepair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.StartFinishedRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.StartFinishedRepair.Image = ((System.Drawing.Image)(resources.GetObject("StartFinishedRepair.Image")));
-            this.StartFinishedRepair.Location = new System.Drawing.Point(448, 269);
-            this.StartFinishedRepair.Name = "StartFinishedRepair";
-            this.StartFinishedRepair.Size = new System.Drawing.Size(70, 70);
-            this.StartFinishedRepair.TabIndex = 28;
-            this.toolTip1.SetToolTip(this.StartFinishedRepair, "Восстановление ремонта");
-            this.StartFinishedRepair.UseVisualStyleBackColor = false;
-            this.StartFinishedRepair.Click += new System.EventHandler(this.StartFinishedRepair_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1183, 700);
+            this.Controls.Add(this.StartFinishedWayBill);
+            this.Controls.Add(this.SeeFinishedWayBill);
             this.Controls.Add(this.PopInStock);
             this.Controls.Add(this.PushInStock);
             this.Controls.Add(this.StartFinishedRepair);
@@ -882,6 +945,10 @@
         private System.Windows.Forms.ToolStripMenuItem reportsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem repairReportToolStrip;
         private System.Windows.Forms.ToolStripMenuItem wayBillReportToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem CurrentWayBillToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem FinishedWayBillToolStrip;
+        private System.Windows.Forms.Button SeeFinishedWayBill;
+        private System.Windows.Forms.Button StartFinishedWayBill;
     }
 }
 

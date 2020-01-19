@@ -176,8 +176,8 @@ namespace WorkWithExcelLibrary
                 else
                     xlSheet.Cells[i, "N"] = MalfList[j].Number;
                 xlSheet.Cells[i, "B"] = $"{MalfList[j].Description}";
-                xlSheet.Cells[i, "O"] = $"{MalfList[j].Price}";
-                xlSheet.Cells[i, "Q"] = $"{MalfList[j].TotalPrice}";
+                xlSheet.Cells[i, "O"] = $"{MalfList[j].Cost}";
+                xlSheet.Cells[i, "Q"] = $"{MalfList[j].TotalCost}";
                 rowStartForDelete = i + 1;
             }
             return true;
@@ -194,8 +194,8 @@ namespace WorkWithExcelLibrary
             {
                 xlSheet.Cells[i, "N"] = SpareList[j].Number;
                 xlSheet.Cells[i, "B"] = $"{SpareList[j].Description}";
-                xlSheet.Cells[i, "O"] = $"{SpareList[j].Price}";
-                xlSheet.Cells[i, "Q"] = $"{SpareList[j].TotalPrice}";
+                xlSheet.Cells[i, "O"] = $"{SpareList[j].Cost}";
+                xlSheet.Cells[i, "Q"] = $"{SpareList[j].TotalCost}";
                 rowStartForDelete = i + 1;
             }
             return true;

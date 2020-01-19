@@ -22,12 +22,12 @@ namespace AutoServiceLibrary
             set
             {
                 number = value;
-                TotalPrice = Price * number;
+                TotalCost = Cost * number;
             }
         }
         public Units Unit { get; set; }
-        public double Price { get; set; }
-        public double TotalPrice { get; set; }
+        public double Cost { get; set; }
+        public double TotalCost { get; set; }
         public int MalfOrSpare { get; set; }
         public Malfunctions() { }
         public Malfunctions(string DescriptionOfMalf, int Number)
@@ -38,14 +38,14 @@ namespace AutoServiceLibrary
         public Malfunctions(string DescriptionOfMalf, double Price, Units Unit, int MalfOrSpare = 0)
         {
             this.Description = DescriptionOfMalf;
-            this.Price = Price;
+            this.Cost = Price;
             this.Unit = Unit;
             this.MalfOrSpare = MalfOrSpare;
         }
         public Malfunctions(double Price, string DescriptionOfMalf, Units Unit, int Number, int MalfOrSpare)
             : this (DescriptionOfMalf, Number)
         {
-            this.Price = Price;
+            this.Cost = Price;
             this.Unit = Unit;
             this.Number = Number;
             this.MalfOrSpare = MalfOrSpare;
@@ -56,6 +56,17 @@ namespace AutoServiceLibrary
         {
             this.IdMalf = Id;
         }
+        public void CalculateCostForClient(Client client)
+        {
+            if (client.Discount == 0 || Cost == 0 || MalfOrSpare == 1)
+                return;
+            else
+            {
+                Cost -= (Cost * (client.Discount));
+                Cost = Math.Round(Cost);
+                TotalCost = Cost * number;
+            }
+        }
         //переопределенный метод для вывода информации по неисправности
         public override string ToString()
         {
@@ -63,7 +74,7 @@ namespace AutoServiceLibrary
         }
         public static double GetTotalPriceFromList(List<Malfunctions> listMalf)
         {
-            return listMalf.Select(n => n.TotalPrice).Sum();
+            return listMalf.Select(n => n.TotalCost).Sum();
         }
     }
 }

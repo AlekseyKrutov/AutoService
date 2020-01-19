@@ -47,7 +47,7 @@ namespace DataMapper
                     client.OGRN = dr.GetString(dr.GetOrdinal("OGRN"));
                     client.Address = dr.GetString(dr.GetOrdinal("ADDRESS"));
                     client.FactAddress = dr.GetString(dr.GetOrdinal("FACT_ADDRESS"));
-                    client.Discount = dr.GetDouble(dr.GetOrdinal("DISCOUNT")) / 100;
+                    client.Discount = dr.GetDouble(dr.GetOrdinal("DISCOUNT"));
                     client.Bank = new BankMapper().Get(dr.GetString(dr.GetOrdinal("BANK_BILL")));
                 }
                 db.Close();

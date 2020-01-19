@@ -64,6 +64,8 @@
     <Compile Include="OwnerMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpareMapper.cs" />
+    <Compile Include="TripMapper.cs" />
+    <Compile Include="WayBillMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

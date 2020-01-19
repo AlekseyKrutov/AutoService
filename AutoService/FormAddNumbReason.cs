@@ -87,7 +87,7 @@ namespace AutoService
             }
             else if (Form1.WindowIndex == WindowsStruct.PopFromStock)
             {
-                SparePart addPart = new SparePart(part.IdSpare, part.Articul, 0, part.Price, part.Description, part.Unit);
+                SparePart addPart = new SparePart(part.IdSpare, part.Articul, 0, part.Cost, part.Description, part.Unit);
                 addPart.Number = float.Parse(textBoxNumber.Text);
                 if (comboBoxRepair.SelectedValue != null)
                 {

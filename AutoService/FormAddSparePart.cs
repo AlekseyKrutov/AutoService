@@ -76,7 +76,7 @@ namespace AutoService
                 part.Articul = textBoxUniqNumb.Text;
                 part.Description = textBoxDescr.Text;
                 part.Number = float.Parse(textBoxNumb.Text);
-                part.Price = double.Parse(textBoxCost.Text);
+                part.Cost = double.Parse(textBoxCost.Text);
                 part.Unit = UnitsConvert.ConvertUnit(comboBoxUnit.Text);
                 try
                 {

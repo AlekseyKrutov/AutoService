@@ -213,10 +213,4 @@ G:\Desktop\проекты\AutoService\AutoService\bin\Debug\DataMapper.dll
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\DataMapper.pdb
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\DataMapper.dll.config
 G:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormAddNumbReason.resources
-C:\Users\Админ\Source\Repos\AutoService\AutoService\obj\Debug\AutoService.FormAddNumbReason.resources
-C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\AutoServiceLibrary.dll
-C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\DataMapper.dll
-C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\DbProxy.dll
-C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\DataMapper.pdb
-C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\DataMapper.dll.config
-C:\Users\Админ\Source\Repos\AutoService\AutoService\bin\Debug\WorkWithExcelLibrary.dll
+G:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.FormInformation.resources

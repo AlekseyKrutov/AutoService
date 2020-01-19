@@ -79,6 +79,7 @@
             this.Name = "FormAddTrip";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавление маршрута";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAddTrip_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -87,7 +88,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnAddTrip;
-        private System.Windows.Forms.TextBox textBoxTrip;
         private System.Windows.Forms.Label labelTrip;
+        public System.Windows.Forms.TextBox textBoxTrip;
     }
 }

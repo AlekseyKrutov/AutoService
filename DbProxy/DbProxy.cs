@@ -36,6 +36,8 @@ namespace DbProxy
     {
         public static string ActiveRepairsView = "select* from active_repairs";
         public static string FinishedRepairsView = "select * from finished_repairs";
+        public static string ActiveWayBills = "select * from active_waybills";
+        public static string FinishedWayBills = "select * from finished_waybills";
         public static string CarView = "select* from cars_view";
         public static string ClientView = "select * from client_view";
         public static string StaffView = "select * from staff_view";
@@ -48,6 +50,11 @@ namespace DbProxy
         public static string WorksReadView = "select * from works_read_view";
         public static string SparesReadView = "select * from stock_read_view";
         public static string StaffReadView = "select * from staff";
+        public static string WayBillReadView = "select * from waybill";
+        public static string TripReadView = "select * from trip";
+        public static string TripView = "select id_trip, trip_name as \"Маршрут\" from trip";
+        public static string RepairsReportView = "select * from repairs_report";
+        public static string WayBillsReportView = "select * from waybills_report";
         public static string Profession = "select id_prof, profession as prof from profession";
         public static string RepairsForCBox = "select id, id || '  ' || \"Машина\" as info from active_repairs";
         public static string CarForCBox = "select state_number, state_number || ' ' ||cm.mark || ' ' || coalesce(cm.model, '') as car" +
@@ -89,6 +96,8 @@ namespace DbProxy
         public static string GetSparesById(string id) => SparesReadView + $" where id_spare = '{id}'";
         public static string GetSystemOwner() => CompanyView + $" where system_owner = 1";
         public static string GetStaffById(string tubNumb) => StaffReadView + $" where tub_numb = {tubNumb}";
+        public static string GetWayBillById(string id) => WayBillReadView + $" where id_waybill = {id}";
+        public static string GetTripById(string id) => TripReadView + $" where id_trip = {id}";
         public static string SearchMalf(string content) =>
                         Queries.MalfunctionsView + $" where upper(\"Наименование\") LIKE '%{content.ToUpper()}%'";
         public static string SearchSpares(string content) =>
@@ -100,7 +109,9 @@ namespace DbProxy
         public static string SearchInAuto(string content) =>
                         CarView + $" where \"Гос.номер\" like '%{content}%' or \"Владелец\" like '%{content}%'";
         public static string SearchInClient(string content) => ClientView +
-                        $" where \"Наименование\" like '%{content}%'";
+                        $" where upper(\"Наименование\") like '%{content.ToUpper()}%'";
+        public static string SearchInTrip(string content) => TripView +
+                        $" where upper(trip_name) like '%{content.ToUpper()}%'";
     }
     public static class DataSets
     {
@@ -138,8 +149,11 @@ namespace DbProxy
                 case WindowsStruct.Stock:
                     query = Queries.StockView;
                     break;
-                case WindowsStruct.WayBill:
-                    query = Queries.SparesView;
+                case WindowsStruct.ActiveWayBills:
+                    query = Queries.ActiveWayBills;
+                    break;
+                case WindowsStruct.FinishedWayBills:
+                    query = Queries.FinishedWayBills;
                     break;
                 case (WindowsStruct.MalfAdd):
                     query = content.Length == 0 ? Queries.MalfunctionsView : Queries.SearchMalf(content);
@@ -159,7 +173,18 @@ namespace DbProxy
                 case WindowsStruct.WorkerView:
                     query = Queries.GetStaffByIdRepair(content);
                     break;
-
+                case WindowsStruct.AddClientInWay:
+                    query = content.Length == 0 ? Queries.ClientView : Queries.SearchInClient(content);
+                    break;
+                case WindowsStruct.AddTripInWay:
+                    query = content.Length == 0 ? Queries.TripView : Queries.SearchInTrip(content);
+                    break;
+                case WindowsStruct.RepairsReport:
+                    query = Queries.RepairsReportView;
+                    break;
+                case WindowsStruct.WayBillsReport:
+                    query = Queries.WayBillsReportView;
+                    break;
             }
             using (FbCommand command = new FbCommand(query, db))
             {

@@ -32,33 +32,6 @@ namespace AutoService
         {
             InitializeComponent();
             //расчет поля для изменения ширины формы, если информация по ремонту отсутствует
-            if (Form1.WindowIndex == WindowsStruct.ActOfEndsRepairs)
-            {
-                btnAddNewAutoRepair.Visible = false;
-                btnSelExistAutoRepair.Visible = false;
-                btnAddRepair.Visible = false;
-                btnAddMalf.Visible = false;
-                btnSelSparePart.Visible = false;
-                btnSelectPersonal.Visible = false;
-                btnShowMalf.Visible = false;
-                btnShowSparePart.Visible = false;
-                btnShowWorker.Visible = false;
-                dateTimeStart.Visible = false;
-                dateTimeFinish.Visible = false;
-                textBoxNotes.Visible = false;
-                textBoxGosNom.Visible = false;
-                textBoxMark.Visible = false;
-                textBoxOwner.Visible = false;
-                textBoxReg.Visible = false;
-                textBoxVIN.Visible = false;
-                labelFinishTime.Visible = false;
-                labelNotes.Visible = false;
-                labelStartTime.Visible = false;
-                textBoxInf.Location = new Point(0, 0);
-                this.Width = 0;
-                this.Height = textBoxInf.Height + 30;
-                return;
-            }
             fullWidth = this.Width;
             infTxtWidth = textBoxInf.Location.X - (textBoxNotes.Location.X + textBoxNotes.Width);
             this.Width -= infTxtWidth + textBoxInf.Width;
@@ -72,10 +45,7 @@ namespace AutoService
         }
         private void FormAddRepair_Load(object sender, EventArgs e)
         {
-            if (Form1.AddOrEdit == AddEditOrDelete.Edit &&
-                Form1.WindowIndex == WindowsStruct.ActOfEndsRepairs)
-                this.Text = "Просмотр ремонта";
-            else if (Form1.AddOrEdit == AddEditOrDelete.Edit)
+            if (Form1.AddOrEdit == AddEditOrDelete.Edit)
                 this.Text = "Редактирование ремонта";
         }
         private void FormAddRepair_FormClosing(object sender, FormClosingEventArgs e)
@@ -198,9 +168,29 @@ namespace AutoService
             CardMapper cm = new CardMapper();
             repair.CalculateTotalPrice();
             if (Form1.AddOrEdit == AddEditOrDelete.Add)
-                repair = cm.Insert(repair);
+            {
+                try
+                {
+                    repair = cm.Insert(repair);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return;
+                }
+            }
             else if (Form1.AddOrEdit == AddEditOrDelete.Edit)
-                cm.Update(repair);
+            {
+                try
+                {
+                    cm.Update(repair);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return;
+                }
+            } 
             Form1.AddListRepairsInGrid(mainForm.dataGridView);
             this.Close();
         }

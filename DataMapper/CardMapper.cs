@@ -64,7 +64,7 @@ namespace DataMapper
                     command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.IdRepair;
                     command.Parameters.Add("@ID_WORK", FbDbType.SmallInt).Value = malf.IdMalf;
                     command.Parameters.Add("@NUMBER", FbDbType.SmallInt).Value = malf.Number;
-                    command.Parameters.Add("@COST", FbDbType.Float).Value = malf.Price;
+                    command.Parameters.Add("@COST", FbDbType.Float).Value = malf.Cost;
                     try
                     {
                         command.ExecuteNonQuery();
@@ -93,7 +93,7 @@ namespace DataMapper
                     command.Parameters.Add("@ID_CARD", FbDbType.SmallInt).Value = card.IdRepair;
                     command.Parameters.Add("@ID_SPARE", FbDbType.SmallInt).Value = part.IdSpare;
                     command.Parameters.Add("@NUMBER", FbDbType.Float).Value = part.Number;
-                    command.Parameters.Add("@COST", FbDbType.Float).Value = part.Price;
+                    command.Parameters.Add("@COST", FbDbType.Float).Value = part.Cost;
                     try
                     {
                         command.ExecuteNonQuery();
@@ -149,8 +149,9 @@ namespace DataMapper
                 command.Parameters.Add("@NOTES", FbDbType.VarChar).Value = card.Notes;
                 command.Parameters.Add("@START_DATE", FbDbType.TimeStamp).Value = card.TimeOfStart;
                 command.Parameters.Add("@FINISH_DATE", FbDbType.TimeStamp).Value = card.TimeOfFinish;
-                command.Parameters.Add("@TOTAL_COST", FbDbType.TimeStamp).Value = card.TotalPrice;
+                command.Parameters.Add("@TOTAL_COST", FbDbType.Double).Value = card.TotalPrice;
                 command.Parameters.Add("@CURRENT_OR_NOT", FbDbType.SmallInt).Value = card.RepairIsCurrent ? 1 : 0;
+                command.Parameters.Add("@PAID_MONEY", FbDbType.Double).Value = card.PaidMoney;
                 try
                 {
                     command.ExecuteNonQuery();
