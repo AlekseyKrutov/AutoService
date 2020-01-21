@@ -22,5 +22,14 @@ namespace AutoServiceLibrary
         {
             Director = director;
         }
+        public string GetShortName()
+        {
+            string shortName = "";
+            string[] nameArr = Director.Split(' ');
+            shortName += nameArr.First() + " ";
+            shortName += nameArr[1].ToList<char>().First<char>() + ".";
+            shortName += nameArr.Last().ToList<char>().First<char>() + ".";
+            return shortName;
+        }
     }
 }

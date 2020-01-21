@@ -123,3 +123,11 @@ G:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.csproj
 G:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.csproj.CopyComplete
 G:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.exe
 G:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.pdb
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\AutoServiceLibrary.dll
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\DataMapper.dll
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\AutoServiceLibrary.pdb
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\AutoServiceLibrary.dll.config
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\DataMapper.pdb
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\DataMapper.dll.config
+G:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormAddNumbReason.resources
+G:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormInformation.resources

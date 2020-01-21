@@ -50,6 +50,7 @@ namespace AutoService
         }
         private void FormAddRepair_FormClosing(object sender, FormClosingEventArgs e)
         {
+            repair = null;
             if (!btnAddNewAutoRepair.Visible)
             {
                 Form1.WindowIndex = WindowsStruct.ActOfEndsRepairs;

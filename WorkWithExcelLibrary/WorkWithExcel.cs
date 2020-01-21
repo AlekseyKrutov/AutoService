@@ -19,13 +19,13 @@ namespace WorkWithExcelLibrary
         static Excel.Worksheet xlSheet;
         static private int rowStartForDelete;
         static private int rowStartAct1 = 9;
-        static private int rowStartAct2 = 32;
-        static private int rowFinishAct1 = 28;
-        static private int rowFinishAct2 = 44;
+        static private int rowStartAct2 = 37;
+        static private int rowFinishAct1 = 33;
+        static private int rowFinishAct2 = 53;
         static private int rowStartOrder1 = 16;
-        static private int rowStartOrder2 = 39;
-        static private int rowFinishOrder1 = 35;
-        static private int rowFinishOrder2 = 51;
+        static private int rowStartOrder2 = 44;
+        static private int rowFinishOrder1 = 40;
+        static private int rowFinishOrder2 = 60;
         static string mainPath = ConfigurationManager.AppSettings.Get("DestExcelFolder");
         static string fileName;
         //работа с excel
@@ -55,7 +55,10 @@ namespace WorkWithExcelLibrary
                 xlApp = new Excel.Application();
                 xlWorkBook = xlApp.Workbooks.Open(ConfigurationManager.AppSettings.Get("PathForOpenAct"));
                 xlSheet = xlWorkBook.Sheets[1];
+                SystemOwner systemOwner = new OwnerMapper().Get();
                 CardOfRepair card = new CardMapper().Get(idRepair.ToString());
+                xlSheet.Cells[1, "A"] = systemOwner.ToString();
+                xlSheet.Cells[59, "F"] = systemOwner.Director.GetShortName();
                 xlSheet.Cells[3, "G"] = card.IdRepair;
                 xlSheet.Cells[3, "J"] = ((DateTime) card.TimeOfFinish).ToString("dd/MM/yyyy");
                 if (card.Car.Owner != null)
@@ -63,15 +66,13 @@ namespace WorkWithExcelLibrary
                 xlSheet.Cells[5, "E"] = $"{card.Car.Mark} {card.Car.Number}";
                 List<Malfunctions> MalfList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 0).ToList<Malfunctions>();
                 List<Malfunctions> SpareList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 1).ToList<Malfunctions>();
-                if (!FillRowsWithMalf(rowStartAct1, rowFinishAct1, MalfList))
+                if (!FillRowsWithMalf(xlSheet ,rowStartAct1, rowFinishAct1, MalfList))
                     return;
-                DeleteRows(xlSheet, "B", rowStartForDelete, rowFinishAct1);
-                if (!FillRowsWithSpares(rowStartAct2, rowFinishAct2, SpareList))
+                if (!FillRowsWithSpares(xlSheet, rowStartAct2, rowFinishAct2, SpareList))
                     return;
-                DeleteRows(xlSheet, "B", rowStartForDelete, rowFinishAct2);
-                xlSheet.Cells[29, "Q"] = Malfunctions.GetTotalPriceFromList(MalfList);
-                xlSheet.Cells[45, "Q"] = Malfunctions.GetTotalPriceFromList(SpareList);
-                xlSheet.Cells[46, "Q"] = card.TotalPrice;
+                xlSheet.Cells[34, "Q"] = Malfunctions.GetTotalPriceFromList(MalfList);
+                xlSheet.Cells[54, "Q"] = Malfunctions.GetTotalPriceFromList(SpareList);
+                xlSheet.Cells[55, "Q"] = card.TotalPrice;
                 fileName = String.Format(@"{0} Акт {1}.xlsx", card.IdRepair, card.Car.Owner.Name.Replace("\"", ""));
                 xlWorkBook.SaveAs(mainPath + fileName);
                 xlWorkBook.Close();
@@ -97,23 +98,24 @@ namespace WorkWithExcelLibrary
                 xlWorkBook = xlApp.Workbooks.Open(ConfigurationManager.AppSettings.Get("PathForOpenOrder"));
                 xlSheet = xlWorkBook.Sheets[1];
                 CardOfRepair card = new CardMapper().Get(idRepair.ToString());
+                SystemOwner systemOwner = new OwnerMapper().Get();
                 xlSheet.Cells[3, "G"] = card.IdRepair;
                 xlSheet.Cells[5, "O"] = card.TimeOfStart.ToString("dd/MM/yyyy");
                 xlSheet.Cells[7, "O"] = ((DateTime)card.TimeOfFinish).ToString("dd/MM/yyyy");
                 xlSheet.Cells[9, "A"] = $"Заказчик: {card.Car.Owner.Name}";
+                xlSheet.Cells[1, "J"] = $"Исполнитель: {systemOwner.Name} {systemOwner.Address} {systemOwner.PhoneNumber}";
+                xlSheet.Cells[64, "I"] = systemOwner.Director.GetShortName();
                 xlSheet.Cells[10, "D"] = card.Car.Mark;
                 xlSheet.Cells[11, "G"] = card.Car.Number;
                 List<Malfunctions> MalfList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 0).ToList<Malfunctions>();
                 List<Malfunctions> SpareList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 1).ToList<Malfunctions>();
-                if (!FillRowsWithMalf(rowStartOrder1, rowFinishOrder1, MalfList))
+                if (!FillRowsWithMalf(xlSheet, rowStartOrder1, rowFinishOrder1, MalfList))
                     return;
-                DeleteRows(xlSheet, "B", rowStartForDelete, rowFinishOrder1);
-                if (!FillRowsWithSpares(rowStartOrder2, rowFinishOrder2, SpareList))
+                if (!FillRowsWithSpares(xlSheet, rowStartOrder2, rowFinishOrder2, SpareList))
                     return;
-                DeleteRows(xlSheet, "B", rowStartForDelete, rowFinishOrder2);
-                xlSheet.Cells[36, "Q"] = Malfunctions.GetTotalPriceFromList(MalfList);
-                xlSheet.Cells[52, "Q"] = Malfunctions.GetTotalPriceFromList(SpareList);
-                xlSheet.Cells[53, "Q"] = card.TotalPrice;
+                xlSheet.Cells[41, "Q"] = Malfunctions.GetTotalPriceFromList(MalfList);
+                xlSheet.Cells[61, "Q"] = Malfunctions.GetTotalPriceFromList(SpareList);
+                xlSheet.Cells[62, "Q"] = card.TotalPrice;
                 fileName = String.Format(@"{0} Заказ наряд {1}.xlsx", card.IdRepair, card.Car.Owner.Name.Replace("\"", ""));
                 xlWorkBook.SaveAs(mainPath + fileName);
                 xlWorkBook.Close();
@@ -137,11 +139,19 @@ namespace WorkWithExcelLibrary
                 xlApp = new Excel.Application();
                 xlWorkBook = xlApp.Workbooks.Open(ConfigurationManager.AppSettings.Get("PathForOpenBill"));
                 xlSheet = xlWorkBook.Sheets[1];
+                SystemOwner systemOwner = new OwnerMapper().Get();
                 CardOfRepair card = new CardMapper().Get(idRepair.ToString());
+                xlSheet.Cells[5, "B"] = systemOwner.Bank.Name;
+                xlSheet.Cells[5, "X"] = systemOwner.Bank.BIK;
+                xlSheet.Cells[6, "X"] = systemOwner.Bank.KorBill;
+                xlSheet.Cells[9, "B"] = systemOwner.Name;
+                xlSheet.Cells[8, "D"] = systemOwner.INN;
+                xlSheet.Cells[8, "X"] = systemOwner.Bill;
+                xlSheet.Cells[17, "F"] = systemOwner.ToString();
+                xlSheet.Cells[30, "H"] = systemOwner.Director.GetFullName();
                 xlSheet.Cells[13, "K"] = card.IdRepair;
                 xlSheet.Cells[13, "Q"] = ((DateTime)card.TimeOfFinish).ToString("dd/MM/yyyy");
                 xlSheet.Cells[19, "F"] = $"{card.Car.Owner.Name}, ИНН {card.Car.Owner.INN}, {card.Car.Owner.Address}";
-                xlSheet.Cells[5, "E"] = $"{card.Car.Mark} {card.Car.Number}";
                 xlSheet.Cells[22, "D"] = $"Ремонт автомобиля: {card.Car.Mark} {card.Car.Number} по заявке № {idRepair}" +
                     $" от {((DateTime)card.TimeOfFinish).ToString("dd/MM/yyyy")}";
                 xlSheet.Cells[22, "AB"] = card.TotalPrice;
@@ -162,13 +172,57 @@ namespace WorkWithExcelLibrary
                 while (System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp) > 0) { }
             }
         }
-        static private bool FillRowsWithMalf(int startRow, int FinishRow, List<Malfunctions> MalfList)
+
+        static public void MakeWayBillInExcel(string idWaybill)
         {
-            if (MalfList.Count > FinishRow)
+            try
             {
-                MessageBox.Show("Не удалось выгрузить документ!");
+                xlApp = new Excel.Application();
+                xlWorkBook = xlApp.Workbooks.Open(ConfigurationManager.AppSettings.Get("PathForOpenBill"));
+                xlSheet = xlWorkBook.Sheets[1];
+                SystemOwner systemOwner = new OwnerMapper().Get();
+                WayBill wayBill = new WayBillMapper().Get(idWaybill);
+                xlSheet.Cells[22, "Y"] = "рейс";
+                xlSheet.Cells[5, "B"] = systemOwner.Bank.Name;
+                xlSheet.Cells[5, "X"] = systemOwner.Bank.BIK;
+                xlSheet.Cells[6, "X"] = systemOwner.Bank.KorBill;
+                xlSheet.Cells[9, "B"] = systemOwner.Name;
+                xlSheet.Cells[8, "D"] = systemOwner.INN;
+                xlSheet.Cells[8, "X"] = systemOwner.Bill;
+                xlSheet.Cells[17, "F"] = systemOwner.ToString();
+                xlSheet.Cells[30, "H"] = systemOwner.Director.GetFullName();
+                xlSheet.Cells[13, "K"] = wayBill.IdWayBill;
+                xlSheet.Cells[13, "Q"] = ((DateTime)wayBill.UnloadDate).ToString("dd/MM/yyyy");
+                xlSheet.Cells[19, "F"] = $"{wayBill.Client.Name}, ИНН {wayBill.Client.INN}, {wayBill.Client.Address}";
+                xlSheet.Cells[22, "D"] = $"Транспортные услуги по маршруту: {wayBill.Trip.Name} " +
+                    $" Водитель: {wayBill.Driver.GetShortName()} Машина: {wayBill.Car.ToString()} По договор-заявке {wayBill.BaseDocument}";
+                xlSheet.Cells[22, "AB"] = wayBill.Cost;
+                xlSheet.Cells[28, "B"] = RuDateAndMoneyConverter.CurrencyToTxt(wayBill.Cost, true);
+                fileName = String.Format(@"{0} Счет грузоперевозка {1}.xlsx", wayBill.IdWayBill, wayBill.Client.Name.Replace("\"", ""));
+                xlWorkBook.SaveAs(mainPath + fileName);
+                xlWorkBook.ExportAsFixedFormat(Excel.XlFixedFormatType.xlTypePDF, mainPath + fileName);
+                xlWorkBook.Close(true, mainPath + fileName, false);
+                xlApp.Quit();
+                while (System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp) > 0) { }
+                //MessageBox.Show($"Счет № {idRepair} выгружен в формате Excel!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось сделать счет на оплату № {idWaybill}\n" +
+                    $"{ex.Message}");
+                xlWorkBook.Close(false);
+                xlApp.Quit();
+                while (System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp) > 0) { }
+            }
+        }
+        static private bool FillRowsWithMalf(Excel.Worksheet xlSheet, int startRow, int finishRow, List<Malfunctions> MalfList)
+        {
+            if (MalfList.Count > finishRow)
+            {
+                MessageBox.Show("Не удалось выгрузить документ, слишком большое количество позиций!");
                 return false;
             }
+            rowStartForDelete = startRow;
             for (int i = startRow, j = 0; j < MalfList.Count; i++, j++)
             {
                 if (MalfList[j].Unit == Units.Pieces)
@@ -180,14 +234,15 @@ namespace WorkWithExcelLibrary
                 xlSheet.Cells[i, "Q"] = $"{MalfList[j].TotalCost}";
                 rowStartForDelete = i + 1;
             }
+            DeleteRows(xlSheet, "B", rowStartForDelete, finishRow, MalfList.Count);
             return true;
         }
-        static private bool FillRowsWithSpares(int startRow, int FinishRow, List<Malfunctions> SpareList)
+        static private bool FillRowsWithSpares(Excel.Worksheet xlSheet, int startRow, int finishRow, List<Malfunctions> SpareList)
         {
             rowStartForDelete = startRow;
-            if (SpareList.Count > FinishRow)
+            if (SpareList.Count > finishRow)
             {
-                MessageBox.Show("Не удалось выгрузить документ!");
+                MessageBox.Show("Не удалось выгрузить документ, слишком большое количество позиций!");
                 return false;
             }
             for (int i = startRow, j = 0; j < SpareList.Count; i++, j++)
@@ -198,11 +253,19 @@ namespace WorkWithExcelLibrary
                 xlSheet.Cells[i, "Q"] = $"{SpareList[j].TotalCost}";
                 rowStartForDelete = i + 1;
             }
+            DeleteRows(xlSheet, "B", rowStartForDelete, finishRow, SpareList.Count);
+
             return true;
         }
-
-        static void DeleteRows(Excel.Worksheet xlSheet, string column, int rowStart, int rowFinish)
+        static void DeleteRows(Excel.Worksheet xlSheet, string column, int rowStart, int rowFinish, int listCount)
         {
+            if (rowStart > rowFinish)
+                return;
+            if (listCount == 0)
+            {
+                rowStart -= 2;
+                rowFinish += 1;
+            }
             Excel.Range rangeRows;
 
             rangeRows = xlSheet.Range[column + rowStart, column + rowFinish];

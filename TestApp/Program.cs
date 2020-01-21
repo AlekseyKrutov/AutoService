@@ -11,6 +11,7 @@ using System.Configuration;
 using DataMapper;
 using AutoServiceLibrary;
 using FirebirdSql.Data.FirebirdClient;
+using WorkWithExcelLibrary;
 
 namespace TestApp
 {
@@ -18,11 +19,8 @@ namespace TestApp
     {
         static void Main(string[] args)
         {
-            WayBill wayBill = new WayBill();
-
-            WayBillMapper wayBillMapper = new WayBillMapper();
-            wayBill = wayBillMapper.Get("1");
-            CardOfRepair cr = new CardMapper().Get("268");
+            WorkWithExcel.MakeWayBillInExcel("2");
+            Console.ReadLine();
         }
         //TimerCallback tc = new TimerCallback(PrintTime);
         //Timer timer = new Timer(tc, "sasi", 0, 1000);

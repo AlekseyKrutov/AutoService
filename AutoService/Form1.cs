@@ -11,7 +11,6 @@ using System.Configuration;
 using WorkWithExcelLibrary;
 using DbProxy;
 using DataMapper;
-using System.Threading.Tasks;
 
 namespace AutoService
 {
@@ -338,6 +337,7 @@ namespace AutoService
             HideWayBillButtons();
             HideWayBillButtons();
             ShowSearch();
+            SeeFinishedWayBill.Hide();
             SeeFinishedRepair.Visible = true;
             SeeFinishedRepair.Location = AddRepair.Location;
             labelHeaderText.Text = "Отчет по ремонтам";
@@ -346,6 +346,7 @@ namespace AutoService
             DataSets.CreateDSForDataGrid(WindowIndex, dataGridView);
             DeleteSelectFirstRow();
             MakeDataGridForReports();
+            ColourDataGrid();
         }
 
         private void wayBillReportToolStrip_Click(object sender, EventArgs e)
@@ -364,6 +365,7 @@ namespace AutoService
             HideWayBillButtons();
             HideWayBillButtons();
             ShowSearch();
+            SeeFinishedRepair.Hide();
             SeeFinishedWayBill.Visible = true;
             SeeFinishedWayBill.Location = AddRepair.Location;
             labelHeaderText.Text = "Отчет по грузоперевозкам";
@@ -372,6 +374,7 @@ namespace AutoService
             DataSets.CreateDSForDataGrid(WindowIndex, dataGridView);
             DeleteSelectFirstRow();
             MakeDataGridForReports();
+            ColourDataGrid();
         }
         //событие при клике по сетке
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -577,7 +580,10 @@ namespace AutoService
                 formAddRepair.textBoxNotes.Text = formAddRepair.repair.Notes;
                 formAddRepair.dateTimeStart.Value = formAddRepair.repair.TimeOfStart;
                 if (formAddRepair.repair.TimeOfFinish != null)
-                    formAddRepair.dateTimeFinish.Value = (DateTime) formAddRepair.repair.TimeOfFinish;
+                {
+                    formAddRepair.dateTimeFinish.Value = (DateTime)formAddRepair.repair.TimeOfFinish;
+                    formAddRepair.dateTimeFinish.Checked = true;
+                }
                 else
                     formAddRepair.dateTimeFinish.Checked = false;
                 FillCardWithCar(formAddRepair, formAddRepair.repair.Car);
@@ -1186,7 +1192,20 @@ namespace AutoService
                 }
             }
         }
-
+        private void ColourDataGrid()
+        {
+            int rows = dataGridView.Rows.Count;
+            int columns = dataGridView.Columns.Count;
+            for (int i = 0; i < rows; i++)
+            {
+                double preLastColValue = double.Parse(dataGridView.Rows[i].Cells[columns - 2].Value.ToString());
+                double lastColValue = double.Parse(dataGridView.Rows[i].Cells[columns - 1].Value.ToString());
+                if (preLastColValue == lastColValue)
+                    dataGridView.Rows[i].DefaultCellStyle.BackColor = Color.LightGreen;
+                else if (preLastColValue > lastColValue && lastColValue != 0)
+                    dataGridView.Rows[i].DefaultCellStyle.BackColor = Color.PaleVioletRed;
+            }
+        }
         private void dataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             TextBox textBox = (TextBox) e.Control;
@@ -1225,6 +1244,14 @@ namespace AutoService
             BeginInvoke(new MethodInvoker(() =>
             {
                 DataSets.CreateDSForDataGrid(WindowIndex, dataGridView);
+            }));
+            BeginInvoke(new MethodInvoker(() =>
+            {
+                MakeDataGridForReports();
+            }));
+            BeginInvoke(new MethodInvoker(() =>
+            {
+                ColourDataGrid();
             }));
         }
 

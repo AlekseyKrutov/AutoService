@@ -75,7 +75,7 @@ namespace AutoServiceLibrary
         //метод для вывода автомобиля
         public override string ToString()
         {
-            return $"\nМарка: {Mark}, \nМодель: {Model},\nГос.номер: {Number}";
+            return $"{Mark} {Model} {Number}";
         }
     }
 }

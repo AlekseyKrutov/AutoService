@@ -55,6 +55,21 @@ namespace AutoServiceLibrary
         {
             return new List<Employee>();
         }
+        //получить например Крутов А.И.
+        public string GetShortName()
+        {
+            string name = "";
+            name += LastName + " ";
+            name += FirstName.ToList<char>().First<char>();
+            name += ".";
+            name += SecondName.ToList<char>().First<char>();
+            name += ".";
+            return name;
+        }
+        public string GetFullName()
+        {
+            return $"{LastName} {FirstName} {SecondName}";
+        }
         public override string ToString()
         {
             return this.TubNumb + "  " + this.FirstName + ' ' + this.SecondName + ' ' + this.LastName;

@@ -19,5 +19,9 @@ namespace AutoServiceLibrary
         {
             Director = director;
         }
+        public override string ToString()
+        {
+            return $"{Name}, ИНН: {INN}, Адрес: {Address}"; 
+        }
     }
 }

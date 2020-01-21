@@ -107,7 +107,7 @@ namespace DbProxy
         public static string SearchInFinishedRepairs(string content) =>
                         FinishedRepairsView + $" where \"Клиент\" like '%{content}%' or \"Машина\" like '%{content}%'";
         public static string SearchInAuto(string content) =>
-                        CarView + $" where \"Гос.номер\" like '%{content}%' or \"Владелец\" like '%{content}%'";
+                        CarView + $" where  upper(\"Гос.номер\") like '%{content.ToUpper()}%' or upper(\"Владелец\") like '%{content.ToUpper()}%'";
         public static string SearchInClient(string content) => ClientView +
                         $" where upper(\"Наименование\") like '%{content.ToUpper()}%'";
         public static string SearchInTrip(string content) => TripView +

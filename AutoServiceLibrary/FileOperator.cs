@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Configuration;
 using System.IO;
 
 namespace AutoServiceLibrary
 {
-    class FileOperator
+    public class FileOperator
     {
         public string ExcelPath { get; set; }
 
         public FileOperator()
         {
-            ExcelPath = ConfigurationManager.AppSettings.Get("DestExcelFolder");
         }
 
         public bool CheckFileExistance(string path) => File.Exists(path);
