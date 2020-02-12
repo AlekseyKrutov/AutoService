@@ -55,7 +55,7 @@ namespace AutoService
             {
                 emp = new Employee(textBoxINN.Text, textBoxFirstName.Text, textBoxSecondName.Text,
                     textBoxLastName.Text, textBoxPassport.Text, textBoxAddress.Text, Convert.ToDateTime(date), 
-                    UnitsConvert.ConvertSex(comboBoxGender.Text), textBoxNumbOfTel.Text, funcCmb);
+                    Converter.ConvertSex(comboBoxGender.Text), textBoxNumbOfTel.Text, funcCmb);
                 EmployeeMapper em = new EmployeeMapper();
                 try
                 {
@@ -79,7 +79,7 @@ namespace AutoService
                 emp.Passport = textBoxPassport.Text;
                 emp.Address = textBoxAddress.Text;
                 emp.BornDate = Convert.ToDateTime(date);
-                emp.Gender = UnitsConvert.ConvertSex(comboBoxGender.Text);
+                emp.Gender = Converter.ConvertSex(comboBoxGender.Text);
                 emp.Function = funcCmb;
                 emp.PhoneNumb = textBoxNumbOfTel.Text;
                 em.Update(emp);

@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.RepairsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CurrentRepairsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +80,7 @@
             this.StartFinishedRepair = new System.Windows.Forms.Button();
             this.SeeFinishedWayBill = new System.Windows.Forms.Button();
             this.StartFinishedWayBill = new System.Windows.Forms.Button();
+            this.labelAccount = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.labelSearch = new System.Windows.Forms.Label();
@@ -92,9 +93,25 @@
             this.UnldBillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnldActToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnldOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SendViaMailToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.SendAllViaToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.SendActBillViaMailToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.SendBillViaMailToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.SendActViaMailToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.SendOrderViaMailToolStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStripWayBill = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.FullUnloadWayExcelMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BillUnldWayExcelMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BillActUnldWayExcelMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MailMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MailActBillWayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MailBillWayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MailActWayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.contMenuStripDataGrid.SuspendLayout();
+            this.contextMenuStripWayBill.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -282,14 +299,14 @@
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView.ColumnHeadersHeight = 50;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -299,27 +316,27 @@
             this.Column4,
             this.Column5,
             this.Column6});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Aqua;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Aqua;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView.EnableHeadersVisualStyles = false;
             this.dataGridView.Location = new System.Drawing.Point(0, 158);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView.ShowCellToolTips = false;
             this.dataGridView.Size = new System.Drawing.Size(1183, 539);
@@ -716,6 +733,18 @@
             this.StartFinishedWayBill.UseVisualStyleBackColor = false;
             this.StartFinishedWayBill.Click += new System.EventHandler(this.StartFinishedWayBill_Click);
             // 
+            // labelAccount
+            // 
+            this.labelAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelAccount.AutoSize = true;
+            this.labelAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelAccount.Location = new System.Drawing.Point(967, 54);
+            this.labelAccount.Name = "labelAccount";
+            this.labelAccount.Size = new System.Drawing.Size(51, 20);
+            this.labelAccount.TabIndex = 34;
+            this.labelAccount.Text = "label1";
+            this.toolTip1.SetToolTip(this.labelAccount, "Текущий пользователь");
+            // 
             // timer1
             // 
             this.timer1.Interval = 2000;
@@ -803,13 +832,15 @@
             this.UnloadAllToolStripMenuItem,
             this.UnldBillToolStripMenuItem,
             this.UnldActToolStripMenuItem,
-            this.UnldOrderToolStripMenuItem});
+            this.UnldOrderToolStripMenuItem,
+            this.SendViaMailToolStrip});
             this.contMenuStripDataGrid.Name = "contMenuStripDataGrid";
-            this.contMenuStripDataGrid.Size = new System.Drawing.Size(251, 108);
+            this.contMenuStripDataGrid.Size = new System.Drawing.Size(251, 134);
             // 
             // UnloadAllToolStripMenuItem
             // 
             this.UnloadAllToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.UnloadAllToolStripMenuItem.Image = global::AutoService.Properties.Resources.excel;
             this.UnloadAllToolStripMenuItem.Name = "UnloadAllToolStripMenuItem";
             this.UnloadAllToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
             this.UnloadAllToolStripMenuItem.Text = "Полная выгрузка";
@@ -817,6 +848,7 @@
             // UnldBillToolStripMenuItem
             // 
             this.UnldBillToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.UnldBillToolStripMenuItem.Image = global::AutoService.Properties.Resources.excel;
             this.UnldBillToolStripMenuItem.Name = "UnldBillToolStripMenuItem";
             this.UnldBillToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
             this.UnldBillToolStripMenuItem.Text = "Счет на оплату";
@@ -824,6 +856,7 @@
             // UnldActToolStripMenuItem
             // 
             this.UnldActToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.UnldActToolStripMenuItem.Image = global::AutoService.Properties.Resources.excel;
             this.UnldActToolStripMenuItem.Name = "UnldActToolStripMenuItem";
             this.UnldActToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
             this.UnldActToolStripMenuItem.Text = "Акт выполненных работ";
@@ -831,15 +864,136 @@
             // UnldOrderToolStripMenuItem
             // 
             this.UnldOrderToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.UnldOrderToolStripMenuItem.Image = global::AutoService.Properties.Resources.excel;
             this.UnldOrderToolStripMenuItem.Name = "UnldOrderToolStripMenuItem";
             this.UnldOrderToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
-            this.UnldOrderToolStripMenuItem.Text = "Заказ наряд";
+            this.UnldOrderToolStripMenuItem.Text = "Заказ-наряд";
+            // 
+            // SendViaMailToolStrip
+            // 
+            this.SendViaMailToolStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SendAllViaToolStrip,
+            this.SendActBillViaMailToolStrip,
+            this.SendBillViaMailToolStrip,
+            this.SendActViaMailToolStrip,
+            this.SendOrderViaMailToolStrip});
+            this.SendViaMailToolStrip.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.SendViaMailToolStrip.Image = global::AutoService.Properties.Resources.mail;
+            this.SendViaMailToolStrip.Name = "SendViaMailToolStrip";
+            this.SendViaMailToolStrip.Size = new System.Drawing.Size(250, 26);
+            this.SendViaMailToolStrip.Text = "Отправить по почте";
+            // 
+            // SendAllViaToolStrip
+            // 
+            this.SendAllViaToolStrip.Name = "SendAllViaToolStrip";
+            this.SendAllViaToolStrip.Size = new System.Drawing.Size(253, 26);
+            this.SendAllViaToolStrip.Text = "Акт, счет и наряд";
+            this.SendAllViaToolStrip.Click += new System.EventHandler(this.SendAllViaToolStrip_Click);
+            // 
+            // SendActBillViaMailToolStrip
+            // 
+            this.SendActBillViaMailToolStrip.Name = "SendActBillViaMailToolStrip";
+            this.SendActBillViaMailToolStrip.Size = new System.Drawing.Size(253, 26);
+            this.SendActBillViaMailToolStrip.Text = "Акт и счет";
+            this.SendActBillViaMailToolStrip.Click += new System.EventHandler(this.SendActBillViaMailToolStrip_Click);
+            // 
+            // SendBillViaMailToolStrip
+            // 
+            this.SendBillViaMailToolStrip.Name = "SendBillViaMailToolStrip";
+            this.SendBillViaMailToolStrip.Size = new System.Drawing.Size(253, 26);
+            this.SendBillViaMailToolStrip.Text = "Счет на оплату";
+            this.SendBillViaMailToolStrip.Click += new System.EventHandler(this.SendBillViaMailToolStrip_Click);
+            // 
+            // SendActViaMailToolStrip
+            // 
+            this.SendActViaMailToolStrip.Name = "SendActViaMailToolStrip";
+            this.SendActViaMailToolStrip.Size = new System.Drawing.Size(253, 26);
+            this.SendActViaMailToolStrip.Text = "Акт выполненных работ";
+            this.SendActViaMailToolStrip.Click += new System.EventHandler(this.SendActViaMailToolStrip_Click);
+            // 
+            // SendOrderViaMailToolStrip
+            // 
+            this.SendOrderViaMailToolStrip.Name = "SendOrderViaMailToolStrip";
+            this.SendOrderViaMailToolStrip.Size = new System.Drawing.Size(253, 26);
+            this.SendOrderViaMailToolStrip.Text = "Заказ-наряд";
+            this.SendOrderViaMailToolStrip.Click += new System.EventHandler(this.SendOrderViaMailToolStrip_Click);
+            // 
+            // notifyIcon
+            // 
+            this.notifyIcon.Text = "notifyIcon";
+            this.notifyIcon.Visible = true;
+            // 
+            // contextMenuStripWayBill
+            // 
+            this.contextMenuStripWayBill.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FullUnloadWayExcelMenuItem,
+            this.BillUnldWayExcelMenuItem,
+            this.BillActUnldWayExcelMenuItem,
+            this.MailMenuItem});
+            this.contextMenuStripWayBill.Name = "contMenuStripDataGrid";
+            this.contextMenuStripWayBill.Size = new System.Drawing.Size(251, 130);
+            // 
+            // FullUnloadWayExcelMenuItem
+            // 
+            this.FullUnloadWayExcelMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FullUnloadWayExcelMenuItem.Image = global::AutoService.Properties.Resources.excel;
+            this.FullUnloadWayExcelMenuItem.Name = "FullUnloadWayExcelMenuItem";
+            this.FullUnloadWayExcelMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.FullUnloadWayExcelMenuItem.Text = "Полная выгрузка";
+            // 
+            // BillUnldWayExcelMenuItem
+            // 
+            this.BillUnldWayExcelMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.BillUnldWayExcelMenuItem.Image = global::AutoService.Properties.Resources.excel;
+            this.BillUnldWayExcelMenuItem.Name = "BillUnldWayExcelMenuItem";
+            this.BillUnldWayExcelMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.BillUnldWayExcelMenuItem.Text = "Счет на оплату";
+            this.BillUnldWayExcelMenuItem.Click += new System.EventHandler(this.BillUnldWayExcelMenuItem_Click);
+            // 
+            // BillActUnldWayExcelMenuItem
+            // 
+            this.BillActUnldWayExcelMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.BillActUnldWayExcelMenuItem.Image = global::AutoService.Properties.Resources.excel;
+            this.BillActUnldWayExcelMenuItem.Name = "BillActUnldWayExcelMenuItem";
+            this.BillActUnldWayExcelMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.BillActUnldWayExcelMenuItem.Text = "Акт выполненных работ";
+            // 
+            // MailMenuItem
+            // 
+            this.MailMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MailActBillWayMenuItem,
+            this.MailBillWayMenuItem,
+            this.MailActWayMenuItem});
+            this.MailMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.MailMenuItem.Image = global::AutoService.Properties.Resources.mail;
+            this.MailMenuItem.Name = "MailMenuItem";
+            this.MailMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.MailMenuItem.Text = "Отправить по почте";
+            // 
+            // MailActBillWayMenuItem
+            // 
+            this.MailActBillWayMenuItem.Name = "MailActBillWayMenuItem";
+            this.MailActBillWayMenuItem.Size = new System.Drawing.Size(253, 26);
+            this.MailActBillWayMenuItem.Text = "Акт и счет";
+            // 
+            // MailBillWayMenuItem
+            // 
+            this.MailBillWayMenuItem.Name = "MailBillWayMenuItem";
+            this.MailBillWayMenuItem.Size = new System.Drawing.Size(253, 26);
+            this.MailBillWayMenuItem.Text = "Счет на оплату";
+            // 
+            // MailActWayMenuItem
+            // 
+            this.MailActWayMenuItem.Name = "MailActWayMenuItem";
+            this.MailActWayMenuItem.Size = new System.Drawing.Size(253, 26);
+            this.MailActWayMenuItem.Text = "Акт выполненных работ";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1183, 700);
+            this.Controls.Add(this.labelAccount);
             this.Controls.Add(this.StartFinishedWayBill);
             this.Controls.Add(this.SeeFinishedWayBill);
             this.Controls.Add(this.PopInStock);
@@ -883,6 +1037,7 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.contMenuStripDataGrid.ResumeLayout(false);
+            this.contextMenuStripWayBill.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -949,6 +1104,22 @@
         private System.Windows.Forms.ToolStripMenuItem FinishedWayBillToolStrip;
         private System.Windows.Forms.Button SeeFinishedWayBill;
         private System.Windows.Forms.Button StartFinishedWayBill;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ToolStripMenuItem SendViaMailToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem SendAllViaToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem SendActBillViaMailToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem SendBillViaMailToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem SendActViaMailToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem SendOrderViaMailToolStrip;
+        public System.Windows.Forms.Label labelAccount;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripWayBill;
+        private System.Windows.Forms.ToolStripMenuItem FullUnloadWayExcelMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BillUnldWayExcelMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BillActUnldWayExcelMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MailMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MailActBillWayMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MailBillWayMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MailActWayMenuItem;
     }
 }
 

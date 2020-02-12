@@ -60,7 +60,7 @@ namespace AutoService
             if (part == null)
             {
                 part = new SparePart(textBoxUniqNumb.Text, float.Parse(textBoxNumb.Text),
-                    double.Parse(textBoxCost.Text), textBoxDescr.Text, UnitsConvert.ConvertUnit(comboBoxUnit.Text));
+                    double.Parse(textBoxCost.Text), textBoxDescr.Text, Converter.ConvertUnit(comboBoxUnit.Text));
                 try
                 {
                     sm.Insert(part);
@@ -77,7 +77,7 @@ namespace AutoService
                 part.Description = textBoxDescr.Text;
                 part.Number = float.Parse(textBoxNumb.Text);
                 part.Cost = double.Parse(textBoxCost.Text);
-                part.Unit = UnitsConvert.ConvertUnit(comboBoxUnit.Text);
+                part.Unit = Converter.ConvertUnit(comboBoxUnit.Text);
                 try
                 {
                     sm.Update(part);

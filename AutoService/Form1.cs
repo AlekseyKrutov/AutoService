@@ -8,9 +8,10 @@ using System.Windows.Forms;
 using FirebirdSql.Data.FirebirdClient;
 using AutoServiceLibrary;
 using System.Configuration;
-using WorkWithExcelLibrary;
-using DbProxy;
 using DataMapper;
+using DbProxy;
+using Unloader;
+using LiveCharts;
 
 namespace AutoService
 {
@@ -42,6 +43,8 @@ namespace AutoService
         public static bool logicParamForRepair = true;
         //перменна для определения добавления или редактирования
         public static AddEditOrDelete AddOrEdit;
+
+        public Account account;
 
         //конструктор формы
         public Form1()
@@ -738,7 +741,7 @@ namespace AutoService
             formAddPersonal.textBoxAddress.Text = formAddPersonal.emp.Address;
             formAddPersonal.monthCalendarDayBirth.SelectionEnd = formAddPersonal.emp.BornDate;
             formAddPersonal.date = formAddPersonal.emp.BornDate.ToString("dd/MM/yyyy");
-            formAddPersonal.comboBoxGender.Text = UnitsConvert.ConvertSex(formAddPersonal.emp.Gender);
+            formAddPersonal.comboBoxGender.Text = Converter.ConvertSex(formAddPersonal.emp.Gender);
             formAddPersonal.comboBoxFunction.SelectedValue = formAddPersonal.emp.Function;
             formAddPersonal.ShowDialog();
         }
@@ -763,7 +766,7 @@ namespace AutoService
             fAddPrice.malf = new MalfMapper().Get(dg.Rows[SelectIndex].Cells[0].Value.ToString());
             fAddPrice.textBoxDescription.Text = fAddPrice.malf.Description;
             fAddPrice.textBoxPrice.Text = fAddPrice.malf.Cost.ToString();
-            fAddPrice.comboBoxUnit.Text = UnitsConvert.ConvertUnit(fAddPrice.malf.Unit);
+            fAddPrice.comboBoxUnit.Text = Converter.ConvertUnit(fAddPrice.malf.Unit);
             fAddPrice.Show();
         }
         private void AddInStock_Click(object sender, EventArgs e)
@@ -783,7 +786,7 @@ namespace AutoService
             formAddSparePart.textBoxDescr.Text = formAddSparePart.part.Description;
             formAddSparePart.textBoxCost.Text = formAddSparePart.part.Cost.ToString();
             formAddSparePart.textBoxNumb.Text = formAddSparePart.part.Number.ToString();
-            formAddSparePart.comboBoxUnit.Text = UnitsConvert.ConvertUnit(formAddSparePart.part.Unit);
+            formAddSparePart.comboBoxUnit.Text = Converter.ConvertUnit(formAddSparePart.part.Unit);
             formAddSparePart.ShowDialog();
         }
         //положить на склад
@@ -793,7 +796,7 @@ namespace AutoService
             WindowIndex = WindowsStruct.PushInStock;
             addNumb.part = new SpareMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
             addNumb.textBoxDescrContent.Text = addNumb.part.Description;
-            addNumb.labelNumber.Text += $"({UnitsConvert.ConvertUnit(addNumb.part.Unit)}):";
+            addNumb.labelNumber.Text += $"({Converter.ConvertUnit(addNumb.part.Unit)}):";
             addNumb.ShowDialog();
         }
         //выдать со склада
@@ -803,7 +806,7 @@ namespace AutoService
             WindowIndex = WindowsStruct.PopFromStock;
             addNumb.part = new SpareMapper().Get(dataGridView.Rows[SelectIndex].Cells[0].Value.ToString());
             addNumb.textBoxDescrContent.Text = addNumb.part.Description;
-            addNumb.labelNumber.Text += $"({UnitsConvert.ConvertUnit(addNumb.part.Unit)}):";
+            addNumb.labelNumber.Text += $"({Converter.ConvertUnit(addNumb.part.Unit)}):";
             addNumb.ShowDialog();
         }
         private void AddWayBill_Click(object sender, EventArgs e)
@@ -1136,28 +1139,32 @@ namespace AutoService
 
         private void PaymenInvoiceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridView.SelectedRows.Count == 0)
+            if (GridRowsColumnIsNull())
                 return;
-            WorkWithExcel.MakeBillInExcelAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+            ExcelUnloader excelUnloader = new ExcelUnloader();
+            excelUnloader.MakeBillInExcelAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
         }
 
         private void FinishActToolStripMenu_Click(object sender, EventArgs e)
         {
-            if (dataGridView.SelectedRows.Count == 0)
+            if (GridRowsColumnIsNull())
                 return;
-            WorkWithExcel.MakeActOfWorkInExcelAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+            ExcelUnloader excelUnloader = new ExcelUnloader();
+            excelUnloader.MakeActOfWorkInExcelAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
         }
         private void OrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridView.SelectedRows.Count == 0)
+            if (GridRowsColumnIsNull())
                 return;
-            WorkWithExcel.MakeOrderInExcelAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+            ExcelUnloader excelUnloader = new ExcelUnloader();
+            excelUnloader.MakeOrderInExcelAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
         }
         private void UploadAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridView.SelectedRows.Count == 0)
+            if (GridRowsColumnIsNull())
                 return;
-            WorkWithExcel.UploadAllDocsInExcAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+            ExcelUnloader excelUnloader = new ExcelUnloader();
+            excelUnloader.UploadAllDocsInExcAsync(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
         }
         public bool GridRowsColumnIsNull()
         {
@@ -1169,10 +1176,17 @@ namespace AutoService
 
         private void dataGridView_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right && WindowIndex == WindowsStruct.ActOfEndsRepairs
-                && dataGridView.SelectedRows.Count > 0)
+            if (e.Button == MouseButtons.Right && dataGridView.SelectedRows.Count > 0)
             {
-                contMenuStripDataGrid.Show(Cursor.Position);
+                switch (WindowIndex)
+                {
+                    case WindowsStruct.ActOfEndsRepairs:
+                        contMenuStripDataGrid.Show(Cursor.Position);
+                        break;
+                    case WindowsStruct.FinishedWayBills:
+                        contextMenuStripWayBill.Show(Cursor.Position);
+                        break;
+                }
             }
         }
         private void MakeDataGridReadOnly()
@@ -1258,6 +1272,119 @@ namespace AutoService
         private void dataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
 
+        }
+
+        private void SendBillViaMailToolStrip_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull()) return;
+            CardOfRepair card = new CardMapper().Get(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+            SystemOwner owner = new OwnerMapper().Get();
+            FileOperator fo = new FileOperator();
+            string path = fo.CreateFolder();
+            ExcelUnloader excelUnloader = new ExcelUnloader(path);
+            excelUnloader.MakeBillInExcel(card.IdRepair.ToString());
+            try
+            {
+                MailSender mail = new MailSender(card.Car.Owner, owner, fo.MakeBillNameFile(card), "", fo.GetFileNamesFromFolder(path));
+                mail.SendMessage();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            fo.DeleteFolder();
+        }
+
+        private void SendAllViaToolStrip_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull()) return;
+            CardOfRepair card = new CardMapper().Get(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+            SystemOwner owner = new OwnerMapper().Get();
+            FileOperator fo = new FileOperator();
+            string path = fo.CreateFolder();
+            ExcelUnloader excelUnloader = new ExcelUnloader(path);
+            excelUnloader.MakeBillInExcel(card.IdRepair.ToString());
+            excelUnloader.MakeOrderInExcel(card.IdRepair.ToString());
+            excelUnloader.MakeActOfWorkInExcel(card.IdRepair.ToString());
+            try
+            {
+                MailSender mail = new MailSender(card.Car.Owner, owner, card.IdRepair.ToString(), "", fo.GetFileNamesFromFolder(path));
+                mail.SendMessage();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            fo.DeleteFolder();
+        }
+        private void SendActBillViaMailToolStrip_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull()) return;
+            CardOfRepair card = new CardMapper().Get(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+            SystemOwner owner = new OwnerMapper().Get();
+            FileOperator fo = new FileOperator();
+            string path = fo.CreateFolder();
+            ExcelUnloader excelUnloader = new ExcelUnloader(path);
+            excelUnloader.MakeBillInExcel(card.IdRepair.ToString());
+            excelUnloader.MakeActOfWorkInExcel(card.IdRepair.ToString());
+            try
+            {
+                MailSender mail = new MailSender(card.Car.Owner, owner, card.IdRepair.ToString(), "", fo.GetFileNamesFromFolder(path));
+                mail.SendMessage();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            fo.DeleteFolder();
+        }
+
+        private void SendActViaMailToolStrip_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull()) return;
+            CardOfRepair card = new CardMapper().Get(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+            SystemOwner owner = new OwnerMapper().Get();
+            FileOperator fo = new FileOperator();
+            string path = fo.CreateFolder();
+            ExcelUnloader excelUnloader = new ExcelUnloader(path);
+            excelUnloader.MakeActOfWorkInExcel(card.IdRepair.ToString());
+            try
+            {
+                MailSender mail = new MailSender(card.Car.Owner, owner, fo.MakeActNameFile(card), "", fo.GetFileNamesFromFolder(path));
+                mail.SendMessage();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            fo.DeleteFolder();
+        }
+
+        private void SendOrderViaMailToolStrip_Click(object sender, EventArgs e)
+        {
+            if (GridRowsColumnIsNull()) return;
+            CardOfRepair card = new CardMapper().Get(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
+            SystemOwner owner = new OwnerMapper().Get();
+            FileOperator fo = new FileOperator();
+            string path = fo.CreateFolder();
+            ExcelUnloader excelUnloader = new ExcelUnloader(path);
+            excelUnloader.MakeOrderInExcel(card.IdRepair.ToString());
+            try
+            {
+                MailSender mail = new MailSender(card.Car.Owner, owner, fo.MakeOrderNameFile(card), "", fo.GetFileNamesFromFolder(path));
+                mail.SendMessage();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            fo.DeleteFolder();
+        }
+
+        private void BillUnldWayExcelMenuItem_Click(object sender, EventArgs e)
+        {
+            ExcelUnloader excelUnloader = new ExcelUnloader();
+            excelUnloader.MakeWayBillInExcel(dataGridView.SelectedRows[0].Cells[0].Value.ToString());
         }
     }
 }

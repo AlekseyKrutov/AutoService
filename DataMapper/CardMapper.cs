@@ -10,7 +10,7 @@ using FirebirdSql.Data.FirebirdClient;
 
 namespace DataMapper
 {
-    public class CardMapper : IDbMapperCommand<CardOfRepair>, IConnection
+    public class CardMapper : IDbMapperCommand<CardOfRepair>
     {
         public FbConnection db { get; } = new FbConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
 

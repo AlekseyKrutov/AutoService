@@ -17,7 +17,7 @@ namespace AutoService
 {
     public partial class FormForSelect : Form
     {
-        FormAddRepair formAddRepair;
+        public FormAddRepair formAddRepair;
         FormAddAuto formAddAuto;
         FormAddPrice formAddPrice;
         FormAddWayBill formAddWayBill;

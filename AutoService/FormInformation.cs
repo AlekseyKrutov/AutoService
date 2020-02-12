@@ -17,8 +17,6 @@ namespace AutoService
         public CardOfRepair card = null;
         public WayBill wayBill = null;
 
-        Form1 mainForm;
-
         public FormInformation()
         {
             InitializeComponent();

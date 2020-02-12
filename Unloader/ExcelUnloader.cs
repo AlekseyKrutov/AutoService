@@ -3,52 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FirebirdSql.Data.FirebirdClient;
-using AutoServiceLibrary;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.Windows.Forms;
 using System.Configuration;
+using AutoServiceLibrary;
 using DataMapper;
+using System.Windows.Forms;
 
-namespace WorkWithExcelLibrary
+namespace Unloader
 {
-    public static class WorkWithExcel
+    public class ExcelUnloader
     {
-        static Excel.Application xlApp;
-        static Excel.Workbook xlWorkBook;
-        static Excel.Worksheet xlSheet;
-        static private int rowStartForDelete;
-        static private int rowStartAct1 = 9;
-        static private int rowStartAct2 = 37;
-        static private int rowFinishAct1 = 33;
-        static private int rowFinishAct2 = 53;
-        static private int rowStartOrder1 = 16;
-        static private int rowStartOrder2 = 44;
-        static private int rowFinishOrder1 = 40;
-        static private int rowFinishOrder2 = 60;
-        static string mainPath = ConfigurationManager.AppSettings.Get("DestExcelFolder");
+        private Excel.Application xlApp;
+        private Excel.Workbook xlWorkBook;
+        private Excel.Worksheet xlSheet;
+        private int rowStartForDelete;
+        private int rowStartAct1 = 9;
+        private int rowStartAct2 = 37;
+        private int rowFinishAct1 = 33;
+        private int rowFinishAct2 = 53;
+        private int rowStartOrder1 = 16;
+        private int rowStartOrder2 = 44;
+        private int rowFinishOrder1 = 40;
+        private int rowFinishOrder2 = 60;
+
+        public string mainPath { get; set; }
+
         //работа с excel
-        public static async void UploadAllDocsInExcAsync(string idRepair, string unloadPath)
+        public ExcelUnloader()
         {
-            await Task.Run(() => MakeActOfWorkInExcel(idRepair, unloadPath));
-            await Task.Run(() => MakeOrderInExcel(idRepair, unloadPath));
-            await Task.Run(() => MakeBillInExcel(idRepair, unloadPath));
-        } 
-        public static async void MakeActOfWorkInExcelAsync(string idRepair, string unloadPath)
-        {
-            await Task.Run(() => MakeActOfWorkInExcel(idRepair, unloadPath));
+            mainPath = ConfigurationManager.AppSettings.Get("DestExcelFolder");
         }
-        static async public void MakeOrderInExcelAsync(string idRepair, string unloadPath)
+        public ExcelUnloader(string path)
         {
-            await Task.Run(() => MakeOrderInExcel(idRepair, unloadPath));
+            mainPath = path;
         }
-        static async public void MakeBillInExcelAsync(string idRepair)
+        public async void UploadAllDocsInExcAsync(string idRepair)
+        {
+            await Task.Run(() => MakeActOfWorkInExcel(idRepair));
+            await Task.Run(() => MakeOrderInExcel(idRepair));
+            await Task.Run(() => MakeBillInExcel(idRepair));
+        }
+        public async void MakeActOfWorkInExcelAsync(string idRepair)
+        {
+            await Task.Run(() => MakeActOfWorkInExcel(idRepair));
+        }
+        public async void MakeOrderInExcelAsync(string idRepair)
+        {
+            await Task.Run(() => MakeOrderInExcel(idRepair));
+        }
+        public async void MakeBillInExcelAsync(string idRepair)
         {
             await Task.Run(() => MakeBillInExcel(idRepair));
         }
-        static public void MakeActOfWorkInExcel(string idRepair, string unloadPath)
+        public void MakeActOfWorkInExcel(string idRepair)
         {
-            rowStartForDelete = 0;
             try
             {
                 xlApp = new Excel.Application();
@@ -60,7 +68,7 @@ namespace WorkWithExcelLibrary
                 xlSheet.Cells[1, "A"] = systemOwner.ToString();
                 xlSheet.Cells[59, "F"] = systemOwner.Director.GetShortName();
                 xlSheet.Cells[3, "G"] = card.IdRepair;
-                xlSheet.Cells[3, "J"] = ((DateTime) card.TimeOfFinish).ToString("dd/MM/yyyy");
+                xlSheet.Cells[3, "J"] = ((DateTime)card.TimeOfFinish).ToString("dd/MM/yyyy");
                 if (card.Car.Owner != null)
                     xlSheet.Cells[4, "D"] = $"{card.Car.Owner.Name}, ИНН {card.Car.Owner.INN}";
                 xlSheet.Cells[5, "E"] = $"{card.Car.Mark} {card.Car.Number}";
@@ -86,9 +94,8 @@ namespace WorkWithExcelLibrary
                 while (System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp) > 0) { }
             }
         }
-        static public void MakeOrderInExcel(string idRepair, string unloadPath)
+        public void MakeOrderInExcel(string idRepair)
         {
-            rowStartForDelete = 0;
             try
             {
                 xlApp = new Excel.Application();
@@ -126,7 +133,7 @@ namespace WorkWithExcelLibrary
                 while (System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp) > 0) { }
             }
         }
-        static public void MakeBillInExcel(string idRepair, string unloadPath)
+        public void MakeBillInExcel(string idRepair)
         {
             try
             {
@@ -166,7 +173,7 @@ namespace WorkWithExcelLibrary
             }
         }
 
-        static public void MakeWayBillInExcel(string idWaybill)
+        public void MakeWayBillInExcel(string idWaybill)
         {
             try
             {
@@ -206,7 +213,7 @@ namespace WorkWithExcelLibrary
                 while (System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp) > 0) { }
             }
         }
-        static private void FillRowsWithMalf(Excel.Worksheet xlSheet, int startRow, int finishRow, List<Malfunctions> MalfList)
+        private void FillRowsWithMalf(Excel.Worksheet xlSheet, int startRow, int finishRow, List<Malfunctions> MalfList)
         {
             if (MalfList.Count > finishRow)
             {
@@ -227,7 +234,7 @@ namespace WorkWithExcelLibrary
             }
             DeleteRows(xlSheet, "B", rowStartForDelete, finishRow, MalfList.Count);
         }
-        static private void FillRowsWithSpares(Excel.Worksheet xlSheet, int startRow, int finishRow, List<Malfunctions> SpareList)
+        private void FillRowsWithSpares(Excel.Worksheet xlSheet, int startRow, int finishRow, List<Malfunctions> SpareList)
         {
             rowStartForDelete = startRow;
             if (SpareList.Count > finishRow)
@@ -245,7 +252,7 @@ namespace WorkWithExcelLibrary
             }
             DeleteRows(xlSheet, "B", rowStartForDelete, finishRow, SpareList.Count);
         }
-        static void DeleteRows(Excel.Worksheet xlSheet, string column, int rowStart, int rowFinish, int listCount)
+        private void DeleteRows(Excel.Worksheet xlSheet, string column, int rowStart, int rowFinish, int listCount)
         {
             if (rowStart > rowFinish)
                 return;

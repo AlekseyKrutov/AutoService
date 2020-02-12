@@ -11,7 +11,7 @@ using FirebirdSql.Data.FirebirdClient;
 
 namespace DataMapper
 {
-    public class EmployeeMapper : IConnection, IDbMapperCommand<Employee>
+    public class EmployeeMapper : IDbMapperCommand<Employee>
     {
         public FbConnection db { get; } = new FbConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
 

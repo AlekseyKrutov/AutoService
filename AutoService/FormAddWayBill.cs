@@ -60,9 +60,9 @@ namespace AutoService
                 else
                     insWayBill.UnloadDate = pickerEnd.Value;
                 insWayBill.BaseDocument = textBoxBaseDoc.Text;
-                insWayBill.Kilometers = int.Parse(textBoxKm.Text);
-                insWayBill.Cost = double.Parse(txtBoxCost.Text);
-                insWayBill.Fuel = float.Parse(textBoxFuel.Text);
+                insWayBill.Kilometers = (textBoxKm.Text == "") ? default : int.Parse(textBoxKm.Text);
+                insWayBill.Cost = (txtBoxCost.Text == "") ? default : double.Parse(txtBoxCost.Text);
+                insWayBill.Fuel = (textBoxFuel.Text == "") ? default : float.Parse(textBoxFuel.Text);
                 insWayBill.Notes = textBoxNotes.Text;
                 try
                 {

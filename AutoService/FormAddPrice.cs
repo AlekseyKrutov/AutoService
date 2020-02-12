@@ -46,7 +46,7 @@ namespace AutoService
             if (malf == null)
             {
                 malf = new Malfunctions(textBoxDescription.Text, Convert.ToDouble(textBoxPrice.Text),
-                    UnitsConvert.ConvertUnit(comboBoxUnit.Text));
+                    Converter.ConvertUnit(comboBoxUnit.Text));
                 if (formForSelect != null && Form1.WindowIndex == WindowsStruct.MalfAdd)
                 {
                     malf = mm.Insert(malf);
@@ -62,7 +62,7 @@ namespace AutoService
             else
             {
                 malf.Description = textBoxDescription.Text;
-                malf.Unit = UnitsConvert.ConvertUnit(comboBoxUnit.Text);
+                malf.Unit = Converter.ConvertUnit(comboBoxUnit.Text);
                 malf.Cost = Convert.ToDouble(textBoxPrice.Text);
                 if (formForSelect != null && Form1.WindowIndex == WindowsStruct.MalfAdd)
                 {
@@ -74,19 +74,18 @@ namespace AutoService
                     mm.Update(malf);
                 }
             }   
-            if (formForSelect != null && Form1.WindowIndex == WindowsStruct.MalfAdd)
+            if (formForSelect != null && Form1.WindowIndex == WindowsStruct.MalfAdd
+                || Form1.WindowIndex == WindowsStruct.SpareAdd)
             {
                 Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.MalfunctionsView);
                 Form1.SelectIndex = 0;
-                formForSelect.textBoxSearch.Clear();
-                formForSelect.textBoxSearch.Text = textBoxDescription.Text;
-                this.Close();
-                return;
-            }
-            else if (formForSelect != null && Form1.WindowIndex == WindowsStruct.SpareAdd)
-            {
-                Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView, Queries.MalfunctionsView);
-                Form1.SelectIndex = 0;
+                Malfunctions malfInRepair = formForSelect.formAddRepair.repair.ListOfMalf.
+                                            Find(m => m.IdMalf == malf.IdMalf);
+                if (malfInRepair != null)
+                {
+                    malfInRepair.Unit = malf.Unit;
+                    malfInRepair.Description = malf.Description;
+                }
                 formForSelect.textBoxSearch.Clear();
                 formForSelect.textBoxSearch.Text = textBoxDescription.Text;
                 this.Close();

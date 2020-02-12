@@ -53,12 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountMapper.cs" />
     <Compile Include="BankMapper.cs" />
     <Compile Include="CardMapper.cs" />
     <Compile Include="CarMapper.cs" />
     <Compile Include="ClientMapper.cs" />
     <Compile Include="EmployeeMapper.cs" />
-    <Compile Include="IConnection.cs" />
     <Compile Include="IDbMapperCommand.cs" />
     <Compile Include="MalfMapper.cs" />
     <Compile Include="OwnerMapper.cs" />

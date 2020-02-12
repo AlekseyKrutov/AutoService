@@ -51,6 +51,7 @@ namespace DbProxy
         public static string SparesReadView = "select * from stock_read_view";
         public static string StaffReadView = "select * from staff";
         public static string WayBillReadView = "select * from waybill";
+        public static string AccountReadView = "select * from account";
         public static string TripReadView = "select * from trip";
         public static string TripView = "select id_trip, trip_name as \"Маршрут\" from trip";
         public static string RepairsReportView = "select * from repairs_report";
@@ -97,6 +98,7 @@ namespace DbProxy
         public static string GetSystemOwner() => CompanyView + $" where system_owner = 1";
         public static string GetStaffById(string tubNumb) => StaffReadView + $" where tub_numb = {tubNumb}";
         public static string GetWayBillById(string id) => WayBillReadView + $" where id_waybill = {id}";
+        public static string GetAccountByLogin(string login) => AccountReadView + $" where login = \'{login}\'";
         public static string GetTripById(string id) => TripReadView + $" where id_trip = {id}";
         public static string SearchMalf(string content) =>
                         Queries.MalfunctionsView + $" where upper(\"Наименование\") LIKE '%{content.ToUpper()}%'";

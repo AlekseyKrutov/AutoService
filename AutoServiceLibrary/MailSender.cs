@@ -11,8 +11,8 @@ namespace AutoServiceLibrary
 {
     public class MailSender
     {
-        private const string fromCredential = "yjbgnanmeeevrryf";
-        private const string fromEmail = "alekseykrutovvv@gmail.com";
+        //ijntbuizsoxyotsl
+        private const string fromCredential = "ijntbuizsoxyotsl";
 
         private MailAddress toAddress;
         private MailAddress fromAddress;
@@ -35,8 +35,8 @@ namespace AutoServiceLibrary
             Attachments = attachments;
             smtp = new SmtpClient
             {
-                Host = "smtp.gmail.com",
-                Port = 587,
+                Host = "smtp.yandex.ru",
+                Port = 25,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,

@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9DE2B409-90ED-4EEA-B256-8D162CB4906C}</ProjectGuid>
+    <ProjectGuid>{FD0C5C2C-4CC4-4181-A8FF-C721E2891C23}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoServiceLibrary</RootNamespace>
-    <AssemblyName>AutoServiceLibrary</AssemblyName>
+    <RootNamespace>Unloader</RootNamespace>
+    <AssemblyName>Unloader</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,17 +30,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FirebirdSql.Data.FirebirdClient, Version=6.3.0.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
-      <HintPath>..\packages\FirebirdSql.Data.FirebirdClient.6.3.0\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="AutoServiceLibrary, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b45d342e1b7e5b9e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AutoServiceLibrary\bin\Debug\AutoServiceLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DataMapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DataMapper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -54,31 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="Bank.cs" />
-    <Compile Include="Car.cs" />
-    <Compile Include="CardOfRepair.cs" />
-    <Compile Include="Client.cs" />
-    <Compile Include="Company.cs" />
-    <Compile Include="Events.cs" />
-    <Compile Include="FileOperator.cs" />
-    <Compile Include="IAutoService.cs" />
-    <Compile Include="MailSender.cs" />
-    <Compile Include="MailSending.cs" />
-    <Compile Include="Malfunctions.cs" />
-    <Compile Include="Employee.cs" />
+    <Compile Include="ExcelUnloader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SparePart.cs" />
-    <Compile Include="SystemOwner.cs" />
-    <Compile Include="Trip.cs" />
-    <Compile Include="Converter.cs" />
-    <Compile Include="WayBill.cs" />
-    <Compile Include="WindowItems.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="AutoService.pfx" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">

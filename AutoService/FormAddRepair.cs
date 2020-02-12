@@ -168,7 +168,7 @@ namespace AutoService
             repair.Notes = textBoxNotes.Text;
             CardMapper cm = new CardMapper();
             repair.CalculateTotalPrice();
-            if (Form1.AddOrEdit == AddEditOrDelete.Add)
+            if (repair.IdRepair == default)
             {
                 try
                 {
@@ -180,7 +180,7 @@ namespace AutoService
                     return;
                 }
             }
-            else if (Form1.AddOrEdit == AddEditOrDelete.Edit)
+            else
             {
                 try
                 {

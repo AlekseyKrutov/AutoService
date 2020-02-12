@@ -129,7 +129,7 @@ namespace AutoServiceLibrary
                 showStr += $"{enter}Работы: {enter}";
                 foreach (Malfunctions m in malfs)
                 {
-                    showStr += $"{enter}{m.Description} {enter}Количество ({UnitsConvert.ConvertUnit(m.Unit)}): {m.Number}" +
+                    showStr += $"{enter}{m.Description} {enter}Количество ({Converter.ConvertUnit(m.Unit)}): {m.Number}" +
                         $"{enter}Сумма: {m.Cost}{enter}Итоговая сумма: {m.TotalCost}{enter}";
                 }
                 showStr += $"{enter}Итого: {sumForMalf} руб.{enter}";
@@ -142,7 +142,7 @@ namespace AutoServiceLibrary
                 {
                     foreach (Malfunctions s in fakeSpare)
                     {
-                        showStr += $"{enter}{s.Description} {enter}Количество ({UnitsConvert.ConvertUnit(s.Unit)}): {s.Number}" +
+                        showStr += $"{enter}{s.Description} {enter}Количество ({Converter.ConvertUnit(s.Unit)}): {s.Number}" +
                             $"{enter}Сумма: {s.Cost}{enter}Итоговая сумма: {s.TotalCost}{enter}";
                     }
                 }
@@ -150,7 +150,7 @@ namespace AutoServiceLibrary
                 {
                     foreach (SparePart s in this.ListOfSpareParts)
                     {
-                        showStr += $"{enter}{s.Description} {enter}Количество ({UnitsConvert.ConvertUnit(s.Unit)}): {s.Number}" +
+                        showStr += $"{enter}{s.Description} {enter}Количество ({Converter.ConvertUnit(s.Unit)}): {s.Number}" +
                             $"{enter}Сумма: {s.Cost}{enter}Итоговая сумма: {s.TotalCost}{enter}";
                     }
                 }

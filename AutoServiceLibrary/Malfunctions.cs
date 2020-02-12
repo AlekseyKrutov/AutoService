@@ -60,6 +60,12 @@ namespace AutoServiceLibrary
         {
             if (client.Discount == 0 || Cost == 0 || MalfOrSpare == 1)
                 return;
+            else if (client.Discount < 0)
+            {
+                Cost += (Cost * (client.Discount * -1));
+                Cost = Math.Round(Cost);
+                TotalCost = Cost * number;
+            }
             else
             {
                 Cost -= (Cost * (client.Discount));

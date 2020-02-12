@@ -8,10 +8,10 @@ using System.Net.Mail;
 using System.Net;
 using DbProxy;
 using System.Configuration;
-using DataMapper;
 using AutoServiceLibrary;
 using FirebirdSql.Data.FirebirdClient;
 using WorkWithExcelLibrary;
+using DataMapper;
 
 namespace TestApp
 {
@@ -19,7 +19,10 @@ namespace TestApp
     {
         static void Main(string[] args)
         {
-            WorkWithExcel.MakeWayBillInExcel("2");
+            Employee emp = new EmployeeMapper().Get("1037");
+            AccountMapper am = new AccountMapper();
+            Account account = new Account(emp, am.GetAccounts());
+            am.Insert(account);
             Console.ReadLine();
         }
         //TimerCallback tc = new TimerCallback(PrintTime);

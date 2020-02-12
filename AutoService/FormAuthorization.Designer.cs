@@ -42,10 +42,9 @@
             // 
             this.textBoxLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxLogin.Location = new System.Drawing.Point(135, 43);
-            this.textBoxLogin.MaxLength = 4;
-            this.textBoxLogin.Multiline = true;
+            this.textBoxLogin.MaxLength = 60;
             this.textBoxLogin.Name = "textBoxLogin";
-            this.textBoxLogin.Size = new System.Drawing.Size(148, 28);
+            this.textBoxLogin.Size = new System.Drawing.Size(148, 22);
             this.textBoxLogin.TabIndex = 0;
             this.textBoxLogin.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxLogin_MouseClick);
             // 
@@ -54,10 +53,9 @@
             this.textBoxPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxPassword.Location = new System.Drawing.Point(135, 90);
             this.textBoxPassword.MaxLength = 30;
-            this.textBoxPassword.Multiline = true;
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.PasswordChar = '*';
-            this.textBoxPassword.Size = new System.Drawing.Size(148, 28);
+            this.textBoxPassword.Size = new System.Drawing.Size(148, 22);
             this.textBoxPassword.TabIndex = 1;
             this.textBoxPassword.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxPassword_MouseClick);
             // 
@@ -92,7 +90,7 @@
             // 
             // buttonEnter
             // 
-            this.buttonEnter.Location = new System.Drawing.Point(135, 144);
+            this.buttonEnter.Location = new System.Drawing.Point(135, 164);
             this.buttonEnter.Name = "buttonEnter";
             this.buttonEnter.Size = new System.Drawing.Size(88, 31);
             this.buttonEnter.TabIndex = 5;
@@ -103,7 +101,7 @@
             // labelError
             // 
             this.labelError.AutoSize = true;
-            this.labelError.Location = new System.Drawing.Point(90, 125);
+            this.labelError.Location = new System.Drawing.Point(90, 135);
             this.labelError.Name = "labelError";
             this.labelError.Size = new System.Drawing.Size(193, 13);
             this.labelError.TabIndex = 6;
@@ -113,7 +111,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 183);
+            this.ClientSize = new System.Drawing.Size(338, 207);
             this.Controls.Add(this.labelError);
             this.Controls.Add(this.buttonEnter);
             this.Controls.Add(this.labelInvitation);
