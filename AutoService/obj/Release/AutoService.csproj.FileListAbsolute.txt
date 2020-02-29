@@ -98,12 +98,9 @@ G:\Desktop\проекты\AutoService\AutoService\bin\Release\AutoService.exe
 G:\Desktop\проекты\AutoService\AutoService\bin\Release\AutoService.pdb
 G:\Desktop\проекты\AutoService\AutoService\bin\Release\DbProxy.dll
 G:\Desktop\проекты\AutoService\AutoService\bin\Release\FirebirdSql.Data.FirebirdClient.dll
-G:\Desktop\проекты\AutoService\AutoService\bin\Release\WorkWithExcelLibrary.dll
 G:\Desktop\проекты\AutoService\AutoService\bin\Release\DbProxy.pdb
 G:\Desktop\проекты\AutoService\AutoService\bin\Release\DbProxy.dll.config
 G:\Desktop\проекты\AutoService\AutoService\bin\Release\FirebirdSql.Data.FirebirdClient.pdb
-G:\Desktop\проекты\AutoService\AutoService\bin\Release\WorkWithExcelLibrary.pdb
-G:\Desktop\проекты\AutoService\AutoService\bin\Release\WorkWithExcelLibrary.dll.config
 G:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.csprojAssemblyReference.cache
 G:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.csproj.ResolveComReference.cache
 G:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.Form1.resources
@@ -131,3 +128,14 @@ G:\Desktop\проекты\AutoService\AutoService\bin\Release\DataMapper.pdb
 G:\Desktop\проекты\AutoService\AutoService\bin\Release\DataMapper.dll.config
 G:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormAddNumbReason.resources
 G:\Desktop\проекты\AutoService\AutoService\obj\Release\AutoService.FormInformation.resources
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\LiveCharts.dll
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\LiveCharts.WinForms.dll
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\LiveCharts.Wpf.dll
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\Unloader.dll
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\LiveCharts.pdb
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\LiveCharts.xml
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\LiveCharts.WinForms.pdb
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\LiveCharts.WinForms.xml
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\LiveCharts.Wpf.pdb
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\LiveCharts.Wpf.xml
+G:\Desktop\проекты\AutoService\AutoService\bin\Release\Unloader.pdb

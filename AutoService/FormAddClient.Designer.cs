@@ -304,7 +304,7 @@
             // 
             this.textBoxEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxEmail.Location = new System.Drawing.Point(139, 179);
-            this.textBoxEmail.MaxLength = 20;
+            this.textBoxEmail.MaxLength = 3000;
             this.textBoxEmail.Name = "textBoxEmail";
             this.textBoxEmail.Size = new System.Drawing.Size(319, 26);
             this.textBoxEmail.TabIndex = 35;

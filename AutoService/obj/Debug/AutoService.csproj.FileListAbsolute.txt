@@ -150,12 +150,9 @@ G:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.exe.conf
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.exe
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\AutoService.pdb
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\FirebirdSql.Data.FirebirdClient.dll
-G:\Desktop\проекты\AutoService\AutoService\bin\Debug\WorkWithExcelLibrary.dll
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\DbProxy.pdb
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\DbProxy.dll.config
 G:\Desktop\проекты\AutoService\AutoService\bin\Debug\FirebirdSql.Data.FirebirdClient.pdb
-G:\Desktop\проекты\AutoService\AutoService\bin\Debug\WorkWithExcelLibrary.pdb
-G:\Desktop\проекты\AutoService\AutoService\bin\Debug\WorkWithExcelLibrary.dll.config
 G:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.csprojAssemblyReference.cache
 G:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.csproj.ResolveComReference.cache
 G:\Desktop\проекты\AutoService\AutoService\obj\Debug\AutoService.Form1.resources

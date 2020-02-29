@@ -32,6 +32,8 @@ namespace AutoService
             {
                 case WindowsStruct.MalfAdd:
                     AddMalfOrSparesInRepair();
+                    if (!string.IsNullOrEmpty(formForSelect.textBoxSearch.Text))
+                        formForSelect.textBoxSearch.Text = "";
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView);
                     break;
                 case WindowsStruct.MalfView:
@@ -40,6 +42,8 @@ namespace AutoService
                     break;
                 case WindowsStruct.SpareAdd:
                     AddMalfOrSparesInRepair();
+                    if (!string.IsNullOrEmpty(formForSelect.textBoxSearch.Text))
+                        formForSelect.textBoxSearch.Text = "";
                     Form1.AddListMalfunctionsInGrid(formForSelect.dataGridView);
                     break;
                 case WindowsStruct.SpareView:

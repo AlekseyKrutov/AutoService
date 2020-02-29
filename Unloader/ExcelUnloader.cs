@@ -71,7 +71,7 @@ namespace Unloader
                 xlSheet.Cells[3, "J"] = ((DateTime)card.TimeOfFinish).ToString("dd/MM/yyyy");
                 if (card.Car.Owner != null)
                     xlSheet.Cells[4, "D"] = $"{card.Car.Owner.Name}, ИНН {card.Car.Owner.INN}";
-                xlSheet.Cells[5, "E"] = $"{card.Car.Mark} {card.Car.Number}";
+                xlSheet.Cells[5, "E"] = $"{card.Car.ToString()}";
                 List<Malfunctions> MalfList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 0).ToList<Malfunctions>();
                 List<Malfunctions> SpareList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 1).ToList<Malfunctions>();
                 FillRowsWithMalf(xlSheet, rowStartAct1, rowFinishAct1, MalfList);
@@ -110,7 +110,7 @@ namespace Unloader
                 xlSheet.Cells[9, "A"] = $"Заказчик: {card.Car.Owner.Name}";
                 xlSheet.Cells[1, "J"] = $"Исполнитель: {systemOwner.Name} {systemOwner.Address} {systemOwner.PhoneNumber}";
                 xlSheet.Cells[64, "I"] = systemOwner.Director.GetShortName();
-                xlSheet.Cells[10, "D"] = card.Car.Mark;
+                xlSheet.Cells[10, "D"] = $"{card.Car.Mark} {card.Car.Model}";
                 xlSheet.Cells[11, "G"] = card.Car.Number;
                 List<Malfunctions> MalfList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 0).ToList<Malfunctions>();
                 List<Malfunctions> SpareList = card.ListOfMalf.Select(n => n).Where(n => n.MalfOrSpare == 1).ToList<Malfunctions>();
@@ -154,7 +154,7 @@ namespace Unloader
                 xlSheet.Cells[13, "K"] = card.IdRepair;
                 xlSheet.Cells[13, "Q"] = ((DateTime)card.TimeOfFinish).ToString("dd/MM/yyyy");
                 xlSheet.Cells[19, "F"] = $"{card.Car.Owner.Name}, ИНН {card.Car.Owner.INN}, {card.Car.Owner.Address}";
-                xlSheet.Cells[22, "D"] = $"Ремонт автомобиля: {card.Car.Mark} {card.Car.Number} по заявке № {idRepair}" +
+                xlSheet.Cells[22, "D"] = $"Ремонт автомобиля: {card.Car.ToString()} по заявке № {idRepair}" +
                     $" от {((DateTime)card.TimeOfFinish).ToString("dd/MM/yyyy")}";
                 xlSheet.Cells[22, "AB"] = card.TotalPrice;
                 xlSheet.Cells[28, "B"] = RuDateAndMoneyConverter.CurrencyToTxt(card.TotalPrice, true);
