@@ -99,7 +99,7 @@ namespace AutoService
 
         private void FormAddPrice_Shown(object sender, EventArgs e)
         {
-            if (Form1.WindowIndex == WindowsStruct.MalfAdd)
+            if (Form1.WindowIndex == WindowsStruct.MalfAdd && malf == null)
                 comboBoxUnit.SelectedIndex = 1;
         }
 

@@ -766,7 +766,7 @@ namespace AutoService
             fAddPrice.malf = new MalfMapper().Get(dg.Rows[SelectIndex].Cells[0].Value.ToString());
             fAddPrice.textBoxDescription.Text = fAddPrice.malf.Description;
             fAddPrice.textBoxPrice.Text = fAddPrice.malf.Cost.ToString();
-            fAddPrice.comboBoxUnit.Text = Converter.ConvertUnit(fAddPrice.malf.Unit);
+            fAddPrice.comboBoxUnit.SelectedItem = Converter.ConvertUnit(fAddPrice.malf.Unit);
             fAddPrice.Show();
         }
         private void AddInStock_Click(object sender, EventArgs e)
