@@ -62,7 +62,6 @@
     <Compile Include="Company.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="FileOperator.cs" />
-    <Compile Include="IAutoService.cs" />
     <Compile Include="MailSender.cs" />
     <Compile Include="MailSending.cs" />
     <Compile Include="Malfunctions.cs" />

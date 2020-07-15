@@ -282,6 +282,7 @@ namespace DataMapper
                     card.RepairIsCurrent = dr.GetBoolean(dr.GetOrdinal("CURRENT_OR_NOT"));
                     card.Notes = dr.GetString(dr.GetOrdinal("NOTES"));
                     card.Car = new CarMapper().Get(dr.GetString(dr.GetOrdinal("STATE_NUMBER")));
+                    card.PaidMoney = dr.GetDouble(dr.GetOrdinal("PAID_MONEY"));
                 }
                 db.Close();
             }
