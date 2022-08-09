@@ -35,7 +35,7 @@ namespace AutoServiceLibrary
             {
                 e.Handled = true;
             }
-        }*/
+        } */
         public static void KeyPressFloat(object sender, KeyPressEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
